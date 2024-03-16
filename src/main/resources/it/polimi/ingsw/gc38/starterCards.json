@@ -1,0 +1,300 @@
+[
+  {
+    "id": 0,
+    "frontSide": true,
+    "frontCover": "front/starter/0.png",
+    "backCover": "back/starter/0.png",
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "FUNGI",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "INSECT"
+    ],
+    "backCorners": {
+      "0": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    }
+  },
+  {
+    "id": 1,
+    "frontSide": true,
+    "frontCover": "front/starter/1.png",
+    "backCover": "back/starter/1.png",
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "FUNGI",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "FUNGI"
+    ],
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "FUNGI",
+        "hidden": false
+      }
+    }
+  },
+  {
+    "id": 2,
+    "frontSide": true,
+    "frontCover": "front/starter/2.png",
+    "backCover": "back/starter/2.png",
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "FUNGI",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "FUNGI", "PLANT"
+    ],
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    }
+  },
+  {
+    "id": 3,
+    "frontSide": true,
+    "frontCover": "front/starter/3.png",
+    "backCover": "back/starter/3.png",
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "FUNGI",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "INSECT", "ANIMAL"
+    ],
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    }
+  },
+  {
+    "id": 4,
+    "frontSide": true,
+    "frontCover": "front/starter/4.png",
+    "backCover": "back/starter/4.png",
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "FUNGI",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT", "INSECT", "ANIMAL"
+    ],
+    "backCorners": {
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    }
+  },
+  {
+    "id": 5,
+    "frontSide": true,
+    "frontCover": "front/starter/5.png",
+    "backCover": "back/starter/5.png",
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "FUNGI",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "FUNGI", "ANIMAL", "PLANT"
+    ],
+    "backCorners": {
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    }
+  }
+]

@@ -1,0 +1,493 @@
+[
+  {
+    "id": 0,
+    "frontSide": true,
+    "frontCover": "front/starter/0.png",
+    "backCover": "back/starter/0.png",
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ],
+    "color": "BLUE",
+    "point": 1
+  },
+  {
+    "id": 1,
+    "color": "BLUE",
+    "frontCover": "front/resource/blue/1.png",
+    "backCover": "back/resource/blue.png",
+    "point": 1,
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ]
+  },
+  {
+    "id": 2,
+    "color": "BLUE",
+    "frontCover": "front/resource/blue/2.png",
+    "backCover": "back/resource/blue.png",
+    "point": 1,
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ]
+  },
+  {
+    "id": 3,
+    "color": "BLUE",
+    "frontCover": "front/resource/blue/3.png",
+    "backCover": "back/resource/blue.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ]
+  },
+  {
+    "id": 4,
+    "color": "BLUE",
+    "frontCover": "front/resource/blue/4.png",
+    "backCover": "back/resource/blue.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ]
+  },
+  {
+    "id": 5,
+    "color": "BLUE",
+    "frontCover": "front/resource/blue/5.png",
+    "backCover": "back/resource/blue.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ]
+  },
+  {
+    "id": 6,
+    "color": "BLUE",
+    "frontCover": "front/resource/blue/6.png",
+    "backCover": "back/resource/blue.png",
+    "point": 0,
+    "frontCorners": {
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ]
+  },
+  {
+    "id": 7,
+    "color": "BLUE",
+    "frontCover": "front/resource/blue/7.png",
+    "backCover": "back/resource/blue.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "NOUN",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ]
+  },
+  {
+    "id": 8,
+    "color": "BLUE",
+    "frontCover": "front/resource/blue/8.png",
+    "backCover": "back/resource/blue.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "QUILL",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "FUNGI",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ]
+  },
+  {
+    "id": 9,
+    "color": "BLUE",
+    "frontCover": "front/resource/blue/9.png",
+    "backCover": "back/resource/blue.png",
+    "point": 0,
+    "frontCorners": {
+      "1": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "MANUSCRIPT",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ]
+  }
+]
