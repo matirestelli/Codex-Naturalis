@@ -7,11 +7,7 @@ import java.lang.reflect.Type;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import it.polimi.ingsw.gc38.model.Card;
 import it.polimi.ingsw.gc38.model.CardCornerInput;
@@ -42,9 +38,8 @@ public class GameController {
         this.player.setMatrix(new int[matrixDimension][matrixDimension]);
         this.player.setBoard(new Cell[matrixDimension * cardHeight][matrixDimension * cardWidth]);
 
-        // this.player.printMatrix();
-        // this.player.initializeMatrix();
-        // this.player.initializeBoard();
+        player.initializeBoard();
+        player.initializeMatrix();
     }
 
     public void initPlayerNickname() {
@@ -72,36 +67,32 @@ public class GameController {
 
         // load resource cards
         List<Card> resourceCards = loadResourceCards();
-        // // shuffle resource cards
+        // shuffle resource cards
         // Collections.shuffle(resourceCards);
-        // // extract two cards from resource cards
+        // extract two cards from resource cards
         // List<Card> extractedResourceCards = new ArrayList<>();
         // extractedResourceCards.add(resourceCards.get(0));
         // extractedResourceCards.add(resourceCards.get(1));
-        // // visualize extracted cards from resource cards
+        // visualize extracted cards from resource cards
         // for (Card card : extractedResourceCards) {
         // view.displayResourceCard((ResourceCard) card);
-        // // view.displayResourceCardBack((ResourceCard) card);
+        // view.displayResourceCardBack((ResourceCard) card);
         // }
 
         player.setPlayingHand(new ArrayList<Card>());
 
-        // place first card in the board
-        // player.setCodex((List<Card>) resourceCards.get(0));
-        // player.getBoard()[2][2].setCard((ResourceCard) resourceCards.get(0));
-
         // add cards to the playing hand
         player.getPlayingHand().add(resourceCards.get(1));
-        player.getPlayingHand().add(resourceCards.get(2));
+        player.getPlayingHand().add(resourceCards.get(12));
         player.getPlayingHand().add(resourceCards.get(3));
-        player.getPlayingHand().add(resourceCards.get(4));
+        player.getPlayingHand().add(resourceCards.get(14));
         player.getPlayingHand().add(resourceCards.get(5));
-        player.getPlayingHand().add(resourceCards.get(6));
+        player.getPlayingHand().add(resourceCards.get(16));
         player.getPlayingHand().add(resourceCards.get(7));
-        player.getPlayingHand().add(resourceCards.get(8));
+        player.getPlayingHand().add(resourceCards.get(20));
+        player.getPlayingHand().add(resourceCards.get(21));
 
         List<Integer> playingHandIds = new ArrayList<Integer>();
-
         playingHandIds.add(player.getPlayingHand().get(0).getId());
         playingHandIds.add(player.getPlayingHand().get(1).getId());
         playingHandIds.add(player.getPlayingHand().get(2).getId());
@@ -110,9 +101,7 @@ public class GameController {
         playingHandIds.add(player.getPlayingHand().get(5).getId());
         playingHandIds.add(player.getPlayingHand().get(6).getId());
         playingHandIds.add(player.getPlayingHand().get(7).getId());
-
-        player.initializeBoard();
-        player.initializeMatrix();
+        playingHandIds.add(player.getPlayingHand().get(8).getId());
 
         Cell[][] matrixBoard = player.getBoard();
         List<Card> codex = new ArrayList<Card>();
@@ -127,8 +116,8 @@ public class GameController {
         ResourceCard targetCard, cardToPlace;
 
         cardToPlace = (ResourceCard) resourceCards.get(0);
-        Coordinate leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5,
-                matrixDimension / 2 * cardHeight - 5);
+        // coordinates of the center of the board
+        Coordinate leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5,matrixDimension / 2 * cardHeight - 5);
         cardToPlace.setSide(false);
         cardToPlace.setCentre(leftUpCorner);
         cardToPlace.setXYCord(matrixDimension / 2, matrixDimension / 2);
@@ -137,38 +126,6 @@ public class GameController {
         codex.add(resourceCards.get(0));
 
         view.displayBoard(matrixBoard);
-
-        // view.printMatrixTest(player.getMatrix());
-
-        // cardToPlace.setXYCord(targetCard.getyMatrixCord()+1,
-        // targetCard.getxMatrixCord()+1);
-        // player.getMatrix()[cardToPlace.getyMatrixCord()][cardToPlace.getxMatrixCord()]
-        // = cardToPlace.getId();
-        // view.placeCard(player.getBoard(), cardToPlace,
-        // placeCardBottomRight(player.getBoard(), targetCard, cardToPlace));
-
-        // targetCard = (ResourceCard) resourceCards.get(0);
-        // cardToPlace = (ResourceCard) resourceCards.get(2);
-        // cardToPlace.setSide(true);
-        // cardToPlace.setXYCord(targetCard.getyMatrixCord()-1,
-        // targetCard.getxMatrixCord()+1);
-        // player.getMatrix()[cardToPlace.getyMatrixCord()][cardToPlace.getxMatrixCord()]
-        // = cardToPlace.getId();
-        // view.placeCard(player.getBoard(), cardToPlace,
-        // placeCardTopRight(player.getBoard(), targetCard, cardToPlace));
-
-        // targetCard = (ResourceCard) resourceCards.get(1);
-        // cardToPlace = (ResourceCard) resourceCards.get(8);
-        // view.placeCard(player.getBoard(), cardToPlace,
-        // placeCardTopRight(player.getBoard(), targetCard, cardToPlace));
-
-        // view.printMatrixTest(player.getMatrix());
-
-        // codex.add(resourceCards.get(1));
-        // codex.add(resourceCards.get(2));
-
-        // search for cards in the codex that are compatible with the positioning of the
-        // selected card foreach cart in codex
 
         while (true) {
             playingHandIds = new ArrayList<Integer>();
@@ -380,7 +337,7 @@ public class GameController {
                         if (c.getX() == cardToPlaySelected.getId()
                                 && cardToPlaySelected.getActualCorners().containsKey(c.getY())) {
                             cardToPlaySelected.getActualCorners().get(c.getY()).setHidden(true);
-                        } else {
+                        } else if (resourceCards.get(c.getX()).getActualCorners().containsKey(c.getY())) {
                             resourceCards.get(c.getX()).getActualCorners().get(c.getY()).setHidden(true);
                             resourceCards.get(c.getX()).getActualCorners().get(c.getY()).setEmpty(true);
                         }
