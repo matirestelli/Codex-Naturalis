@@ -9,6 +9,8 @@ public abstract class Objective {
     private String backCover; // back side of the objective
     private int points;
     private boolean isCompleted;
+    private int completed; //numero di volte che l'obiettivo è stato completato
+
     public int getId() {
         return id;
     }
@@ -58,9 +60,10 @@ public abstract class Objective {
     }
 
     //metodo per verificare se l'obiettivo è completato, verrà poi implementato nelle classi figlie in modo diverso
-    public void complete(Player p){
+    public boolean complete(Player p){
         //codice per verificare se l'obiettivo è stato completato, se true -> isCompleted -> true -> aggiunge i punti del obiettivo al giocatore
-        return;
+        //retrun se vero o falso così modifico il model
+        return false;
     }
 
 }

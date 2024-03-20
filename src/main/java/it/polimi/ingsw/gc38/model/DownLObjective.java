@@ -22,6 +22,7 @@ public class DownLObjective extends PositionObjective{
 
     //ridefinizione del metodo complete()
 
+    /*
     @Override
     public void complete(Player p) {
         //patter che l'algoritmo ricorsivo controllerà per ogni carta del colore color e che non sia contenuta nella lista di carte già usate per completare un obiettivo
@@ -48,5 +49,5 @@ public class DownLObjective extends PositionObjective{
         }
      }
      */
-    }
+
 }
