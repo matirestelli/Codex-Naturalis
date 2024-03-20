@@ -6,6 +6,12 @@ package it.polimi.ingsw.gc38.model;
 public class DxDiagonalObjective extends PositionObjective{
     private Color color;
 
+    //List<Integer> IDusati = new ArrayList<>();
+
+    //private Integer completati;
+
+    //private Integer Points
+
     public void setColor(Color color) {
         this.color = color;
     }
@@ -20,26 +26,40 @@ public class DxDiagonalObjective extends PositionObjective{
 
     /*
     // se è in posizione 1:
-    if (matrix[x][x].getCard().getColor() == color){
-        if (matrix[x-1][x+1].getCard().getColor() == color){
-           if (matrix[x-2][x+2].getCard().getColor() == color) {
+    if (matrix[x][y].getCard().getColor() == color && !IDusati.contains(matrix[x][y].getCard().getId())) {
+        if (matrix[x+1][y+1].getCard().getColor() == color && !IDusati.contains(matrix[x+1][y+1].getCard().getId())){
+           if (matrix[x+2][y+2].getCard().getColor() == color && !IDusati.contains(matrix[x+2][y+2].getCard().getId())){
+                IDusati.add(matrix[x][y].getCard().getId());
+                IDusati.add(matrix[x+1][y+1].getCard().getId());
+                IDusati.add(matrix[x+2][y+2].getCard().getId());
+                completati++;
            }
         }
      }
      // se è in posizione 2:
-    if (matrix[x][x].getCard().getColor() == color){
-        if (matrix[x+1][x-1].getCard().getColor() == color){
-           if (matrix[x-1][x+1].getCard().getColor() == color) {
+    if (matrix[x][y].getCard().getColor() == color && !IDusati.contains(matrix[x][y].getCard().getId())){
+        if (matrix[x+1][y-1].getCard().getColor() == color && !IDusati.contains(matrix[x+1][y-1].getCard().getId())) {
+           if (matrix[x-1][y+1].getCard().getColor() == color && !IDusati.contains(matrix[x-1][y+1].getCard().getId())) {
+                IDusati.add(matrix[x][y].getCard().getId());
+                IDusati.add(matrix[x+1][y-1].getCard().getId());
+                IDusati.add(matrix[x-1][y+1].getCard().getId());
+                completati++;
            }
         }
      }
      // se è in posizione 3:
-    if (matrix[x][x].getCard().getColor() == color){
-        if (matrix[x-1][x-1].getCard().getColor() == color){
-           if (matrix[x-2][x-2].getCard().getColor() == color) {
+    if (matrix[x][y].getCard().getColor() == color && !IDusati.contains(matrix[x][y].getCard().getId())){
+        if (matrix[x-1][y-1].getCard().getColor() == color && !IDusati.contains(matrix[x-1][y-1].getCard().getId())) {
+           if (matrix[x-2][y-2].getCard().getColor() == color && !IDusati.contains(matrix[x-2][y-2].getCard().getId())) {
+                IDusati.add(matrix[x][y].getCard().getId());
+                IDusati.add(matrix[x-1][y-1].getCard().getId());
+                IDusati.add(matrix[x-2][y-2].getCard().getId());
+                completati++;
            }
         }
      }
+     Points= completati * 3;
+     return Points;
      */
 
 }
