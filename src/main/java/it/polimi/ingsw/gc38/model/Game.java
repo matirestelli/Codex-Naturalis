@@ -11,6 +11,7 @@ public class Game {
     private Objective[] commonObjectives;
     private Deck goldDeck;
     private Deck resourceDeck;
+    private Deck starterDeck;
     private Player winner;
 
     public void setId(String id) {
@@ -69,12 +70,12 @@ public class Game {
         return goldDeck;
     }
 
-    public void setResourceDeck(Deck resourceDeck) {
-        this.resourceDeck = resourceDeck;
-    }
-
     public Deck getResourceDeck() {
         return resourceDeck;
+    }
+
+    public Deck getStarterDeck() {
+        return starterDeck;
     }
 
     public void setWinner(Player winner) {
@@ -83,6 +84,30 @@ public class Game {
 
     public Player getWinner() {
         return winner;
+    }
+
+    public void initializeResourceDeck() {
+        this.resourceDeck = new Deck("resourceCards");
+        this.resourceDeck.loadCardsFromJSON();
+    }
+
+    public void initializeStarterDeck() {
+        this.starterDeck = new Deck("starterCards");
+        this.starterDeck.loadCardsFromJSON();
+    }
+
+    public void initializeDecks(String configFile) {
+        initializeResourceDeck();
+        initializeStarterDeck();
+    }
+
+    public void initializeDecks() {
+        // goldDeck = new Deck();
+        resourceDeck = new Deck("resourceCards");
+        resourceDeck.loadCardsFromJSON();
+        // goldDeck.loadGameCards();
+        // resourceDeck = Deck.loadGameCards("src\\main\\resources\\it\\polimi\\ingsw\\gc38\\resourceCards.json");
+        // starterDeck.loadGameCards("src\\main\\resources\\it\\polimi\\ingsw\\gc38\\starterCards.json");
     }
 
 }

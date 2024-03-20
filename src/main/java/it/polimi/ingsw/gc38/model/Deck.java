@@ -1,12 +1,24 @@
 package it.polimi.ingsw.gc38.model;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 
 public class Deck {
     private List<Card> cards;
-    private String configFile ;
+    private String configFile;
     private boolean empty;
+
+    public Deck(String configFile) {
+        this.configFile = "src\\main\\resources\\it\\polimi\\ingsw\\gc38\\" + configFile + ".json";
+        this.cards = new ArrayList<>();
+    }
 
     public void setCards(List<Card> cards) {
         this.cards = cards;
@@ -40,5 +52,20 @@ public class Deck {
 
     public void removeCard (int cardId) {
 
+    }
+
+    public void loadCardsFromJSON() {
+        List<Card> cards = new ArrayList<>();
+        try {
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<ResourceCard>>() {
+            }.getType();
+            cards = gson.fromJson(new FileReader(this.configFile),
+                    listType);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        this.cards = cards;
     }
 }

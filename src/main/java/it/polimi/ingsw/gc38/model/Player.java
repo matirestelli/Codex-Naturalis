@@ -116,8 +116,7 @@ public class Player {
         this.deadlock = deadlock;
     }
 
-    public void initializeMatrix() {
-        int matrixDimension = 20;
+    public void initializeMatrix(int matrixDimension) {
         this.matrix = new int[matrixDimension][matrixDimension];
 
         for (int i = 0; i < this.matrix.length; i++)
@@ -125,11 +124,10 @@ public class Player {
                 matrix[i][j] = -1;
     }
 
-    public void initializeBoard() {
-        int matrixDimension = 20;
-        this.board = new Cell[matrixDimension * 3][matrixDimension * 7];
-        for (int i = 0; i < matrixDimension*3; i++)
-            for (int j = 0; j < matrixDimension*7; j++) {
+    public void initializeBoard(int matrixDimension, int cardWidth, int cardHeight) {
+        this.board = new Cell[matrixDimension * cardHeight][matrixDimension * cardWidth];
+        for (int i = 0; i < matrixDimension * cardHeight; i++)
+            for (int j = 0; j < matrixDimension * cardWidth; j++) {
                 board[i][j] = new Cell();
                 this.board[i][j].setCharacter(' ');
             }

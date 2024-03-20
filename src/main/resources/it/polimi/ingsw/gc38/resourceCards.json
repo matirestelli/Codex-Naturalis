@@ -1026,7 +1026,7 @@
       }
     },
     "backResources": [
-      "GREEN"
+      "PLANT"
     ]
   },
   {
@@ -1075,7 +1075,7 @@
       }
     },
     "backResources": [
-      "PURPLE"
+      "INSECT"
     ]
   }
 ]

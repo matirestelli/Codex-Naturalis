@@ -9,27 +9,22 @@ import java.io.FileReader;
 
 import java.util.*;
 
-import it.polimi.ingsw.gc38.model.Card;
-import it.polimi.ingsw.gc38.model.CardCornerInput;
-import it.polimi.ingsw.gc38.model.Cell;
-import it.polimi.ingsw.gc38.model.Coordinate;
-import it.polimi.ingsw.gc38.model.Player;
-import it.polimi.ingsw.gc38.model.Resource;
-import it.polimi.ingsw.gc38.model.ResourceCard;
-import it.polimi.ingsw.gc38.model.StarterCard;
+import it.polimi.ingsw.gc38.model.*;
 import it.polimi.ingsw.gc38.view.CliView;
 
 public class GameController {
-    private Player player;
-    private CliView view;
+    private final Player player;
+    private final CliView view;
+    private final Game game;
 
     private final int cardWidth;
     private final int cardHeight;
     private final int matrixDimension;
 
-    public GameController(Player player, CliView view) {
+    public GameController(Player player, CliView view, Game game) {
         this.player = player;
         this.view = view;
+        this.game = game;
 
         this.cardWidth = 7;
         this.cardHeight = 3;
@@ -37,9 +32,6 @@ public class GameController {
 
         this.player.setMatrix(new int[matrixDimension][matrixDimension]);
         this.player.setBoard(new Cell[matrixDimension * cardHeight][matrixDimension * cardWidth]);
-
-        player.initializeBoard();
-        player.initializeMatrix();
     }
 
     public void initPlayerNickname() {
@@ -48,22 +40,35 @@ public class GameController {
     }
 
     public void startGame() {
+        // initialize board and matrix
+        player.initializeBoard(this.matrixDimension, this.cardWidth, this.cardHeight);
+        player.initializeMatrix(this.matrixDimension);
+
+        // load from json the resource and starter cards
+        game.initializeDecks();
+
         // ask for player nickname
         // initPlayerNickname();
 
         // welcome message
         view.welcomeMessage();
 
+        Deck starterDeck = game.getStarterDeck();
+        Deck resourceDeck = game.getResourceDeck();
+
+        // shuffle starter cards
+
+
         // load starter cards
-        List<Card> starterCards = loadStarterCards();
         // shuffle starter cards
         Collections.shuffle(starterCards);
         // extract one card from starter cards
-        Card extractedStarterCard = (Card) starterCards.get(0);
+        Card extractedStarterCard = (Card) starterCards.getFirst();
         // visualize extracted card from starter cards
-        // view.displayStarterCard(extractedStarterCard);
+        view.displayResourceCard((ResourceCard) extractedStarterCard);
+        view.displayStarterCardBack((ResourceCard) extractedStarterCard);
         // Boolean side = view.askForSide();
-        // extractedStarterCard.setSide(side);
+        // extractedStarterCard.setSide(false);
 
         // load resource cards
         List<Card> resourceCards = loadResourceCards();
@@ -115,15 +120,16 @@ public class GameController {
         // positioning the first card in the middle of the board
         ResourceCard targetCard, cardToPlace;
 
-        cardToPlace = (ResourceCard) resourceCards.get(0);
+        cardToPlace = (ResourceCard) starterCards.get(0);
+        // cardToPlace = (ResourceCard) resourceCards.get(0);
         // coordinates of the center of the board
         Coordinate leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5,matrixDimension / 2 * cardHeight - 5);
-        cardToPlace.setSide(false);
+        cardToPlace.setSide(true);
         cardToPlace.setCentre(leftUpCorner);
         cardToPlace.setXYCord(matrixDimension / 2, matrixDimension / 2);
         player.getMatrix()[cardToPlace.getyMatrixCord()][cardToPlace.getxMatrixCord()] = cardToPlace.getId();
         view.placeCard(player.getBoard(), cardToPlace, leftUpCorner);
-        codex.add(resourceCards.get(0));
+        codex.add(cardToPlace);
 
         view.displayBoard(matrixBoard);
 
@@ -132,6 +138,7 @@ public class GameController {
             System.out.println("Visualizing playing hand: ");
             for (Card c : player.getPlayingHand()) {
                 view.displayResourceCard((ResourceCard) c);
+                view.displayResourceCardBack((ResourceCard) c);
                 playingHandIds.add(c.getId());
             }
 
@@ -327,7 +334,11 @@ public class GameController {
             String cardToAttachSelected = view.askForCardToAttach(out);
             String[] splitCardToPlay = cardToAttachSelected.split("\\.");
             int cornerSelected = Integer.parseInt(splitCardToPlay[1]);
-            targetCard = (ResourceCard) resourceCards.get(Integer.parseInt(splitCardToPlay[0]));
+            targetCard = (ResourceCard) codex.stream()
+                    .filter(card -> card.getId() == Integer.parseInt(splitCardToPlay[0]))
+                    .findFirst()
+                    .orElse(null);
+            // targetCard = (ResourceCard) resourceCards.get(Integer.parseInt(splitCardToPlay[0]));
 
             if (test.containsKey(Integer.parseInt(splitCardToPlay[0]))) {
                 if (test.get(Integer.parseInt(splitCardToPlay[0])).containsKey(cornerSelected)) {
@@ -478,35 +489,5 @@ public class GameController {
         cardToPlace.setCentre(leftUpCorner);
 
         return leftUpCorner;
-    }
-
-    public List<Card> loadStarterCards() {
-        List<Card> cards = new ArrayList<>();
-        try {
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<StarterCard>>() {
-            }.getType();
-            cards = gson.fromJson(new FileReader("src\\main\\resources\\it\\polimi\\ingsw\\gc38\\starterCards.json"),
-                    listType);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return cards;
-    }
-
-    public List<Card> loadResourceCards() {
-        List<Card> cards = new ArrayList<>();
-        try {
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<ResourceCard>>() {
-            }.getType();
-            cards = gson.fromJson(new FileReader("src\\main\\resources\\it\\polimi\\ingsw\\gc38\\resourceCards.json"),
-                    listType);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return cards;
     }
 }

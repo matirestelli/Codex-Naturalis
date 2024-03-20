@@ -1,9 +1,9 @@
 [
   {
-    "id": 0,
+    "id": 90,
     "frontSide": true,
-    "frontCover": "front/starter/0.png",
-    "backCover": "back/starter/0.png",
+    "frontCover": "front/starter/90.png",
+    "backCover": "back/starter/90.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -53,10 +53,10 @@
     }
   },
   {
-    "id": 1,
+    "id": 91,
     "frontSide": true,
-    "frontCover": "front/starter/1.png",
-    "backCover": "back/starter/1.png",
+    "frontCover": "front/starter/91.png",
+    "backCover": "back/starter/91.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -106,10 +106,10 @@
     }
   },
   {
-    "id": 2,
+    "id": 92,
     "frontSide": true,
-    "frontCover": "front/starter/2.png",
-    "backCover": "back/starter/2.png",
+    "frontCover": "front/starter/92.png",
+    "backCover": "back/starter/92.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -159,10 +159,10 @@
     }
   },
   {
-    "id": 3,
+    "id": 93,
     "frontSide": true,
-    "frontCover": "front/starter/3.png",
-    "backCover": "back/starter/3.png",
+    "frontCover": "front/starter/93.png",
+    "backCover": "back/starter/93.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -212,10 +212,10 @@
     }
   },
   {
-    "id": 4,
+    "id": 94,
     "frontSide": true,
-    "frontCover": "front/starter/4.png",
-    "backCover": "back/starter/4.png",
+    "frontCover": "front/starter/94.png",
+    "backCover": "back/starter/94.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -255,10 +255,10 @@
     }
   },
   {
-    "id": 5,
+    "id": 95,
     "frontSide": true,
-    "frontCover": "front/starter/5.png",
-    "backCover": "back/starter/5.png",
+    "frontCover": "front/starter/95.png",
+    "backCover": "back/starter/95.png",
     "frontCorners": {
       "0": {
         "empty": false,

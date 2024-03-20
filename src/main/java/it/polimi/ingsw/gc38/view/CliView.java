@@ -16,6 +16,8 @@ public class CliView {
     private final String ANSI_PURPLE_BACKGROUND;
     private final String ANSI_GREEN_BACKGROUND;
 
+    private final String ANSI_YELLOW_BACKGROUND;
+
     public CliView() {
         this.scanner = new Scanner(System.in);
 
@@ -25,6 +27,7 @@ public class CliView {
         this.ANSI_WHITE_BACKGROUND = "\u001B[47m";
         this.ANSI_PURPLE_BACKGROUND = "\u001B[45m";
         this.ANSI_GREEN_BACKGROUND = "\u001B[48;5;34m";
+        this.ANSI_YELLOW_BACKGROUND = "\u001B[48;5;179m";
         this.ANSI_RESET = "\u001B[0m";
 
     }
@@ -42,7 +45,7 @@ public class CliView {
         System.out.println(message);
     }
 
-    public void displayStarterCard(StarterCard card) {
+    public void displayStarterCard(Card card) {
         String blankSpace = "                    ";
 
         String upResources = "| " + card.getFrontCorners().get(1).getResource().toString().charAt(0) + "     "
@@ -100,13 +103,13 @@ public class CliView {
     public Boolean askForSide() {
         System.out.print("Ecco la carta estratta, vuoi visualizzare il front o il back? (f/b): ");
 
-        return scanner.nextLine().equals("f") ? true : false;
+        return scanner.nextLine().equals("f");
     }
 
     public CardCornerInput askForCardToPlay(List<Integer> ids) {
         String message = "Inserisci l'id della carta che vuoi giocare (";
         for (int i = 0; i < ids.size(); i++) {
-            message += ids.get(i) + ".F / " + ids.get(i) + ".B";
+            message += ids.get(i) + ".f / " + ids.get(i) + ".b";
             if (i != ids.size() - 1)
                 message += " / ";
         }
@@ -115,10 +118,9 @@ public class CliView {
 
         String input = scanner.nextLine();
         // string split to get the id of the card to play
-        String[] splittedInput = input.split("\\.");
+        String[] splitInput = input.split("\\.");
 
-        CardCornerInput res = new CardCornerInput(Integer.parseInt(splittedInput[0]), splittedInput[1].equals("F") ? true : false);
-        return res;
+        return new CardCornerInput(Integer.parseInt(splitInput[0]), splitInput[1].equals("f"));
     }
 
     public int askForCornerToPlay(List<Integer> cornersKey) {
@@ -148,6 +150,8 @@ public class CliView {
             ANSIColor = ANSI_PURPLE_BACKGROUND;
         else if (card.getColor() == Color.GREEN)
             ANSIColor = ANSI_GREEN_BACKGROUND;
+        else
+            ANSIColor = ANSI_YELLOW_BACKGROUND;
 
         String upResources = ANSIColor;
 
@@ -167,18 +171,13 @@ public class CliView {
             upResources += "   ";
 
         upResources += ANSIColor;
-        if (card.getFrontCorners().containsKey(index2)) {
-            if (!card.getFrontCorners().get(index2).isEmpty()) {
+        if (card.getFrontCorners().containsKey(index2))
+            if (!card.getFrontCorners().get(index2).isEmpty())
                 upResources += card.getFrontCorners().get(index2).getResource().toString().charAt(0);
-            } else {
-                upResources += ANSI_WHITE_BACKGROUND + " " + ANSI_RESET; // |_
-            }
-        } else {
-            // if (index1 == 1)
+            else
+                upResources += ANSI_WHITE_BACKGROUND + " " + ANSI_RESET;
+        else
             upResources += ANSIColor + " " + ANSI_RESET;
-            // else
-            // upResources += ANSI_BLUE_BACKGROUND + "__" + ANSI_RESET;
-        }
 
         upResources += ANSI_RESET;
         return upResources;
@@ -240,6 +239,8 @@ public class CliView {
             ANSIColor = ANSI_PURPLE_BACKGROUND;
         else if (card.getColor() == Color.GREEN)
             ANSIColor = ANSI_GREEN_BACKGROUND;
+        else
+            ANSIColor = ANSI_YELLOW_BACKGROUND;
 
         System.out.println(displayResources(card, 1, 2));
         if (card.getId() > 9)
@@ -252,13 +253,25 @@ public class CliView {
     }
 
     public void displayResourceCardBack(ResourceCard card) {
-        final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-        final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+        String ANSIColor = "";
 
-        System.out.println(ANSI_WHITE_BACKGROUND + " " + ANSI_BLUE_BACKGROUND + "  " + card.getBackResources().get(0).toString().charAt(0) + "  " + ANSI_WHITE_BACKGROUND + " ");
-        System.out.println(ANSI_BLUE_BACKGROUND + "   " + card.getId() + "   ");
-        System.out.println(ANSI_WHITE_BACKGROUND + " " + ANSI_BLUE_BACKGROUND + "     " + ANSI_WHITE_BACKGROUND + " " + ANSI_RESET);
+        if (card.getColor() == Color.RED)
+            ANSIColor = ANSI_RED_BACKGROUND;
+        else if (card.getColor() == Color.BLUE)
+            ANSIColor = ANSI_BLUE_BACKGROUND;
+        else if (card.getColor() == Color.PURPLE)
+            ANSIColor = ANSI_PURPLE_BACKGROUND;
+        else if (card.getColor() == Color.GREEN)
+            ANSIColor = ANSI_GREEN_BACKGROUND;
+        else
+            ANSIColor = ANSI_YELLOW_BACKGROUND;
+
+        System.out.println(ANSI_WHITE_BACKGROUND + " " + ANSIColor + "  " + card.getBackResources().get(0).toString().charAt(0) + "  " + ANSI_WHITE_BACKGROUND + " " + ANSI_RESET);
+        if (card.getId() > 9)
+            System.out.println(ANSIColor + "  " + card.getId() + "   " + ANSI_RESET);
+        else
+            System.out.println(ANSIColor + "   " + card.getId() + "   " + ANSI_RESET);
+        System.out.println(ANSI_WHITE_BACKGROUND + " " + ANSIColor + "     " + ANSI_WHITE_BACKGROUND + " " + ANSI_RESET);
 
         System.out.println();
     }
@@ -276,6 +289,8 @@ public class CliView {
             ANSIColor = ANSI_PURPLE_BACKGROUND;
         else if (card.getColor() == Color.GREEN)
             ANSIColor = ANSI_GREEN_BACKGROUND;
+        else
+            ANSIColor = ANSI_YELLOW_BACKGROUND;
 
         for (int i = 0; i < 7; i++) {
             matrixBoard[y][x + i].setCard(card);
@@ -309,8 +324,18 @@ public class CliView {
         if (!card.isFrontSide() || (card.getFrontCorners().containsKey(3) && card.getFrontCorners().get(3).isEmpty()))
             matrixBoard[y + 2][x + 6].setColor(ANSI_WHITE_BACKGROUND);
 
-        if (!card.isFrontSide())
-            matrixBoard[y][x + 3].setCharacter(card.getBackResources().get(0).toString().charAt(0));
+        if (!card.isFrontSide()) {
+            if (card.getBackResources().size() == 1)
+                matrixBoard[y][x + 3].setCharacter(card.getBackResources().get(0).toString().charAt(0));
+            else if (card.getBackResources().size() == 2) {
+                matrixBoard[y][x + 2].setCharacter(card.getBackResources().get(0).toString().charAt(0));
+                matrixBoard[y][x + 3].setCharacter(card.getBackResources().get(1).toString().charAt(0));
+            } else {
+                matrixBoard[y][x + 2].setCharacter(card.getBackResources().get(0).toString().charAt(0));
+                matrixBoard[y][x + 3].setCharacter(card.getBackResources().get(1).toString().charAt(0));
+                matrixBoard[y][x + 4].setCharacter(card.getBackResources().get(2).toString().charAt(0));
+            }
+        }
 
         // fix with card ids with multiple digits
         if (card.getId() > 9) {
@@ -330,5 +355,49 @@ public class CliView {
                 System.out.print(matrix[i][j] + " ");
             System.out.println();
         }
+    }
+
+    public String displayResourcesStarter(ResourceCard card, int index1, int index2) {
+        String upResources = ANSI_YELLOW_BACKGROUND;
+
+        if (card.getBackCorners().containsKey(index1))
+            if (!card.getBackCorners().get(index1).isEmpty())
+                upResources += card.getBackCorners().get(index1).getResource().toString().charAt(0) + " ";
+            else
+                upResources += ANSI_WHITE_BACKGROUND + " " + ANSI_YELLOW_BACKGROUND + " ";
+        else
+            upResources += "  ";
+
+        // upResources += " ";
+
+        if (index1 == 1)
+            upResources += card.getId() + "  ";
+        else
+            upResources += "    ";
+
+        upResources += ANSI_YELLOW_BACKGROUND;
+        if (card.getBackCorners().containsKey(index2))
+            if (!card.getBackCorners().get(index2).isEmpty())
+                upResources += card.getBackCorners().get(index2).getResource().toString().charAt(0);
+            else
+                upResources += ANSI_WHITE_BACKGROUND + " " + ANSI_RESET;
+        else
+            upResources += ANSI_YELLOW_BACKGROUND + " " + ANSI_RESET;
+
+        upResources += ANSI_RESET;
+        return upResources;
+    }
+
+    public void displayStarterCardBack(ResourceCard card) {
+        System.out.println(displayResourcesStarter(card, 1, 2));
+        if (card.getBackResources().size() == 1)
+            System.out.println(ANSI_YELLOW_BACKGROUND + "   " + card.getBackResources().get(0).toString().charAt(0) + "   " + ANSI_RESET);
+        else if (card.getBackResources().size() == 2)
+            System.out.println(ANSI_YELLOW_BACKGROUND + "  " + card.getBackResources().get(0).toString().charAt(0) + card.getBackResources().get(1).toString().charAt(0) + "   " + ANSI_RESET);
+        else
+            System.out.println(ANSI_YELLOW_BACKGROUND + "  " + card.getBackResources().get(0).toString().charAt(0) + card.getBackResources().get(1).toString().charAt(0) + card.getBackResources().get(2).toString().charAt(0) +  "  " + ANSI_RESET);
+        System.out.println(displayResourcesStarter(card, 0, 3));
+
+        System.out.println();
     }
 }
