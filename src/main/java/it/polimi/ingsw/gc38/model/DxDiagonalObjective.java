@@ -1,16 +1,9 @@
 package it.polimi.ingsw.gc38.model;
-
-//import java.util.List;
-//import java.util.Map;
+import java.util.List;
+import java.util.Map;
 
 public class DxDiagonalObjective extends PositionObjective{
     private Color color;
-
-    //List<Integer> IDusati = new ArrayList<>();
-
-    //private Integer completati;
-
-    //private Integer Points
 
     public void setColor(Color color) {
         this.color = color;
@@ -20,46 +13,27 @@ public class DxDiagonalObjective extends PositionObjective{
         return color;
     }
 
-    //ridefinizione del metodo complete()
+    public void CalculatePoints(Player p) {
+        int rows = p.getMatrix().length;
+        int cols = p.getMatrix()[0].length;
 
-    //patter che l'algoritmo ricorsivo controllerà per ogni carta del colore color e che non sia contenuta nella lista di carte già usate per completare un obiettivo
-
-    /*
-    // se è in posizione 1:
-    if (matrix[x][y].getCard().getColor() == color && !IDusati.contains(matrix[x][y].getCard().getId())) {
-        if (matrix[x+1][y+1].getCard().getColor() == color && !IDusati.contains(matrix[x+1][y+1].getCard().getId())){
-           if (matrix[x+2][y+2].getCard().getColor() == color && !IDusati.contains(matrix[x+2][y+2].getCard().getId())){
-                IDusati.add(matrix[x][y].getCard().getId());
-                IDusati.add(matrix[x+1][y+1].getCard().getId());
-                IDusati.add(matrix[x+2][y+2].getCard().getId());
-                completati++;
-           }
+        for (int i = 0; i < rows - 2; i++) {
+            for (int j = 0; j < cols - 2; j++) {
+                // per ogni carta controllo solo la diagonale in alto a dx e se non la ho giá usata
+                if (p.this.getCard(p,p.getMatrix()[i][j]).getColor() == color &&
+                    p.this.getCard(p,p.getMatrix()[i+1][j+1]).getColor() == color &&
+                    p.this.getCard(p,p.getMatrix()[i+2][j+2]).getColor() == color) {
+                    if( !this.getIDusati().contains(p.getMatrix()[i][j]) ||
+                        !this.getIDusati().contains(p.getMatrix()[i+1][j+1]) ||
+                        !this.getIDusati().contains(p.getMatrix()[i+2][j+2]) {
+                            this.addIDusato(p.getMatrix()[i][j]);
+                            this.addIDusato(p.getMatrix()[i+1][j+1]);
+                            this.addIDusato(p.getMatrix()[i+2][j+2]);
+                            this.setCompleted();
+                    }
+                }
+            }
         }
-     }
-     // se è in posizione 2:
-    if (matrix[x][y].getCard().getColor() == color && !IDusati.contains(matrix[x][y].getCard().getId())){
-        if (matrix[x+1][y-1].getCard().getColor() == color && !IDusati.contains(matrix[x+1][y-1].getCard().getId())) {
-           if (matrix[x-1][y+1].getCard().getColor() == color && !IDusati.contains(matrix[x-1][y+1].getCard().getId())) {
-                IDusati.add(matrix[x][y].getCard().getId());
-                IDusati.add(matrix[x+1][y-1].getCard().getId());
-                IDusati.add(matrix[x-1][y+1].getCard().getId());
-                completati++;
-           }
-        }
-     }
-     // se è in posizione 3:
-    if (matrix[x][y].getCard().getColor() == color && !IDusati.contains(matrix[x][y].getCard().getId())){
-        if (matrix[x-1][y-1].getCard().getColor() == color && !IDusati.contains(matrix[x-1][y-1].getCard().getId())) {
-           if (matrix[x-2][y-2].getCard().getColor() == color && !IDusati.contains(matrix[x-2][y-2].getCard().getId())) {
-                IDusati.add(matrix[x][y].getCard().getId());
-                IDusati.add(matrix[x-1][y-1].getCard().getId());
-                IDusati.add(matrix[x-2][y-2].getCard().getId());
-                completati++;
-           }
-        }
-     }
-     Points= completati * 3;
-     return Points;
-     */
-
+     p.addScore(getCompleted() * getPoints());
+    }
 }

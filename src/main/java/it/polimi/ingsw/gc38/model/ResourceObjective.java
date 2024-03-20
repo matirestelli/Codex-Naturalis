@@ -20,11 +20,10 @@ public class ResourceObjective extends Objective{
         this.resource = resource;
     }
 
-    //ridefinizione del metodo verify()
-    public void complete(Player p){
+    //ridefinizione del metodo CalculatePoints(Player p), fare un algo che calcoli i punti
+    public void CalculatePoints(Player p){
         playerResources = p.getPersonalResources();
-        if(playerResources.get(resource) >= numResources){
-            setCompleted(true);
+        p.addScore((playerResources.get(resource) / numResources)* getPoints());
         }
     }
 }

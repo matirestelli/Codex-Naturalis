@@ -36,6 +36,10 @@ public class Player {
         this.score = score;
     }
 
+    public void addScore(int score) {
+        this.score += score;
+    }
+
     public List<Card> getPlayingHand() {
         return playingHand;
     }
