@@ -60,7 +60,6 @@ public class GameController {
         // visualize extracted card from starter cards
         // view.displayResourceCard((ColoredCard) extractedStarterCard);
 
-
         // TODO: delete: testing only
         view.displayResourceCard((ColoredCard) extractedStarterCard);
         view.displayResourceCard((ColoredCard) game.getResourceDeck().extractCard());
@@ -97,7 +96,7 @@ public class GameController {
             // visualize playing hand
             view.displayMessage("Visualizing playing hand: ");
             for (Card card : player.getPlayingHand()) {
-                view.displayResourceCard((ResourceCard) card);
+                view.displayResourceCard((ColoredCard) card);
                 view.displayResourceCardBack((ResourceCard) card);
             }
 

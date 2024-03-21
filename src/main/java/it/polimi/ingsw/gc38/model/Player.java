@@ -2,6 +2,8 @@ package it.polimi.ingsw.gc38.model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Player {
     private String nickname;
@@ -34,10 +36,6 @@ public class Player {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public void addScore(int score) {
-        this.score += score;
     }
 
     public List<Card> getPlayingHand() {
@@ -135,5 +133,44 @@ public class Player {
                 board[i][j] = new Cell();
                 this.board[i][j].setCharacter(' ');
             }
+    }
+
+    public void addCardToPlayingHand(Card card) {
+        this.playingHand.add(card);
+    }
+
+    public void initializeCardsList() {
+        this.playingHand = new ArrayList<Card>();
+        this.codex = new ArrayList<Card>();
+    }
+
+    public void addCardToCodex(Card card) {
+        this.codex.add(card);
+    }
+
+    public void removeCardFromPlayingHand(Card card) {
+        this.playingHand.remove(card);
+    }
+
+    public void calculateResources() {
+        personalResources = new HashMap<Resource, Integer>();
+
+        for (Resource res : Resource.values()) {
+            personalResources.put(res, 0);
+        }
+
+        for (Card c : this.codex) {
+            if (c.isFrontSide()) {
+                for (int i = 0; i < 4; i++) {
+                    if (c.getFrontCorners().containsKey(i) && !c.getFrontCorners().get(i).isEmpty()) {
+                        personalResources.put(c.getFrontCorners().get(i).getResource(), personalResources.get(c.getFrontCorners().get(i).getResource()) + 1);
+                    }
+                }
+            } else {
+                for (Resource res : c.getBackResources()) {
+                    personalResources.put(res, personalResources.get(res) + 1);
+                }
+            }
+        }
     }
 }

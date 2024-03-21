@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class Deck {
     }
 
     public void shuffle() {
+        Collections.shuffle(this.cards);
     }
 
     public void drawCard() {
@@ -54,18 +56,22 @@ public class Deck {
 
     }
 
-    public void loadCardsFromJSON() {
+    public void loadCardsFromJSON(Type typeOfCard) {
+
         List<Card> cards = new ArrayList<>();
         try {
             Gson gson = new Gson();
-            Type listType = new TypeToken<List<ResourceCard>>() {
-            }.getType();
             cards = gson.fromJson(new FileReader(this.configFile),
-                    listType);
+                    typeOfCard);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         this.cards = cards;
+    }
+
+    public Card extractCard() {
+        this.cards.removeFirst();
+        return this.cards.getFirst();
     }
 }

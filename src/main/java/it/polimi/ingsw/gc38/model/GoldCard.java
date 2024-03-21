@@ -2,7 +2,7 @@ package it.polimi.ingsw.gc38.model;
 
 import java.util.List;
 
-public class GoldCard extends Card {
+public class GoldCard extends Card implements ColoredCard {
     private Color color;
     private Point point; // classe Point
     private List<Requirement> requirements;

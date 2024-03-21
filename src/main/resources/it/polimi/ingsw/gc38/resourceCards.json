@@ -940,7 +940,7 @@
     "frontCorners": {
       "0": {
         "empty": false,
-        "resource": "MAUSCRIPT",
+        "resource": "MANUSCRIPT",
         "hidden": false
       },
       "1": {
@@ -1030,6 +1030,447 @@
     ]
   },
   {
+    "id": 21,
+    "color": "GREEN",
+    "frontCover": "front/resource/green/21.png",
+    "backCover": "back/resource/green.png",
+    "point": 1,
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ]
+  },
+  {
+    "id": 22,
+    "color": "GREEN",
+    "frontCover": "front/resource/green/22.png",
+    "backCover": "back/resource/green.png",
+    "point": 1,
+    "frontCorners": {
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ]
+  },
+  {
+    "id": 23,
+    "color": "GREEN",
+    "frontCover": "front/resource/green/23.png",
+    "backCover": "back/resource/green.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ]
+  },
+  {
+    "id": 24,
+    "color": "GREEN",
+    "frontCover": "front/resource/green/24.png",
+    "backCover": "back/resource/green.png",
+    "point": 0,
+    "frontCorners": {
+      "1": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ]
+  },
+  {
+    "id": 25,
+    "color": "GREEN",
+    "frontCover": "front/resource/green/25.png",
+    "backCover": "back/resource/green.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ]
+  },
+  {
+    "id": 26,
+    "color": "GREEN",
+    "frontCover": "front/resource/green/26.png",
+    "backCover": "back/resource/green.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ]
+  },
+  {
+    "id": 27,
+    "color": "GREEN",
+    "frontCover": "front/resource/green/27.png",
+    "backCover": "back/resource/green.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "QUILL",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ]
+  },
+  {
+    "id": 28,
+    "color": "GREEN",
+    "frontCover": "front/resource/green/28.png",
+    "backCover": "back/resource/green.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "PLANT",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "MANUSCRIPT",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ]
+  },
+  {
+    "id": 29,
+    "color": "GREEN",
+    "frontCover": "front/resource/green/29.png",
+    "backCover": "back/resource/green.png",
+    "point": 0,
+    "frontCorners": {
+      "1": {
+        "empty": false,
+        "resource": "FUNGI",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "NOUN",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ]
+  },
+  {
     "id": 30,
     "color": "PURPLE",
     "frontCover": "front/resource/purple/30.png",
@@ -1049,6 +1490,447 @@
       "3": {
         "empty": true,
         "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "INSECT"
+    ]
+  },
+  {
+    "id": 31,
+    "color": "PURPLE",
+    "frontCover": "front/resource/purple/31.png",
+    "backCover": "back/resource/purple.png",
+    "point": 1,
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "INSECT"
+    ]
+  },
+  {
+    "id": 32,
+    "color": "PURPLE",
+    "frontCover": "front/resource/purple/32.png",
+    "backCover": "back/resource/purple.png",
+    "point": 1,
+    "frontCorners": {
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "INSECT"
+    ]
+  },
+  {
+    "id": 33,
+    "color": "PURPLE",
+    "frontCover": "front/resource/purple/33.png",
+    "backCover": "back/resource/purple.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "INSECT"
+    ]
+  },
+  {
+  "id": 34,
+  "color": "PURPLE",
+  "frontCover": "front/resource/purple/34.png",
+  "backCover": "back/resource/purple.png",
+  "point": 0,
+  "frontCorners": {
+    "0": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    },
+    "1": {
+      "empty": false,
+      "resource": "INSECT",
+      "hidden": false
+    },
+    "2": {
+      "empty": false,
+      "resource": "INSECT",
+      "hidden": false
+    }
+  },
+  "backCorners": {
+    "0": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    },
+    "1": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    },
+    "2": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    },
+    "3": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    }
+  },
+  "backResources": [
+    "INSECT"
+  ]
+},
+  {
+    "id": 35,
+    "color": "PURPLE",
+    "frontCover": "front/resource/purple/35.png",
+    "backCover": "back/resource/purple.png",
+    "point": 0,
+    "frontCorners": {
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "INSECT"
+    ]
+  },
+  {
+    "id": 36,
+    "color": "PURPLE",
+    "frontCover": "front/resource/purple/36.png",
+    "backCover": "back/resource/purple.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "INSECT"
+    ]
+  },
+  {
+    "id": 37,
+    "color": "PURPLE",
+    "frontCover": "front/resource/purple/37.png",
+    "backCover": "back/resource/purple.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "ANIMAL",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "QUILL",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "INSECT"
+    ]
+  },
+  {
+    "id": 38,
+    "color": "PURPLE",
+    "frontCover": "front/resource/purple/38.png",
+    "backCover": "back/resource/purple.png",
+    "point": 0,
+    "frontCorners": {
+      "1": {
+        "empty": false,
+        "resource": "MANUSCRIPT",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "FUNGI",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "INSECT"
+    ]
+  },
+  {
+    "id": 39,
+    "color": "PURPLE",
+    "frontCover": "front/resource/purple/39.png",
+    "backCover": "back/resource/purple.png",
+    "point": 0,
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "NOUN",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "INSECT",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "PLANT",
         "hidden": false
       }
     },

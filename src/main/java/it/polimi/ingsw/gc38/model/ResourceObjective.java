@@ -22,7 +22,7 @@ public class ResourceObjective extends Objective{
     //ridefinizione del metodo CalculatePoints(Player p), fare un algo che calcoli i punti
     public void CalculatePoints(Player p) {
         playerResources = p.getPersonalResources();
-        p.addScore((playerResources.get(resource) / numResources) * getPoints());
+        // p.addScore((playerResources.get(resource) / numResources) * getPoints());
     }
 }
 

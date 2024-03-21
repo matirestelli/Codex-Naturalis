@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc38.view;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import it.polimi.ingsw.gc38.model.*;
@@ -9,27 +10,31 @@ public class CliView {
     private Scanner scanner;
 
     private final String ANSI_BLUE_BACKGROUND;
+
+    private final String ANSI_GOLD_BLUE_BACKGROUND;
     private final String ANSI_RESET;
     private final String ANSI_RED_BACKGROUND;
     private final String ANSI_YELLOW;
     private final String ANSI_WHITE_BACKGROUND;
     private final String ANSI_PURPLE_BACKGROUND;
     private final String ANSI_GREEN_BACKGROUND;
-
     private final String ANSI_YELLOW_BACKGROUND;
+
+    private final String ANSI_GOLD_RED_BACKGROUND;
 
     public CliView() {
         this.scanner = new Scanner(System.in);
 
         this.ANSI_BLUE_BACKGROUND = "\u001B[44m";
+        this.ANSI_GOLD_BLUE_BACKGROUND = "\u001B[48;5;18m";
         this.ANSI_RED_BACKGROUND = "\u001B[41m";
+        this.ANSI_GOLD_RED_BACKGROUND = "\u001B[48;5;214m";
         this.ANSI_YELLOW = "\u001B[33m";
         this.ANSI_WHITE_BACKGROUND = "\u001B[47m";
         this.ANSI_PURPLE_BACKGROUND = "\u001B[45m";
         this.ANSI_GREEN_BACKGROUND = "\u001B[48;5;34m";
         this.ANSI_YELLOW_BACKGROUND = "\u001B[48;5;179m";
         this.ANSI_RESET = "\u001B[0m";
-
     }
 
     public String askForNickname() {
@@ -101,9 +106,15 @@ public class CliView {
     }
 
     public Boolean askForSide() {
-        System.out.print("Ecco la carta estratta, vuoi visualizzare il front o il back? (f/b): ");
-
-        return scanner.nextLine().equals("f");
+        System.out.print("Ecco la carta estratta, vuoi posizionarla visualizzando il front o il back? (f/b): ");
+        // continue to ask for input until the input is valid
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equals("f") || input.equals("b"))
+                return input.equals("f");
+            else
+                System.out.print("Input non valido, riprova: ");
+        }
     }
 
     public CardCornerInput askForCardToPlay(List<Integer> ids) {
@@ -117,6 +128,12 @@ public class CliView {
         System.out.print(message);
 
         String input = scanner.nextLine();
+        // continue to ask for input until the input is valid and the card is in the list
+        while (!input.matches("\\d+\\.(f|b)") || !ids.contains(Integer.parseInt(input.split("\\.")[0]))) {
+            System.out.print("Input non valido, riprova: ");
+            input = scanner.nextLine();
+        }
+
         // string split to get the id of the card to play
         String[] splitInput = input.split("\\.");
 
@@ -140,19 +157,7 @@ public class CliView {
         return scanner.nextLine();
     }
 
-    public String displayResources(ResourceCard card, int index1, int index2) {
-        String ANSIColor = "";
-        if (card.getColor() == Color.RED)
-            ANSIColor = ANSI_RED_BACKGROUND;
-        else if (card.getColor() == Color.BLUE)
-            ANSIColor = ANSI_BLUE_BACKGROUND;
-        else if (card.getColor() == Color.PURPLE)
-            ANSIColor = ANSI_PURPLE_BACKGROUND;
-        else if (card.getColor() == Color.GREEN)
-            ANSIColor = ANSI_GREEN_BACKGROUND;
-        else
-            ANSIColor = ANSI_YELLOW_BACKGROUND;
-
+    public String displayResources(Card card, int index1, int index2, String ANSIColor) {
         String upResources = ANSIColor;
 
         if (card.getFrontCorners().containsKey(index1))
@@ -165,10 +170,19 @@ public class CliView {
 
         upResources += " ";
 
-        if (index1 == 1 && card.getPoint() > 0)
-            upResources += ANSI_YELLOW + card.getPoint() + "  " + ANSI_RESET;
-        else
-            upResources += "   ";
+        if (card instanceof ResourceCard c) {
+            if (index1 == 1 && c.getPoint() > 0)
+                upResources += ANSI_YELLOW + c.getPoint() + "  " + ANSI_RESET;
+            else
+                upResources += "   ";
+        } else if (card instanceof GoldCard c) {
+            if (index1 == 1) {
+                if (c.getPoint().getResource() != Resource.NO_RESOURCE)
+                    upResources += ANSI_YELLOW + c.getPoint().getQta() + c.getPoint().getResource().toString().charAt(0) + " " + ANSI_RESET;
+                else
+                    upResources += ANSI_YELLOW + c.getPoint() + "  " + ANSI_RESET;
+            }
+        }
 
         upResources += ANSIColor;
         if (card.getFrontCorners().containsKey(index2))
@@ -180,6 +194,7 @@ public class CliView {
             upResources += ANSIColor + " " + ANSI_RESET;
 
         upResources += ANSI_RESET;
+
         return upResources;
     }
 
@@ -228,13 +243,29 @@ public class CliView {
         }
     }
 
-    public void displayResourceCard(ResourceCard card) {
-        String ANSIColor = "";
+    public void displayResourceCard(ColoredCard card) {
+        Card c;
+        if (card instanceof ResourceCard) {
+            c = (ResourceCard) card;
+        } else {
+            c = (GoldCard) card;
+        }
 
-        if (card.getColor() == Color.RED)
-            ANSIColor = ANSI_RED_BACKGROUND;
-        else if (card.getColor() == Color.BLUE)
-            ANSIColor = ANSI_BLUE_BACKGROUND;
+        String ANSIColor = "";
+        if (card.getColor() == Color.RED) {
+            if (card instanceof GoldCard)
+                ANSIColor = ANSI_GOLD_RED_BACKGROUND;
+            else
+                ANSIColor = ANSI_RED_BACKGROUND;
+        }
+        else if (card.getColor() == Color.BLUE) {
+            if (card instanceof GoldCard) {
+                ANSIColor = ANSI_GOLD_BLUE_BACKGROUND;
+                System.out.println("ciao");
+            }
+            else
+                ANSIColor = ANSI_BLUE_BACKGROUND;
+        }
         else if (card.getColor() == Color.PURPLE)
             ANSIColor = ANSI_PURPLE_BACKGROUND;
         else if (card.getColor() == Color.GREEN)
@@ -242,12 +273,12 @@ public class CliView {
         else
             ANSIColor = ANSI_YELLOW_BACKGROUND;
 
-        System.out.println(displayResources(card, 1, 2));
-        if (card.getId() > 9)
-            System.out.println(ANSIColor + "  " + card.getId() + "   " + ANSI_RESET);
+        System.out.println(displayResources(c, 1, 2, ANSIColor));
+        if (c.getId() > 9)
+            System.out.println(ANSIColor + "  " + c.getId() + "   " + ANSI_RESET);
         else
-            System.out.println(ANSIColor + "   " + card.getId() + "   " + ANSI_RESET);
-        System.out.println(displayResources(card, 0, 3));
+            System.out.println(ANSIColor + "   " + c.getId() + "   " + ANSI_RESET);
+        System.out.println(displayResources(c, 0, 3, ANSIColor));
 
         System.out.println();
     }
@@ -399,5 +430,32 @@ public class CliView {
         System.out.println(displayResourcesStarter(card, 0, 3));
 
         System.out.println();
+    }
+
+    public String displayAngle(List<Coordinate> angles) {
+        String out = "Seleziona la carta e l'angolo (";
+        for (Coordinate angle : angles) {
+            out += angle.getX() + "." + angle.getY();
+            if (angles.indexOf(angle) != angles.size() - 1)
+                out += " / ";
+        }
+
+        System.out.print(out + "): ");
+
+        // continue to ask for input until the input is valid and the angle is in the list
+        String input = scanner.nextLine();
+        while (!input.matches("\\d+\\.\\d+") ||  !angles.contains(new Coordinate(Integer.parseInt(input.split("\\.")[0]), Integer.parseInt(input.split("\\.")[1])))) {
+            System.out.print("Input non valido, riprova: ");
+            input = scanner.nextLine();
+        }
+
+        return input;
+    }
+
+    public void displayPersonalResources(Map<Resource, Integer> resources) {
+        System.out.println("Risorse personali:");
+        for (Resource res : Resource.values()) {
+            System.out.println(res.toString() + ": " + resources.get(res));
+        }
     }
 }

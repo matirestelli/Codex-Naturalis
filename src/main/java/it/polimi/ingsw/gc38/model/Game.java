@@ -1,6 +1,8 @@
 package it.polimi.ingsw.gc38.model;
 import java.util.List;
 import java.util.Map;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 public class Game {
     private String id;
     private int MaxPlayers;
@@ -87,28 +89,34 @@ public class Game {
     }
 
     public void initializeResourceDeck() {
+        Type resourceCardListType = new TypeToken<List<ResourceCard>>() {}.getType();
         this.resourceDeck = new Deck("resourceCards");
-        this.resourceDeck.loadCardsFromJSON();
+        this.resourceDeck.loadCardsFromJSON(resourceCardListType);
     }
 
     public void initializeStarterDeck() {
+        Type resourceCardListType = new TypeToken<List<ResourceCard>>() {}.getType();
         this.starterDeck = new Deck("starterCards");
-        this.starterDeck.loadCardsFromJSON();
+        this.starterDeck.loadCardsFromJSON(resourceCardListType);
     }
 
-    public void initializeDecks(String configFile) {
-        initializeResourceDeck();
-        initializeStarterDeck();
+    public void initializeGoldDeck() {
+        Type goldCardListType = new TypeToken<List<GoldCard>>() {}.getType();
+        this.goldDeck = new Deck("goldCards");
+        this.goldDeck.loadCardsFromJSON(goldCardListType);
     }
 
     public void initializeDecks() {
-        // goldDeck = new Deck();
-        resourceDeck = new Deck("resourceCards");
-        resourceDeck.loadCardsFromJSON();
-        // goldDeck.loadGameCards();
-        // resourceDeck = Deck.loadGameCards("src\\main\\resources\\it\\polimi\\ingsw\\gc38\\resourceCards.json");
-        // starterDeck.loadGameCards("src\\main\\resources\\it\\polimi\\ingsw\\gc38\\starterCards.json");
+        initializeResourceDeck();
+        initializeStarterDeck();
+        initializeGoldDeck();
     }
 
+    public void shuffleDecks(){
+        // shuffle starter deck
+        this.starterDeck.shuffle();
+        // shuffle resource deck
+        this.resourceDeck.shuffle();
+    }
 }
 

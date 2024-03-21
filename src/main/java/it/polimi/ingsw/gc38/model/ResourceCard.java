@@ -1,6 +1,6 @@
 package it.polimi.ingsw.gc38.model;
 
-public class ResourceCard extends Card {
+public class ResourceCard extends Card implements ColoredCard {
     private Color color;
     private int point;
     private String ANSI_COLOR;
