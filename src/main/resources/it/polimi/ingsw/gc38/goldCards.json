@@ -1,0 +1,596 @@
+[
+  {
+    "id": 40,
+    "frontSide": true,
+    "frontCover": "front/gold/blue/0.png",
+    "backCover": "back/gold/blue.png",
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "NOUN",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ],
+    "color": "BLUE",
+    "point": {
+      "qta": 1,
+      "resource": "NOUN"
+    },
+    "requirements": [
+      {
+        "qta": 2,
+        "resource": "ANIMAL"
+      },
+      {
+        "qta": 1,
+        "resource": "INSECT"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "frontSide": true,
+    "frontCover": "front/gold/blue/1.png",
+    "backCover": "back/gold/blue.png",
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "MANUSCRIPT",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ],
+    "color": "BLUE",
+    "point": {
+      "qta": 1,
+      "resource": "MANUSCRIPT"
+    },
+    "requirements": [
+      {
+        "qta": 2,
+        "resource": "ANIMAL"
+      },
+      {
+        "qta": 1,
+        "resource": "PLANT"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "frontSide": true,
+    "frontCover": "front/gold/blue/2.png",
+    "backCover": "back/gold/blue.png",
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "QUILL",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ],
+    "color": "BLUE",
+    "point": {
+      "qta": 1,
+      "resource": "QUILL"
+    },
+    "requirements": [
+      {
+        "qta": 2,
+        "resource": "ANIMAL"
+      },
+      {
+        "qta": 1,
+        "resource": "FUNGI"
+      }
+    ]
+  },{
+  "id": 43,
+  "frontSide": true,
+  "frontCover": "front/gold/blue/3.png",
+  "backCover": "back/gold/blue.png",
+  "frontCorners": {
+    "1": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    },
+    "2": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    },
+    "3": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    }
+  },
+  "backCorners": {
+    "0": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    },
+    "1": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    },
+    "2": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    },
+    "3": {
+      "empty": true,
+      "resource": "NO_RESOURCE",
+      "hidden": false
+    }
+  },
+  "backResources": [
+    "ANIMAL"
+  ],
+  "color": "BLUE",
+  "point": {
+    "qta": 2,
+    "resource": "ANGLE_COVERED"
+  },
+  "requirements": [
+    {
+      "qta": 3,
+      "resource": "ANIMAL"
+    },
+    {
+      "qta": 1,
+      "resource": "INSECT"
+    }
+  ]
+},
+  {
+    "id": 44,
+    "frontSide": true,
+    "frontCover": "front/gold/blue/4.png",
+    "backCover": "back/gold/blue.png",
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ],
+    "color": "BLUE",
+    "point": {
+      "qta": 2,
+      "resource": "ANGLE_COVERED"
+    },
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "ANIMAL"
+      },
+      {
+        "qta": 1,
+        "resource": "FUNGI"
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "frontSide": true,
+    "frontCover": "front/gold/blue/5.png",
+    "backCover": "back/gold/blue.png",
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ],
+    "color": "BLUE",
+    "point": {
+      "qta": 2,
+      "resource": "ANGLE_COVERED"
+    },
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "ANIMAL"
+      },
+      {
+        "qta": 1,
+        "resource": "PLANT"
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "frontSide": true,
+    "frontCover": "front/gold/blue/2.png",
+    "backCover": "back/gold/blue.png",
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "MANUSCRIPT",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ],
+    "color": "BLUE",
+    "point": {
+      "qta": 3,
+      "resource": "NO_RESOURCE"
+    },
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "ANIMAL"
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "frontSide": true,
+    "frontCover": "front/gold/blue/7.png",
+    "backCover": "back/gold/blue.png",
+    "frontCorners": {
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "NOUN",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ],
+    "color": "BLUE",
+    "point": {
+      "qta": 3,
+      "resource": "NO_RESOURCE"
+    },
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "ANIMAL"
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "frontSide": true,
+    "frontCover": "front/gold/blue/8.png",
+    "backCover": "back/gold/blue.png",
+    "frontCorners": {
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": false,
+        "resource": "QUILL",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ],
+    "color": "BLUE",
+    "point": {
+      "qta": 3,
+      "resource": "NO_RESOURCE"
+    },
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "ANIMAL"
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "frontSide": true,
+    "frontCover": "front/gold/blue/9.png",
+    "backCover": "back/gold/blue.png",
+    "frontCorners": {
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "ANIMAL"
+    ],
+    "color": "BLUE",
+    "point": {
+      "qta": 5,
+      "resource": "NO_RESOURCE"
+    },
+    "requirements": [
+      {
+        "qta": 5,
+        "resource": "ANIMAL"
+      }
+    ]
+  }
+
+]
