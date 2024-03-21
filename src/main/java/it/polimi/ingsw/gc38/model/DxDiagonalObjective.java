@@ -13,19 +13,19 @@ public class DxDiagonalObjective extends PositionObjective{
         return color;
     }
 
-    public void CalculatePoints(Player p) {
+    /*public void CalculatePoints(Player p) {
         int rows = p.getMatrix().length;
         int cols = p.getMatrix()[0].length;
 
         for (int i = 0; i < rows - 2; i++) {
             for (int j = 0; j < cols - 2; j++) {
                 // per ogni carta controllo solo la diagonale in alto a dx e se non la ho giá usata
-                if (p.this.getCard(p,p.getMatrix()[i][j]).getColor() == color &&
-                    p.this.getCard(p,p.getMatrix()[i+1][j+1]).getColor() == color &&
-                    p.this.getCard(p,p.getMatrix()[i+2][j+2]).getColor() == color) {
+                if (this.getCard(p,p.getMatrix()[i][j]).getColor() == color &&
+                    this.getCard(p,p.getMatrix()[i+1][j+1]).getColor() == color &&
+                    this.getCard(p,p.getMatrix()[i+2][j+2]).getColor() == color) {
                     if( !this.getIDusati().contains(p.getMatrix()[i][j]) ||
                         !this.getIDusati().contains(p.getMatrix()[i+1][j+1]) ||
-                        !this.getIDusati().contains(p.getMatrix()[i+2][j+2]) {
+                        !this.getIDusati().contains(p.getMatrix()[i+2][j+2])) {
                             this.addIDusato(p.getMatrix()[i][j]);
                             this.addIDusato(p.getMatrix()[i+1][j+1]);
                             this.addIDusato(p.getMatrix()[i+2][j+2]);
@@ -35,5 +35,7 @@ public class DxDiagonalObjective extends PositionObjective{
             }
         }
      p.addScore(getCompleted() * getPoints());
+
     }
+         */
 }

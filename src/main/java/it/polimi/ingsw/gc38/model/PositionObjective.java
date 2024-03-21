@@ -6,7 +6,7 @@ package it.polimi.ingsw.gc38.model;
 public abstract class PositionObjective extends Objective{
 
     public Card getCard(Player p, int id) {
-        if(id=null || p=null) {
+        if(p==null) {
             return null;
         }
         else {
