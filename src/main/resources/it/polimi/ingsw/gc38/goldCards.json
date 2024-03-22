@@ -116,11 +116,11 @@
     },
     "requirements": [
       {
-        "qta": 0,
+        "qta": 2,
         "resource": "ANIMAL"
       },
       {
-        "qta": 0,
+        "qta": 1,
         "resource": "PLANT"
       }
     ]
