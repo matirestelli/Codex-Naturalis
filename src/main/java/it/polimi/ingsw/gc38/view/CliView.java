@@ -9,6 +9,7 @@ import it.polimi.ingsw.gc38.model.*;
 public class CliView {
     private static final String ANSI_GOLD_PURPLE_BACKGROUND = "\u001B[48;5;129m";
     private static final String ANSI_GOLD_GREEN_BACKGROUND = "\u001B[48;5;28m";
+    private static final String ANSI_BOLD = "\u001b[1m";
     private Scanner scanner;
     private final String ANSI_BLUE_BACKGROUND;
     private final String ANSI_GOLD_BLUE_BACKGROUND;
@@ -265,9 +266,9 @@ public class CliView {
 
         System.out.println(displayResources(c, 1, 2, ANSIColor));
         if (c.getId() > 9)
-            System.out.println(ANSIColor + "  " + c.getId() + "   " + ANSI_RESET);
+            System.out.println(ANSIColor + "  " + ANSI_BOLD + c.getId() + "   " + ANSI_RESET);
         else
-            System.out.println(ANSIColor + "   " + c.getId() + "   " + ANSI_RESET);
+            System.out.println(ANSIColor + "   " + ANSI_BOLD + c.getId() + "   " + ANSI_RESET);
         System.out.println(displayResources(c, 0, 3, ANSIColor));
 
         System.out.println();
@@ -312,9 +313,9 @@ public class CliView {
 
         System.out.println(ANSI_WHITE_BACKGROUND + " " + ANSIColor + "  " + card.getBackResources().get(0).toString().charAt(0) + "  " + ANSI_WHITE_BACKGROUND + " " + ANSI_RESET);
         if (card.getId() > 9)
-            System.out.println(ANSIColor + "  " + card.getId() + "   " + ANSI_RESET);
+            System.out.println(ANSIColor + "  " + ANSI_BOLD + card.getId() + "   " + ANSI_RESET);
         else
-            System.out.println(ANSIColor + "   " + card.getId() + "   " + ANSI_RESET);
+            System.out.println(ANSIColor + "   " + ANSI_BOLD + card.getId() + "   " + ANSI_RESET);
         System.out.println(ANSI_WHITE_BACKGROUND + " " + ANSIColor + "     " + ANSI_WHITE_BACKGROUND + " " + ANSI_RESET);
 
         System.out.println();
@@ -361,7 +362,7 @@ public class CliView {
             matrixBoard[y][x + i].setColor(ANSIColor);
 
             matrixBoard[y + 1][x + i].setCard(c);
-            matrixBoard[y + 1][x + i].setColor(ANSIColor);
+            matrixBoard[y + 1][x + i].setColor(ANSIColor + ANSI_BOLD);
 
             matrixBoard[y + 2][x + i].setCard(c);
             if (c.isFrontSide())
@@ -457,7 +458,7 @@ public class CliView {
 
     public void displayStarterCardBack(ResourceCard card) {
         System.out.println(displayResourcesStarter(card, 1, 2));
-        System.out.println(ANSI_YELLOW_BACKGROUND + "  " + card.getId() + "   " + ANSI_RESET);
+        System.out.println(ANSI_YELLOW_BACKGROUND + "  " + ANSI_BOLD + card.getId() + "   " + ANSI_RESET);
         System.out.println(displayResourcesStarter(card, 0, 3));
         System.out.println();
     }
