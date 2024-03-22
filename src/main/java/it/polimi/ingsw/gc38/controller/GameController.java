@@ -9,7 +9,6 @@ public class GameController {
     private final Player player;
     private final CliView view;
     private final Game game;
-
     private final int cardWidth;
     private final int cardHeight;
     private final int matrixDimension;
@@ -65,7 +64,7 @@ public class GameController {
         // view.displayResourceCard((ColoredCard) game.getResourceDeck().extractCard());
         // view.displayResourceCard((ColoredCard) game.getGoldDeck().extractCard());
 
-        // testting: visualizing all gold cards
+        // testing: visualizing all gold cards
         /* for (Card c : game.getGoldDeck().getCards()) {
             view.displayResourceCard((ColoredCard) c);
             view.displayResourceCardBack((ColoredCard) c);
@@ -197,11 +196,9 @@ public class GameController {
             view.displayBoard(player.getBoard());
 
             if (cardToPlay instanceof ResourceCard) {
-                game.getResourceDeck().removeCard(cardToPlay);
                 Card x = game.getResourceDeck().extractCard();
                 player.addCardToPlayingHand(x);
             } else {
-                game.getGoldDeck().removeCard(cardToPlay);
                 Card x = game.getGoldDeck().extractCard();
                 player.addCardToPlayingHand(x);
             }

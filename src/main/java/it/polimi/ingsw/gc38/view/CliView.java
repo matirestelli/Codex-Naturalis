@@ -167,28 +167,13 @@ public class CliView {
         String upResources = "";
 
         if (card.getFrontCorners().containsKey(index1))
-            if (!card.getFrontCorners().get(index1).isEmpty()) {
+            if (!card.getFrontCorners().get(index1).isEmpty())
                 upResources += card.getFrontCorners().get(index1).getResource().toString().charAt(0);
-            }
             else
                 upResources += " ";
         else
             upResources += " ";
 
-        // upResources += " ";
-
-        /*if (card1 instanceof ResourceCard c) {
-            if (index1 == 1 && c.getPoint() > 0) {
-                upResources += c.getPoint() + "  ";
-            } else {
-                upResources += "   ";
-            }
-        } else if (card1 instanceof GoldCard c) {
-            if (index1 == 1 && c.getPoint().getQta() > 0)
-                upResources += Integer.toString(c.getPoint().getQta()) + c.getPoint().getResource().toString().charAt(0);
-            else
-                upResources += " ";
-        }*/
         if (card1 instanceof ResourceCard c) {
             if (index1 == 1 && c.getPoint() > 0)
                 upResources += "  " + c.getPoint() + "  ";
@@ -197,13 +182,16 @@ public class CliView {
         } else if (card1 instanceof GoldCard c) {
             if (index1 == 1) {
                 if (c.getPoint().getResource() != Resource.NO_RESOURCE)
-                    upResources += "  " + c.getPoint().getQta() + c.getPoint().getResource().toString().charAt(0) + " ";
+                    upResources += " " + c.getPoint().getQta() + c.getPoint().getResource().toString().charAt(0) + "  ";
                 else
-                    upResources += "  " + c.getPoint() + "  ";
+                    upResources += "  " + c.getPoint().getQta() + "  ";
             } else if (index1 == 0) {
-                for (Requirement r : c.getRequirements()) {
-                    upResources += Integer.toString(r.getQta()) + r.getResource().toString().charAt(0);
-                }
+                if (c.getRequirements().size() == 1)
+                    upResources += " " + c.getRequirements().getFirst().getQta() + c.getRequirements().getFirst().getResource().toString().charAt(0) + " ";
+                else
+                    for (Requirement r : c.getRequirements())
+                        upResources += Integer.toString(r.getQta()) + r.getResource().toString().charAt(0);
+
                 upResources += " ";
             }
         }
