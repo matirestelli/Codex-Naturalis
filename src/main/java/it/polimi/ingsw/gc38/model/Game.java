@@ -117,6 +117,8 @@ public class Game {
         this.starterDeck.shuffle();
         // shuffle resource deck
         this.resourceDeck.shuffle();
+        // shuffle gold deck
+        this.goldDeck.shuffle();
     }
 }
 

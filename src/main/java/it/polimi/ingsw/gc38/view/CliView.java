@@ -7,10 +7,10 @@ import java.util.Scanner;
 import it.polimi.ingsw.gc38.model.*;
 
 public class CliView {
+    private static final String ANSI_GOLD_PURPLE_BACKGROUND = "\u001B[48;5;129m";
+    private static final String ANSI_GOLD_GREEN_BACKGROUND = "\u001B[48;5;28m";
     private Scanner scanner;
-
     private final String ANSI_BLUE_BACKGROUND;
-
     private final String ANSI_GOLD_BLUE_BACKGROUND;
     private final String ANSI_RESET;
     private final String ANSI_RED_BACKGROUND;
@@ -19,7 +19,6 @@ public class CliView {
     private final String ANSI_PURPLE_BACKGROUND;
     private final String ANSI_GREEN_BACKGROUND;
     private final String ANSI_YELLOW_BACKGROUND;
-
     private final String ANSI_GOLD_RED_BACKGROUND;
 
     public CliView() {
@@ -50,61 +49,6 @@ public class CliView {
         System.out.println(message);
     }
 
-    public void displayStarterCard(Card card) {
-        String blankSpace = "                    ";
-
-        String upResources = "| " + card.getFrontCorners().get(1).getResource().toString().charAt(0) + "     "
-                + card.getFrontCorners().get(2).getResource().toString().charAt(0) + " |";
-        upResources += blankSpace + "| ";
-        upResources += card.getBackCorners().containsKey(1) && !card.getBackCorners().get(1).isEmpty()
-                ? card.getBackCorners().get(1).getResource().toString().charAt(0)
-                : " ";
-        upResources += "     ";
-        upResources += card.getBackCorners().containsKey(2) && !card.getBackCorners().get(2).isEmpty()
-                ? card.getBackCorners().get(2).getResource().toString().charAt(0)
-                : " ";
-        upResources += " |";
-
-        String downResources = "| " + card.getFrontCorners().get(0).getResource().toString().charAt(0) + "     "
-                + card.getFrontCorners().get(3).getResource().toString().charAt(0) + " |";
-        downResources += blankSpace + "| ";
-        downResources += card.getBackCorners().containsKey(0) && !card.getBackCorners().get(0).isEmpty()
-                ? card.getBackCorners().get(0).getResource().toString().charAt(0)
-                : " ";
-        downResources += "     ";
-        downResources += card.getBackCorners().containsKey(3) && !card.getBackCorners().get(3).isEmpty()
-                ? card.getBackCorners().get(3).getResource().toString().charAt(0)
-                : " ";
-        downResources += " |";
-
-        String centralResources = "";
-        if (card.getBackResources().size() == 1) {
-            centralResources += "|    o    |" + blankSpace + "|         |\n";
-            centralResources += "|   o o   |" + blankSpace + "|  o "
-                    + card.getBackResources().get(0).toString().charAt(0) + " o  |\n";
-            centralResources += "|    o    |" + blankSpace + "|         |";
-        } else if (card.getBackResources().size() == 2) {
-            centralResources += "|    o    |" + blankSpace + "|    "
-                    + card.getBackResources().get(1).toString().charAt(0) + "    |\n";
-            centralResources += "|   o o   |" + blankSpace + "|   o o   |\n";
-            centralResources += "|    o    |" + blankSpace + "|    "
-                    + card.getBackResources().get(0).toString().charAt(0) + "    |";
-        } else {
-            centralResources += "|    o    |" + blankSpace + "|    "
-                    + card.getBackResources().get(2).toString().charAt(0) + "    |\n";
-            centralResources += "|   o o   |" + blankSpace + "|  o "
-                    + card.getBackResources().get(1).toString().charAt(0) + " o  |\n";
-            centralResources += "|    o    |" + blankSpace + "|    "
-                    + card.getBackResources().get(0).toString().charAt(0) + "    |";
-        }
-
-        System.out.println("+---------+" + blankSpace + "+---------+");
-        System.out.println(upResources);
-        System.out.println(centralResources);
-        System.out.println(downResources);
-        System.out.println("+---------+" + blankSpace + "+---------+");
-    }
-
     public Boolean askForSide() {
         System.out.print("Ecco la carta estratta, vuoi posizionarla visualizzando il front o il back? (f/b): ");
         // continue to ask for input until the input is valid
@@ -117,44 +61,59 @@ public class CliView {
         }
     }
 
-    public CardCornerInput askForCardToPlay(List<Integer> ids) {
+    public CardCornerInput askForCardToPlay(List<Integer> ids, List<Integer> idsBack) {
         String message = "Inserisci l'id della carta che vuoi giocare (";
         for (int i = 0; i < ids.size(); i++) {
             message += ids.get(i) + ".f / " + ids.get(i) + ".b";
             if (i != ids.size() - 1)
                 message += " / ";
         }
+
+        if (!idsBack.isEmpty())
+            message += " / ";
+
+        for (int i = 0; i < idsBack.size(); i++) {
+            message += idsBack.get(i) + ".b";
+            if (i != idsBack.size() - 1)
+                message += " / ";
+        }
+
         message += "): ";
         System.out.print(message);
 
-        String input = scanner.nextLine();
-        // continue to ask for input until the input is valid and the card is in the list
-        while (!input.matches("\\d+\\.(f|b)") || !ids.contains(Integer.parseInt(input.split("\\.")[0]))) {
-            System.out.print("Input non valido, riprova: ");
-            input = scanner.nextLine();
+        boolean validInput = false;
+        String input = "";
+        while (!validInput) {
+            input = scanner.nextLine().trim(); // Prende l'input e rimuove gli spazi bianchi iniziali e finali
+
+            try {
+                // Verifica se l'input termina con ".b" e controlla la validità
+                if (input.endsWith(".b")) {
+                    int id = Integer.parseInt(input.substring(0, input.length() - 2)); // Rimuove ".b" e prova a convertire in int
+                    if (idsBack.contains(id) || ids.contains(id)) {
+                        validInput = true; // L'ID è valido e nell'elenco idsBack
+                    }
+                } else {
+                    // Controlla se l'input è un ID valido in ids (senza ".b")
+                    int id = Integer.parseInt(input.endsWith(".f") ? input.substring(0, input.length() - 2) : input); // Rimuove ".f" se presente e prova a convertire in int
+                    if (ids.contains(id)) {
+                        validInput = true; // L'ID è valido e nell'elenco ids
+                    }
+                }
+            } catch (NumberFormatException e) {
+                // Gestisce il caso in cui l'input non sia un numero
+                validInput = false;
+            }
+
+            if (!validInput) {
+                System.out.println("Input non valido. Riprova.");
+                System.out.print(message); // Mostra nuovamente il messaggio di richiesta input
+            }
         }
 
-        // string split to get the id of the card to play
         String[] splitInput = input.split("\\.");
 
         return new CardCornerInput(Integer.parseInt(splitInput[0]), splitInput[1].equals("f"));
-    }
-
-    public int askForCornerToPlay(List<Integer> cornersKey) {
-        String out = "Inserisci l'angolo in cui vuoi giocare la carta (";
-        for (int i = 0; i < cornersKey.size(); i++) {
-            out += cornersKey.get(i);
-            if (i != cornersKey.size() - 1)
-                out += " / ";
-        }
-        out += "): ";
-        System.out.print(out);
-        return Integer.parseInt(scanner.nextLine());
-    }
-
-    public String askForCardToAttach(String out) {
-        System.out.print(out);
-        return scanner.nextLine();
     }
 
     public String displayResources(Card card, int index1, int index2, String ANSIColor) {
@@ -162,25 +121,30 @@ public class CliView {
 
         if (card.getFrontCorners().containsKey(index1))
             if (!card.getFrontCorners().get(index1).isEmpty())
-                upResources += card.getFrontCorners().get(index1).getResource().toString().charAt(0) + " ";
+                upResources += card.getFrontCorners().get(index1).getResource().toString().charAt(0); //
             else
-                upResources += ANSI_WHITE_BACKGROUND + " " + ANSIColor + " ";
+                upResources += ANSI_WHITE_BACKGROUND + " " + ANSIColor; //
         else
-            upResources += "  ";
-
-        upResources += " ";
+            upResources += " ";
 
         if (card instanceof ResourceCard c) {
             if (index1 == 1 && c.getPoint() > 0)
-                upResources += ANSI_YELLOW + c.getPoint() + "  " + ANSI_RESET;
+                upResources += "  " + ANSI_YELLOW + c.getPoint() + "  " + ANSI_RESET;
             else
-                upResources += "   ";
+                upResources += "     ";
         } else if (card instanceof GoldCard c) {
             if (index1 == 1) {
                 if (c.getPoint().getResource() != Resource.NO_RESOURCE)
-                    upResources += ANSI_YELLOW + c.getPoint().getQta() + c.getPoint().getResource().toString().charAt(0) + " " + ANSI_RESET;
+                    upResources += " " + ANSI_YELLOW + c.getPoint().getQta() + c.getPoint().getResource().toString().charAt(0) + "  " + ANSI_RESET;
                 else
-                    upResources += ANSI_YELLOW + c.getPoint() + "  " + ANSI_RESET;
+                    upResources += "  " + ANSI_YELLOW + c.getPoint().getQta() + "  " + ANSI_RESET;
+            } else if (index1 == 0) {
+                if (c.getRequirements().size() == 1)
+                    upResources += " " + c.getRequirements().getFirst().getQta() + c.getRequirements().getFirst().getResource().toString().charAt(0) + " ";
+                else
+                    for (Requirement r : c.getRequirements())
+                        upResources += Integer.toString(r.getQta()) + r.getResource().toString().charAt(0);
+                upResources += " ";
             }
         }
 
@@ -198,49 +162,88 @@ public class CliView {
         return upResources;
     }
 
-    public String displayResourcesNoColor(ResourceCard card, int index1, int index2) {
+    public String displayResourcesNoColor(ColoredCard card1, int index1, int index2) {
+        Card card = (Card) card1;
         String upResources = "";
 
         if (card.getFrontCorners().containsKey(index1))
-            if (!card.getFrontCorners().get(index1).isEmpty())
-                upResources += card.getFrontCorners().get(index1).getResource().toString().charAt(0) + " ";
+            if (!card.getFrontCorners().get(index1).isEmpty()) {
+                upResources += card.getFrontCorners().get(index1).getResource().toString().charAt(0);
+            }
             else
-                upResources += "  ";
+                upResources += " ";
         else
-            upResources += "  ";
+            upResources += " ";
 
-        upResources += " ";
+        // upResources += " ";
 
-        if (index1 == 1 && card.getPoint() > 0)
-            upResources += card.getPoint() + "  ";
-        else
-            upResources += "   ";
+        /*if (card1 instanceof ResourceCard c) {
+            if (index1 == 1 && c.getPoint() > 0) {
+                upResources += c.getPoint() + "  ";
+            } else {
+                upResources += "   ";
+            }
+        } else if (card1 instanceof GoldCard c) {
+            if (index1 == 1 && c.getPoint().getQta() > 0)
+                upResources += Integer.toString(c.getPoint().getQta()) + c.getPoint().getResource().toString().charAt(0);
+            else
+                upResources += " ";
+        }*/
+        if (card1 instanceof ResourceCard c) {
+            if (index1 == 1 && c.getPoint() > 0)
+                upResources += "  " + c.getPoint() + "  ";
+            else
+                upResources += "     ";
+        } else if (card1 instanceof GoldCard c) {
+            if (index1 == 1) {
+                if (c.getPoint().getResource() != Resource.NO_RESOURCE)
+                    upResources += "  " + c.getPoint().getQta() + c.getPoint().getResource().toString().charAt(0) + " ";
+                else
+                    upResources += "  " + c.getPoint() + "  ";
+            } else if (index1 == 0) {
+                for (Requirement r : c.getRequirements()) {
+                    upResources += Integer.toString(r.getQta()) + r.getResource().toString().charAt(0);
+                }
+                upResources += " ";
+            }
+        }
 
         if (card.getFrontCorners().containsKey(index2))
             if (!card.getFrontCorners().get(index2).isEmpty())
                 upResources += card.getFrontCorners().get(index2).getResource().toString().charAt(0);
             else
-                upResources += "  ";
+                upResources += " ";
         else
-            upResources += "  ";
+            upResources += " ";
 
         return upResources;
     }
 
     public void displayBoard(Cell[][] matrixBoard) {
-        final String ANSI_RESET = "\u001B[0m";
+        Card card;
 
-        ResourceCard card;
+        System.out.print("+");
+        for (int i = 0; i < matrixBoard[0].length; i++)
+            System.out.print("-");
+        System.out.println("+");
+
         for (int i = 0; i < matrixBoard.length; i++) {
+            System.out.print("|");
             for (int j = 0; j < matrixBoard[i].length; j++) {
-                card = (ResourceCard) matrixBoard[i][j].getCard();
+                card = matrixBoard[i][j].getCard();
                 if (card != null)
                     System.out.print(matrixBoard[i][j].getColor() + matrixBoard[i][j].getCharacter() + ANSI_RESET);
                 else
                     System.out.print(matrixBoard[i][j].getCharacter());
             }
+            System.out.print("|");
             System.out.println(ANSI_RESET);
         }
+
+        System.out.print("+");
+        for (int i = 0; i < matrixBoard[0].length; i++)
+            System.out.print("-");
+        System.out.println("+");
     }
 
     public void displayResourceCard(ColoredCard card) {
@@ -261,7 +264,6 @@ public class CliView {
         else if (card.getColor() == Color.BLUE) {
             if (card instanceof GoldCard) {
                 ANSIColor = ANSI_GOLD_BLUE_BACKGROUND;
-                System.out.println("ciao");
             }
             else
                 ANSIColor = ANSI_BLUE_BACKGROUND;
@@ -283,17 +285,40 @@ public class CliView {
         System.out.println();
     }
 
-    public void displayResourceCardBack(ResourceCard card) {
+    public void displayResourceCardBack(ColoredCard card1) {
+        Card card;
+        if (card1 instanceof ResourceCard) {
+            card = (ResourceCard) card1;
+        } else {
+            card = (GoldCard) card1;
+        }
+
         String ANSIColor = "";
 
-        if (card.getColor() == Color.RED)
-            ANSIColor = ANSI_RED_BACKGROUND;
-        else if (card.getColor() == Color.BLUE)
-            ANSIColor = ANSI_BLUE_BACKGROUND;
-        else if (card.getColor() == Color.PURPLE)
-            ANSIColor = ANSI_PURPLE_BACKGROUND;
-        else if (card.getColor() == Color.GREEN)
-            ANSIColor = ANSI_GREEN_BACKGROUND;
+        if (card1.getColor() == Color.RED) {
+            if (card1 instanceof GoldCard)
+                ANSIColor = ANSI_GOLD_RED_BACKGROUND;
+            else
+                ANSIColor = ANSI_RED_BACKGROUND;
+        }
+        else if (card1.getColor() == Color.BLUE) {
+            if (card1 instanceof GoldCard)
+                ANSIColor = ANSI_GOLD_BLUE_BACKGROUND;
+            else
+                ANSIColor = ANSI_BLUE_BACKGROUND;
+        }
+        else if (card1.getColor() == Color.PURPLE) {
+            if (card1 instanceof GoldCard)
+                ANSIColor = ANSI_GOLD_PURPLE_BACKGROUND;
+            else
+                ANSIColor = ANSI_PURPLE_BACKGROUND;
+        }
+        else if (card1.getColor() == Color.GREEN) {
+            if (card1 instanceof GoldCard)
+                ANSIColor = ANSI_GOLD_GREEN_BACKGROUND;
+            else
+                ANSIColor = ANSI_GREEN_BACKGROUND;
+        }
         else
             ANSIColor = ANSI_YELLOW_BACKGROUND;
 
@@ -307,15 +332,33 @@ public class CliView {
         System.out.println();
     }
 
-    public void placeCard(Cell[][] matrixBoard, ResourceCard card, Coordinate leftUpCorner) {
+    public void placeCard(Cell[][] matrixBoard, ColoredCard card, Coordinate leftUpCorner) {
         int x = leftUpCorner.getX();
         int y = leftUpCorner.getY();
-        String ANSIColor = "";
+        boolean whichCard = true;
 
-        if (card.getColor() == Color.RED)
-            ANSIColor = ANSI_RED_BACKGROUND;
-        else if (card.getColor() == Color.BLUE)
-            ANSIColor = ANSI_BLUE_BACKGROUND;
+        Card c;
+        if (card instanceof ResourceCard) {
+            whichCard = false;
+            c = (ResourceCard) card;
+        } else {
+            c = (GoldCard) card;
+        }
+
+        String ANSIColor = "";
+        if (card.getColor() == Color.RED) {
+            if (card instanceof GoldCard)
+                ANSIColor = ANSI_GOLD_RED_BACKGROUND;
+            else
+                ANSIColor = ANSI_RED_BACKGROUND;
+        }
+        else if (card.getColor() == Color.BLUE) {
+            if (card instanceof GoldCard) {
+                ANSIColor = ANSI_GOLD_BLUE_BACKGROUND;
+            }
+            else
+                ANSIColor = ANSI_BLUE_BACKGROUND;
+        }
         else if (card.getColor() == Color.PURPLE)
             ANSIColor = ANSI_PURPLE_BACKGROUND;
         else if (card.getColor() == Color.GREEN)
@@ -324,60 +367,62 @@ public class CliView {
             ANSIColor = ANSI_YELLOW_BACKGROUND;
 
         for (int i = 0; i < 7; i++) {
-            matrixBoard[y][x + i].setCard(card);
-            if (card.isFrontSide())
-                matrixBoard[y][x + i]
-                        .setCharacter(displayResourcesNoColor(card, 1, 2).charAt(i));
+            matrixBoard[y][x + i].setCard(c);
+            if (c.isFrontSide())
+                matrixBoard[y][x + i].setCharacter(displayResourcesNoColor(card, 1, 2).charAt(i));
             matrixBoard[y][x + i].setColor(ANSIColor);
 
-            matrixBoard[y + 1][x + i].setCard(card);
+            matrixBoard[y + 1][x + i].setCard(c);
             matrixBoard[y + 1][x + i].setColor(ANSIColor);
 
-            matrixBoard[y + 2][x + i].setCard(card);
-            if (card.isFrontSide())
-                matrixBoard[y + 2][x + i]
-                        .setCharacter(displayResourcesNoColor(card, 0, 3).charAt(i));
+            matrixBoard[y + 2][x + i].setCard(c);
+            if (c.isFrontSide())
+                matrixBoard[y + 2][x + i].setCharacter(displayResourcesNoColor(card, 0, 3).charAt(i));
             matrixBoard[y + 2][x + i].setColor(ANSIColor);
         }
 
-        if (card.isFrontSide() && card.getPoint() > 0)
-            matrixBoard[y][x + 3].setColor(ANSI_YELLOW + ANSIColor);
+        if (!whichCard) {
+            ResourceCard resc = (ResourceCard) card;
+            if (c.isFrontSide() && resc.getPoint() > 0)
+                matrixBoard[y][x + 3].setColor(ANSI_YELLOW + ANSIColor);
+        } else {
+            GoldCard gold = (GoldCard) card;
+            if (gold.getPoint().getResource() != Resource.NO_RESOURCE)
+                matrixBoard[y][x + 3].setColor(ANSI_YELLOW + ANSIColor);
+        }
 
-        if (!card.isFrontSide() || (card.getFrontCorners().containsKey(0) && card.getFrontCorners().get(0).isEmpty()))
+        if (!c.isFrontSide() || (c.getFrontCorners().containsKey(0) && c.getFrontCorners().get(0).isEmpty()))
             matrixBoard[y + 2][x].setColor(ANSI_WHITE_BACKGROUND);
 
-        if (!card.isFrontSide() || (card.getFrontCorners().containsKey(1) && card.getFrontCorners().get(1).isEmpty()))
+        if (!c.isFrontSide() || (c.getFrontCorners().containsKey(1) && c.getFrontCorners().get(1).isEmpty()))
             matrixBoard[y][x].setColor(ANSI_WHITE_BACKGROUND);
 
-        if (!card.isFrontSide() || (card.getFrontCorners().containsKey(2) && card.getFrontCorners().get(2).isEmpty()))
+        if (!c.isFrontSide() || (c.getFrontCorners().containsKey(2) && c.getFrontCorners().get(2).isEmpty()))
             matrixBoard[y][x + 6].setColor(ANSI_WHITE_BACKGROUND);
 
-        if (!card.isFrontSide() || (card.getFrontCorners().containsKey(3) && card.getFrontCorners().get(3).isEmpty()))
+        if (!c.isFrontSide() || (c.getFrontCorners().containsKey(3) && c.getFrontCorners().get(3).isEmpty()))
             matrixBoard[y + 2][x + 6].setColor(ANSI_WHITE_BACKGROUND);
 
-        if (!card.isFrontSide()) {
-            if (card.getBackResources().size() == 1)
-                matrixBoard[y][x + 3].setCharacter(card.getBackResources().get(0).toString().charAt(0));
-            else if (card.getBackResources().size() == 2) {
-                matrixBoard[y][x + 2].setCharacter(card.getBackResources().get(0).toString().charAt(0));
-                matrixBoard[y][x + 3].setCharacter(card.getBackResources().get(1).toString().charAt(0));
+        if (!c.isFrontSide()) {
+            if (c.getBackResources().size() == 1)
+                matrixBoard[y][x + 3].setCharacter(c.getBackResources().get(0).toString().charAt(0));
+            else if (c.getBackResources().size() == 2) {
+                matrixBoard[y][x + 2].setCharacter(c.getBackResources().get(0).toString().charAt(0));
+                matrixBoard[y][x + 3].setCharacter(c.getBackResources().get(1).toString().charAt(0));
             } else {
-                matrixBoard[y][x + 2].setCharacter(card.getBackResources().get(0).toString().charAt(0));
-                matrixBoard[y][x + 3].setCharacter(card.getBackResources().get(1).toString().charAt(0));
-                matrixBoard[y][x + 4].setCharacter(card.getBackResources().get(2).toString().charAt(0));
+                matrixBoard[y][x + 2].setCharacter(c.getBackResources().get(0).toString().charAt(0));
+                matrixBoard[y][x + 3].setCharacter(c.getBackResources().get(1).toString().charAt(0));
+                matrixBoard[y][x + 4].setCharacter(c.getBackResources().get(2).toString().charAt(0));
             }
         }
 
         // fix with card ids with multiple digits
-        if (card.getId() > 9) {
-            String idString = String.valueOf(card.getId());
+        if (c.getId() > 9) {
+            String idString = String.valueOf(c.getId());
             matrixBoard[y + 1][x + 2].setCharacter(idString.charAt(0));
             matrixBoard[y + 1][x + 3].setCharacter(idString.charAt(1));
         } else
-            matrixBoard[y + 1][x + 3].setCharacter((char) (card.getId() + '0'));
-
-        // convert int to string and get the first character
-
+            matrixBoard[y + 1][x + 3].setCharacter((char) (c.getId() + '0'));
     }
 
     public void printMatrixTest(int[][] matrix) {
@@ -399,11 +444,14 @@ public class CliView {
         else
             upResources += "  ";
 
-        // upResources += " ";
-
-        if (index1 == 1)
-            upResources += card.getId() + "  ";
-        else
+        if (index1 == 1) {
+            if (card.getBackResources().size() == 1)
+                upResources += ANSI_YELLOW_BACKGROUND + " " + card.getBackResources().get(0).toString().charAt(0) + "  " + ANSI_RESET;
+            else if (card.getBackResources().size() == 2)
+                upResources += ANSI_YELLOW_BACKGROUND + card.getBackResources().get(0).toString().charAt(0) + card.getBackResources().get(1).toString().charAt(0) + "  " + ANSI_RESET;
+            else
+                upResources += ANSI_YELLOW_BACKGROUND + card.getBackResources().get(0).toString().charAt(0) + card.getBackResources().get(1).toString().charAt(0) + card.getBackResources().get(2).toString().charAt(0) +  " " + ANSI_RESET;
+        } else
             upResources += "    ";
 
         upResources += ANSI_YELLOW_BACKGROUND;
@@ -421,14 +469,8 @@ public class CliView {
 
     public void displayStarterCardBack(ResourceCard card) {
         System.out.println(displayResourcesStarter(card, 1, 2));
-        if (card.getBackResources().size() == 1)
-            System.out.println(ANSI_YELLOW_BACKGROUND + "   " + card.getBackResources().get(0).toString().charAt(0) + "   " + ANSI_RESET);
-        else if (card.getBackResources().size() == 2)
-            System.out.println(ANSI_YELLOW_BACKGROUND + "  " + card.getBackResources().get(0).toString().charAt(0) + card.getBackResources().get(1).toString().charAt(0) + "   " + ANSI_RESET);
-        else
-            System.out.println(ANSI_YELLOW_BACKGROUND + "  " + card.getBackResources().get(0).toString().charAt(0) + card.getBackResources().get(1).toString().charAt(0) + card.getBackResources().get(2).toString().charAt(0) +  "  " + ANSI_RESET);
+        System.out.println(ANSI_YELLOW_BACKGROUND + "  " + card.getId() + "   " + ANSI_RESET);
         System.out.println(displayResourcesStarter(card, 0, 3));
-
         System.out.println();
     }
 

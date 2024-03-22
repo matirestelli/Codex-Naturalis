@@ -17,7 +17,7 @@ public class Deck {
     private boolean empty;
 
     public Deck(String configFile) {
-        this.configFile = "src\\main\\resources\\it\\polimi\\ingsw\\gc38\\" + configFile + ".json";
+        this.configFile = "src/main/resources/it/polimi/ingsw/gc38/" + configFile + ".json";
         this.cards = new ArrayList<>();
     }
 
@@ -49,15 +49,11 @@ public class Deck {
         Collections.shuffle(this.cards);
     }
 
-    public void drawCard() {
-    }
-
-    public void removeCard (int cardId) {
-
+    public void removeCard(Card card) {
+        this.cards.remove(card);
     }
 
     public void loadCardsFromJSON(Type typeOfCard) {
-
         List<Card> cards = new ArrayList<>();
         try {
             Gson gson = new Gson();

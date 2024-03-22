@@ -1,12 +1,7 @@
 package it.polimi.ingsw.gc38.controller;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.reflect.Type;
 import java.util.*;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.gc38.model.*;
 import it.polimi.ingsw.gc38.view.CliView;
 
@@ -58,22 +53,36 @@ public class GameController {
         // extract one card from starter cards
         Card extractedStarterCard = game.getStarterDeck().extractCard();
         // visualize extracted card from starter cards
-        // view.displayResourceCard((ColoredCard) extractedStarterCard);
-
-        // TODO: delete: testing only
         view.displayResourceCard((ColoredCard) extractedStarterCard);
-        view.displayResourceCard((ColoredCard) game.getResourceDeck().extractCard());
-        view.displayResourceCard((ColoredCard) game.getGoldDeck().extractCard());
-
-        //view.displayStarterCardBack(extractedStarterCard);
+        view.displayStarterCardBack((ResourceCard) extractedStarterCard);
+        // ask for side of the starter card
         extractedStarterCard.setSide(view.askForSide());
         // add the extracted card to the codex
         player.addCardToCodex(extractedStarterCard);
 
-        // extract two cards from resource cards and add to the playing hand
-        player.addCardToPlayingHand(game.getResourceDeck().extractCard());
-        player.addCardToPlayingHand(game.getResourceDeck().extractCard());
-        // player.addCardToPlayingHand(game.getGoldDeck().extractCard());
+        // TODO: delete: testing only
+        // view.displayResourceCard((ColoredCard) extractedStarterCard);
+        // view.displayResourceCard((ColoredCard) game.getResourceDeck().extractCard());
+        // view.displayResourceCard((ColoredCard) game.getGoldDeck().extractCard());
+
+        // testting: visualizing all gold cards
+        /* for (Card c : game.getGoldDeck().getCards()) {
+            view.displayResourceCard((ColoredCard) c);
+            view.displayResourceCardBack((ColoredCard) c);
+        } */
+
+        // extract the first two cards from resource cards and one from gold cards
+        Card extractedResourceCard1 = game.getResourceDeck().extractCard();
+        Card extractedResourceCard2 = game.getResourceDeck().extractCard();
+        Card extractedGoldCard = game.getGoldDeck().extractCard();
+        // add extracted cars to playing hand
+        player.addCardToPlayingHand(extractedResourceCard1);
+        player.addCardToPlayingHand(extractedResourceCard2);
+        player.addCardToPlayingHand(extractedGoldCard);
+        // remove extracted cards from the decks, the cards are not used anymore
+        game.getResourceDeck().removeCard(extractedResourceCard1);
+        game.getResourceDeck().removeCard(extractedResourceCard2);
+        game.getGoldDeck().removeCard(extractedGoldCard);
 
         // define the leftUpCorner of the card
         Coordinate leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5,matrixDimension / 2 * cardHeight - 5);
@@ -86,22 +95,37 @@ public class GameController {
         // visualize the board
         view.displayBoard(player.getBoard());
 
+        boolean playable;
+
         while (true) {
             // create list of playing hand ids
             List<Integer> playingHandIds = new ArrayList<Integer>();
-            for (Card c : player.getPlayingHand()) {
-                playingHandIds.add(c.getId());
-            }
-
+            List<Integer> playingHandIdsBack = new ArrayList<Integer>();
+            player.calculateResources();
             // visualize playing hand
             view.displayMessage("Visualizing playing hand: ");
-            for (Card card : player.getPlayingHand()) {
-                view.displayResourceCard((ColoredCard) card);
-                view.displayResourceCardBack((ResourceCard) card);
+            for (Card c : player.getPlayingHand()) {
+                playable = true;
+                if (c instanceof GoldCard) {
+                    GoldCard x = (GoldCard) c;
+                    for (Requirement r : x.getRequirements()) {
+                        if (player.getPersonalResources().get(r.getResource()) < r.getQta()) {
+                            playable = false;
+                        }
+                    }
+                }
+
+                if (playable) {
+                    view.displayResourceCard((ColoredCard) c);
+                    playingHandIds.add(c.getId());
+                } else {
+                    playingHandIdsBack.add(c.getId());
+                }
+                view.displayResourceCardBack((ColoredCard) c);
             }
 
             // ask for which card to play
-            CardCornerInput cardToPlayInput = view.askForCardToPlay(playingHandIds);
+            CardCornerInput cardToPlayInput = view.askForCardToPlay(playingHandIds, playingHandIdsBack);
             // get card, from the resourceCards list, in the playing hand that has the id selected
             // no exception handling needed because the id is always in the list
             Card cardToPlay = player.getPlayingHand().stream()
@@ -114,8 +138,7 @@ public class GameController {
             Map<Integer, Map<Integer, List<Coordinate>>> test = new HashMap<>();
 
             for (Card c : player.getCodex()) {
-                ResourceCard card = (ResourceCard) c;
-                angoliDisponibili.addAll(card.trovaCarteVicine(player.getMatrix(), player.getCodex(), cardToPlay.getId(), test));
+                angoliDisponibili.addAll(c.trovaCarteVicine(player.getMatrix(), player.getCodex(), cardToPlay.getId(), test));
             }
 
             player.addCardToCodex(cardToPlay);
@@ -125,7 +148,7 @@ public class GameController {
             String[] splitCardToPlay = cardToAttachSelected.split("\\.");
             int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
             int cornerSelected = Integer.parseInt(splitCardToPlay[1]);
-            ResourceCard targetCard = (ResourceCard) player.getCodex().stream()
+            Card targetCard = player.getCodex().stream()
                     .filter(card -> card.getId() == cardToAttachId)
                     .findAny()
                     .get();
@@ -152,27 +175,36 @@ public class GameController {
             }
 
             if (cornerSelected == 0) {
-                view.placeCard(player.getBoard(), (ResourceCard) cardToPlay,
-                        placeCardBottomLeft(player.getBoard(), targetCard, (ResourceCard) cardToPlay));
+                view.placeCard(player.getBoard(), (ColoredCard) cardToPlay,
+                        placeCardBottomLeft(player.getBoard(), targetCard, cardToPlay));
                 cardToPlay.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() - 1);
             } else if (cornerSelected == 1) {
-                view.placeCard(player.getBoard(), (ResourceCard) cardToPlay,
-                        placeCardTopLeft(player.getBoard(), targetCard, (ResourceCard) cardToPlay));
+                view.placeCard(player.getBoard(), (ColoredCard) cardToPlay,
+                        placeCardTopLeft(player.getBoard(), targetCard, cardToPlay));
                 cardToPlay.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() - 1);
             } else if (cornerSelected == 2) {
-                view.placeCard(player.getBoard(), (ResourceCard) cardToPlay,
-                        placeCardTopRight(player.getBoard(), targetCard, (ResourceCard) cardToPlay));
+                view.placeCard(player.getBoard(), (ColoredCard) cardToPlay,
+                        placeCardTopRight(player.getBoard(), targetCard, cardToPlay));
                 cardToPlay.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() + 1);
             } else if (cornerSelected == 3) {
                 cardToPlay.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() + 1);
-                view.placeCard(player.getBoard(), (ResourceCard) cardToPlay,
-                        placeCardBottomRight(player.getBoard(), targetCard, (ResourceCard) cardToPlay));
+                view.placeCard(player.getBoard(), (ColoredCard) cardToPlay,
+                        placeCardBottomRight(player.getBoard(), targetCard, cardToPlay));
             }
 
             player.getMatrix()[cardToPlay.getyMatrixCord()][cardToPlay.getxMatrixCord()] = cardToPlay.getId();
+
             view.displayBoard(player.getBoard());
 
-            player.addCardToPlayingHand(game.getResourceDeck().extractCard());
+            if (cardToPlay instanceof ResourceCard) {
+                game.getResourceDeck().removeCard(cardToPlay);
+                Card x = game.getResourceDeck().extractCard();
+                player.addCardToPlayingHand(x);
+            } else {
+                game.getGoldDeck().removeCard(cardToPlay);
+                Card x = game.getGoldDeck().extractCard();
+                player.addCardToPlayingHand(x);
+            }
 
             player.calculateResources();
 
@@ -180,7 +212,7 @@ public class GameController {
         }
     }
 
-    public Coordinate placeCardBottomRight(Cell[][] matrixBoard, ResourceCard card, ResourceCard cardToPlace) {
+    public Coordinate placeCardBottomRight(Cell[][] matrixBoard, Card card, Card cardToPlace) {
         Coordinate leftUpCorner;
         leftUpCorner = new Coordinate(card.getCentre().getX() + cardWidth - 1,
                 card.getCentre().getY() + cardHeight - 1);
@@ -189,7 +221,7 @@ public class GameController {
         return leftUpCorner;
     }
 
-    public Coordinate placeCardTopRight(Cell[][] matrixBoard, ResourceCard card, ResourceCard cardToPlace) {
+    public Coordinate placeCardTopRight(Cell[][] matrixBoard, Card card, Card cardToPlace) {
         Coordinate leftUpCorner;
         leftUpCorner = new Coordinate(card.getCentre().getX() + cardWidth - 1,
                 card.getCentre().getY() - cardHeight + 1);
@@ -198,7 +230,7 @@ public class GameController {
         return leftUpCorner;
     }
 
-    public Coordinate placeCardBottomLeft(Cell[][] matrixBoard, ResourceCard card, ResourceCard cardToPlace) {
+    public Coordinate placeCardBottomLeft(Cell[][] matrixBoard, Card card, Card cardToPlace) {
         Coordinate leftUpCorner;
         leftUpCorner = new Coordinate(card.getCentre().getX() - cardWidth + 1,
                 card.getCentre().getY() + cardHeight - 1);
@@ -207,7 +239,7 @@ public class GameController {
         return leftUpCorner;
     }
 
-    public Coordinate placeCardTopLeft(Cell[][] matrixBoard, ResourceCard card, ResourceCard cardToPlace) {
+    public Coordinate placeCardTopLeft(Cell[][] matrixBoard, Card card, Card cardToPlace) {
         Coordinate leftUpCorner;
         leftUpCorner = new Coordinate(card.getCentre().getX() - cardWidth + 1,
                 card.getCentre().getY() - cardHeight + 1);
