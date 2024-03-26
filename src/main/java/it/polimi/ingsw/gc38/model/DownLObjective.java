@@ -5,49 +5,40 @@ public class DownLObjective extends PositionObjective{
     private Color color1;
     private Color color2;
 
-    public void setColor1(Color color1) {
-        this.color1 = color1;
+    public void setColor1(Color color) {
+        this.color1 = color;
+    }
+    public void setColor2(Color color) {
+        this.color2 = color;
     }
 
-    public Color getColor1() {
-        return color1;
-    }
-    public void setColor2(Color color2) {
-        this.color2 = color2;
-    }
+    public void CalculatePoints(Player p) {
+        int rows = p.getMatrix().length;
+        int cols = p.getMatrix()[0].length;
 
-    public Color getColor2() {
-        return color2;
-    }
-
-    //ridefinizione del metodo complete()
-
-    /*
-    @Override
-    public void complete(Player p) {
-        //patter che l'algoritmo ricorsivo controllerà per ogni carta del colore color e che non sia contenuta nella lista di carte già usate per completare un obiettivo
-    /*
-    // se è in posizione 1:
-    if (matrix[x][x].getCard().getColor() == color2){
-        if (matrix[x+1][x+1].getCard().getColor() == color1){
-           if (matrix[x+2][x+1].getCard().getColor() == color1) {
-           }
+        for (int i = 2; i < rows ; i++) {
+            for (int j = 0; j < cols-1; j++) {
+                // per ogni carta controllo solo la diagonale in alto a dx e se non la ho giá usata
+                if (p.getMatrix()[i][j] != -1 && p.getMatrix()[i-1][j] != -1 && p.getMatrix()[i-2][j+1] != -1 &&
+                        p.getMatrix()[i][j] < 90 && p.getMatrix()[i-1][j] < 90 && p.getMatrix()[i-2][j+1] < 90)
+                {
+                    if (this.getCard(p, p.getMatrix()[i][j]).getColor() == color1 &&
+                            this.getCard(p, p.getMatrix()[i -1][j]).getColor() == color1 &&
+                            this.getCard(p, p.getMatrix()[i - 2][j + 1]).getColor() == color2) {
+                        if (!this.getIDusati().contains(p.getMatrix()[i][j]) ||
+                                !this.getIDusati().contains(p.getMatrix()[i - 1][j]) ||
+                                !this.getIDusati().contains(p.getMatrix()[i - 2][j + 1])) {
+                            this.addIDusato(p.getMatrix()[i][j]);
+                            this.addIDusato(p.getMatrix()[i - 1][j]);
+                            this.addIDusato(p.getMatrix()[i - 2][j + 1]);
+                            this.setCompleted();
+                        }
+                    }
+                }
+            }
         }
-     }
-     // se è in posizione 2:
-    if (matrix[x][x].getCard().getColor() == color1){
-        if (matrix[x+1][x].getCard().getColor() == color1){
-           if (matrix[x-1][x-1].getCard().getColor() == color2) {
-           }
-        }
-     }
-     // se è in posizione 3:
-    if (matrix[x][x].getCard().getColor() == color1){
-        if (matrix[x-1][x].getCard().getColor() == color1){
-           if (matrix[x-2][x-1].getCard().getColor() == color2) {
-           }
-        }
-     }
-     */
+        p.addScore(getCompleted() * getPoints());
+        this.resetCompleted();
+    }
 
 }

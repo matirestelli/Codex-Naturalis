@@ -18,6 +18,8 @@ public class Card {
     private int xMatrixCord;
     private int yMatrixCord;
 
+    private Color color;
+
     public Map<Integer, Corner> getActualCorners() {
         if (frontSide) return frontCorners;
         else return backCorners;
@@ -349,5 +351,13 @@ public class Card {
         test.put(this.getId(), testCornersMap);
 
         return angoliDispobibili;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

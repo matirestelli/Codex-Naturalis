@@ -22,6 +22,10 @@ public abstract class Objective {
         return completed;
     }
 
+    public void resetCompleted() { //resetta il numero di volte che l'obiettivo è stato completato
+        completed = 0;
+    }
+
     protected List<Integer> getIDusati() {
         return IDusati;
     }

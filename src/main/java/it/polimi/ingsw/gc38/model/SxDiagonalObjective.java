@@ -9,33 +9,32 @@ public class SxDiagonalObjective extends PositionObjective{
         this.color = color;
     }
 
-    public Color getColor() {
-        return color;
-    }
-    //ridefinizione del metodo verify()
+    public void CalculatePoints(Player p) {
+        int rows = p.getMatrix().length;
+        int cols = p.getMatrix()[0].length;
 
-//patter che l'algoritmo ricorsivo controllerà per ogni carta del colore color e che non sia contenuta nella lista di carte già usate per completare un obiettivo
-    /*
-    // se è in posizione 1:
-    if (matrix[x][x].getCard().getColor() == color){
-        if (matrix[x-1][x-1].getCard().getColor() == color){
-           if (matrix[x-2][x-2].getCard().getColor() == color) {
-           }
+        for (int i = 0; i < rows-2 ; i++) {
+            for (int j = 0; j < cols-2; j++) {
+                // per ogni carta controllo solo la diagonale in alto a dx e se non la ho giá usata
+                if (p.getMatrix()[i][j] != -1 && p.getMatrix()[i+1][j+1] != -1 && p.getMatrix()[i+2][j+2] != -1 &&
+                        p.getMatrix()[i][j] < 90 && p.getMatrix()[i+1][j+1] < 90 && p.getMatrix()[i+2][j+2] < 90)
+                {
+                    if (this.getCard(p, p.getMatrix()[i][j]).getColor() == color &&
+                            this.getCard(p, p.getMatrix()[i +1][j +1]).getColor() == color &&
+                            this.getCard(p, p.getMatrix()[i + 2][j + 2]).getColor() == color) {
+                        if (!this.getIDusati().contains(p.getMatrix()[i][j]) ||
+                                !this.getIDusati().contains(p.getMatrix()[i + 1][j + 1]) ||
+                                !this.getIDusati().contains(p.getMatrix()[i + 2][j + 2])) {
+                            this.addIDusato(p.getMatrix()[i][j]);
+                            this.addIDusato(p.getMatrix()[i + 1][j + 1]);
+                            this.addIDusato(p.getMatrix()[i + 2][j + 2]);
+                            this.setCompleted();
+                        }
+                    }
+                }
+            }
         }
-     }
-     // se è in posizione 2:
-    if (matrix[x][x].getCard().getColor() == color){
-        if (matrix[x+1][x+1].getCard().getColor() == color){
-           if (matrix[x-1][x-1].getCard().getColor() == color) {
-           }
-        }
-     }
-     // se è in posizione 3:
-    if (matrix[x][x].getCard().getColor() == color){
-        if (matrix[x+1][x+1].getCard().getColor() == color){
-           if (matrix[x+2][x+2].getCard().getColor() == color) {
-           }
-        }
-     }
-     */
+        p.addScore(getCompleted() * getPoints());
+        this.resetCompleted();
+    }
 }

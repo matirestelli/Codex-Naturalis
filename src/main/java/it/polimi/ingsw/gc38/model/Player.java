@@ -58,6 +58,10 @@ public class Player {
         return matrix;
     }
 
+    public void addScore(int score) {
+        this.score += score;
+    }
+
     public void setMatrix(int[][] matrix) {
         this.matrix = matrix;
     }
