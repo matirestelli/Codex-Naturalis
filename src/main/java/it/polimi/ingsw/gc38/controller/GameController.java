@@ -52,7 +52,7 @@ public class GameController {
         // extract one card from starter cards
         Card extractedStarterCard = game.getStarterDeck().extractCard();
         // visualize extracted card from starter cards
-        view.displayResourceCard(extractedStarterCard);
+        view.displayCard(extractedStarterCard);
         view.displayStarterCardBack((ResourceCard) extractedStarterCard);
         // ask for side of the starter card
         extractedStarterCard.setSide(view.askForSide());
@@ -60,14 +60,14 @@ public class GameController {
         player.addCardToCodex(extractedStarterCard);
 
         // TODO: delete: testing only
-        // view.displayResourceCard((ColoredCard) extractedStarterCard);
-        // view.displayResourceCard((ColoredCard) game.getResourceDeck().extractCard());
-        // view.displayResourceCard((ColoredCard) game.getGoldDeck().extractCard());
+        // view.displayCard((ColoredCard) extractedStarterCard);
+        // view.displayCard((ColoredCard) game.getResourceDeck().extractCard());
+        // view.displayCard((ColoredCard) game.getGoldDeck().extractCard());
 
         // testing: visualizing all gold cards
         /* for (Card c : game.getGoldDeck().getCards()) {
-            view.displayResourceCard((ColoredCard) c);
-            view.displayResourceCardBack((ColoredCard) c);
+            view.displayCard((ColoredCard) c);
+            view.displayCardBack((ColoredCard) c);
         } */
 
         // extract the first two cards from resource cards and one from gold cards
@@ -78,10 +78,6 @@ public class GameController {
         player.addCardToPlayingHand(extractedResourceCard1);
         player.addCardToPlayingHand(extractedResourceCard2);
         player.addCardToPlayingHand(extractedGoldCard);
-        // remove extracted cards from the decks, the cards are not used anymore
-        game.getResourceDeck().removeCard(extractedResourceCard1);
-        game.getResourceDeck().removeCard(extractedResourceCard2);
-        game.getGoldDeck().removeCard(extractedGoldCard);
 
         // define the leftUpCorner of the card
         Coordinate leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5,matrixDimension / 2 * cardHeight - 5);
@@ -97,16 +93,17 @@ public class GameController {
         boolean playable;
 
         while (true) {
+            player.calculateResources();
+            
             // create list of playing hand ids
             List<Integer> playingHandIds = new ArrayList<Integer>();
             List<Integer> playingHandIdsBack = new ArrayList<Integer>();
-            player.calculateResources();
+            
             // visualize playing hand
             view.displayMessage("Visualizing playing hand: ");
             for (Card c : player.getPlayingHand()) {
                 playable = true;
-                if (c instanceof GoldCard) {
-                    GoldCard x = (GoldCard) c;
+                if (c instanceof GoldCard x) {
                     for (Requirement r : x.getRequirements()) {
                         if (player.getPersonalResources().get(r.getResource()) < r.getQta()) {
                             playable = false;
@@ -115,12 +112,12 @@ public class GameController {
                 }
 
                 if (playable) {
-                    view.displayResourceCard(c);
+                    view.displayCard(c);
                     playingHandIds.add(c.getId());
-                } else {
+                } else
                     playingHandIdsBack.add(c.getId());
-                }
-                view.displayResourceCardBack(c);
+                
+                view.displayCardBack(c);
             }
 
             // ask for which card to play
@@ -136,9 +133,8 @@ public class GameController {
             List<Coordinate> angoliDisponibili = new ArrayList<>();
             Map<Integer, Map<Integer, List<Coordinate>>> test = new HashMap<>();
 
-            for (Card c : player.getCodex()) {
+            for (Card c : player.getCodex())
                 angoliDisponibili.addAll(c.trovaCarteVicine(player.getMatrix(), player.getCodex(), cardToPlay.getId(), test));
-            }
 
             player.addCardToCodex(cardToPlay);
             player.removeCardFromPlayingHand(cardToPlay);
@@ -195,17 +191,25 @@ public class GameController {
 
             view.displayBoard(player.getBoard());
 
-            if (cardToPlay instanceof ResourceCard) {
-                Card x = game.getResourceDeck().extractCard();
-                player.addCardToPlayingHand(x);
-            } else {
-                Card x = game.getGoldDeck().extractCard();
-                player.addCardToPlayingHand(x);
+            if (cardToPlay instanceof ResourceCard)
+                player.addCardToPlayingHand(game.getResourceDeck().extractCard());
+            else {
+                var x = (GoldCard) cardToPlay;
+                player.addCardToPlayingHand(game.getGoldDeck().extractCard());
+                player.addScore(x.getPoint().getQta());
             }
 
             player.calculateResources();
 
             view.displayPersonalResources(player.getPersonalResources());
+
+            // couting points
+            DxDiagonalObjective x = new DxDiagonalObjective();
+            x.setColor(Color.BLUE);
+            x.setPoints(3);
+            x.CalculatePoints(player);
+
+            System.out.println("Points: " + player.getScore());
         }
     }
 

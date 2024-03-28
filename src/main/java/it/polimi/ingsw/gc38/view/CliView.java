@@ -10,7 +10,7 @@ public class CliView {
     private static final String ANSI_GOLD_PURPLE_BACKGROUND = "\u001B[48;5;129m";
     private static final String ANSI_GOLD_GREEN_BACKGROUND = "\u001B[48;5;28m";
     private static final String ANSI_BOLD = "\u001b[1m";
-    private Scanner scanner;
+    private final Scanner scanner;
     private final String ANSI_BLUE_BACKGROUND;
     private final String ANSI_GOLD_BLUE_BACKGROUND;
     private final String ANSI_RESET;
@@ -235,34 +235,9 @@ public class CliView {
         System.out.println("+");
     }
 
-    public void displayResourceCard(Card card) {
-        Card c;
-        if (card instanceof ResourceCard) {
-            c = (ResourceCard) card;
-        } else {
-            c = (GoldCard) card;
-        }
-
-        String ANSIColor = "";
-        if (card.getColor() == Color.RED) {
-            if (card instanceof GoldCard)
-                ANSIColor = ANSI_GOLD_RED_BACKGROUND;
-            else
-                ANSIColor = ANSI_RED_BACKGROUND;
-        }
-        else if (card.getColor() == Color.BLUE) {
-            if (card instanceof GoldCard) {
-                ANSIColor = ANSI_GOLD_BLUE_BACKGROUND;
-            }
-            else
-                ANSIColor = ANSI_BLUE_BACKGROUND;
-        }
-        else if (card.getColor() == Color.PURPLE)
-            ANSIColor = ANSI_PURPLE_BACKGROUND;
-        else if (card.getColor() == Color.GREEN)
-            ANSIColor = ANSI_GREEN_BACKGROUND;
-        else
-            ANSIColor = ANSI_YELLOW_BACKGROUND;
+    public void displayCard(Card card) {
+        Card c = card instanceof ResourceCard ? (ResourceCard) card : (GoldCard) card;
+        String ANSIColor = getANSIColorForCard(c);
 
         System.out.println(displayResources(c, 1, 2, ANSIColor));
         if (c.getId() > 9)
@@ -274,44 +249,29 @@ public class CliView {
         System.out.println();
     }
 
-    public void displayResourceCardBack(Card card1) {
-        Card card;
-        if (card1 instanceof ResourceCard) {
-            card = (ResourceCard) card1;
-        } else {
-            card = (GoldCard) card1;
-        }
-
+    public String getANSIColorForCard(Card card1) {
         String ANSIColor = "";
 
         if (card1.getColor() == Color.RED) {
-            if (card1 instanceof GoldCard)
-                ANSIColor = ANSI_GOLD_RED_BACKGROUND;
-            else
-                ANSIColor = ANSI_RED_BACKGROUND;
-        }
-        else if (card1.getColor() == Color.BLUE) {
-            if (card1 instanceof GoldCard)
-                ANSIColor = ANSI_GOLD_BLUE_BACKGROUND;
-            else
-                ANSIColor = ANSI_BLUE_BACKGROUND;
-        }
-        else if (card1.getColor() == Color.PURPLE) {
-            if (card1 instanceof GoldCard)
-                ANSIColor = ANSI_GOLD_PURPLE_BACKGROUND;
-            else
-                ANSIColor = ANSI_PURPLE_BACKGROUND;
-        }
-        else if (card1.getColor() == Color.GREEN) {
-            if (card1 instanceof GoldCard)
-                ANSIColor = ANSI_GOLD_GREEN_BACKGROUND;
-            else
-                ANSIColor = ANSI_GREEN_BACKGROUND;
-        }
-        else
+            ANSIColor = card1 instanceof GoldCard ? ANSI_GOLD_RED_BACKGROUND : ANSI_RED_BACKGROUND;
+        } else if (card1.getColor() == Color.BLUE) {
+            ANSIColor = card1 instanceof GoldCard ? ANSI_GOLD_BLUE_BACKGROUND : ANSI_BLUE_BACKGROUND;
+        } else if (card1.getColor() == Color.PURPLE) {
+            ANSIColor = card1 instanceof GoldCard ? ANSI_GOLD_PURPLE_BACKGROUND : ANSI_PURPLE_BACKGROUND;
+        } else if (card1.getColor() == Color.GREEN) {
+            ANSIColor = card1 instanceof GoldCard ? ANSI_GOLD_GREEN_BACKGROUND : ANSI_GREEN_BACKGROUND;
+        } else {
             ANSIColor = ANSI_YELLOW_BACKGROUND;
+        }
 
-        System.out.println(ANSI_WHITE_BACKGROUND + " " + ANSIColor + "  " + card.getBackResources().get(0).toString().charAt(0) + "  " + ANSI_WHITE_BACKGROUND + " " + ANSI_RESET);
+        return ANSIColor;
+    }
+
+    public void displayCardBack(Card card1) {
+        Card card = card1 instanceof ResourceCard ? (ResourceCard) card1 : (GoldCard) card1;
+        String ANSIColor = getANSIColorForCard(card1);
+
+        System.out.println(ANSI_WHITE_BACKGROUND + " " + ANSIColor + "  " + card.getBackResources().getFirst().toString().charAt(0) + "  " + ANSI_WHITE_BACKGROUND + " " + ANSI_RESET);
         if (card.getId() > 9)
             System.out.println(ANSIColor + "  " + ANSI_BOLD + card.getId() + "   " + ANSI_RESET);
         else
@@ -334,26 +294,7 @@ public class CliView {
             c = (GoldCard) card;
         }
 
-        String ANSIColor = "";
-        if (card.getColor() == Color.RED) {
-            if (card instanceof GoldCard)
-                ANSIColor = ANSI_GOLD_RED_BACKGROUND;
-            else
-                ANSIColor = ANSI_RED_BACKGROUND;
-        }
-        else if (card.getColor() == Color.BLUE) {
-            if (card instanceof GoldCard) {
-                ANSIColor = ANSI_GOLD_BLUE_BACKGROUND;
-            }
-            else
-                ANSIColor = ANSI_BLUE_BACKGROUND;
-        }
-        else if (card.getColor() == Color.PURPLE)
-            ANSIColor = ANSI_PURPLE_BACKGROUND;
-        else if (card.getColor() == Color.GREEN)
-            ANSIColor = ANSI_GREEN_BACKGROUND;
-        else
-            ANSIColor = ANSI_YELLOW_BACKGROUND;
+        String ANSIColor = getANSIColorForCard(c);
 
         for (int i = 0; i < 7; i++) {
             matrixBoard[y][x + i].setCard(c);

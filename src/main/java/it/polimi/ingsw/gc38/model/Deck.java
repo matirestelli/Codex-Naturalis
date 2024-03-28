@@ -67,7 +67,8 @@ public class Deck {
     }
 
     public Card extractCard() {
+        Card card = this.cards.getFirst();
         this.cards.removeFirst();
-        return this.cards.getFirst();
+        return card;
     }
 }
