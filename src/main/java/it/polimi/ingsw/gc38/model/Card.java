@@ -17,7 +17,6 @@ public class Card {
     private Coordinate centre;
     private int xMatrixCord;
     private int yMatrixCord;
-
     private Color color;
 
     public Map<Integer, Corner> getActualCorners() {

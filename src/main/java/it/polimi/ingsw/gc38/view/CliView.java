@@ -163,7 +163,7 @@ public class CliView {
         return upResources;
     }
 
-    public String displayResourcesNoColor(ColoredCard card1, int index1, int index2) {
+    public String displayResourcesNoColor(Card card1, int index1, int index2) {
         Card card = (Card) card1;
         String upResources = "";
 
@@ -235,7 +235,7 @@ public class CliView {
         System.out.println("+");
     }
 
-    public void displayResourceCard(ColoredCard card) {
+    public void displayResourceCard(Card card) {
         Card c;
         if (card instanceof ResourceCard) {
             c = (ResourceCard) card;
@@ -274,7 +274,7 @@ public class CliView {
         System.out.println();
     }
 
-    public void displayResourceCardBack(ColoredCard card1) {
+    public void displayResourceCardBack(Card card1) {
         Card card;
         if (card1 instanceof ResourceCard) {
             card = (ResourceCard) card1;
@@ -321,7 +321,7 @@ public class CliView {
         System.out.println();
     }
 
-    public void placeCard(Cell[][] matrixBoard, ColoredCard card, Coordinate leftUpCorner) {
+    public void placeCard(Cell[][] matrixBoard, Card card, Coordinate leftUpCorner) {
         int x = leftUpCorner.getX();
         int y = leftUpCorner.getY();
         boolean whichCard = true;

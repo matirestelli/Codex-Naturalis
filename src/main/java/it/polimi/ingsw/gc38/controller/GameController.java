@@ -52,7 +52,7 @@ public class GameController {
         // extract one card from starter cards
         Card extractedStarterCard = game.getStarterDeck().extractCard();
         // visualize extracted card from starter cards
-        view.displayResourceCard((ColoredCard) extractedStarterCard);
+        view.displayResourceCard(extractedStarterCard);
         view.displayStarterCardBack((ResourceCard) extractedStarterCard);
         // ask for side of the starter card
         extractedStarterCard.setSide(view.askForSide());
@@ -115,12 +115,12 @@ public class GameController {
                 }
 
                 if (playable) {
-                    view.displayResourceCard((ColoredCard) c);
+                    view.displayResourceCard(c);
                     playingHandIds.add(c.getId());
                 } else {
                     playingHandIdsBack.add(c.getId());
                 }
-                view.displayResourceCardBack((ColoredCard) c);
+                view.displayResourceCardBack(c);
             }
 
             // ask for which card to play
@@ -174,20 +174,20 @@ public class GameController {
             }
 
             if (cornerSelected == 0) {
-                view.placeCard(player.getBoard(), (ColoredCard) cardToPlay,
+                view.placeCard(player.getBoard(), cardToPlay,
                         placeCardBottomLeft(player.getBoard(), targetCard, cardToPlay));
                 cardToPlay.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() - 1);
             } else if (cornerSelected == 1) {
-                view.placeCard(player.getBoard(), (ColoredCard) cardToPlay,
+                view.placeCard(player.getBoard(), cardToPlay,
                         placeCardTopLeft(player.getBoard(), targetCard, cardToPlay));
                 cardToPlay.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() - 1);
             } else if (cornerSelected == 2) {
-                view.placeCard(player.getBoard(), (ColoredCard) cardToPlay,
+                view.placeCard(player.getBoard(), cardToPlay,
                         placeCardTopRight(player.getBoard(), targetCard, cardToPlay));
                 cardToPlay.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() + 1);
             } else if (cornerSelected == 3) {
                 cardToPlay.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() + 1);
-                view.placeCard(player.getBoard(), (ColoredCard) cardToPlay,
+                view.placeCard(player.getBoard(), cardToPlay,
                         placeCardBottomRight(player.getBoard(), targetCard, cardToPlay));
             }
 
