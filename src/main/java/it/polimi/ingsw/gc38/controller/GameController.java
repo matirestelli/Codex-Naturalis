@@ -191,22 +191,33 @@ public class GameController {
 
             view.displayBoard(player.getBoard());
 
-            if (cardToPlay instanceof ResourceCard)
+            if (cardToPlay instanceof ResourceCard x) {
+                player.addScore(x.getPoint());
                 player.addCardToPlayingHand(game.getResourceDeck().extractCard());
+            }
             else {
                 var x = (GoldCard) cardToPlay;
                 player.addCardToPlayingHand(game.getGoldDeck().extractCard());
-                player.addScore(x.getPoint().getQta());
+                /* if (x.isFrontSide()) {
+                    for (Requirement r : x.getRequirements()) {
+                        player.addResource(r.getResource(), -r.getQta());
+                    player.addScore(x.getPoint().getQta());
+                } */
             }
 
             player.calculateResources();
 
             view.displayPersonalResources(player.getPersonalResources());
 
-            // couting points
-            DxDiagonalObjective x = new DxDiagonalObjective();
+            /* DxDiagonalObjective x = new DxDiagonalObjective();
             x.setColor(Color.BLUE);
+            x.setPoints(3); */
+
+            DownLObjective x = new DownLObjective();
+            x.setColor1(Color.BLUE);
+            x.setColor2(Color.GREEN);
             x.setPoints(3);
+
             x.CalculatePoints(player);
 
             System.out.println("Points: " + player.getScore());
