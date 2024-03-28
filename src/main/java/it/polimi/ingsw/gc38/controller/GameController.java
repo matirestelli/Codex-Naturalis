@@ -196,13 +196,12 @@ public class GameController {
                 player.addCardToPlayingHand(game.getResourceDeck().extractCard());
             }
             else {
+                Map<Resource, Integer> res = player.calculateResources();
                 var x = (GoldCard) cardToPlay;
                 player.addCardToPlayingHand(game.getGoldDeck().extractCard());
-                /* if (x.isFrontSide()) {
-                    for (Requirement r : x.getRequirements()) {
-                        player.addResource(r.getResource(), -r.getQta());
-                    player.addScore(x.getPoint().getQta());
-                } */
+                if (x.isFrontSide()) {
+                    player.addScore(res.get(x.getPoint().getResource()) * x.getPoint().getQta());
+                }
             }
 
             player.calculateResources();

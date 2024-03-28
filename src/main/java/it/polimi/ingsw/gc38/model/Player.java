@@ -156,7 +156,7 @@ public class Player {
         this.playingHand.remove(card);
     }
 
-    public void calculateResources() {
+    public Map<Resource, Integer> calculateResources() {
         personalResources = new HashMap<Resource, Integer>();
 
         for (Resource res : Resource.values()) {
@@ -176,5 +176,7 @@ public class Player {
                 }
             }
         }
+
+        return personalResources;
     }
 }
