@@ -5,19 +5,18 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ResourceObjective extends Objective {
-    private Map<Integer, Resource> requirements;
+    List<Requirement> requirements;
 
     public int calculatePoints(Player p) {
         Map<Resource, Integer> playerResources = p.calculateResources();
         List<Integer> cardinality = new ArrayList<>();
 
-        for (Resource resource : requirements.values()) {
+        for (Requirement req : requirements) {
             // if player has the required resource, add its cardinality to the list
             // otherwise, return 0 points
-            if (playerResources.get(resource) != 0)
-                cardinality.add(playerResources.get(resource));
-            else
+            if (playerResources.get(req.getResource()) == 0)
                 return 0;
+            cardinality.add(playerResources.get(req.getResource()) / req.getQta());
         }
 
         // to calculate point, use minimum cardinality of resources
