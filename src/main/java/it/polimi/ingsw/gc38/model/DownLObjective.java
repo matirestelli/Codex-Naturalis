@@ -1,4 +1,7 @@
 package it.polimi.ingsw.gc38.model;
+
+import it.polimi.ingsw.gc38.view.CliView;
+
 //import java.util.List;
 //import java.util.Map;
 public class DownLObjective extends PositionObjective{
@@ -39,6 +42,10 @@ public class DownLObjective extends PositionObjective{
         }
         p.addScore(getCompleted() * getPoints());
         this.resetCompleted();
+    }
+
+    public void visualizeCard(CliView cli) {
+
     }
 
 }
