@@ -2,8 +2,8 @@ package it.polimi.ingsw.gc38.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-public abstract class Objective {
+
+public class Objective {
     private int id;
     private boolean frontSide;
     private String frontCover; // front side of the objective
@@ -12,6 +12,7 @@ public abstract class Objective {
     private boolean isCompleted;
     private int completed; //numero di volte che l'obiettivo è stato completato
     private List<Integer> IDusati = new ArrayList<>();  //lista di carte già usate per completare un obiettivo
+    private String pattern;
 
     public int getId() {
         return id;
@@ -83,9 +84,5 @@ public abstract class Objective {
     }
 
     //metodo per verificare se l'obiettivo è completato, verrà poi implementato nelle classi figlie in modo diverso
-    public void CalculatePoints(Player p){ // calcola e aggiunge punti a player passato
-
-    }
-
 }
 
