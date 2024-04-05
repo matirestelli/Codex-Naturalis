@@ -1,6 +1,9 @@
 package it.polimi.ingsw.gc38.model;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 public class Game {
@@ -91,25 +94,37 @@ public class Game {
     public void initializeResourceDeck() {
         Type resourceCardListType = new TypeToken<List<ResourceCard>>() {}.getType();
         this.resourceDeck = new Deck("resourceCards");
-        this.resourceDeck.loadCardsFromJSON(resourceCardListType);
+        this.resourceDeck.loadCardsFromJSON(resourceCardListType, new Gson());
     }
 
     public void initializeStarterDeck() {
         Type resourceCardListType = new TypeToken<List<ResourceCard>>() {}.getType();
         this.starterDeck = new Deck("starterCards");
-        this.starterDeck.loadCardsFromJSON(resourceCardListType);
+        this.starterDeck.loadCardsFromJSON(resourceCardListType, new Gson());
     }
 
     public void initializeGoldDeck() {
         Type goldCardListType = new TypeToken<List<GoldCard>>() {}.getType();
         this.goldDeck = new Deck("goldCards");
-        this.goldDeck.loadCardsFromJSON(goldCardListType);
+        this.goldDeck.loadCardsFromJSON(goldCardListType, new Gson());
+    }
+
+    public void initializeObjectiveDeck() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Objective.class, new ObjectiveCardDeserializer())
+                .create();
+
+        Type objectiveCardListType = new TypeToken<List<Objective>>() {}.getType();
+        Deck objectiveDeck = new Deck("objectiveCards");
+        objectiveDeck.loadCardsFromJSON(objectiveCardListType, gson);
+        System.out.println("Objective deck size: " + objectiveDeck);
     }
 
     public void initializeDecks() {
         initializeResourceDeck();
         initializeStarterDeck();
         initializeGoldDeck();
+        initializeObjectiveDeck();
     }
 
     public void shuffleDecks(){

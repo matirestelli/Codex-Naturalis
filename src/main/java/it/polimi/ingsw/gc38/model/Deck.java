@@ -53,10 +53,9 @@ public class Deck {
         this.cards.remove(card);
     }
 
-    public void loadCardsFromJSON(Type typeOfCard) {
+    public void loadCardsFromJSON(Type typeOfCard, Gson gson) {
         List<Card> cards = new ArrayList<>();
         try {
-            Gson gson = new Gson();
             cards = gson.fromJson(new FileReader(this.configFile),
                     typeOfCard);
         } catch (FileNotFoundException e) {
