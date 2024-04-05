@@ -1,8 +1,9 @@
 package it.polimi.ingsw.gc38.model;
 
-//import java.util.List;
-//import java.util.Map;
+import java.util.List;
+
 public class LObjective extends PositionObjective {
+    private List<Color> colors;
     private Color color1;
     private Color color2;
 

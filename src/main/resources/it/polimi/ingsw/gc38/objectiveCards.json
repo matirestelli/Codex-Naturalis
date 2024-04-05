@@ -1,5 +1,28 @@
 [
   {
+    "id": 96,
+    "frontSide": true,
+    "frontCover": "front/objective/96.png",
+    "backCover": "back/objective.png",
+    "color": "RED",
+    "point": 2,
+    "pattern": "diagonalDx"
+  },
+  {
+    "id": 100,
+    "frontSide": true,
+    "frontCover": "front/objective/100.png",
+    "backCover": "back/objective.png",
+    "color": "RED",
+    "point": 3,
+    "colors": [
+      "RED",
+      "RED",
+      "GREEN"
+    ],
+    "pattern": "L"
+  },
+  {
     "id": 104,
     "frontSide": true,
     "frontCover": "front/objective/104.png",

@@ -13,7 +13,7 @@ public class Objective {
     private int completed; //numero di volte che l'obiettivo è stato completato
     private List<Integer> IDusati = new ArrayList<>();  //lista di carte già usate per completare un obiettivo
     private String pattern;
-    
+
     public int getId() {
         return id;
     }
