@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.List;
 
 public class Deck {
-    private List<Card> cards;
+    private List<CardGame> cards;
     private String configFile;
     private boolean empty;
 
@@ -21,11 +21,11 @@ public class Deck {
         this.cards = new ArrayList<>();
     }
 
-    public void setCards(List<Card> cards) {
+    public void setCards(List<CardGame> cards) {
         this.cards = cards;
     }
 
-    public List<Card> getCards() {
+    public List<CardGame> getCards() {
         return cards;
     }
 
@@ -54,7 +54,7 @@ public class Deck {
     }
 
     public void loadCardsFromJSON(Type typeOfCard, Gson gson) {
-        List<Card> cards = new ArrayList<>();
+        List<CardGame> cards = new ArrayList<>();
         try {
             cards = gson.fromJson(new FileReader(this.configFile),
                     typeOfCard);
@@ -65,8 +65,8 @@ public class Deck {
         this.cards = cards;
     }
 
-    public Card extractCard() {
-        Card card = this.cards.getFirst();
+    public CardGame extractCard() {
+        CardGame card = this.cards.getFirst();
         this.cards.removeFirst();
         return card;
     }

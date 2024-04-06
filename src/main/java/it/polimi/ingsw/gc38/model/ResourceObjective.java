@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc38.model;
 
+import it.polimi.ingsw.gc38.view.CliView;
+
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -21,6 +23,10 @@ public class ResourceObjective extends Objective {
 
         // to calculate point, use minimum cardinality of resources
         return cardinality.stream().min(Integer::compare).get() * getPoints();
+    }
+
+    public void visualizeCard(CliView cli) {
+        cli.displayMessage("Resource Objective");
     }
 }
 

@@ -3,20 +3,20 @@ package it.polimi.ingsw.gc38.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Objective {
-    private int id;
-    private boolean frontSide;
-    private String frontCover; // front side of the objective
-    private String backCover; // back side of the objective
+public abstract class Objective extends CardGame {
+    // private int id;
+    // private boolean frontSide;
+    // private String frontCover; // front side of the objective
+    // private String backCover; // back side of the objective
     private int points;
     private boolean isCompleted;
     private int completed; //numero di volte che l'obiettivo è stato completato
     private List<Integer> IDusati = new ArrayList<>();  //lista di carte già usate per completare un obiettivo
     private String pattern;
 
-    public int getId() {
-        return id;
-    }
+//    public int getId() {
+//        return id;
+//    }
 
     public int setCompleted() { //incrementa il numero di volte che l'obiettivo è stato completato
         completed++;
@@ -39,30 +39,30 @@ public class Objective {
         return completed;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
-    public boolean isFrontSide() {
-        return frontSide;
-    }
-
-    //setSide è il metodo flip dell'uml
-    public void setSide(boolean frontSide) {
-        this.frontSide = frontSide;
-    }
-
-    public String getFrontCover() {
-        return frontCover;
-    }
-
-    public void setFrontCover(String frontCover) {
-        this.frontCover = frontCover;
-    }
-
-    public String getBackCover() {
-        return backCover;
-    }
+//    public boolean isFrontSide() {
+//        return frontSide;
+//    }
+//
+//    //setSide è il metodo flip dell'uml
+//    public void setSide(boolean frontSide) {
+//        this.frontSide = frontSide;
+//    }
+//
+//    public String getFrontCover() {
+//        return frontCover;
+//    }
+//
+//    public void setFrontCover(String frontCover) {
+//        this.frontCover = frontCover;
+//    }
+//
+//    public String getBackCover() {
+//        return backCover;
+//    }
 
     public boolean isCompleted() {
         return isCompleted;
@@ -72,9 +72,9 @@ public class Objective {
     //    this.isCompleted = isCompleted;
     //}
 
-    public void setBackCover(String backCover) {
-        this.backCover = backCover;
-    }
+//    public void setBackCover(String backCover) {
+//        this.backCover = backCover;
+//    }
     public int getPoints() {
         return points;
     }

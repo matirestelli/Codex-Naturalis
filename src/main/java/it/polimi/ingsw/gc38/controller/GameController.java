@@ -50,14 +50,14 @@ public class GameController {
         view.welcomeMessage();
 
         // extract one card from starter cards
-        Card extractedStarterCard = game.getStarterDeck().extractCard();
+        CardGame extractedStarterCard = game.getStarterDeck().extractCard();
         // visualize extracted card from starter cards
-        view.displayCard(extractedStarterCard);
+        view.displayCard((Card) extractedStarterCard);
         view.displayStarterCardBack((ResourceCard) extractedStarterCard);
         // ask for side of the starter card
         extractedStarterCard.setSide(view.askForSide());
         // add the extracted card to the codex
-        player.addCardToCodex(extractedStarterCard);
+        player.addCardToCodex((Card) extractedStarterCard);
 
         // TODO: delete: testing only
         // view.displayCard((ColoredCard) extractedStarterCard);
@@ -71,20 +71,21 @@ public class GameController {
         } */
 
         // extract the first two cards from resource cards and one from gold cards
-        Card extractedResourceCard1 = game.getResourceDeck().extractCard();
-        Card extractedResourceCard2 = game.getResourceDeck().extractCard();
-        Card extractedGoldCard = game.getGoldDeck().extractCard();
+        CardGame extractedResourceCard1 = game.getResourceDeck().extractCard();
+        CardGame extractedResourceCard2 = game.getResourceDeck().extractCard();
+        CardGame extractedGoldCard = game.getGoldDeck().extractCard();
+
         // add extracted cars to playing hand
-        player.addCardToPlayingHand(extractedResourceCard1);
-        player.addCardToPlayingHand(extractedResourceCard2);
-        player.addCardToPlayingHand(extractedGoldCard);
+        player.addCardToPlayingHand((Card) extractedResourceCard1);
+        player.addCardToPlayingHand((Card) extractedResourceCard2);
+        player.addCardToPlayingHand((Card) extractedGoldCard);
 
         // define the leftUpCorner of the card
         Coordinate leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5,matrixDimension / 2 * cardHeight - 5);
-        extractedStarterCard.setCentre(leftUpCorner);
+        ((Card) extractedStarterCard).setCentre(leftUpCorner);
         // set the x and y matrix coordinates of the card
-        extractedStarterCard.setXYCord(matrixDimension / 2, matrixDimension / 2);
-        player.getMatrix()[extractedStarterCard.getyMatrixCord()][extractedStarterCard.getxMatrixCord()] = extractedStarterCard.getId();
+        ((Card) extractedStarterCard).setXYCord(matrixDimension / 2, matrixDimension / 2);
+        player.getMatrix()[((Card) extractedStarterCard).getyMatrixCord()][((Card) extractedStarterCard).getxMatrixCord()] = extractedStarterCard.getId();
         view.placeCard(player.getBoard(), (ResourceCard) extractedStarterCard, leftUpCorner);
 
         // visualize the board
@@ -193,12 +194,12 @@ public class GameController {
 
             if (cardToPlay instanceof ResourceCard x) {
                 player.addScore(x.getPoint());
-                player.addCardToPlayingHand(game.getResourceDeck().extractCard());
+                player.addCardToPlayingHand((Card) game.getResourceDeck().extractCard());
             }
             else {
                 Map<Resource, Integer> res = player.calculateResources();
                 var x = (GoldCard) cardToPlay;
-                player.addCardToPlayingHand(game.getGoldDeck().extractCard());
+                player.addCardToPlayingHand((Card) game.getGoldDeck().extractCard());
                 if (x.isFrontSide()) {
                     player.addScore(res.get(x.getPoint().getResource()) * x.getPoint().getQta());
                 }

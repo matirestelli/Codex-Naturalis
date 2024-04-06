@@ -1,4 +1,6 @@
 package it.polimi.ingsw.gc38.model;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
@@ -117,7 +119,6 @@ public class Game {
         Type objectiveCardListType = new TypeToken<List<Objective>>() {}.getType();
         Deck objectiveDeck = new Deck("objectiveCards");
         objectiveDeck.loadCardsFromJSON(objectiveCardListType, gson);
-        System.out.println("Objective deck size: " + objectiveDeck);
     }
 
     public void initializeDecks() {

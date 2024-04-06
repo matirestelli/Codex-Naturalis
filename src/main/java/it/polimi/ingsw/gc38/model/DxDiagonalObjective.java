@@ -3,13 +3,6 @@ import java.util.List;
 import java.util.Map;
 
 public class DxDiagonalObjective extends PositionObjective{
-    private Color color;
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-
     public void CalculatePoints(Player p) {
         int rows = p.getMatrix().length;
         int cols = p.getMatrix()[0].length;
@@ -20,9 +13,9 @@ public class DxDiagonalObjective extends PositionObjective{
                 if (p.getMatrix()[i][j] != -1 && p.getMatrix()[i+1][j-1] != -1 && p.getMatrix()[i+2][j-2] != -1 &&
                         p.getMatrix()[i][j] < 90 && p.getMatrix()[i+1][j-1] < 90 && p.getMatrix()[i+2][j-2] < 90)
                 {
-                    if (this.getCard(p, p.getMatrix()[i][j]).getColor() == color &&
-                            this.getCard(p, p.getMatrix()[i +1][j - 1]).getColor() == color &&
-                            this.getCard(p, p.getMatrix()[i + 2][j - 2]).getColor() == color) {
+                    if (this.getCard(p, p.getMatrix()[i][j]).getColor() == getColor() &&
+                            this.getCard(p, p.getMatrix()[i +1][j - 1]).getColor() == getColor() &&
+                            this.getCard(p, p.getMatrix()[i + 2][j - 2]).getColor() == getColor()) {
                         if (!this.getIDusati().contains(p.getMatrix()[i][j]) ||
                                 !this.getIDusati().contains(p.getMatrix()[i + 1][j - 1]) ||
                                 !this.getIDusati().contains(p.getMatrix()[i + 2][j - 2])) {

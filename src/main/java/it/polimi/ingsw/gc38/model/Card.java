@@ -6,21 +6,21 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class Card {
-    private int id;
-    private boolean frontSide;
-    private String frontCover;
-    private String backCover;
+public abstract class Card extends CardGame {
+    // private int id;
+    // private boolean frontSide;
+    // private String frontCover;
+    // private String backCover;
     private Map<Integer, Corner> frontCorners;
     private Map<Integer, Corner> backCorners;
     private List<Resource> backResources;
     private Coordinate centre;
     private int xMatrixCord;
     private int yMatrixCord;
-    private Color color;
+    // private Color color;
 
     public Map<Integer, Corner> getActualCorners() {
-        if (frontSide) return frontCorners;
+        if (isFrontSide()) return frontCorners;
         else return backCorners;
     }
 
@@ -49,37 +49,37 @@ public class Card {
         this.yMatrixCord = yMatrixCord;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public boolean isFrontSide() {
-        return frontSide;
-    }
-
-    public void setSide(boolean frontSide) {
-        this.frontSide = frontSide;
-    }
-
-    public String getFrontCover() {
-        return frontCover;
-    }
-
-    public void setFrontCover(String frontCover) {
-        this.frontCover = frontCover;
-    }
-
-    public String getBackCover() {
-        return backCover;
-    }
-
-    public void setBackCover(String backCover) {
-        this.backCover = backCover;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
+//
+//    public boolean isFrontSide() {
+//        return frontSide;
+//    }
+//
+//    public void setSide(boolean frontSide) {
+//        this.frontSide = frontSide;
+//    }
+//
+//    public String getFrontCover() {
+//        return frontCover;
+//    }
+//
+//    public void setFrontCover(String frontCover) {
+//        this.frontCover = frontCover;
+//    }
+//
+//    public String getBackCover() {
+//        return backCover;
+//    }
+//
+//    public void setBackCover(String backCover) {
+//        this.backCover = backCover;
+//    }
 
     public Map<Integer, Corner> getFrontCorners() {
         return frontCorners;
@@ -352,11 +352,11 @@ public class Card {
         return angoliDispobibili;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public Color getColor() {
-        return color;
-    }
+//    public void setColor(Color color) {
+//        this.color = color;
+//    }
+//
+//    public Color getColor() {
+//        return color;
+//    }
 }
