@@ -13,6 +13,7 @@ class ObjectiveCardDeserializer implements JsonDeserializer<Objective> {
         return switch (pattern) {
             case "L" -> context.deserialize(jsonObject, LObjective.class);
             case "diagonalDx" -> context.deserialize(jsonObject, DxDiagonalObjective.class);
+            case "diagonalSx" -> context.deserialize(jsonObject, SxDiagonalObjective.class);
             case "resource" -> context.deserialize(jsonObject, ResourceObjective.class);
             default -> throw new JsonParseException("Unknown pattern: " + pattern);
         };
