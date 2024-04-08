@@ -19,6 +19,7 @@ public class Game {
     private Deck goldDeck;
     private Deck resourceDeck;
     private Deck starterDeck;
+    private Deck objectiveDeck;
     private Player winner;
 
     public void setId(String id) {
@@ -85,6 +86,10 @@ public class Game {
         return starterDeck;
     }
 
+    public Deck getObjectiveDeck() {
+        return objectiveDeck;
+    }
+
     public void setWinner(Player winner) {
         this.winner = winner;
     }
@@ -117,7 +122,7 @@ public class Game {
                 .create();
 
         Type objectiveCardListType = new TypeToken<List<Objective>>() {}.getType();
-        Deck objectiveDeck = new Deck("objectiveCards");
+        this.objectiveDeck = new Deck("objectiveCards");
         objectiveDeck.loadCardsFromJSON(objectiveCardListType, gson);
     }
 
@@ -135,6 +140,8 @@ public class Game {
         this.resourceDeck.shuffle();
         // shuffle gold deck
         this.goldDeck.shuffle();
+        // shuffle objective deck
+        this.objectiveDeck.shuffle();
     }
 }
 

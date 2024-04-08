@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc38.model;
 
+import it.polimi.ingsw.gc38.view.CliView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,6 +84,8 @@ public abstract class Objective extends CardGame {
     public void setPoints(int points) {
         this.points = points;
     }
+
+    public void displayCard(CliView cli) {}
 
     //metodo per verificare se l'obiettivo è completato, verrà poi implementato nelle classi figlie in modo diverso
 }

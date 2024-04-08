@@ -41,7 +41,13 @@ public class GameController {
         // load from json the resource and starter cards
         game.initializeDecks();
         // shuffle the decks
-        game.shuffleDecks();
+        // game.shuffleDecks();
+
+        CardGame obj = game.getObjectiveDeck().extractCard();
+        CardGame obj_2 = game.getObjectiveDeck().extractCard();
+
+        ((Objective) obj).displayCard(view);
+        ((Objective) obj_2).displayCard(view);
 
         // ask for player nickname
         // initPlayerNickname();

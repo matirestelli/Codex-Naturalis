@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gc38.model;
 
+import it.polimi.ingsw.gc38.view.CliView;
+
 import java.util.List;
 
 public class LObjective extends PositionObjective {
@@ -14,8 +16,11 @@ public class LObjective extends PositionObjective {
         this.color2 = color;
     }
 
+    public void displayCard(CliView view) {
+        view.displayMessage("LObjective");
+    }
 
-    public void CalculatePoints(Player p) {
+    public void calculatePoints(Player p) {
         int rows = p.getMatrix().length;
         int cols = p.getMatrix()[0].length;
 

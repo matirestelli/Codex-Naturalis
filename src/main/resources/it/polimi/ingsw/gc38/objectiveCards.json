@@ -5,7 +5,7 @@
     "frontCover": "front/objective/96.png",
     "backCover": "back/objective.png",
     "color": "RED",
-    "point": 2,
+    "points": 2,
     "pattern": "diagonalDx"
   },
   {
@@ -14,7 +14,7 @@
     "frontCover": "front/objective/100.png",
     "backCover": "back/objective.png",
     "color": "RED",
-    "point": 3,
+    "points": 3,
     "colors": [
       "RED",
       "RED",
@@ -28,7 +28,7 @@
     "frontCover": "front/objective/104.png",
     "backCover": "back/objective.png",
     "color": "RED",
-    "point": 2,
+    "points": 2,
     "requirements": [
       {
         "qta": 3,
@@ -43,7 +43,7 @@
     "frontCover": "front/objective/105.png",
     "backCover": "back/objective.png",
     "color": "GREEN",
-    "point": 2,
+    "points": 2,
     "requirements": [
       {
         "qta": 3,
@@ -58,7 +58,7 @@
     "frontCover": "front/objective/106.png",
     "backCover": "back/objective.png",
     "color": "BLUE",
-    "point": 2,
+    "points": 2,
     "requirements": [
       {
         "qta": 3,
@@ -73,7 +73,7 @@
     "frontCover": "front/objective/107.png",
     "backCover": "back/objective.png",
     "color": "PURPLE",
-    "point": 2,
+    "points": 2,
     "requirements": [
       {
         "qta": 3,
@@ -88,7 +88,7 @@
     "frontCover": "front/objective/108.png",
     "backCover": "back/objective.png",
     "color": "GOLD",
-    "point": 3,
+    "points": 3,
     "requirements": [
       {
         "qta": 1,
@@ -111,7 +111,7 @@
     "frontCover": "front/objective/109.png",
     "backCover": "back/objective.png",
     "color": "GOLD",
-    "point": 2,
+    "points": 2,
     "requirements": [
       {
         "qta": 2,
@@ -126,7 +126,7 @@
     "frontCover": "front/objective/110.png",
     "backCover": "back/objective.png",
     "color": "GOLD",
-    "point": 2,
+    "points": 2,
     "requirements": [
       {
         "qta": 2,
@@ -141,7 +141,7 @@
     "frontCover": "front/objective/111.png",
     "backCover": "back/objective.png",
     "color": "GOLD",
-    "point": 2,
+    "points": 2,
     "requirements": [
       {
         "qta": 2,
