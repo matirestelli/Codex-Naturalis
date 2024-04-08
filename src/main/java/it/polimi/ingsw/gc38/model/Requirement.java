@@ -20,4 +20,13 @@ public class Requirement {
         this.resource = resource;
     }
 
+    public Requirement(Resource resource, int qta) {
+        this.resource = resource;
+        this.qta = qta;
+    }
+
+    public void incrementQta() {
+        this.qta++;
+    }
+
 }
