@@ -5,8 +5,55 @@
     "frontCover": "front/objective/96.png",
     "backCover": "back/objective.png",
     "color": "RED",
+    "colors": [
+      "RED",
+      "RED",
+      "RED"
+    ],
     "points": 2,
     "pattern": "diagonalDx"
+  },
+  {
+    "id": 97,
+    "frontSide": true,
+    "frontCover": "front/objective/97.png",
+    "backCover": "back/objective.png",
+    "color": "GREEN",
+    "colors": [
+      "GREEN",
+      "GREEN",
+      "GREEN"
+    ],
+    "points": 2,
+    "pattern": "diagonalSx"
+  },
+  {
+    "id": 98,
+    "frontSide": true,
+    "frontCover": "front/objective/98.png",
+    "backCover": "back/objective.png",
+    "color": "BLUE",
+    "colors": [
+      "BLUE",
+      "BLUE",
+      "BLUE"
+    ],
+    "points": 2,
+    "pattern": "diagonalDx"
+  },
+  {
+    "id": 99,
+    "frontSide": true,
+    "frontCover": "front/objective/99.png",
+    "backCover": "back/objective.png",
+    "color": "PURPLE",
+    "colors": [
+      "PURPLE",
+      "PURPLE",
+      "PURPLE"
+    ],
+    "points": 2,
+    "pattern": "diagonalSx"
   },
   {
     "id": 100,
@@ -23,17 +70,58 @@
     "pattern": "L"
   },
   {
+    "id": 101,
+    "frontSide": true,
+    "frontCover": "front/objective/101.png",
+    "backCover": "back/objective.png",
+    "color": "GREEN",
+    "points": 3,
+    "colors": [
+      "GREEN",
+      "GREEN",
+      "PURPLE"
+    ],
+    "pattern": "reverseL"
+  },
+  {
+    "id": 102,
+    "frontSide": true,
+    "frontCover": "front/objective/102.png",
+    "backCover": "back/objective.png",
+    "color": "BLUE",
+    "points": 3,
+    "colors": [
+      "RED",
+      "BLUE",
+      "BLUE"
+    ],
+    "pattern": "downL"
+  },
+  {
+    "id": 103,
+    "frontSide": true,
+    "frontCover": "front/objective/103.png",
+    "backCover": "back/objective.png",
+    "color": "PURPLE",
+    "points": 3,
+    "colors": [
+      "BLUE",
+      "PURPLE",
+      "PURPLE"
+    ],
+    "pattern": "reverseDownL"
+  },
+  {
     "id": 104,
     "frontSide": true,
     "frontCover": "front/objective/104.png",
     "backCover": "back/objective.png",
     "color": "RED",
     "points": 2,
-    "requirements": [
-      {
-        "qta": 3,
-        "resource": "FUNGI"
-      }
+    "resources": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI"
     ],
     "pattern": "resource"
   },
@@ -44,11 +132,10 @@
     "backCover": "back/objective.png",
     "color": "GREEN",
     "points": 2,
-    "requirements": [
-      {
-        "qta": 3,
-        "resource": "PLANT"
-      }
+    "resources": [
+      "PLANT",
+      "PLANT",
+      "PLANT"
     ],
     "pattern": "resource"
   },
@@ -59,11 +146,10 @@
     "backCover": "back/objective.png",
     "color": "BLUE",
     "points": 2,
-    "requirements": [
-      {
-        "qta": 3,
-        "resource": "ANIMAL"
-      }
+    "resources": [
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL"
     ],
     "pattern": "resource"
   },
@@ -74,11 +160,10 @@
     "backCover": "back/objective.png",
     "color": "PURPLE",
     "points": 2,
-    "requirements": [
-      {
-        "qta": 3,
-        "resource": "INSECT"
-      }
+    "resources": [
+      "INSECT",
+      "INSECT",
+      "INSECT"
     ],
     "pattern": "resource"
   },
@@ -89,19 +174,10 @@
     "backCover": "back/objective.png",
     "color": "GOLD",
     "points": 3,
-    "requirements": [
-      {
-        "qta": 1,
-        "resource": "INK"
-      },
-      {
-        "qta": 1,
-        "resource": "NOUN"
-      },
-      {
-        "qta": 1,
-        "resource": "MANUSCRIPT"
-      }
+    "resources": [
+      "QUILL",
+      "NOUN",
+      "MANUSCRIPT"
     ],
     "pattern": "resource"
   },
@@ -112,11 +188,9 @@
     "backCover": "back/objective.png",
     "color": "GOLD",
     "points": 2,
-    "requirements": [
-      {
-        "qta": 2,
-        "resource": "MANUSCRIPT"
-      }
+    "resources": [
+      "MANUSCRIPT",
+      "MANUSCRIPT"
     ],
     "pattern": "resource"
   },
@@ -127,11 +201,9 @@
     "backCover": "back/objective.png",
     "color": "GOLD",
     "points": 2,
-    "requirements": [
-      {
-        "qta": 2,
-        "resource": "NOUN"
-      }
+    "resources": [
+      "NOUN",
+      "NOUN"
     ],
     "pattern": "resource"
   },
@@ -142,11 +214,9 @@
     "backCover": "back/objective.png",
     "color": "GOLD",
     "points": 2,
-    "requirements": [
-      {
-        "qta": 2,
-        "resource": "INK"
-      }
+    "resources": [
+      "QUILL",
+      "QUILL"
     ],
     "pattern": "resource"
   }
