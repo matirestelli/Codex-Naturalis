@@ -12,7 +12,7 @@ public class Player {
     private List<Card> codex;
     private int[][] matrix;
     private Cell[][] board;
-    private Card secretObjective;
+    private Objective secretObjective;
     private Map<Resource, Integer> personalResources;
     private boolean firstPlayer;
     private boolean turn;
@@ -74,11 +74,11 @@ public class Player {
         this.board = board;
     }
 
-    public Card getSecretObjective() {
+    public Objective getSecretObjective() {
         return secretObjective;
     }
 
-    public void setSecretObjective(Card secretObjective) {
+    public void setSecretObjective(Objective secretObjective) {
         this.secretObjective = secretObjective;
     }
 
