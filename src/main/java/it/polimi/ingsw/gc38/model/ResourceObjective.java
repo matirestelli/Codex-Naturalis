@@ -45,8 +45,7 @@ public class ResourceObjective extends Objective {
         final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
         final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
         final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-        final String ANSI_YELLOW_BACKGROUND = "\u001B[48;5;179m";
-
+        final String ANSI_YELLOW_BACKGROUND = "\u001B[48;5;220m";
 
         String ANSIColor = "";
 
@@ -61,7 +60,7 @@ public class ResourceObjective extends Objective {
         } else
             ANSIColor = ANSI_YELLOW_BACKGROUND;
 
-        view.displayMessage(ANSIColor + "  " + ANSI_BOLD + ANSI_COLOR_GOLD + this.getPoints() + ANSI_COLOR_RESET + ANSIColor + "    " + ANSI_COLOR_RESET);
+        view.displayMessage(ANSIColor + "  " + ANSI_BOLD + this.getPoints() + ANSIColor + "    " + ANSI_COLOR_RESET);
         if (resources.size() == 3) {
             view.displayMessage(ANSIColor + "    " + resources.get(0).toString().charAt(0) + "  " + ANSI_COLOR_RESET);
             view.displayMessage(ANSIColor + "   " + resources.get(1).toString().charAt(0) + " " + resources.get(2).toString().charAt(0) + " " + ANSI_COLOR_RESET);
