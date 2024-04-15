@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gc38.model;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,13 +15,30 @@ public class Game {
     private Map<Player, Map<Integer, Integer>> players;
     private int numPlayers;
     private List<Board> boards;
-    //array di 2 obiettivi comuni
-    private Objective[] commonObjectives;
+    private List<Objective> commonObjectives;
     private Deck goldDeck;
     private Deck resourceDeck;
     private Deck starterDeck;
     private Deck objectiveDeck;
     private Player winner;
+    private List<Card> resourceCardsVisible;
+    private List<Card> goldCardsVisible;
+
+    public void addCardToResourceCardsVisible(Card card) {
+        this.resourceCardsVisible.add(card);
+    }
+
+    public void addCardToGoldCardsVisible(Card card) {
+        this.goldCardsVisible.add(card);
+    }
+
+    public List<Card> getResourceCardsVisible() {
+        return resourceCardsVisible;
+    }
+
+    public List<Card> getGoldCardsVisible() {
+        return goldCardsVisible;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -62,11 +80,11 @@ public class Game {
         return boards;
     }
 
-    public void setCommonObjectives(Objective[] commonObjectives) {
-        this.commonObjectives = commonObjectives;
+    public void addCommonObjective(Objective objective) {
+        this.commonObjectives.add(objective);
     }
 
-    public Objective[] getCommonObjectives() {
+    public List<Objective> getCommonObjectives() {
         return commonObjectives;
     }
 
@@ -131,6 +149,13 @@ public class Game {
         initializeStarterDeck();
         initializeGoldDeck();
         initializeObjectiveDeck();
+        initializeListCardsVisible();
+    }
+
+    public void initializeListCardsVisible() {
+        this.resourceCardsVisible = new ArrayList<>();
+        this.goldCardsVisible = new ArrayList<>();
+        this.commonObjectives = new ArrayList<>();
     }
 
     public void shuffleDecks(){
