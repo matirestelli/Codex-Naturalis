@@ -43,14 +43,21 @@ public class GameController {
         // shuffle the decks
         game.shuffleDecks();
 
+        // extract 2 resource cards and put them in the visible resource cards
+        int numberOfVisibleCards = 2;
+        for (int i = 0; i < numberOfVisibleCards; i++) {
+            game.addCardToResourceCardsVisible((Card) game.getResourceDeck().extractCard());
+            game.addCardToGoldCardsVisible((Card) game.getGoldDeck().extractCard());
+        }
+
         // display all objective cards
-        for (CardGame c : game.getObjectiveDeck().getCards()) {
+        /* for (CardGame c : game.getObjectiveDeck().getCards()) {
             if (c instanceof Objective x) {
                 System.out.println(x.getId());
                 x.displayCard(view);
                 System.out.println();
             }
-        }
+        } */
 
         // ask for player nickname
         // initPlayerNickname();
@@ -79,7 +86,7 @@ public class GameController {
             view.displayCardBack((ColoredCard) c);
         } */
 
-        // extract the first two cards from resource cards and one from gold cards
+        // extract the first two cards from resource cards deck and one from gold cards deck
         CardGame extractedResourceCard1 = game.getResourceDeck().extractCard();
         CardGame extractedResourceCard2 = game.getResourceDeck().extractCard();
         CardGame extractedGoldCard = game.getGoldDeck().extractCard();
@@ -88,6 +95,31 @@ public class GameController {
         player.addCardToPlayingHand((Card) extractedResourceCard1);
         player.addCardToPlayingHand((Card) extractedResourceCard2);
         player.addCardToPlayingHand((Card) extractedGoldCard);
+
+        // extract the first two cards from objective cards deck
+        game.addCommonObjective((Objective) game.getObjectiveDeck().extractCard());
+        game.addCommonObjective((Objective) game.getObjectiveDeck().extractCard());
+
+        // display the extracted cards
+        view.displayMessage("\nCommon objective cards: ");
+        for (Objective o : game.getCommonObjectives()) {
+            o.displayCard(view);
+            view.displayMessage("");
+        }
+
+        List<Objective> objToChoose = new ArrayList<>();
+        int numberOfObjectives = 2;
+        view.displayMessage("Choose one of the following objectives: ");
+        for (int i = 0; i < numberOfObjectives; i++) {
+            Objective o = (Objective) game.getObjectiveDeck().extractCard();
+            objToChoose.add(o);
+            view.displayMessage(i + ":");
+            o.displayCard(view);
+            view.displayMessage("");
+        }
+
+        // define the secret objective of the player
+        player.setSecretObjective(objToChoose.get(view.askForObjectiveId(numberOfObjectives)));
 
         // define the leftUpCorner of the card
         Coordinate leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5,matrixDimension / 2 * cardHeight - 5);
@@ -106,8 +138,8 @@ public class GameController {
             player.calculateResources();
             
             // create list of playing hand ids
-            List<Integer> playingHandIds = new ArrayList<Integer>();
-            List<Integer> playingHandIdsBack = new ArrayList<Integer>();
+            List<Integer> playingHandIds = new ArrayList<>();
+            List<Integer> playingHandIdsBack = new ArrayList<>();
             
             // visualize playing hand
             view.displayMessage("Visualizing playing hand: ");
@@ -201,14 +233,51 @@ public class GameController {
 
             view.displayBoard(player.getBoard());
 
+            List<Integer> ids = new ArrayList<>();
+            for (Card c : game.getResourceCardsVisible()) {
+                ids.add(c.getId());
+                view.displayCard(c);
+            }
+            for (Card c : game.getGoldCardsVisible()) {
+                ids.add(c.getId());
+                view.displayCard(c);
+            }
+            String newId = view.chooseDrawNewCard(ids);
+
+            if (newId.equals("A")) {
+                player.addCardToPlayingHand((Card) game.getResourceDeck().extractCard());
+            } else if (newId.equals("B")) {
+                player.addCardToPlayingHand((Card) game.getGoldDeck().extractCard());
+            } else {
+                int id = Integer.parseInt(newId);
+                Card newCard;
+                if (id < 40) {
+                    newCard = game.getResourceCardsVisible().stream()
+                            .filter(card -> card.getId() == Integer.parseInt(newId))
+                            .findAny()
+                            .get();
+                    game.getResourceCardsVisible().remove(newCard);
+                    game.getResourceCardsVisible().add((Card) game.getResourceDeck().extractCard());
+                } else {
+                    newCard = game.getGoldCardsVisible().stream()
+                            .filter(card -> card.getId() == Integer.parseInt(newId))
+                            .findAny()
+                            .get();
+                    player.addCardToPlayingHand(newCard);
+                    game.getGoldCardsVisible().remove(newCard);
+                    game.getGoldCardsVisible().add((Card) game.getGoldDeck().extractCard());
+                }
+                player.addCardToPlayingHand(newCard);
+            }
+
             if (cardToPlay instanceof ResourceCard x) {
                 player.addScore(x.getPoint());
-                player.addCardToPlayingHand((Card) game.getResourceDeck().extractCard());
+                // player.addCardToPlayingHand((Card) game.getResourceDeck().extractCard());
             }
             else {
                 Map<Resource, Integer> res = player.calculateResources();
                 var x = (GoldCard) cardToPlay;
-                player.addCardToPlayingHand((Card) game.getGoldDeck().extractCard());
+                // player.addCardToPlayingHand((Card) game.getGoldDeck().extractCard());
                 if (x.isFrontSide()) {
                     player.addScore(res.get(x.getPoint().getResource()) * x.getPoint().getQta());
                 }
