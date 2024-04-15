@@ -37,6 +37,21 @@ public class CliView {
         this.ANSI_RESET = "\u001B[0m";
     }
 
+    public int askForObjectiveId(int numObj) {
+        String out = "(";
+        for (int i = 0; i < numObj; i++)
+            out += i + " / ";
+        out = out.substring(0, out.length() - 3) + "): ";
+        System.out.print("Choose an objective id " + out);
+        int id = Integer.parseInt(scanner.nextLine());
+        while (id < 0 || id >= numObj) {
+            System.out.print("Invalid input. Retry: ");
+            id = Integer.parseInt(scanner.nextLine());
+        }
+
+        return id;
+    }
+
     public String askForNickname() {
         System.out.print("Inserisci nickname: ");
         return scanner.nextLine();
@@ -85,7 +100,10 @@ public class CliView {
         boolean validInput = false;
         String input = "";
         while (!validInput) {
-            input = scanner.nextLine().trim(); // Prende l'input e rimuove gli spazi bianchi iniziali e finali
+            input = scanner.nextLine();
+            input = input.trim();
+
+            // input = scanner.nextLine().trim(); // Prende l'input e rimuove gli spazi bianchi iniziali e finali
 
             try {
                 // Verifica se l'input termina con ".b" e controlla la validità
@@ -115,6 +133,27 @@ public class CliView {
         String[] splitInput = input.split("\\.");
 
         return new CardCornerInput(Integer.parseInt(splitInput[0]), splitInput[1].equals("f"));
+    }
+
+    public String chooseDrawNewCard(List<Integer> ids) {
+        displayMessage("Time to chose the new card to add to the playing hand!");
+        System.out.print("Choose one of the following cards or A for drawing a card from the resource deck or B for drawing a card from the gold deck: ");
+        String message = "(";
+        for (int i = 0; i < ids.size(); i++) {
+            message += ids.get(i);
+            if (i != ids.size() - 1)
+                message += " / ";
+        }
+        message += " / A / B): ";
+        System.out.print(message);
+
+        String input = scanner.nextLine();
+        // repeat the question until input is A or B or a valid card id
+        while (!input.equals("A") && !input.equals("B") && !ids.contains(Integer.parseInt(input))) {
+            System.out.print("Invalid input. Retry: ");
+            input = scanner.nextLine();
+        }
+        return input;
     }
 
     public String displayResources(Card card, int index1, int index2, String ANSIColor) {
