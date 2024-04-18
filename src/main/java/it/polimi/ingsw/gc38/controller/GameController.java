@@ -287,17 +287,6 @@ public class GameController {
 
             view.displayPersonalResources(player.getPersonalResources());
 
-            /* DxDiagonalObjective x = new DxDiagonalObjective();
-            x.setColor(Color.BLUE);
-            x.setPoints(3); */
-
-            DownLObjective x = new DownLObjective();
-            x.setColor1(Color.BLUE);
-            x.setColor2(Color.GREEN);
-            x.setPoints(3);
-
-            x.CalculatePoints(player);
-
             System.out.println("Points: " + player.getScore());
         }
     }

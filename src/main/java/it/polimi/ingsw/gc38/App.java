@@ -12,7 +12,6 @@ public class App {
         CliView view = new CliView();
         Game game = new Game();
         GameController controller = new GameController(player, view, game);
-
         controller.startGame();
     }
 
