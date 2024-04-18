@@ -37,7 +37,7 @@ public class ResourceObjective extends Objective {
         return cardinality.stream().min(Integer::compare).get() * getPoints();
     }
 
-    public void displayCard(CliView view) {
+    public void +(CliView view) {
         final String ANSI_RED_BACKGROUND = "\u001B[41m";
         final String ANSI_COLOR_RESET = "\u001B[0m";
         final String ANSI_BOLD = "\u001B[1m";
