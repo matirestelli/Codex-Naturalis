@@ -3,7 +3,7 @@ package it.polimi.ingsw.gc38.model;
 import it.polimi.ingsw.gc38.view.CliView;
 
 import java.util.List;
-import java.util.Map;
+
 public class SxDiagonalObjective extends PositionObjective{
     private List<Color> colors;
 
