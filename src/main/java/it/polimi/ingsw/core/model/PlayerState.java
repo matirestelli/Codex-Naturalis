@@ -128,4 +128,4 @@ public class PlayerState implements Serializable {
             return personalResources;
         }
     }
-}
+
