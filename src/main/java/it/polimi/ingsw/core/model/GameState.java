@@ -12,7 +12,8 @@ public class GameState implements java.io.Serializable {
     private Deck starterDeck;
     private Deck resourceDeck;
     private Deck goldDeck;
-    // private Objective[] commonObj;
+
+    private Objective[] commonObj;
 
     public GameState() {
         this.starterDeck = new Deck("starter", new TypeToken<List<ResourceCard>>() {}.getType());
@@ -131,5 +132,12 @@ public class GameState implements java.io.Serializable {
                 playerStates.get(player).setHand(hand);
             }
         }
+    }
+
+    public void setCommonObjective(Objective[] commonObj) {
+        this.commonObj = commonObj;
+    }
+    public Objective getCommonObjective(int index) {
+        return commonObj[index];
     }
 }

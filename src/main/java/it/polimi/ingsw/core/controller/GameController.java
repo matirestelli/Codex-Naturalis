@@ -1,15 +1,11 @@
 package it.polimi.ingsw.core.controller;
 
-import it.polimi.ingsw.core.model.Card;
-import it.polimi.ingsw.core.model.CardSelection;
-import it.polimi.ingsw.core.model.GameEvent;
-import it.polimi.ingsw.core.model.GameState;
+import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.observers.GameObserver;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GameController implements Serializable {
     private GameState gameState;
@@ -116,6 +112,34 @@ public class GameController implements Serializable {
             last = true;
             if(currentPlayerIndex == observers.size()-1 ) {
                 //calculate points
+                List<Integer> rank = null;
+                Map<Integer, Integer> scores= null;
+                for(int i = 0; i < observers.size(); i++) {
+                    PlayerState player = gameState.getPlayerState(currentPlayerIndex);
+                    player.getSecretObj();
+                    // funz per riconoscere obj
+                    //int scoreObj = calcola punti;
+                    //gameState.getCommonObjective();
+                    //scoreObj += calcola punti;
+                    //player.addScore(score);
+                    //scores.put(currentPlayerIndex,scoreObj);
+                    rank.add(currentPlayerIndex);
+                }
+                Collections.sort(rank, new Comparator<Integer>() {
+                    @Override
+                    public int compare(Integer index1, Integer index2) {
+                        PlayerState player1 = gameState.getPlayerState(index1);
+                        PlayerState player2 = gameState.getPlayerState(index2);
+                        if(player1.getScore() == player2.getScore()) {
+                            return Integer.compare(scores.get(index2), scores.get(index1)); // Ordine decrescente
+                        }else {
+                            return Integer.compare(player2.getScore(), player1.getScore()); // Ordine decrescente
+                        }
+                    }
+                });
+
+
+
                 notifyObservers(new GameEvent("endGame", gameState.getPlayerState(currentPlayerIndex)));
             } else {
                 notifyObservers(new GameEvent("lastTurn", gameState.getPlayerState(currentPlayerIndex)));
