@@ -3,7 +3,7 @@ package it.polimi.ingsw.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Objective {
+public class Objective extends Card{
     private int id;
     private boolean frontSide;
     private String frontCover; // front side of the objective
@@ -83,6 +83,6 @@ public class Objective {
         this.points = points;
     }
 
-    //metodo per verificare se l'obiettivo è completato, verrà poi implementato nelle classi figlie in modo diverso
+
 }
 

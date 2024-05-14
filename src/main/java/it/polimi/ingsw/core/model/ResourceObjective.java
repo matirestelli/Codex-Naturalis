@@ -13,7 +13,7 @@ public class ResourceObjective extends Objective {
         requirements = new ArrayList<>();
     }
 
-    public int calculatePoints(PlayerState p) {
+    public void CalculatePoints(PlayerState p) {
         Map<Resource, Integer> playerResources = p.calculateResources();
         List<Integer> cardinality = new ArrayList<>();
 
@@ -21,12 +21,12 @@ public class ResourceObjective extends Objective {
             // if player has the required resource, add its cardinality to the list
             // otherwise, return 0 points
             if (playerResources.get(req.getResource()) == 0)
-                return 0;
+                return;
             cardinality.add(playerResources.get(req.getResource()) / req.getQta());
         }
 
         // to calculate point, use minimum cardinality of resources
-        return cardinality.stream().min(Integer::compare).get() * getPoints();
+       p.addScore(cardinality.stream().min(Integer::compare).get() * getPoints());
     }
 }
 

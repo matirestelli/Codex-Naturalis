@@ -116,13 +116,40 @@ public class GameController implements Serializable {
                 Map<Integer, Integer> scores= null;
                 for(int i = 0; i < observers.size(); i++) {
                     PlayerState player = gameState.getPlayerState(currentPlayerIndex);
-                    player.getSecretObj();
-                    // funz per riconoscere obj
-                    //int scoreObj = calcola punti;
-                    //gameState.getCommonObjective();
-                    //scoreObj += calcola punti;
-                    //player.addScore(score);
-                    //scores.put(currentPlayerIndex,scoreObj);
+                    int preScore= player.getScore();
+                    Card card= null;
+                    for(int j= 0 ; j<3; j++) {
+                        if(j==0) {card= player.getSecretObj();}
+                        if(j==1){card= gameState.getCommonObjective(0);}
+                        if(j==2){card= gameState.getCommonObjective(1);}
+                        if (card instanceof SxDiagonalObjective) {
+                            SxDiagonalObjective c = (SxDiagonalObjective) player.getSecretObj();
+                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                        } else if (card instanceof DxDiagonalObjective) {
+                            DxDiagonalObjective c = (DxDiagonalObjective) player.getSecretObj();
+                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                        } else if (card instanceof LObjective) {
+                            LObjective c = (LObjective) player.getSecretObj();
+                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                        } else if (card instanceof ReverseLObjective) {
+                            ReverseLObjective c = (ReverseLObjective) player.getSecretObj();
+                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                        } else if (card instanceof DownLObjective) {
+                            DownLObjective c = (DownLObjective) player.getSecretObj();
+                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                        } else if (card instanceof DownReverseLObjective) {
+                            DownReverseLObjective c = (DownReverseLObjective) player.getSecretObj();
+                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                        } else if (card instanceof ResourceObjective) {
+                            ResourceObjective c = (ResourceObjective) player.getSecretObj();
+                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                        } else {
+                            throw new IllegalArgumentException("Invalid card type");
+                        }
+                    }
+
+                    int scoreObj = player.getScore() - preScore;
+                    scores.put(currentPlayerIndex,scoreObj);
                     rank.add(currentPlayerIndex);
                 }
                 Collections.sort(rank, new Comparator<Integer>() {
