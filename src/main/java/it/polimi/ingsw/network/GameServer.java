@@ -1,0 +1,28 @@
+package it.polimi.ingsw.network;
+
+import it.polimi.ingsw.core.model.CardSelection;
+import it.polimi.ingsw.network.rmi.client.GameClient;
+import it.polimi.ingsw.observers.GameObserver;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface GameServer extends Remote {
+    // Metodo per creare una nuova sessione di gioco
+    void createNewSession(String gameId, String username, int desiredPlayers, GameObserver observer) throws RemoteException;
+
+    // Metodo per unirsi a una sessione di gioco esistente
+    void joinGameSession(String gameId, String username, GameObserver observer) throws RemoteException;
+
+    // Metodo per elencare tutte le sessioni di gioco disponibili
+    String listGameSessions() throws RemoteException;
+
+    // Metodo per registrare un client
+    void registerClient(GameClient client) throws RemoteException;
+
+    boolean allPlayersConnected(String gameId) throws RemoteException;
+
+    void startGame(String gameId) throws RemoteException;
+
+    void playerSelectsCard(String gameId, String username, CardSelection cardName) throws RemoteException;
+}
