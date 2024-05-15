@@ -110,6 +110,7 @@ public class Client {
                 }
                 try {
                     outputStream.writeObject(new SecreteObjectiveCard(cardId));
+                    System.out.println("Wait for your turn...");
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
@@ -142,7 +143,16 @@ public class Client {
             case "cardRemoved" -> System.out.println("Card " + event.getData() + " has been selected by someone.");
             case "currentPlayerTurn" -> {
                 System.out.print("It's your turn! Select a card ID to play: ");
+                List<Card> cards = (List<Card>) event.getData();
+                List<Integer> ids = new ArrayList<>();
+                for(Card c : cards){
+                    ids.add(c.getId());
+                }
                 int cardId = scanner.nextInt();
+                while(!ids.contains(cardId)){
+                    System.out.print("Retry: ");
+                    cardId = scanner.nextInt();
+                }
                 try {
                     outputStream.writeObject(new CardSelection(cardId, true));
                 } catch (IOException e) {

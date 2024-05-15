@@ -107,6 +107,7 @@ public class GameController implements Serializable {
             int cardId = cardSelection.getId();
             // get card from player hand by id
             Card card = gameState.getPlayerState(playerId).getCardFromHand(cardId);
+            System.out.println("Card selected: " + card);
 
             PlayerState player = gameState.getPlayerState(playerId);
 
