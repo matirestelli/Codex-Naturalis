@@ -13,6 +13,7 @@ import java.util.*;
 public class GameController implements Serializable {
     private GameState gameState;
     private int cardWidth;
+    private int quorum;
     private int cardHeight;
     private transient List<GameObserver> observers;
     private int currentPlayerIndex;
@@ -31,77 +32,71 @@ public class GameController implements Serializable {
 
     public void startGame() throws RemoteException {
         System.out.println("Game started [from GameController]");
-
+        quorum=0;
         gameState.initializeBoard(this.matrixDimension, this.cardWidth, this.cardHeight);
         gameState.initializeMatrix(this.matrixDimension);
-
         // initialize playing hand and codex
         gameState.loadDecks();
         gameState.shuffleDecks();
-
         gameState.assignStarterCardToPlayers();
-
+        for (GameObserver observer : observers) {
+            observer.update(new GameEvent("loadedStarterDeck", gameState.getStarterDeck()));
+        }
+        gameState.assignFirstHandToPlayers();
+        for (int i = 0; i < observers.size(); i++) {
+            observers.get(i).update(new GameEvent("updateHand", gameState.getPlayerState(i).getHand()));
+        }
         gameState.addCommonObjective((Objective)gameState.getObjectiveDeck().drawCard());
         gameState.addCommonObjective((Objective)gameState.getObjectiveDeck().drawCard());
         for(int i = 0; i < observers.size(); i++) {
             List<CardGame> secretChoose = new ArrayList();
             secretChoose.add(gameState.getObjectiveDeck().drawCard());
             secretChoose.add(gameState.getObjectiveDeck().drawCard());
-            observers.get(i).update(new GameEvent("printObjective", secretChoose));
+            //observers.get(i).update(new GameEvent("printObjective", secretChoose));
+            observers.get(i).update(new GameEvent("chooseObjective", secretChoose));
         }
+    }
 
-        for (GameObserver observer : observers) {
-            observer.update(new GameEvent("chooseObjective", null));
+    public void chooseObjective(String username, SecreteObjectiveCard card) throws RemoteException {
+        int playerId = gameState.getPlayerId(username);
+        PlayerState player = gameState.getPlayerState(playerId);
+        List<CardGame> deck = gameState.getObjectiveDeckCopy();
+        for (CardGame obj : deck) {
+            if (obj.getId() == card.getId()) {
+                player.setSecretObj((Objective) obj);
+                System.out.println("inserito secret: " + obj);
+                quorum++;
+                break;
+            }
         }
+        if(quorum == observers.size()) {
+            quorum = 0;
+            showObjectives();
+        } else if(quorum == 0){
+            throw new IllegalArgumentException("Invalid card id");
+        }
+    }
 
-
+    public void showObjectives() throws RemoteException {
         Map<Integer, List<CardGame>> totalObjective = new HashMap<>();
         for(int i=0; i<observers.size(); i++){
             List<CardGame> objectives= new ArrayList<>();
             objectives.add(gameState.getPlayerState(i).getSecretObj());
             System.out.println("Stampa: " + gameState.getPlayerState(i).getSecretObj());
             objectives.add(gameState.getCommonObjective(0));
-            System.out.println("Stampa: " + gameState.getCommonObjective(0));
             objectives.add(gameState.getCommonObjective(1));
-            System.out.println("Stampa: " + gameState.getCommonObjective(1));
             totalObjective.put(i, objectives);
             observers.get(i).update(new GameEvent("loadedObjective", objectives));
         }
 
-        for (GameObserver observer : observers) {
-            observer.update(new GameEvent("loadedStarterDeck", gameState.getStarterDeck()));
-
-            // observers.get(i).update(new GameEvent("loadedStarterDeck", gameState));
-        }
-
         // ask front or back for starter card
-
         //gameState.placeStarter(isFront);
-
         /*
         for (int i = 0; i < observers.size(); i++) {
             observers.get(i).update(new GameEvent("assignedStarterCard", gameState.getPlayerState(i).getStarterCard()));
         }
         */
-
-        gameState.assignFirstHandToPlayers();
-        for (int i = 0; i < observers.size(); i++) {
-            observers.get(i).update(new GameEvent("updateHand", gameState.getPlayerState(i).getHand()));
-        }
-
         notifyCurrentPlayerTurn();
-    }
-
-    public void chooseObjective(String username, Integer id){
-        int playerId = gameState.getPlayerId(username);
-        PlayerState player = gameState.getPlayerState(playerId);
-        List <CardGame> deck = (List<CardGame>) gameState.getObjectiveDeck();
-        for(CardGame obj : deck){
-            if(obj.getId() == id){
-                player.setSecretObj((Objective) obj);
-                break;
-            }
-        }
     }
 
     public void playerSelectsCard(String username, CardSelection cardSelection) throws RemoteException {

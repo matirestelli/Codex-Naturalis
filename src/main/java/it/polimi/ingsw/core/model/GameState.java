@@ -23,6 +23,7 @@ public class GameState implements java.io.Serializable {
 
     private List<Card> resourceCardsVisible;
     private List<Card> goldCardsVisible;
+    private List<CardGame> objectiveDeckCopy= new ArrayList<>();
 
     public void addCardToResourceCardsVisible(Card card) {
         this.resourceCardsVisible.add(card);
@@ -108,6 +109,9 @@ public class GameState implements java.io.Serializable {
         Type objectiveCardListType = new TypeToken<List<Objective>>() {}.getType();
         this.objectiveDeck = new Deck("objective",objectiveCardListType);
         this.objectiveDeck.loadCardsFromJSON();
+        for(CardGame c: this.objectiveDeck.getCards()){
+            this.objectiveDeckCopy.add(c);
+        }
         System.out.println("Objective deck loaded");
     }
 
@@ -127,7 +131,9 @@ public class GameState implements java.io.Serializable {
         }
     }
 
-
+    public List<CardGame> getObjectiveDeckCopy() {
+        return this.objectiveDeckCopy;
+    }
 
     public void loadDecks() {
         initializeStarterDeck();

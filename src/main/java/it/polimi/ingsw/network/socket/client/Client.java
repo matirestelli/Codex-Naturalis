@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -91,18 +92,24 @@ public class Client {
                     System.out.println(card.getId());
                 }
             }
-            case "printObjective" -> {
+            case "chooseObjective" -> {
                 List<Objective> objectives = (List<Objective>) event.getData();
                 System.out.println("Extracted objective: ");
                 for (Objective objective : objectives) {
                     System.out.println(objective.getId());
                 }
-            }
-            case "chooseObjective" -> {
-                System.out.print("Choose an objective: ");
+                System.out.print("Choose one: ");
                 int cardId = scanner.nextInt();
+                List<Integer> ids = new ArrayList<>();
+                for(Objective objective : objectives){
+                    ids.add(objective.getId());
+                }
+                while(!ids.contains(cardId)){
+                    System.out.print("Choose one: ");
+                    cardId = scanner.nextInt();
+                }
                 try {
-                    outputStream.writeObject(cardId);
+                    outputStream.writeObject(new SecreteObjectiveCard(cardId));
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }

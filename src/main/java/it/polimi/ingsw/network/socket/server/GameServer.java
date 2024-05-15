@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.socket.server;
 import it.polimi.ingsw.core.controller.GameController;
 import it.polimi.ingsw.core.model.CardSelection;
 import it.polimi.ingsw.core.model.GameSession;
+import it.polimi.ingsw.core.model.SecreteObjectiveCard;
 import it.polimi.ingsw.core.utils.GameSessionManager;
 import it.polimi.ingsw.network.rmi.client.GameClient;
 import it.polimi.ingsw.observers.GameObserver;
@@ -92,7 +93,7 @@ public class GameServer implements it.polimi.ingsw.network.GameServer {
         gameController.playerSelectsCard(username, card);
         gameController.advanceTurn();
     }
-    public void chooseObjective(String gameId, String username, Integer card) throws RemoteException {
+    public void chooseObjective(String gameId, String username, SecreteObjectiveCard card) throws RemoteException {
         GameSession session = gameSessionManager.getSession(gameId);
         GameController gameController = session.getGameController();
         gameController.chooseObjective(username, card);

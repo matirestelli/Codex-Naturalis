@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socket.server;
 
 import it.polimi.ingsw.core.model.CardSelection;
+import it.polimi.ingsw.core.model.SecreteObjectiveCard;
 import it.polimi.ingsw.core.model.GameEvent;
 import it.polimi.ingsw.observers.GameObserver;
 
@@ -79,8 +80,8 @@ public class ClientHandler implements Runnable, GameObserver {
                 if (message instanceof CardSelection) {
                     server.playerSelectsCard(gameId, username, (CardSelection) message);
                     // gameController.playerSelectsCard(username, (CardSelection) message);
-                }else if(message instanceof Integer){
-                       server.chooseObjective(gameId, username, (int) message);
+                }else if(message instanceof SecreteObjectiveCard){
+                       server.chooseObjective(gameId, username, (SecreteObjectiveCard) message);
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
