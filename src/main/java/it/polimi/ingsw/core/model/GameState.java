@@ -190,14 +190,14 @@ public class GameState implements java.io.Serializable {
         }
     }
 
-    public void askForSideStarter(Boolean isFront, int cardWidth, int cardHeight, int matrixDimension) {
+    public void placeStarter(Boolean isFront, int cardWidth, int cardHeight, int matrixDimension) {
         Coordinate leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5,matrixDimension / 2 * cardHeight - 5);
         for (Player player : playerStates.keySet()) {
            Card extractedStarterCard = playerStates.get(player).getStarterCard();
             ((Card) extractedStarterCard).setCentre(leftUpCorner);
             // set the x and y matrix coordinates of the card
             ((Card) extractedStarterCard).setXYCord(matrixDimension / 2, matrixDimension / 2);
-            //player.getMatrix()[((Card) extractedStarterCard).getyMatrixCord()][((Card) extractedStarterCard).getxMatrixCord()] = extractedStarterCard.getId();
+            playerStates.get(player).getMatrix()[((Card) extractedStarterCard).getyMatrixCord()][((Card) extractedStarterCard).getxMatrixCord()] = extractedStarterCard.getId();
         }
     }
 }

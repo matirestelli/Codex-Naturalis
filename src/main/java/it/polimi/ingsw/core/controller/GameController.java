@@ -61,7 +61,7 @@ public class GameController implements Serializable {
 
         // ask front or back for starter card
 
-        //gameState.askForSideStarter(isFront);
+        //gameState.placeStarter(isFront);
 
         /*
         for (int i = 0; i < observers.size(); i++) {
