@@ -12,7 +12,6 @@ import java.util.*;
 
 public class GameController implements Serializable {
     private GameState gameState;
-
     private int cardWidth;
     private int cardHeight;
     private transient List<GameObserver> observers;
@@ -40,25 +39,40 @@ public class GameController implements Serializable {
         gameState.loadDecks();
         gameState.shuffleDecks();
 
-        for (GameObserver observer : observers) {
-            observer.update(new GameEvent("loadedStarterDeck", gameState.getStarterDeck()));
-            // observers.get(i).update(new GameEvent("loadedStarterDeck", gameState));
-        }
-
         gameState.assignStarterCardToPlayers();
 
         gameState.addCommonObjective((Objective)gameState.getObjectiveDeck().drawCard());
         gameState.addCommonObjective((Objective)gameState.getObjectiveDeck().drawCard());
-
-        List<Objective> objToChoose = new ArrayList<>();
-        int numberOfObjectives = 2;
-        for (int i = 0; i < numberOfObjectives; i++) {
-            Objective o = (Objective) gameState.getObjectiveDeck().drawCard();
-            objToChoose.add(o);
+        for(int i = 0; i < observers.size(); i++) {
+            List<CardGame> secretChoose = new ArrayList();
+            secretChoose.add(gameState.getObjectiveDeck().drawCard());
+            secretChoose.add(gameState.getObjectiveDeck().drawCard());
+            observers.get(i).update(new GameEvent("printObjective", secretChoose));
         }
 
-        //gameState.setSecretObjective(objToChoose.get(view.askForObjectiveId(numberOfObjectives)));
+        for (GameObserver observer : observers) {
+            observer.update(new GameEvent("chooseObjective", null));
+        }
 
+
+        Map<Integer, List<CardGame>> totalObjective = new HashMap<>();
+        for(int i=0; i<observers.size(); i++){
+            List<CardGame> objectives= new ArrayList<>();
+            objectives.add(gameState.getPlayerState(i).getSecretObj());
+            System.out.println("Stampa: " + gameState.getPlayerState(i).getSecretObj());
+            objectives.add(gameState.getCommonObjective(0));
+            System.out.println("Stampa: " + gameState.getCommonObjective(0));
+            objectives.add(gameState.getCommonObjective(1));
+            System.out.println("Stampa: " + gameState.getCommonObjective(1));
+            totalObjective.put(i, objectives);
+            observers.get(i).update(new GameEvent("loadedObjective", objectives));
+        }
+
+        for (GameObserver observer : observers) {
+            observer.update(new GameEvent("loadedStarterDeck", gameState.getStarterDeck()));
+
+            // observers.get(i).update(new GameEvent("loadedStarterDeck", gameState));
+        }
 
         // ask front or back for starter card
 
@@ -76,6 +90,18 @@ public class GameController implements Serializable {
         }
 
         notifyCurrentPlayerTurn();
+    }
+
+    public void chooseObjective(String username, Integer id){
+        int playerId = gameState.getPlayerId(username);
+        PlayerState player = gameState.getPlayerState(playerId);
+        List <CardGame> deck = (List<CardGame>) gameState.getObjectiveDeck();
+        for(CardGame obj : deck){
+            if(obj.getId() == id){
+                player.setSecretObj((Objective) obj);
+                break;
+            }
+        }
     }
 
     public void playerSelectsCard(String username, CardSelection cardSelection) throws RemoteException {
@@ -308,7 +334,7 @@ public class GameController implements Serializable {
                 for(int i = 0; i < observers.size(); i++) {
                     PlayerState player = gameState.getPlayerState(currentPlayerIndex);
                     int preScore= player.getScore();
-                    Card card= null;
+                    Objective card= null;
                     for(int j= 0 ; j<3; j++) {
                         if(j==0) {card= player.getSecretObj();}
                         if(j==1){card= gameState.getCommonObjective(0);}

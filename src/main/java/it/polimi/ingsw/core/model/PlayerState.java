@@ -19,7 +19,7 @@ public class PlayerState implements Serializable {
     private Cell[][] board;
     private List<Card> codex;
     private int[][] matrix;
-    private Card secretObj;
+    private Objective secretObj;
     private Map<Resource, Integer> personalResources;
 
     public PlayerState() {
@@ -97,6 +97,7 @@ public class PlayerState implements Serializable {
         this.secretObj= secretObjective;
     }
 
+
     public void setPersonalResources(Map<Resource, Integer> personalResources) {
         this.personalResources = personalResources;
     }
@@ -125,11 +126,11 @@ public class PlayerState implements Serializable {
         this.matrix = matrix;
     }
 
-    public Card getSecretObj() {
+    public Objective getSecretObj() {
         return secretObj;
     }
 
-    public void setSecretObj(Card secretObj) {
+    public void setSecretObj(Objective secretObj) {
         this.secretObj = secretObj;
     }
 

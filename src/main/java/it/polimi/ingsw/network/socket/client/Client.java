@@ -91,6 +91,29 @@ public class Client {
                     System.out.println(card.getId());
                 }
             }
+            case "printObjective" -> {
+                List<Objective> objectives = (List<Objective>) event.getData();
+                System.out.println("Extracted objective: ");
+                for (Objective objective : objectives) {
+                    System.out.println(objective.getId());
+                }
+            }
+            case "chooseObjective" -> {
+                System.out.print("Choose an objective: ");
+                int cardId = scanner.nextInt();
+                try {
+                    outputStream.writeObject(cardId);
+                } catch (IOException e) {
+                    System.out.println("Error sending card ID: " + e.getMessage());
+                }
+            }
+            case "loadedObjective" -> {
+                List<CardGame> objectives = (List<CardGame>) event.getData();
+                System.out.println("Received objectives: ");
+                for (CardGame objective : objectives) {
+                    System.out.println(objective.getId());
+                }
+            }
             case "loadedGoldDeck" -> {
                 List<GoldCard> cards = (List<GoldCard>) event.getData();
                 System.out.println("Received gold cards: ");

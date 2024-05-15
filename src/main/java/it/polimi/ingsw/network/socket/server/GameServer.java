@@ -92,4 +92,9 @@ public class GameServer implements it.polimi.ingsw.network.GameServer {
         gameController.playerSelectsCard(username, card);
         gameController.advanceTurn();
     }
+    public void chooseObjective(String gameId, String username, Integer card) throws RemoteException {
+        GameSession session = gameSessionManager.getSession(gameId);
+        GameController gameController = session.getGameController();
+        gameController.chooseObjective(username, card);
+    }
 }

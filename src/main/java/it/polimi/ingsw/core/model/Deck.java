@@ -52,12 +52,12 @@ public class Deck implements Serializable {
         return this.cards.isEmpty();
     }
 
-    public Card drawCard() {
+    public CardGame drawCard() {
         if (this.cards.isEmpty()) {
             return null;
         }
 
-        Card card = this.cards.getFirst();
+        CardGame card = this.cards.getFirst();
         this.cards.removeFirst();
         this.empty = this.cards.isEmpty();
         return card;

@@ -79,6 +79,8 @@ public class ClientHandler implements Runnable, GameObserver {
                 if (message instanceof CardSelection) {
                     server.playerSelectsCard(gameId, username, (CardSelection) message);
                     // gameController.playerSelectsCard(username, (CardSelection) message);
+                }else if(message instanceof Integer){
+                       server.chooseObjective(gameId, username, (int) message);
                 }
             }
         } catch (IOException | ClassNotFoundException e) {

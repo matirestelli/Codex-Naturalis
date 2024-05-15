@@ -1,24 +1,28 @@
 package it.polimi.ingsw.core.model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
 
 public class GameState implements java.io.Serializable {
     private Map<Player, PlayerState> playerStates;
     private Deck starterDeck;
     private Deck resourceDeck;
     private Deck goldDeck;
+    private Deck objectiveDeck;
 
-    private List<Objective> commonObj;
+    private List<Objective> commonObj = new ArrayList<>();
 
     private List<Card> resourceCardsVisible;
     private List<Card> goldCardsVisible;
-
-    private Deck objectiveDeck;
 
     public void addCardToResourceCardsVisible(Card card) {
         this.resourceCardsVisible.add(card);
@@ -40,6 +44,7 @@ public class GameState implements java.io.Serializable {
         this.starterDeck = new Deck("starter", new TypeToken<List<ResourceCard>>() {}.getType());
         this.resourceDeck = new Deck("resource", new TypeToken<List<ResourceCard>>() {}.getType());
         this.goldDeck = new Deck("gold", new TypeToken<List<GoldCard>>() {}.getType());
+        //this.objectiveDeck = new Deck("objective", new TypeToken<List<Objective>>() {}.getType());
         playerStates = new HashMap<>();
     }
 
@@ -94,10 +99,16 @@ public class GameState implements java.io.Serializable {
         System.out.println("Gold deck loaded");
     }
 
-    public void initializeBoard(int matrixDimension,int cardWidth,int cardHeight) {
-        for (Player player : playerStates.keySet()) {
-            playerStates.get(player).initializeBoard(matrixDimension, cardWidth, cardHeight);
-        }
+
+    public void initializeObjectiveDeck() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Objective.class, new ObjectiveCardDeserializer())
+                .create();
+
+        Type objectiveCardListType = new TypeToken<List<Objective>>() {}.getType();
+        this.objectiveDeck = new Deck("objective",objectiveCardListType);
+        this.objectiveDeck.loadCardsFromJSON();
+        System.out.println("Objective deck loaded");
     }
 
     public void addCommonObjective(Objective objective) {
@@ -110,12 +121,19 @@ public class GameState implements java.io.Serializable {
         }
     }
 
+    public void initializeBoard(int matrixDimension, int cardWidth, int cardHeight) {
+        for (Player player : playerStates.keySet()) {
+            playerStates.get(player).initializeBoard( matrixDimension,cardWidth, cardHeight);
+        }
+    }
+
 
 
     public void loadDecks() {
         initializeStarterDeck();
         initializeResourceDeck();
         initializeGoldDeck();
+        initializeObjectiveDeck();
     }
 
     public void shuffleDecks() {
@@ -133,9 +151,9 @@ public class GameState implements java.io.Serializable {
         for (Player player : playerStates.keySet()) {
             PlayerState ps = playerStates.get(player);
             if (!starterDeck.isEmpty()) {
-                Card card = starterDeck.drawCard();
+                CardGame card = starterDeck.drawCard();
                 ps.setStarterCard((ResourceCard) card);
-                ps.addCardToCodex(card);
+                ps.addCardToCodex((Card) card);
             }
         }
     }
@@ -154,12 +172,12 @@ public class GameState implements java.io.Serializable {
             PlayerState ps = playerStates.get(player);
             for (int i = 0; i < 2; i++) {
                 if (!resourceDeck.isEmpty()) {
-                    Card card = resourceDeck.drawCard();
+                    Card card = (Card) resourceDeck.drawCard();
                     ps.addCardToHand(card);
                 }
             }
             if (!goldDeck.isEmpty()) {
-                Card card = goldDeck.drawCard();
+                Card card = (Card) goldDeck.drawCard();
                 ps.addCardToHand(card);
             }
         }
