@@ -35,6 +35,7 @@ public class GameController implements Serializable {
 
         gameState.initializeBoard(this.matrixDimension, this.cardWidth, this.cardHeight);
         gameState.initializeMatrix(this.matrixDimension);
+
         // initialize playing hand and codex
         gameState.loadDecks();
         gameState.shuffleDecks();
@@ -46,8 +47,8 @@ public class GameController implements Serializable {
 
         gameState.assignStarterCardToPlayers();
 
-        gameState.addCommonObjective((Objective) gameState.getObjectiveDeck().drawCard());
-        gameState.addCommonObjective((Objective) gameState.getObjectiveDeck().drawCard());
+        gameState.addCommonObjective((Objective)gameState.getObjectiveDeck().drawCard());
+        gameState.addCommonObjective((Objective)gameState.getObjectiveDeck().drawCard());
 
         List<Objective> objToChoose = new ArrayList<>();
         int numberOfObjectives = 2;
