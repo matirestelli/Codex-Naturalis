@@ -13,7 +13,28 @@ public class GameState implements java.io.Serializable {
     private Deck resourceDeck;
     private Deck goldDeck;
 
-    private Objective[] commonObj;
+    private List<Objective> commonObj;
+
+    private List<Card> resourceCardsVisible;
+    private List<Card> goldCardsVisible;
+
+    private Deck objectiveDeck;
+
+    public void addCardToResourceCardsVisible(Card card) {
+        this.resourceCardsVisible.add(card);
+    }
+
+    public void addCardToGoldCardsVisible(Card card) {
+        this.goldCardsVisible.add(card);
+    }
+
+    public List<Card> getResourceCardsVisible() {
+        return resourceCardsVisible;
+    }
+
+    public List<Card> getGoldCardsVisible() {
+        return goldCardsVisible;
+    }
 
     public GameState() {
         this.starterDeck = new Deck("starter", new TypeToken<List<ResourceCard>>() {}.getType());
@@ -46,12 +67,12 @@ public class GameState implements java.io.Serializable {
         this.starterDeck.setCards(cards);
     }
 
-    public List<Card> getResourceDeck() {
-        return this.resourceDeck.getCards();
+    public Deck getResourceDeck() {
+        return resourceDeck;
     }
 
-    public List<Card> getGoldDeck() {
-        return this.goldDeck.getCards();
+    public Deck getGoldDeck() {
+        return goldDeck;
     }
 
     public void addPlayer(Player player) {
@@ -72,6 +93,24 @@ public class GameState implements java.io.Serializable {
         this.goldDeck.loadCardsFromJSON();
         System.out.println("Gold deck loaded");
     }
+
+    public void initializeBoard(int matrixDimension,int cardWidth,int cardHeight) {
+        for (Player player : playerStates.keySet()) {
+            playerStates.get(player).initializeBoard(matrixDimension, cardWidth, cardHeight);
+        }
+    }
+
+    public void addCommonObjective(Objective objective) {
+        this.commonObj.add(objective);
+    }
+
+    public void initializeMatrix(int matrixDimension) {
+        for (Player player : playerStates.keySet()) {
+            playerStates.get(player).initializeMatrix(matrixDimension);
+        }
+    }
+
+
 
     public void loadDecks() {
         initializeStarterDeck();
@@ -134,10 +173,31 @@ public class GameState implements java.io.Serializable {
         }
     }
 
-    public void setCommonObjective(Objective[] commonObj) {
-        this.commonObj = commonObj;
+    public void setCommonObjective(Objective[] commonObj, int index) {
+        this.commonObj.set(index, commonObj[index]);
     }
     public Objective getCommonObjective(int index) {
-        return commonObj[index];
+        return commonObj.get(index);
+    }
+
+    public Deck getObjectiveDeck() {
+        return objectiveDeck;
+    }
+
+    public void setSecretObjective(Objective[] secretObj, int index) {
+        for (Player player : playerStates.keySet()) {
+            playerStates.get(player).setSecretObjective(secretObj[index]);
+        }
+    }
+
+    public void askForSideStarter(Boolean isFront, int cardWidth, int cardHeight, int matrixDimension) {
+        Coordinate leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5,matrixDimension / 2 * cardHeight - 5);
+        for (Player player : playerStates.keySet()) {
+           Card extractedStarterCard = playerStates.get(player).getStarterCard();
+            ((Card) extractedStarterCard).setCentre(leftUpCorner);
+            // set the x and y matrix coordinates of the card
+            ((Card) extractedStarterCard).setXYCord(matrixDimension / 2, matrixDimension / 2);
+            //player.getMatrix()[((Card) extractedStarterCard).getyMatrixCord()][((Card) extractedStarterCard).getxMatrixCord()] = extractedStarterCard.getId();
+        }
     }
 }

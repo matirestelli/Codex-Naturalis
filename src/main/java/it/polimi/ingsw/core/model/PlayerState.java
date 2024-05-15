@@ -1,6 +1,9 @@
 package it.polimi.ingsw.core.model;
 
+import it.polimi.ingsw.clientmodel.Cell;
 import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.clientmodel.*;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,6 +15,8 @@ public class PlayerState implements Serializable {
     private int score;
     private ResourceCard starterCard;
     private List<Card> hand;
+
+    private Cell[][] board;
     private List<Card> codex;
     private int[][] matrix;
     private Card secretObj;
@@ -43,6 +48,13 @@ public class PlayerState implements Serializable {
         codex.add(card);
     }
 
+    public Cell[][] getBoard() {
+        return board;
+    }
+
+    public void setBoard(Cell[][] board) {
+        this.board = board;
+    }
     public int getScore() {
         return score;
     }
@@ -62,6 +74,27 @@ public class PlayerState implements Serializable {
             }
         }
         return null;
+    }
+
+    public void initializeBoard(int matrixDimension, int cardWidth, int cardHeight) {
+        this.board = new Cell[matrixDimension * cardHeight][matrixDimension * cardWidth];
+        for (int i = 0; i < matrixDimension * cardHeight; i++)
+            for (int j = 0; j < matrixDimension * cardWidth; j++) {
+                board[i][j] = new Cell();
+                this.board[i][j].setCharacter(' ');
+            }
+    }
+
+    public void initializeMatrix(int matrixDimension) {
+        this.matrix = new int[matrixDimension][matrixDimension];
+
+        for (int i = 0; i < this.matrix.length; i++)
+            for (int j = 0; j < this.matrix.length; j++)
+                matrix[i][j] = -1;
+    }
+
+    public void setSecretObjective(Objective secretObjective) {
+        this.secretObj= secretObjective;
     }
 
     public void setPersonalResources(Map<Resource, Integer> personalResources) {

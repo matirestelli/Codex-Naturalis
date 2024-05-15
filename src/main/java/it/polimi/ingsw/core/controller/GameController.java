@@ -1,7 +1,10 @@
 package it.polimi.ingsw.core.controller;
 
+import it.polimi.ingsw.clientmodel.Cell;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.observers.GameObserver;
+import it.polimi.ingsw.view.CliView;
+import it.polimi.ingsw.core.model.enums.*;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -9,17 +12,30 @@ import java.util.*;
 
 public class GameController implements Serializable {
     private GameState gameState;
+
+    private int cardWidth;
+    private int cardHeight;
     private transient List<GameObserver> observers;
     private int currentPlayerIndex;
+    private int matrixDimension;
 
     public GameController(GameState gameState) {
         this.gameState = gameState;
         this.observers = new ArrayList<>();
         this.currentPlayerIndex = 0;
+
+        this.matrixDimension = 10;
+        this.cardWidth = 7;
+        this.cardHeight = 3;
+
     }
 
     public void startGame() throws RemoteException {
         System.out.println("Game started [from GameController]");
+
+        gameState.initializeBoard(this.matrixDimension, this.cardWidth, this.cardHeight);
+        gameState.initializeMatrix(this.matrixDimension);
+        // initialize playing hand and codex
         gameState.loadDecks();
         gameState.shuffleDecks();
 
@@ -29,6 +45,23 @@ public class GameController implements Serializable {
         }
 
         gameState.assignStarterCardToPlayers();
+
+        gameState.addCommonObjective((Objective) gameState.getObjectiveDeck().drawCard());
+        gameState.addCommonObjective((Objective) gameState.getObjectiveDeck().drawCard());
+
+        List<Objective> objToChoose = new ArrayList<>();
+        int numberOfObjectives = 2;
+        for (int i = 0; i < numberOfObjectives; i++) {
+            Objective o = (Objective) gameState.getObjectiveDeck().drawCard();
+            objToChoose.add(o);
+        }
+
+        //gameState.setSecretObjective(objToChoose.get(view.askForObjectiveId(numberOfObjectives)));
+
+
+        // ask front or back for starter card
+
+        //gameState.askForSideStarter(isFront);
 
         /*
         for (int i = 0; i < observers.size(); i++) {
@@ -47,14 +80,130 @@ public class GameController implements Serializable {
     public void playerSelectsCard(String username, CardSelection cardSelection) throws RemoteException {
         int playerId = gameState.getPlayerId(username);
         System.out.println("Stampando: " + playerId + " | " + currentPlayerIndex);
+        // adding exception notyourturn
         if (playerId == currentPlayerIndex) {
             int cardId = cardSelection.getId();
             // get card from player hand by id
             Card card = gameState.getPlayerState(playerId).getCardFromHand(cardId);
 
+            PlayerState player = gameState.getPlayerState(playerId);
+
+            List<Coordinate> angoliDisponibili = new ArrayList<>();
+            Map<Integer, Map<Integer, List<Coordinate>>> test = new HashMap<>();
+
+            for (Card c : player.getCodex()) {
+                angoliDisponibili.addAll(c.findFreeAngles(gameState.getPlayerState(playerId).getMatrix(), player.getCodex(), card.getId(), test));
+            }
+
             gameState.getPlayerState(playerId).removeCardFromHand(card);
             // add card to player codex
             gameState.getPlayerState(playerId).addCardToCodex(card);
+
+            String cardToAttachSelected = null;//view.displayAngle(angoliDisponibili);
+            String[] splitCardToPlay = cardToAttachSelected.split("\\.");
+            int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
+            int cornerSelected = Integer.parseInt(splitCardToPlay[1]);
+            Card targetCard = player.getCodex().stream()
+                    .filter(card1 -> card1.getId() == cardToAttachId)
+                    .findAny()
+                    .get();
+
+            if (test.containsKey(cardToAttachId)) {
+                if (test.get(cardToAttachId).containsKey(cornerSelected)) {
+                    List<Coordinate> co = test.get(cardToAttachId).get(cornerSelected);
+
+                    for (Coordinate c : co) {
+                        if (c.getX() == card.getId() && card.getActualCorners().containsKey(c.getY())) {
+                            card.getActualCorners().get(c.getY()).setHidden(true);
+                        } else {
+                            Card cardTemp = player.getCodex().stream()
+                                    .filter(card1 -> card1.getId() == c.getX())
+                                    .findAny()
+                                    .get();
+                            if (cardTemp.getActualCorners().containsKey(c.getY())) {
+                                cardTemp.getActualCorners().get(c.getY()).setHidden(true);
+                                cardTemp.getActualCorners().get(c.getY()).setEmpty(true);
+                            }
+                        }
+                    }
+                }
+            }
+            if (cornerSelected == 0) {
+                //view.placeCard(player.getBoard(), card,
+                     //   placeCardBottomLeft(player.getBoard(), targetCard, card));
+                card.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() - 1);
+            } else if (cornerSelected == 1) {
+                //view.placeCard(player.getBoard(), card,
+                      //  placeCardTopLeft(player.getBoard(), targetCard, card));
+                card.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() - 1);
+            } else if (cornerSelected == 2) {
+                //view.placeCard(player.getBoard(), card,
+                       // placeCardTopRight(player.getBoard(), targetCard, card));
+                card.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() + 1);
+            } else if (cornerSelected == 3) {
+                card.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() + 1);
+                //view.placeCard(player.getBoard(), card,
+                      //  placeCardBottomRight(player.getBoard(), targetCard, card));
+            }
+
+            player.getMatrix()[card.getyMatrixCord()][card.getxMatrixCord()] = card.getId();
+
+            //view.displayBoard(player.getBoard());
+
+            List<Integer> ids = new ArrayList<>();
+            for (Card c : gameState.getResourceCardsVisible()) {
+                ids.add(c.getId());
+                //view.displayCard(c);
+            }
+            for (Card c : gameState.getGoldCardsVisible()) {
+                ids.add(c.getId());
+                //view.displayCard(c);
+            }
+            String newId = null;//view.chooseDrawNewCard(ids);
+
+            if (newId.equals("A")) {
+                player.addCardToHand((Card) gameState.getResourceDeck().drawCard());
+            } else if (newId.equals("B")) {
+                player.addCardToHand((Card) gameState.getGoldDeck().drawCard());
+            } else {
+                int id = Integer.parseInt(newId);
+                Card newCard;
+                if (id < 40) {
+                    newCard = gameState.getResourceCardsVisible().stream()
+                            .filter(card1 -> card1.getId() == Integer.parseInt(newId))
+                            .findAny()
+                            .get();
+                    gameState.getResourceCardsVisible().remove(newCard);
+                    gameState.getResourceCardsVisible().add((Card) gameState.getResourceDeck().drawCard());
+                } else {
+                    newCard = gameState.getGoldCardsVisible().stream()
+                            .filter(card1 -> card1.getId() == Integer.parseInt(newId))
+                            .findAny()
+                            .get();
+                    player.addCardToHand(newCard);
+                    gameState.getGoldCardsVisible().remove(newCard);
+                    gameState.getGoldCardsVisible().add((Card) gameState.getGoldDeck().drawCard());
+                }
+                player.addCardToHand(newCard);
+            }
+
+            if (card instanceof ResourceCard x) {
+                player.addScore(x.getPoint());
+                // player.addCardToPlayingHand((Card) game.getResourceDeck().extractCard());
+            }
+            else {
+                Map<Resource, Integer> res = player.calculateResources();
+                var x = (GoldCard) card;
+                // player.addCardToPlayingHand((Card) game.getGoldDeck().extractCard());
+                if (x.isFrontSide()) {
+                    player.addScore(res.get(x.getPoint().getResource()) * x.getPoint().getQta());
+                }
+            }
+
+            player.calculateResources();
+
+            //view.displayPersonalResources(player.getPersonalResources());
+
             // notify player of updated hand
             observers.get(playerId).update(new GameEvent("updateHand", new ArrayList<>(gameState.getPlayerState(playerId).getHand())));
             // notify player of updated codex
@@ -101,6 +250,47 @@ public class GameController implements Serializable {
             observer.update(event);
         }
     }
+
+
+
+
+    public Coordinate placeCardBottomRight(Cell[][] board, Card card, Card cardToPlace) {
+        Coordinate leftUpCorner;
+        leftUpCorner = new Coordinate(card.getCentre().getX() + cardWidth - 1,
+                card.getCentre().getY() + cardHeight - 1);
+        cardToPlace.setCentre(leftUpCorner);
+
+        return leftUpCorner;
+    }
+
+    public Coordinate placeCardTopRight(Cell[][] board, Card card, Card cardToPlace) {
+        Coordinate leftUpCorner;
+        leftUpCorner = new Coordinate(card.getCentre().getX() + cardWidth - 1,
+                card.getCentre().getY() - cardHeight + 1);
+        cardToPlace.setCentre(leftUpCorner);
+
+        return leftUpCorner;
+    }
+
+    public Coordinate placeCardBottomLeft(Cell[][] board, Card card, Card cardToPlace) {
+        Coordinate leftUpCorner;
+        leftUpCorner = new Coordinate(card.getCentre().getX() - cardWidth + 1,
+                card.getCentre().getY() + cardHeight - 1);
+        cardToPlace.setCentre(leftUpCorner);
+
+        return leftUpCorner;
+    }
+
+    public Coordinate placeCardTopLeft(Cell[][] board, Card card, Card cardToPlace) {
+        Coordinate leftUpCorner;
+        leftUpCorner = new Coordinate(card.getCentre().getX() - cardWidth + 1,
+                card.getCentre().getY() - cardHeight + 1);
+        cardToPlace.setCentre(leftUpCorner);
+
+        return leftUpCorner;
+    }
+
+
 
     public void setCurrTurn(int index) {
         currentPlayerIndex = index;
