@@ -34,7 +34,7 @@ public class GameController implements Serializable {
 
     public void startGame() throws RemoteException {
         System.out.println("Game started [from GameController]");
-        quorum=0;
+        quorum = 0;
         gameState.initializeBoard(this.matrixDimension, this.cardWidth, this.cardHeight);
         gameState.initializeMatrix(this.matrixDimension);
         // initialize playing hand and codex
@@ -48,13 +48,12 @@ public class GameController implements Serializable {
         for (int i = 0; i < observers.size(); i++) {
             observers.get(i).update(new GameEvent("updateHand", gameState.getPlayerState(i).getHand()));
         }
-        gameState.addCommonObjective((Objective)gameState.getObjectiveDeck().drawCard());
-        gameState.addCommonObjective((Objective)gameState.getObjectiveDeck().drawCard());
-        for(int i = 0; i < observers.size(); i++) {
+        gameState.addCommonObjective((Objective) gameState.getObjectiveDeck().drawCard());
+        gameState.addCommonObjective((Objective) gameState.getObjectiveDeck().drawCard());
+        for (int i = 0; i < observers.size(); i++) {
             List<CardGame> secretChoose = new ArrayList();
             secretChoose.add(gameState.getObjectiveDeck().drawCard());
             secretChoose.add(gameState.getObjectiveDeck().drawCard());
-            //observers.get(i).update(new GameEvent("printObjective", secretChoose));
             observers.get(i).update(new GameEvent("chooseObjective", secretChoose));
         }
     }
@@ -66,23 +65,22 @@ public class GameController implements Serializable {
         for (CardGame obj : deck) {
             if (obj.getId() == card.getId()) {
                 player.setSecretObj((Objective) obj);
-                System.out.println("inserito secret: " + obj);
                 quorum++;
                 break;
             }
         }
-        if(quorum == observers.size()) {
+        if (quorum == observers.size()) {
             quorum = 0;
             showObjectives();
-        } else if(quorum == 0){
+        } else if (quorum == 0) {
             throw new IllegalArgumentException("Invalid card id");
         }
     }
 
     public void showObjectives() throws RemoteException {
         Map<Integer, List<CardGame>> totalObjective = new HashMap<>();
-        for(int i=0; i<observers.size(); i++){
-            List<CardGame> objectives= new ArrayList<>();
+        for (int i = 0; i < observers.size(); i++) {
+            List<CardGame> objectives = new ArrayList<>();
             objectives.add(gameState.getPlayerState(i).getSecretObj());
             System.out.println("Stampa: " + gameState.getPlayerState(i).getSecretObj());
             objectives.add(gameState.getCommonObjective(0));
@@ -125,12 +123,11 @@ public class GameController implements Serializable {
             gameState.getPlayerState(playerId).addCardToCodex(cardToPlace);
 
             observers.get(playerId).update(new GameEvent("askAngle", angoliDisponibili));
-            //String cardToAttachSelected = view.displayAngle(angoliDisponibili);
         } else {
             observers.get(playerId).update(new GameEvent("Error", "Not your turn"));
         }
-        }
-        public void angleChosen(String username, CardToAttachSelected cardToAttach) throws RemoteException {
+    }
+    public void angleChosen(String username, CardToAttachSelected cardToAttach) throws RemoteException {
             int playerId = gameState.getPlayerId(username);
             System.out.println("Place where to play: " + cardToAttach);
             PlayerState player = gameState.getPlayerState(playerId);
