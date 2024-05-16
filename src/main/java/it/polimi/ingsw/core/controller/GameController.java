@@ -16,6 +16,7 @@ public class GameController implements Serializable {
     private int quorum;
     private int cardHeight;
     private Card cardToPlace;
+    Map<Integer, List<CardGame>> personalObjectives = new HashMap<>();
     private transient List<GameObserver> observers;
     private int currentPlayerIndex;
     private int matrixDimension;
@@ -42,7 +43,7 @@ public class GameController implements Serializable {
         gameState.shuffleDecks();
         gameState.assignStarterCardToPlayers();
         for (GameObserver observer : observers) {
-            observer.update(new GameEvent("loadedStarterDeck", gameState.getStarterDeck()));
+            observer.update(new GameEvent("loadedStarter", gameState.getPlayerState(observers.indexOf(observer)).getStarterCard()));
         }
         gameState.assignFirstHandToPlayers();
         for (int i = 0; i < observers.size(); i++) {
@@ -60,11 +61,17 @@ public class GameController implements Serializable {
 
     public void chooseObjective(String username, SecreteObjectiveCard card) throws RemoteException {
         int playerId = gameState.getPlayerId(username);
+        List<CardGame> objectives = new ArrayList<>();
         PlayerState player = gameState.getPlayerState(playerId);
         List<CardGame> deck = gameState.getObjectiveDeckCopy();
         for (CardGame obj : deck) {
             if (obj.getId() == card.getId()) {
                 player.setSecretObj((Objective) obj);
+                objectives.add(gameState.getPlayerState(playerId).getSecretObj());
+                System.out.println("Stampa: " + playerId + " " + gameState.getPlayerState(playerId).getSecretObj());
+                objectives.add(gameState.getCommonObjective(0));
+                objectives.add(gameState.getCommonObjective(1));
+                personalObjectives.put(playerId, objectives);
                 quorum++;
                 break;
             }
@@ -78,24 +85,17 @@ public class GameController implements Serializable {
     }
 
     public void showObjectives() throws RemoteException {
-        Map<Integer, List<CardGame>> totalObjective = new HashMap<>();
         for (int i = 0; i < observers.size(); i++) {
-            List<CardGame> objectives = new ArrayList<>();
-            objectives.add(gameState.getPlayerState(i).getSecretObj());
             System.out.println("Stampa: " + gameState.getPlayerState(i).getSecretObj());
-            objectives.add(gameState.getCommonObjective(0));
-            objectives.add(gameState.getCommonObjective(1));
-            totalObjective.put(i, objectives);
-            observers.get(i).update(new GameEvent("loadedObjective", objectives));
+            observers.get(i).update(new GameEvent("loadedObjective", personalObjectives.get(i)));
+            // ask front or back for starter card
+            observers.get(i).update(new GameEvent("starterSide", gameState.getPlayerState(i).getStarterCard()));
         }
+    }
 
-        // ask front or back for starter card
-        //gameState.placeStarter(isFront);
-        /*
-        for (int i = 0; i < observers.size(); i++) {
-            observers.get(i).update(new GameEvent("assignedStarterCard", gameState.getPlayerState(i).getStarterCard()));
-        }
-        */
+    public void assignStarterSide(String username, StarterSide side) throws RemoteException {
+        gameState.placeStarter(side.getSide(), cardWidth, cardHeight, matrixDimension);
+        System.out.println("Starter side chosen: " + side.getSide());
         notifyCurrentPlayerTurn();
     }
 
@@ -127,14 +127,14 @@ public class GameController implements Serializable {
             observers.get(playerId).update(new GameEvent("Error", "Not your turn"));
         }
     }
-    public void angleChosen(String username, CardToAttachSelected cardToAttach) throws RemoteException {
-            int playerId = gameState.getPlayerId(username);
-            System.out.println("Place where to play: " + cardToAttach);
-            PlayerState player = gameState.getPlayerState(playerId);
-            System.out.println("Stampando: " + playerId + " | " + currentPlayerIndex);
-            if (playerId == currentPlayerIndex) {
 
-                String cardToAttachSelected = cardToAttach.getString();
+    public void angleChosen(String username, CardToAttachSelected cardToAttach) throws RemoteException {
+        int playerId = gameState.getPlayerId(username);
+        System.out.println("Place where to play: " + cardToAttach);
+        PlayerState player = gameState.getPlayerState(playerId);
+        System.out.println("Stampando: " + playerId + " | " + currentPlayerIndex);
+        if (playerId == currentPlayerIndex) {
+            String cardToAttachSelected = cardToAttach.getString();
             String[] splitCardToPlay = cardToAttachSelected.split("\\.");
             int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
             int cornerSelected = Integer.parseInt(splitCardToPlay[1]);
@@ -164,21 +164,17 @@ public class GameController implements Serializable {
                 }
             }
             if (cornerSelected == 0) {
-                //view.placeCard(player.getBoard(), card,
-                     //   placeCardBottomLeft(player.getBoard(), targetCard, card));
+                //view.placeCard(player.getBoard(), card,placeCardBottomLeft(player.getBoard(), targetCard, card));
                 cardToPlace.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() - 1);
             } else if (cornerSelected == 1) {
-                //view.placeCard(player.getBoard(), card,
-                      //  placeCardTopLeft(player.getBoard(), targetCard, card));
+                //view.placeCard(player.getBoard(), card,placeCardTopLeft(player.getBoard(), targetCard, card));
                 cardToPlace.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() - 1);
             } else if (cornerSelected == 2) {
-                //view.placeCard(player.getBoard(), card,
-                       // placeCardTopRight(player.getBoard(), targetCard, card));
+                //view.placeCard(player.getBoard(), card,placeCardTopRight(player.getBoard(), targetCard, card));
                 cardToPlace.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() + 1);
             } else if (cornerSelected == 3) {
+                //view.placeCard(player.getBoard(), card,placeCardBottomRight(player.getBoard(), targetCard, card));
                 cardToPlace.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() + 1);
-                //view.placeCard(player.getBoard(), card,
-                      //  placeCardBottomRight(player.getBoard(), targetCard, card));
             }
 
             player.getMatrix()[cardToPlace.getyMatrixCord()][cardToPlace.getxMatrixCord()] = cardToPlace.getId();
@@ -194,7 +190,19 @@ public class GameController implements Serializable {
                 ids.add(c.getId());
                 //view.displayCard(c);
             }
-            String newId = null;//view.chooseDrawNewCard(ids);
+
+            observers.get(playerId).update(new GameEvent("askWhereToDraw", ids));
+
+        } else {
+            observers.get(playerId).update(new GameEvent("Error", "Not your turn"));
+        }
+    }
+
+    public void drawCard(String username, DrawCard drawCard) throws RemoteException {
+        int playerId = gameState.getPlayerId(username);
+        PlayerState player = gameState.getPlayerState(playerId);
+        if (playerId == currentPlayerIndex) {
+            String newId = drawCard.getId();
 
             if (newId.equals("A")) {
                 player.addCardToHand((Card) gameState.getResourceDeck().drawCard());
@@ -225,14 +233,14 @@ public class GameController implements Serializable {
             if (cardToPlace instanceof ResourceCard x) {
                 player.addScore(x.getPoint());
                 // player.addCardToPlayingHand((Card) game.getResourceDeck().extractCard());
-            }
-            else {
+            } else {
                 Map<Resource, Integer> res = player.calculateResources();
                 var x = (GoldCard) cardToPlace;
                 // player.addCardToPlayingHand((Card) game.getGoldDeck().extractCard());
                 if (x.isFrontSide()) {
                     player.addScore(res.get(x.getPoint().getResource()) * x.getPoint().getQta());
                 }
+
             }
 
             player.calculateResources();
@@ -244,15 +252,14 @@ public class GameController implements Serializable {
             // notify player of updated codex
             // observers.get(playerId).update(new GameEvent("updateCodex", new ArrayList<>(gameState.getPlayerState(playerId).getCodex())));
 
-           // check if last turn
+            // check if last turn
             lastTurn();
             // advance turn
-            // advanceTurn();
+            advanceTurn();
         } else {
-        observers.get(playerId).update(new GameEvent("Error", "Not your turn"));
+            observers.get(playerId).update(new GameEvent("Error", "Not your turn"));
+        }
     }
-    }
-
 
 
     public List<GameObserver> getObservers() {
@@ -289,8 +296,6 @@ public class GameController implements Serializable {
     }
 
 
-
-
     public Coordinate placeCardBottomRight(Cell[][] board, Card card, Card cardToPlace) {
         Coordinate leftUpCorner;
         leftUpCorner = new Coordinate(card.getCentre().getX() + cardWidth - 1,
@@ -299,6 +304,7 @@ public class GameController implements Serializable {
 
         return leftUpCorner;
     }
+
 
     public Coordinate placeCardTopRight(Cell[][] board, Card card, Card cardToPlace) {
         Coordinate leftUpCorner;
@@ -328,27 +334,32 @@ public class GameController implements Serializable {
     }
 
 
-
     public void setCurrTurn(int index) {
         currentPlayerIndex = index;
     }
 
-    public void lastTurn() throws RemoteException{
+    public void lastTurn() throws RemoteException {
         Boolean last = false;
-        if(gameState.getPlayerState(currentPlayerIndex).getScore() >= 20 || last==true) {
+        if (gameState.getPlayerState(currentPlayerIndex).getScore() >= 20 || last == true) {
             last = true;
-            if(currentPlayerIndex == observers.size()-1 ) {
+            if (currentPlayerIndex == observers.size() - 1) {
                 //calculate points
                 List<Integer> rank = null;
-                Map<Integer, Integer> scores= null;
-                for(int i = 0; i < observers.size(); i++) {
+                Map<Integer, Integer> scores = null;
+                for (int i = 0; i < observers.size(); i++) {
                     PlayerState player = gameState.getPlayerState(currentPlayerIndex);
-                    int preScore= player.getScore();
-                    Objective card= null;
-                    for(int j= 0 ; j<3; j++) {
-                        if(j==0) {card= player.getSecretObj();}
-                        if(j==1){card= gameState.getCommonObjective(0);}
-                        if(j==2){card= gameState.getCommonObjective(1);}
+                    int preScore = player.getScore();
+                    Objective card = null;
+                    for (int j = 0; j < 3; j++) {
+                        if (j == 0) {
+                            card = player.getSecretObj();
+                        }
+                        if (j == 1) {
+                            card = gameState.getCommonObjective(0);
+                        }
+                        if (j == 2) {
+                            card = gameState.getCommonObjective(1);
+                        }
                         if (card instanceof SxDiagonalObjective) {
                             SxDiagonalObjective c = (SxDiagonalObjective) player.getSecretObj();
                             c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
@@ -376,7 +387,7 @@ public class GameController implements Serializable {
                     }
 
                     int scoreObj = player.getScore() - preScore;
-                    scores.put(currentPlayerIndex,scoreObj);
+                    scores.put(currentPlayerIndex, scoreObj);
                     rank.add(currentPlayerIndex);
                 }
                 Collections.sort(rank, new Comparator<Integer>() {
@@ -384,14 +395,13 @@ public class GameController implements Serializable {
                     public int compare(Integer index1, Integer index2) {
                         PlayerState player1 = gameState.getPlayerState(index1);
                         PlayerState player2 = gameState.getPlayerState(index2);
-                        if(player1.getScore() == player2.getScore()) {
+                        if (player1.getScore() == player2.getScore()) {
                             return Integer.compare(scores.get(index2), scores.get(index1)); // Ordine decrescente
-                        }else {
+                        } else {
                             return Integer.compare(player2.getScore(), player1.getScore()); // Ordine decrescente
                         }
                     }
                 });
-
 
 
                 notifyObservers(new GameEvent("endGame", gameState.getPlayerState(currentPlayerIndex)));

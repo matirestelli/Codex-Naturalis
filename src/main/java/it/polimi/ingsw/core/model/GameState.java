@@ -21,8 +21,8 @@ public class GameState implements java.io.Serializable {
 
     private List<Objective> commonObj = new ArrayList<>();
 
-    private List<Card> resourceCardsVisible;
-    private List<Card> goldCardsVisible;
+    private List<Card> resourceCardsVisible= new ArrayList<>();
+    private List<Card> goldCardsVisible = new ArrayList<>();
     private List<CardGame> objectiveDeckCopy= new ArrayList<>();
 
     public void addCardToResourceCardsVisible(Card card) {

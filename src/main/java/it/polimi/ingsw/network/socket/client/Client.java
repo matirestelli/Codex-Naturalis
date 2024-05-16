@@ -94,6 +94,47 @@ public class Client {
                     System.out.println(card.getId());
                 }
             }
+            case "loadedStarter"-> {
+                CardGame card = (CardGame) event.getData();
+                System.out.println("Received starter card: ");
+                System.out.println(card.getId());
+            }
+            case "starterSide"-> {
+                Boolean side;
+                CardGame card = (CardGame) event.getData();
+                int id = card.getId();
+                System.out.println("Choose f or b: ");
+                String input = scanner.nextLine();
+                while (!input.equals("f") && !input.equals("b")) {
+                    System.out.print("Input non valido, riprova: ");
+                    input = scanner.nextLine();
+                }
+                try {
+                    if(input == "f"){
+                        side=true;
+                    }else{
+                        side=false;
+                    }
+                    outputStream.writeObject(new StarterSide(id, side));
+                    System.out.println("Wait for your turn...");
+                } catch (IOException e) {
+                    System.out.println("Error sending card ID: " + e.getMessage());
+                }
+            }
+            case "askWhereToDraw"-> {
+                List<Integer> ids = (List<Integer>) event.getData();
+                System.out.println("Da dove vuoi pescare scec, dal deck o da mati?");
+                String input = scanner.nextLine();
+                while (!input.equals("A") && !input.equals("B") && !ids.contains(input)) {
+                    System.out.print("Input non valido, riprova: ");
+                    input = scanner.nextLine();
+                }
+                try {
+                    outputStream.writeObject(new DrawCard(input));
+                } catch (IOException e) {
+                    System.out.println("Error sending card ID: " + e.getMessage());
+                }
+            }
             case "chooseObjective" -> {
                 List<Objective> objectives = (List<Objective>) event.getData();
                 System.out.println("Extracted objective: ");
@@ -112,7 +153,6 @@ public class Client {
                 }
                 try {
                     outputStream.writeObject(new SecreteObjectiveCard(cardId));
-                    System.out.println("Wait for your turn...");
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
@@ -147,7 +187,7 @@ public class Client {
             }
             case "assignedStarterCard" -> {
                 ResourceCard card = (ResourceCard) event.getData();
-                System.out.println("Received starter card: " + card.getId());
+                System.out.println("Setted starter card: " + card.getId());
             }
             case "updateHand" -> {
                 List<Card> cards = (List<Card>) event.getData();
