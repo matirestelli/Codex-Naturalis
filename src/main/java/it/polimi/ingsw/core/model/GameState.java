@@ -150,6 +150,7 @@ public class GameState implements java.io.Serializable {
         this.starterDeck.shuffle();
         this.resourceDeck.shuffle();
         this.goldDeck.shuffle();
+        this.objectiveDeck.shuffle();
     }
 
     public PlayerState getPlayerState(int index) {
