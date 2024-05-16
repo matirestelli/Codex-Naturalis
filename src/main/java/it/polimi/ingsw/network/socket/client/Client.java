@@ -206,7 +206,7 @@ public class Client {
             case "cardRemoved" -> System.out.println("Card " + event.getData() + " has been selected by someone.");
             case "currentPlayerTurn" -> {
                 System.out.print("It's your turn! Select a card ID to play: ");
-                List<Card> cards = (List<Card>) event.getData();
+                List<Card> cards =  (List<Card>) event.getData();
                 List<Integer> ids = new ArrayList<>();
                 for(Card c : cards){
                     ids.add(c.getId());
