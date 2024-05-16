@@ -140,6 +140,10 @@ public class GameState implements java.io.Serializable {
         initializeResourceDeck();
         initializeGoldDeck();
         initializeObjectiveDeck();
+        goldCardsVisible.add((Card) goldDeck.drawCard());
+        goldCardsVisible.add((Card) goldDeck.drawCard());
+        resourceCardsVisible.add((Card) resourceDeck.drawCard());
+        resourceCardsVisible.add((Card) resourceDeck.drawCard());
     }
 
     public void shuffleDecks() {

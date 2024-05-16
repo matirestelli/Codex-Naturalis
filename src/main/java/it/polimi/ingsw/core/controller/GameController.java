@@ -96,7 +96,10 @@ public class GameController implements Serializable {
     public void assignStarterSide(String username, StarterSide side) throws RemoteException {
         gameState.placeStarter(side.getSide(), cardWidth, cardHeight, matrixDimension);
         System.out.println("Starter side chosen: " + side.getSide());
-        notifyCurrentPlayerTurn();
+        if(quorum == 0) {
+            notifyCurrentPlayerTurn();
+            quorum++;
+        }
     }
 
     public void playerSelectsCard(String username, CardSelection cardSelection) throws RemoteException {
@@ -184,11 +187,9 @@ public class GameController implements Serializable {
             List<Integer> ids = new ArrayList<>();
             for (Card c : gameState.getResourceCardsVisible()) {
                 ids.add(c.getId());
-                //view.displayCard(c);
             }
             for (Card c : gameState.getGoldCardsVisible()) {
                 ids.add(c.getId());
-                //view.displayCard(c);
             }
 
             observers.get(playerId).update(new GameEvent("askWhereToDraw", ids));

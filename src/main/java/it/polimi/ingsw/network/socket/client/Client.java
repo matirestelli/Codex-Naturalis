@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.lang.Integer.parseInt;
+
 public class Client {
     private Socket socket;
     private ObjectOutputStream outputStream;
@@ -123,14 +125,18 @@ public class Client {
             }
             case "askWhereToDraw"-> {
                 List<Integer> ids = (List<Integer>) event.getData();
-                System.out.println("Da dove vuoi pescare scec, dal deck o da mati?");
+                for(int id : ids){
+                    System.out.println(id);
+                }
+                System.out.println("Vuoi perscare una di queste carte o vuoi pescare da A (Resource) o da B (Gold)?");
                 String input = scanner.nextLine();
-                while (!input.equals("A") && !input.equals("B") && !ids.contains(input)) {
+                while (!input.equals("A") && !input.equals("B") && !ids.contains(parseInt(input))) {
                     System.out.print("Input non valido, riprova: ");
                     input = scanner.nextLine();
                 }
                 try {
                     outputStream.writeObject(new DrawCard(input));
+                    System.out.println("Wait for your turn...");
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
@@ -153,6 +159,7 @@ public class Client {
                 }
                 try {
                     outputStream.writeObject(new SecreteObjectiveCard(cardId));
+                    System.out.println("Wait for everyone to select an objective...");
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
@@ -161,7 +168,7 @@ public class Client {
                 List<Coordinate> angles = (List<Coordinate>) event.getData();
                 view.displayAngle(angles);
                 String input = scanner.nextLine();
-                while (!input.matches("\\d+\\.\\d+") ||  !angles.contains(new Coordinate(Integer.parseInt(input.split("\\.")[0]), Integer.parseInt(input.split("\\.")[1])))) {
+                while (!input.matches("\\d+\\.\\d+") ||  !angles.contains(new Coordinate(parseInt(input.split("\\.")[0]), parseInt(input.split("\\.")[1])))) {
                     System.out.print("Input non valido, riprova: ");
                     input = scanner.nextLine();
                 }
