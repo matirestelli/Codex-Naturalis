@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.socket.server;
 
 import it.polimi.ingsw.core.controller.GameController;
 import it.polimi.ingsw.core.model.CardSelection;
+import it.polimi.ingsw.core.model.CardToAttachSelected;
 import it.polimi.ingsw.core.model.GameSession;
 import it.polimi.ingsw.core.model.SecreteObjectiveCard;
 import it.polimi.ingsw.core.utils.GameSessionManager;
@@ -97,5 +98,10 @@ public class GameServer implements it.polimi.ingsw.network.GameServer {
         GameSession session = gameSessionManager.getSession(gameId);
         GameController gameController = session.getGameController();
         gameController.chooseObjective(username, card);
+    }
+    public void angleChosen(String gameId, String username, CardToAttachSelected card) throws RemoteException {
+        GameSession session = gameSessionManager.getSession(gameId);
+        GameController gameController = session.getGameController();
+        gameController.angleChosen(username, card);
     }
 }

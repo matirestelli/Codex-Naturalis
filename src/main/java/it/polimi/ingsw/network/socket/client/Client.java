@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socket.client;
 
 import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.view.CliView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,6 +16,7 @@ public class Client {
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
     private Scanner scanner = new Scanner(System.in);
+    private CliView view = new CliView();
 
     public Client(String host, int port) throws IOException {
         socket = new Socket(host, port);
@@ -113,6 +115,20 @@ public class Client {
                     System.out.println("Wait for your turn...");
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
+                }
+            }
+            case "askAngle" -> {
+                List<Coordinate> angles = (List<Coordinate>) event.getData();
+                view.displayAngle(angles);
+                String input = scanner.nextLine();
+                while (!input.matches("\\d+\\.\\d+") ||  !angles.contains(new Coordinate(Integer.parseInt(input.split("\\.")[0]), Integer.parseInt(input.split("\\.")[1])))) {
+                    System.out.print("Input non valido, riprova: ");
+                    input = scanner.nextLine();
+                }
+                try {
+                    outputStream.writeObject(new CardToAttachSelected(input));
+                } catch (IOException e) {
+                    System.out.println("Error sending angles: " + e.getMessage());
                 }
             }
             case "loadedObjective" -> {

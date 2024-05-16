@@ -15,9 +15,11 @@ public class GameController implements Serializable {
     private int cardWidth;
     private int quorum;
     private int cardHeight;
+    private Card cardToPlace;
     private transient List<GameObserver> observers;
     private int currentPlayerIndex;
     private int matrixDimension;
+    private Map<Integer, Map<Integer, List<Coordinate>>> test = new HashMap<>();
 
     public GameController(GameState gameState) {
         this.gameState = gameState;
@@ -106,23 +108,36 @@ public class GameController implements Serializable {
         if (playerId == currentPlayerIndex) {
             int cardId = cardSelection.getId();
             // get card from player hand by id
-            Card card = gameState.getPlayerState(playerId).getCardFromHand(cardId);
-            System.out.println("Card selected: " + card);
+            cardToPlace = gameState.getPlayerState(playerId).getCardFromHand(cardId);
+            System.out.println("Card selected: " + cardToPlace);
 
             PlayerState player = gameState.getPlayerState(playerId);
 
             List<Coordinate> angoliDisponibili = new ArrayList<>();
-            Map<Integer, Map<Integer, List<Coordinate>>> test = new HashMap<>();
+
 
             for (Card c : player.getCodex()) {
-                angoliDisponibili.addAll(c.findFreeAngles(gameState.getPlayerState(playerId).getMatrix(), player.getCodex(), card.getId(), test));
+                angoliDisponibili.addAll(c.findFreeAngles(gameState.getPlayerState(playerId).getMatrix(), player.getCodex(), cardToPlace.getId(), test));
             }
 
-            gameState.getPlayerState(playerId).removeCardFromHand(card);
+            gameState.getPlayerState(playerId).removeCardFromHand(cardToPlace);
             // add card to player codex
-            gameState.getPlayerState(playerId).addCardToCodex(card);
+            gameState.getPlayerState(playerId).addCardToCodex(cardToPlace);
 
-            String cardToAttachSelected = null;//view.displayAngle(angoliDisponibili);
+            observers.get(playerId).update(new GameEvent("askAngle", angoliDisponibili));
+            //String cardToAttachSelected = view.displayAngle(angoliDisponibili);
+        } else {
+            observers.get(playerId).update(new GameEvent("Error", "Not your turn"));
+        }
+        }
+        public void angleChosen(String username, CardToAttachSelected cardToAttach) throws RemoteException {
+            int playerId = gameState.getPlayerId(username);
+            System.out.println("Place where to play: " + cardToAttach);
+            PlayerState player = gameState.getPlayerState(playerId);
+            System.out.println("Stampando: " + playerId + " | " + currentPlayerIndex);
+            if (playerId == currentPlayerIndex) {
+
+                String cardToAttachSelected = cardToAttach.getString();
             String[] splitCardToPlay = cardToAttachSelected.split("\\.");
             int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
             int cornerSelected = Integer.parseInt(splitCardToPlay[1]);
@@ -136,8 +151,8 @@ public class GameController implements Serializable {
                     List<Coordinate> co = test.get(cardToAttachId).get(cornerSelected);
 
                     for (Coordinate c : co) {
-                        if (c.getX() == card.getId() && card.getActualCorners().containsKey(c.getY())) {
-                            card.getActualCorners().get(c.getY()).setHidden(true);
+                        if (c.getX() == cardToPlace.getId() && cardToPlace.getActualCorners().containsKey(c.getY())) {
+                            cardToPlace.getActualCorners().get(c.getY()).setHidden(true);
                         } else {
                             Card cardTemp = player.getCodex().stream()
                                     .filter(card1 -> card1.getId() == c.getX())
@@ -154,22 +169,22 @@ public class GameController implements Serializable {
             if (cornerSelected == 0) {
                 //view.placeCard(player.getBoard(), card,
                      //   placeCardBottomLeft(player.getBoard(), targetCard, card));
-                card.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() - 1);
+                cardToPlace.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() - 1);
             } else if (cornerSelected == 1) {
                 //view.placeCard(player.getBoard(), card,
                       //  placeCardTopLeft(player.getBoard(), targetCard, card));
-                card.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() - 1);
+                cardToPlace.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() - 1);
             } else if (cornerSelected == 2) {
                 //view.placeCard(player.getBoard(), card,
                        // placeCardTopRight(player.getBoard(), targetCard, card));
-                card.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() + 1);
+                cardToPlace.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() + 1);
             } else if (cornerSelected == 3) {
-                card.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() + 1);
+                cardToPlace.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() + 1);
                 //view.placeCard(player.getBoard(), card,
                       //  placeCardBottomRight(player.getBoard(), targetCard, card));
             }
 
-            player.getMatrix()[card.getyMatrixCord()][card.getxMatrixCord()] = card.getId();
+            player.getMatrix()[cardToPlace.getyMatrixCord()][cardToPlace.getxMatrixCord()] = cardToPlace.getId();
 
             //view.displayBoard(player.getBoard());
 
@@ -210,13 +225,13 @@ public class GameController implements Serializable {
                 player.addCardToHand(newCard);
             }
 
-            if (card instanceof ResourceCard x) {
+            if (cardToPlace instanceof ResourceCard x) {
                 player.addScore(x.getPoint());
                 // player.addCardToPlayingHand((Card) game.getResourceDeck().extractCard());
             }
             else {
                 Map<Resource, Integer> res = player.calculateResources();
-                var x = (GoldCard) card;
+                var x = (GoldCard) cardToPlace;
                 // player.addCardToPlayingHand((Card) game.getGoldDeck().extractCard());
                 if (x.isFrontSide()) {
                     player.addScore(res.get(x.getPoint().getResource()) * x.getPoint().getQta());
@@ -237,9 +252,11 @@ public class GameController implements Serializable {
             // advance turn
             // advanceTurn();
         } else {
-            observers.get(playerId).update(new GameEvent("Error", "Not your turn"));
-        }
+        observers.get(playerId).update(new GameEvent("Error", "Not your turn"));
     }
+    }
+
+
 
     public List<GameObserver> getObservers() {
         return observers;

@@ -445,24 +445,14 @@ public class CliView {
         System.out.println();
     }
 
-    public String displayAngle(List<Coordinate> angles) {
+    public void displayAngle(List<Coordinate> angles) {
         String out = "Seleziona la carta e l'angolo (";
         for (Coordinate angle : angles) {
             out += angle.getX() + "." + angle.getY();
             if (angles.indexOf(angle) != angles.size() - 1)
                 out += " / ";
         }
-
         System.out.print(out + "): ");
-
-        // continue to ask for input until the input is valid and the angle is in the list
-        String input = scanner.nextLine();
-        while (!input.matches("\\d+\\.\\d+") ||  !angles.contains(new Coordinate(Integer.parseInt(input.split("\\.")[0]), Integer.parseInt(input.split("\\.")[1])))) {
-            System.out.print("Input non valido, riprova: ");
-            input = scanner.nextLine();
-        }
-
-        return input;
     }
 
     public void displayPersonalResources(Map<Resource, Integer> resources) {
