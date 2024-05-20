@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi.server;
 
 import it.polimi.ingsw.core.controller.GameController;
+import it.polimi.ingsw.core.controller.GameControllerRemote;
 import it.polimi.ingsw.core.model.CardSelection;
 import it.polimi.ingsw.core.model.GameSession;
 import it.polimi.ingsw.core.utils.GameSessionManager;
@@ -15,13 +16,7 @@ public class GameServerImpl extends UnicastRemoteObject implements it.polimi.ing
     private GameSessionManager gameSessionManager;
 
     public GameServerImpl(GameSessionManager gameSessionManager) throws RemoteException {
-        super();
         this.gameSessionManager = gameSessionManager;
-    }
-
-    public void startGame(String gameId) throws RemoteException {
-        GameSession session = gameSessionManager.getSession(gameId);
-        session.startGame();
     }
 
     @Override
@@ -29,21 +24,18 @@ public class GameServerImpl extends UnicastRemoteObject implements it.polimi.ing
         System.out.println("\nNew client registered on RMI server: " + client + "...");
     }
 
-    public synchronized void createNewSession(String gameId, String username, int desiredPlayers, GameObserver observer) throws RemoteException {
-        GameSession newSession = new GameSession(gameId, desiredPlayers);
-        newSession.addPlayer(username);
-        newSession.addObserver(observer);
-        gameSessionManager.addSession(newSession);
+    @Override
+    public GameControllerRemote createNewSession(String gameId, String username, int desiredPlayers, GameObserver observer) throws RemoteException {
+        GameControllerRemote gc = gameSessionManager.createNewSession(gameId, username, desiredPlayers);
+        gc.addObserver(username, observer);
+        return gc;
     }
 
     @Override
-    public synchronized void joinGameSession(String gameId, String username, GameObserver observer) throws RemoteException {
-        GameSession session = gameSessionManager.getSession(gameId);
-        if (session.allPlayersConnected()) {
-            throw new RemoteException("Session is full");
-        }
-        session.addPlayer(username);
-        session.addObserver(observer);
+    public GameControllerRemote joinSession(String gameId, String username, GameObserver observer) throws RemoteException {
+        GameControllerRemote gc = gameSessionManager.joinSession(gameId, username);
+        gc.addObserver(username, observer);
+        return gc;
     }
 
     public String listGameSessions() {
@@ -60,12 +52,5 @@ public class GameServerImpl extends UnicastRemoteObject implements it.polimi.ing
     public boolean allPlayersConnected(String gameId) {
         GameSession session = gameSessionManager.getSession(gameId);
         return session.allPlayersConnected();
-    }
-
-    public void playerSelectsCard(String gameId, String username, CardSelection card) throws RemoteException {
-        GameSession session = gameSessionManager.getSession(gameId);
-        GameController gameController = session.getGameController();
-        gameController.playerSelectsCard(username, card);
-        gameController.advanceTurn();
     }
 }

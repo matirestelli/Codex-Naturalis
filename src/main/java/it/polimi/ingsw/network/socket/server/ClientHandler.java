@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket.server;
 
+import it.polimi.ingsw.core.controller.GameControllerRemote;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.observers.GameObserver;
 
@@ -15,6 +16,7 @@ public class ClientHandler implements Runnable, GameObserver {
     private ObjectOutputStream outputStream;
     private String username;
     private String gameId;
+    private GameControllerRemote gc;
 
     public ClientHandler(Socket clientSocket, GameServer server) {
         this.clientSocket = clientSocket;
@@ -52,14 +54,14 @@ public class ClientHandler implements Runnable, GameObserver {
                 gameId = (String) inputStream.readObject();
                 // add client as observer of the game session
                 try {
-                    server.joinGameSession(gameId, username, this);
+                    gc = server.joinSession(gameId, username, this);
                 } catch (Exception e) {
                     System.out.println("Error joining game session: " + e.getMessage());
                 }
                 if (server.allPlayersConnected(gameId)) {
                     System.out.println("Game is full. Waiting for it to start...");
                     // server.getGameController(gameId);
-                    server.startGame(gameId);
+                    gc.startGame();
                 }
                 else
                     System.out.println("Waiting for more players to join...");
@@ -69,13 +71,15 @@ public class ClientHandler implements Runnable, GameObserver {
                 // wait for number of players
                 int numPlayers = Integer.parseInt((String) inputStream.readObject());
                 // create new game session
-                server.createNewSession(gameId, username, numPlayers, this);
+                gc = server.createNewSession(gameId, username, numPlayers, this);
             }
 
             while (true) {
                 // Ricevi messaggi dal client
                 Object message = inputStream.readObject();
-                if (message instanceof CardSelection) {
+                gc.handleMove(username, (GameEvent) message);
+
+                /* if (message instanceof CardSelection) {
                     server.playerSelectsCard(gameId, username, (CardSelection) message);
                     // gameController.playerSelectsCard(username, (CardSelection) message);
                 }else if(message instanceof SecreteObjectiveCard){
@@ -89,7 +93,7 @@ public class ClientHandler implements Runnable, GameObserver {
                 }
                 else if(message instanceof DrawCard){
                     server.drawCard(gameId, username, (DrawCard) message);
-                }
+                } */
             }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error communicating with client: " + e.getMessage());
@@ -100,17 +104,15 @@ public class ClientHandler implements Runnable, GameObserver {
 
     @Override
     public void update(GameEvent event) {
-        if (!event.getType().equals("sessionUpdate")) {
-            System.out.println("Sending event to client: " + event.getType());
-            System.out.println("Event data: " + event.getData());
+        System.out.println("-------------Sending event to client: " + event.getType());
+        System.out.println("Event data: " + event.getData());
 
-            try {
-                outputStream.writeObject(event);
-                outputStream.flush();
-            } catch (IOException e) {
-                System.out.println("Error sending event to client: " + e.getMessage());
-                // closeConnection();
-            }
+        try {
+            outputStream.writeObject(event);
+            outputStream.flush();
+        } catch (IOException e) {
+            System.out.println("Error sending event to client: " + e.getMessage());
+            // closeConnection();
         }
     }
 
@@ -124,4 +126,3 @@ public class ClientHandler implements Runnable, GameObserver {
         }
     }
 }
-

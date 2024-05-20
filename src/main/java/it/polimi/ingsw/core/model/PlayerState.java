@@ -16,7 +16,6 @@ public class PlayerState implements Serializable {
     private ResourceCard starterCard;
     private List<Card> hand;
 
-    private Cell[][] board;
     private List<Card> codex;
     private int[][] matrix;
     private Objective secretObj;
@@ -26,6 +25,7 @@ public class PlayerState implements Serializable {
         this.score = 0;
         this.hand = new ArrayList<>();
         this.codex = new ArrayList<>();
+        this.personalResources = new HashMap<>();
     }
 
     public void setStarterCard(ResourceCard starterCard) {
@@ -48,13 +48,6 @@ public class PlayerState implements Serializable {
         codex.add(card);
     }
 
-    public Cell[][] getBoard() {
-        return board;
-    }
-
-    public void setBoard(Cell[][] board) {
-        this.board = board;
-    }
     public int getScore() {
         return score;
     }
@@ -74,15 +67,6 @@ public class PlayerState implements Serializable {
             }
         }
         return null;
-    }
-
-    public void initializeBoard(int matrixDimension, int cardWidth, int cardHeight) {
-        this.board = new Cell[matrixDimension * cardHeight][matrixDimension * cardWidth];
-        for (int i = 0; i < matrixDimension * cardHeight; i++)
-            for (int j = 0; j < matrixDimension * cardWidth; j++) {
-                board[i][j] = new Cell();
-                this.board[i][j].setCharacter(' ');
-            }
     }
 
     public void initializeMatrix(int matrixDimension) {
@@ -139,27 +123,35 @@ public class PlayerState implements Serializable {
     }
 
     public Map<Resource, Integer> calculateResources(){
-            personalResources = new HashMap<Resource, Integer>();
+        personalResources = new HashMap<Resource, Integer>();
 
-            for (Resource res : Resource.values()) {
-                personalResources.put(res, 0);
-            }
+        for (Resource res : Resource.values()) {
+            personalResources.put(res, 0);
+        }
 
-            for (Card c : this.codex) {
-                if (c.isFrontSide()) {
-                    for (int i = 0; i < 4; i++) {
-                        if (c.getFrontCorners().containsKey(i) && !c.getFrontCorners().get(i).isEmpty()) {
-                            personalResources.put(c.getFrontCorners().get(i).getResource(), personalResources.get(c.getFrontCorners().get(i).getResource()) + 1);
-                        }
-                    }
-                } else {
-                    for (Resource res : c.getBackResources()) {
-                        personalResources.put(res, personalResources.get(res) + 1);
+        for (Card c : this.codex) {
+            if (c.isFrontSide()) {
+                for (int i = 0; i < 4; i++) {
+                    if (c.getFrontCorners().containsKey(i) && !c.getFrontCorners().get(i).isEmpty()) {
+                        personalResources.put(c.getFrontCorners().get(i).getResource(), personalResources.get(c.getFrontCorners().get(i).getResource()) + 1);
                     }
                 }
+            } else {
+                for (Resource res : c.getBackResources()) {
+                    personalResources.put(res, personalResources.get(res) + 1);
+                }
             }
-
-            return personalResources;
         }
+
+        return personalResources;
     }
 
+    public void setStarterSide(boolean side) {
+        starterCard.setSide(side);
+    }
+
+    public void addCardToMatrix(int x, int y, int id) {
+        matrix[y][x] = id;
+    }
+
+}

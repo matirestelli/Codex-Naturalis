@@ -1,21 +1,21 @@
 package it.polimi.ingsw.core.model;
 
 import it.polimi.ingsw.core.controller.GameController;
-import it.polimi.ingsw.observers.GameObserver;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameSession implements Serializable {
-    private String gameId;
-    private List<Player> players;
-    private GameState gameState;
-    private GameController gameController;
-    private int desiredPlayers;
+public class GameSession {
+    private String gameId; // unique identifier for the game
+    // TODO: check if players is needed
+    private List<Player> players; // list of players in the game
+    private GameState gameState; // current state of the game
+    private GameController gameController; // controller for the game
+    private int desiredPlayers; // number of players required to start the game
 
-    public GameSession(String gameId, int desiredPlayers) {
+    // Constructor for the GameSession class
+    public GameSession(String gameId, int desiredPlayers) throws RemoteException {
         this.gameId = gameId;
         this.desiredPlayers = desiredPlayers;
 
@@ -24,58 +24,37 @@ public class GameSession implements Serializable {
         this.gameController = new GameController(gameState);
     }
 
-    public List<GameObserver> getObservers() {
-        return gameController.getObservers();
-    }
-
+    // Method to get the game controller
     public GameController getGameController() {
         return gameController;
     }
 
-    public GameState getGameState() {
-        return gameState;
-    }
-
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
+    // Method to check how many slots are available in the game
     public int availableSlots() {
         return desiredPlayers - players.size();
     }
 
+    // Method to get the game ID
     public String getGameId() {
         return gameId;
     }
 
-    public List<Player> getPlayers() {
-        return players;
-    }
+    // Method to add a player to the game
+    public synchronized void addPlayer(String username) {
+        // TODO: check if player already exists
+        // TODO: check if game is full
 
-    public void startGame() throws RemoteException {
-        this.gameController.startGame();
-    }
+        // TODO: Remove this or implement new logger system
+        System.out.println("\nAdding player '" + username + "' to game '" + gameId + "'");
 
-    public synchronized void addPlayerToGame(String username) {
         Player player = new Player(username);
+        // add player to the game state
         gameState.addPlayer(player);
         players.add(player);
     }
 
-    public synchronized void addPlayer(String username) throws RemoteException {
-        System.out.println("\nAdding player '" + username + "' to game '" + gameId + "'");
-        addPlayerToGame(username);
-    }
-
+    // Method to check if all players are connected
     public boolean allPlayersConnected() {
         return desiredPlayers == players.size();
-    }
-
-    public void addObserver(GameObserver observer) {
-        gameController.addObserver(observer);
-    }
-
-    public void removeObserver(GameObserver observer) {
-        gameController.removeObserver(observer);
     }
 }

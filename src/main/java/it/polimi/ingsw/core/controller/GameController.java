@@ -1,205 +1,298 @@
 package it.polimi.ingsw.core.controller;
 
-import it.polimi.ingsw.clientmodel.Cell;
 import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.utils.PlayerMove;
 import it.polimi.ingsw.observers.GameObserver;
-import it.polimi.ingsw.view.CliView;
-import it.polimi.ingsw.core.model.enums.*;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class GameController implements Serializable {
-    private GameState gameState;
+public class GameController extends UnicastRemoteObject implements GameControllerRemote {
+    private GameState gameState; // reference to the game state
+    private Map<String, GameObserver> observers; // every observer is associated with the username of the player it represents
+    private Map<String, GameObserver> orderedObserversMap; // map of observers ordered by the order of player turns
+    private BlockingQueue<PlayerMove> moveQueue; // queue of moves to be processed
+    private Thread moveProcessor; // thread that processes moves
+    private int currentPlayerIndex; // index of the current player
+
     private int cardWidth;
+    // TODO: Chiedere a Marco se è corretto mettere quorum come variabile di classe
     private int quorum;
     private int cardHeight;
-    private Card cardToPlace;
     Map<Integer, List<CardGame>> personalObjectives = new HashMap<>();
-    private transient List<GameObserver> observers;
-    private int currentPlayerIndex;
     private int matrixDimension;
-    private Map<Integer, Map<Integer, List<Coordinate>>> test = new HashMap<>();
 
-    public GameController(GameState gameState) {
+    private int counter = 0;
+
+    private List<String> playersReadyToPlayer = new ArrayList<>();
+
+
+    private Map<Integer, Map<Integer, List<Coordinate>>> test;
+    private Card cardToPlace;
+
+    public GameController(GameState gameState) throws RemoteException {
+        super();
         this.gameState = gameState;
-        this.observers = new ArrayList<>();
+        this.observers = new LinkedHashMap<>();
+        this.moveQueue = new LinkedBlockingQueue<>();
+        this.moveProcessor = new Thread(this::processMoves);
+        this.moveProcessor.start();
         this.currentPlayerIndex = 0;
 
         this.matrixDimension = 10;
         this.cardWidth = 7;
         this.cardHeight = 3;
-
     }
 
+    @Override
     public void startGame() throws RemoteException {
-        System.out.println("Game started [from GameController]");
+        // TODO: remove this or implement new logger system
+        System.out.println("Game started");
+
+        // define the order of players they will play
+        gameState.orderPlayers();
+
+        // create a map of observers ordered by the order of player turns
+        orderedObserversMap = new LinkedHashMap<>();
+        for (int i = 0; i < observers.size(); i++) {
+            orderedObserversMap.put(gameState.getPlayerOrder().get(i), observers.get(gameState.getPlayerOrder().get(i)));
+        }
+
+        // TODO: chiedere a marco cosa fare con questo
         quorum = 0;
-        gameState.initializeBoard(this.matrixDimension, this.cardWidth, this.cardHeight);
-        gameState.initializeMatrix(this.matrixDimension);
-        // initialize playing hand and codex
+
+        // initialize matrix for each player
+        gameState.initializeMatrixPlayers(this.matrixDimension);
+
+        // load decks
         gameState.loadDecks();
+        // shuffle decks
         gameState.shuffleDecks();
+
+        // assign the starter card to each player
         gameState.assignStarterCardToPlayers();
-        for (GameObserver observer : observers) {
-            observer.update(new GameEvent("loadedStarter", gameState.getPlayerState(observers.indexOf(observer)).getStarterCard()));
-        }
+
+        // notify observers of the starter card assigned to each player
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new GameEvent("loadedStarter", gameState.getPlayerState(us).getStarterCard()));
+
+        // assign the first hand of cards to each player
         gameState.assignFirstHandToPlayers();
-        for (int i = 0; i < observers.size(); i++) {
-            observers.get(i).update(new GameEvent("updateHand", gameState.getPlayerState(i).getHand()));
-        }
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new GameEvent("updateHand", gameState.getPlayerState(us).getHand()));
+
+        // assign common objectives of the game
+        // TODO: implement for loop to draw n cards. Define n as class variable
         gameState.addCommonObjective((Objective) gameState.getObjectiveDeck().drawCard());
         gameState.addCommonObjective((Objective) gameState.getObjectiveDeck().drawCard());
-        for (int i = 0; i < observers.size(); i++) {
+
+        // notify observers of the common objectives
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new GameEvent("loadedCommonObjective", gameState.getCommonObjectives()));
+
+        // assign secret objectives to each player
+        for (String us : orderedObserversMap.keySet()) {
+            // TODO: implement for loop to draw n cards. Define n as class variable
             List<CardGame> secretChoose = new ArrayList();
             secretChoose.add(gameState.getObjectiveDeck().drawCard());
             secretChoose.add(gameState.getObjectiveDeck().drawCard());
-            observers.get(i).update(new GameEvent("chooseObjective", secretChoose));
+            // notify observers of the secret objectives
+            orderedObserversMap.get(us).update(new GameEvent("chooseObjective", secretChoose));
+        }
+
+        // set side of starter card for each player
+        for (String us : orderedObserversMap.keySet()) {
+            // notify observers of the side of the starter card
+            orderedObserversMap.get(us).update(new GameEvent("starterSide", gameState.getPlayerState(us).getStarterCard()));
         }
     }
 
-    public void chooseObjective(String username, SecreteObjectiveCard card) throws RemoteException {
-        int playerId = gameState.getPlayerId(username);
-        List<CardGame> objectives = new ArrayList<>();
-        PlayerState player = gameState.getPlayerState(playerId);
-        List<CardGame> deck = gameState.getObjectiveDeckCopy();
-        for (CardGame obj : deck) {
-            if (obj.getId() == card.getId()) {
-                player.setSecretObj((Objective) obj);
-                objectives.add(gameState.getPlayerState(playerId).getSecretObj());
-                System.out.println("Stampa: " + playerId + " " + gameState.getPlayerState(playerId).getSecretObj());
-                objectives.add(gameState.getCommonObjective(0));
-                objectives.add(gameState.getCommonObjective(1));
-                personalObjectives.put(playerId, objectives);
-                quorum++;
-                break;
+    // TODO: Fix this method, launching exception in case of false offer
+    @Override
+    public synchronized void handleMove(String username, GameEvent event) throws RemoteException {
+        System.out.println("---------------------------Adding to queue: " + event.getType() + " " + counter);
+        counter++;
+        // add the move to the queue
+        boolean offer = moveQueue.offer(new PlayerMove(username, event));
+        if (!offer) {
+            System.out.println("Move not added to the queue");
+        }
+    }
+
+    public void processMove(String username, GameEvent event) throws RemoteException {
+        System.out.println("Processing move: " + event.getType());
+        String type = event.getType();
+        switch (type) {
+            case "cardSelection" -> {
+                System.out.println("Card selection");
+                CardSelection cardSelection = (CardSelection) event.getData();
+                // get card from player hand by id
+                Card cardToPlay = gameState.getPlayerState(username).getCardFromHand(cardSelection.getId());
+                // remove selected card from player hand
+                gameState.getPlayerState(username).removeCardFromHand(cardToPlay);
+                // set side of selected card
+                cardToPlay.setSide(cardSelection.getSide());
+
+                // get list of possible angles to place the card
+                List<Coordinate> angoliDisponibili = new ArrayList<>();
+                // TODO: make test as attribute of GameState class
+                test = new HashMap<>();
+                PlayerState ps = gameState.getPlayerState(username);
+                for (Card c : ps.getCodex())
+                    angoliDisponibili.addAll(c.findFreeAngles(ps.getMatrix(), ps.getCodex(), cardToPlay.getId(), test));
+
+                // add card to player codex
+                gameState.getPlayerState(username).addCardToCodex(cardToPlay);
+
+                // TODO: set card to place as attribute of PlayerState class
+                cardToPlace = cardToPlay;
+
+                // notify player of free angles
+                orderedObserversMap.get(username).update(new GameEvent("askAngle", angoliDisponibili));
+
+                // advanceTurn();
+            }
+            case "secretObjectiveSelection" -> {
+                Objective cardSelected = (Objective) event.getData();
+                // set secret objective of player given by username
+                gameState.setSecretObjective(username, cardSelected);
+                // chooseObjective(username, card);
+            }
+            case "starterSideSelection" -> {
+                boolean side = (boolean) event.getData();
+                // assign side of starter card to player given by username
+                gameState.assignStarterSide(username, side);
+                // place starter card in middle of matrix
+                gameState.placeStarterInMatrix(username, matrixDimension);
+
+                playersReadyToPlayer.add(username);
+
+                if (playersReadyToPlayer.size() == gameState.getPlayerOrder().size()) {
+                    System.out.println("Iniziano i turni");
+                    notifyCurrentPlayerTurn();
+                }
+            }
+            case "angleSelection" -> {
+                System.out.println("-----Angle selection");
+                angleChosen(username, (CardToAttachSelected) event.getData());
+                advanceTurn();
+            }
+            default -> {
+                System.out.println("Unknown move type: " + type);
             }
         }
-        if (quorum == observers.size()) {
-            quorum = 0;
-            showObjectives();
-        } else if (quorum == 0) {
-            throw new IllegalArgumentException("Invalid card id");
-        }
     }
 
-    public void showObjectives() throws RemoteException {
-        for (int i = 0; i < observers.size(); i++) {
-            System.out.println("Stampa: " + gameState.getPlayerState(i).getSecretObj());
-            observers.get(i).update(new GameEvent("loadedObjective", personalObjectives.get(i)));
-            // ask front or back for starter card
-            observers.get(i).update(new GameEvent("starterSide", gameState.getPlayerState(i).getStarterCard()));
-        }
-    }
-
-    public void assignStarterSide(String username, StarterSide side) throws RemoteException {
-        gameState.placeStarter(side.getSide(), cardWidth, cardHeight, matrixDimension);
-        System.out.println("Starter side chosen: " + side.getSide());
-        if(quorum == 0) {
-            notifyCurrentPlayerTurn();
-            quorum++;
-        }
-    }
-
-    public void playerSelectsCard(String username, CardSelection cardSelection) throws RemoteException {
-        int playerId = gameState.getPlayerId(username);
-        System.out.println("Stampando: " + playerId + " | " + currentPlayerIndex);
-        // adding exception notyourturn
-        if (playerId == currentPlayerIndex) {
-            int cardId = cardSelection.getId();
-            // get card from player hand by id
-            cardToPlace = gameState.getPlayerState(playerId).getCardFromHand(cardId);
-            System.out.println("Card selected: " + cardToPlace);
-
-            PlayerState player = gameState.getPlayerState(playerId);
-
-            List<Coordinate> angoliDisponibili = new ArrayList<>();
-
-
-            for (Card c : player.getCodex()) {
-                angoliDisponibili.addAll(c.findFreeAngles(gameState.getPlayerState(playerId).getMatrix(), player.getCodex(), cardToPlace.getId(), test));
+    public void processMoves() {
+        while (true) {
+            try {
+                PlayerMove playerMove = moveQueue.take(); // Blocca fino a quando un elemento è disponibile
+                processMove(playerMove.getUsername(), playerMove.getEvent());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
-
-            gameState.getPlayerState(playerId).removeCardFromHand(cardToPlace);
-            // add card to player codex
-            gameState.getPlayerState(playerId).addCardToCodex(cardToPlace);
-
-            observers.get(playerId).update(new GameEvent("askAngle", angoliDisponibili));
-        } else {
-            observers.get(playerId).update(new GameEvent("Error", "Not your turn"));
         }
+    }
+
+    public synchronized void addObserver(String username, GameObserver observer) throws RemoteException {
+        System.out.println("\nAdding observer " + observer);
+        if (observers.containsKey(username)) {
+            System.out.println("Observer already added");
+            return;
+        }
+        observers.put(username, observer);
+    }
+
+    // TODO: Fix this method
+    @Override
+    public synchronized void removeObserver(GameObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyCurrentPlayerTurn() throws RemoteException {
+        String us = gameState.getPlayerOrder().get(currentPlayerIndex);
+        for (String username : orderedObserversMap.keySet()) {
+            if (!username.equals(us))
+                orderedObserversMap.get(username).update(new GameEvent("notYourTurn", us));
+        }
+        GameEvent beforeTurnEvent = new GameEvent("beforeTurnEvent", gameState.calculateResource(us));
+        orderedObserversMap.get(us).update(beforeTurnEvent);
+        // send list of ids of playable cards from playing hand
+        GameEvent turnEvent = new GameEvent("currentPlayerTurn", gameState.getPlayableCardIdsFromHand(us));
+        orderedObserversMap.get(us).update(turnEvent);
+    }
+
+    @Override
+    public void advanceTurn() throws RemoteException {
+        currentPlayerIndex = (currentPlayerIndex + 1) % orderedObserversMap.size();
+        notifyCurrentPlayerTurn();
     }
 
     public void angleChosen(String username, CardToAttachSelected cardToAttach) throws RemoteException {
-        int playerId = gameState.getPlayerId(username);
-        System.out.println("Place where to play: " + cardToAttach);
-        PlayerState player = gameState.getPlayerState(playerId);
-        System.out.println("Stampando: " + playerId + " | " + currentPlayerIndex);
-        if (playerId == currentPlayerIndex) {
-            String cardToAttachSelected = cardToAttach.getString();
-            String[] splitCardToPlay = cardToAttachSelected.split("\\.");
-            int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
-            int cornerSelected = Integer.parseInt(splitCardToPlay[1]);
-            Card targetCard = player.getCodex().stream()
-                    .filter(card1 -> card1.getId() == cardToAttachId)
-                    .findAny()
-                    .get();
+        PlayerState player = gameState.getPlayerState(username);
+        String[] splitCardToPlay = cardToAttach.getString().split("\\.");
+        int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
+        int cornerSelected = Integer.parseInt(splitCardToPlay[1]);
+        Card targetCard = player.getCodex().stream()
+                .filter(card1 -> card1.getId() == cardToAttachId)
+                .findAny()
+                .get();
 
-            if (test.containsKey(cardToAttachId)) {
-                if (test.get(cardToAttachId).containsKey(cornerSelected)) {
-                    List<Coordinate> co = test.get(cardToAttachId).get(cornerSelected);
+        if (test.containsKey(cardToAttachId)) {
+            if (test.get(cardToAttachId).containsKey(cornerSelected)) {
+                List<Coordinate> co = test.get(cardToAttachId).get(cornerSelected);
 
-                    for (Coordinate c : co) {
-                        if (c.getX() == cardToPlace.getId() && cardToPlace.getActualCorners().containsKey(c.getY())) {
-                            cardToPlace.getActualCorners().get(c.getY()).setHidden(true);
-                        } else {
-                            Card cardTemp = player.getCodex().stream()
-                                    .filter(card1 -> card1.getId() == c.getX())
-                                    .findAny()
-                                    .get();
-                            if (cardTemp.getActualCorners().containsKey(c.getY())) {
-                                cardTemp.getActualCorners().get(c.getY()).setHidden(true);
-                                cardTemp.getActualCorners().get(c.getY()).setEmpty(true);
-                            }
+                for (Coordinate c : co) {
+                    if (c.getX() == cardToPlace.getId() && cardToPlace.getActualCorners().containsKey(c.getY())) {
+                        cardToPlace.getActualCorners().get(c.getY()).setHidden(true);
+                    } else {
+                        Card cardTemp = player.getCodex().stream()
+                                .filter(card1 -> card1.getId() == c.getX())
+                                .findAny()
+                                .get();
+                        if (cardTemp.getActualCorners().containsKey(c.getY())) {
+                            cardTemp.getActualCorners().get(c.getY()).setHidden(true);
+                            cardTemp.getActualCorners().get(c.getY()).setEmpty(true);
                         }
                     }
                 }
             }
-            if (cornerSelected == 0) {
-                //view.placeCard(player.getBoard(), card,placeCardBottomLeft(player.getBoard(), targetCard, card));
-                cardToPlace.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() - 1);
-            } else if (cornerSelected == 1) {
-                //view.placeCard(player.getBoard(), card,placeCardTopLeft(player.getBoard(), targetCard, card));
-                cardToPlace.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() - 1);
-            } else if (cornerSelected == 2) {
-                //view.placeCard(player.getBoard(), card,placeCardTopRight(player.getBoard(), targetCard, card));
-                cardToPlace.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() + 1);
-            } else if (cornerSelected == 3) {
-                //view.placeCard(player.getBoard(), card,placeCardBottomRight(player.getBoard(), targetCard, card));
-                cardToPlace.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() + 1);
-            }
-
-            player.getMatrix()[cardToPlace.getyMatrixCord()][cardToPlace.getxMatrixCord()] = cardToPlace.getId();
-
-            //view.displayBoard(player.getBoard());
-
-            List<Integer> ids = new ArrayList<>();
-            for (Card c : gameState.getResourceCardsVisible()) {
-                ids.add(c.getId());
-            }
-            for (Card c : gameState.getGoldCardsVisible()) {
-                ids.add(c.getId());
-            }
-
-            observers.get(playerId).update(new GameEvent("askWhereToDraw", ids));
-
-        } else {
-            observers.get(playerId).update(new GameEvent("Error", "Not your turn"));
         }
+
+        if (cornerSelected == 0) {
+            cardToPlace.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() - 1);
+        } else if (cornerSelected == 1) {
+            cardToPlace.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() - 1);
+        } else if (cornerSelected == 2) {
+            cardToPlace.setXYCord(targetCard.getyMatrixCord() - 1, targetCard.getxMatrixCord() + 1);
+        } else if (cornerSelected == 3) {
+            cardToPlace.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() + 1);
+        }
+
+        // notify observers of the updated codex
+        orderedObserversMap.get(username).update(new GameEvent("updateCodex", new ArrayList<>(player.getCodex())));
+
+        player.getMatrix()[cardToPlace.getyMatrixCord()][cardToPlace.getxMatrixCord()] = cardToPlace.getId();
+
+        List<Integer> ids = new ArrayList<>();
+        for (Card c : gameState.getResourceCardsVisible()) {
+            ids.add(c.getId());
+        }
+        for (Card c : gameState.getGoldCardsVisible()) {
+            ids.add(c.getId());
+        }
+
+        // TODO: fix this update method
+        // orderedObserversMap.get(username).update(new GameEvent("askWhereToDraw", ids));
     }
 
-    public void drawCard(String username, DrawCard drawCard) throws RemoteException {
+    /* public void drawCard(String username, DrawCard drawCard) throws RemoteException {
         int playerId = gameState.getPlayerId(username);
         PlayerState player = gameState.getPlayerState(playerId);
         if (playerId == currentPlayerIndex) {
@@ -260,86 +353,9 @@ public class GameController implements Serializable {
         } else {
             observers.get(playerId).update(new GameEvent("Error", "Not your turn"));
         }
-    }
+    } */
 
-
-    public List<GameObserver> getObservers() {
-        return observers;
-    }
-
-    public void notifyCurrentPlayerTurn() throws RemoteException {
-        GameEvent turnEvent = new GameEvent("currentPlayerTurn", gameState.getPlayerState(currentPlayerIndex).getHand());
-        observers.get(currentPlayerIndex).update(turnEvent);
-    }
-
-    public void advanceTurn() throws RemoteException {
-        currentPlayerIndex = (currentPlayerIndex + 1) % observers.size();
-        notifyObservers(new GameEvent("updateTurnCounter", currentPlayerIndex));
-        notifyCurrentPlayerTurn();
-    }
-
-    public void addObserver(GameObserver observer) {
-        System.out.println("\nAdding observer " + observer);
-        if (!observers.contains(observer)) {
-            observers.add(observer);
-        }
-    }
-
-    public void removeObserver(GameObserver observer) {
-        observers.remove(observer);
-    }
-
-    public void notifyObservers(GameEvent event) throws RemoteException {
-        System.out.println("Notifying observers: " + observers.size());
-        for (GameObserver observer : observers) {
-            observer.update(event);
-        }
-    }
-
-
-    public Coordinate placeCardBottomRight(Cell[][] board, Card card, Card cardToPlace) {
-        Coordinate leftUpCorner;
-        leftUpCorner = new Coordinate(card.getCentre().getX() + cardWidth - 1,
-                card.getCentre().getY() + cardHeight - 1);
-        cardToPlace.setCentre(leftUpCorner);
-
-        return leftUpCorner;
-    }
-
-
-    public Coordinate placeCardTopRight(Cell[][] board, Card card, Card cardToPlace) {
-        Coordinate leftUpCorner;
-        leftUpCorner = new Coordinate(card.getCentre().getX() + cardWidth - 1,
-                card.getCentre().getY() - cardHeight + 1);
-        cardToPlace.setCentre(leftUpCorner);
-
-        return leftUpCorner;
-    }
-
-    public Coordinate placeCardBottomLeft(Cell[][] board, Card card, Card cardToPlace) {
-        Coordinate leftUpCorner;
-        leftUpCorner = new Coordinate(card.getCentre().getX() - cardWidth + 1,
-                card.getCentre().getY() + cardHeight - 1);
-        cardToPlace.setCentre(leftUpCorner);
-
-        return leftUpCorner;
-    }
-
-    public Coordinate placeCardTopLeft(Cell[][] board, Card card, Card cardToPlace) {
-        Coordinate leftUpCorner;
-        leftUpCorner = new Coordinate(card.getCentre().getX() - cardWidth + 1,
-                card.getCentre().getY() - cardHeight + 1);
-        cardToPlace.setCentre(leftUpCorner);
-
-        return leftUpCorner;
-    }
-
-
-    public void setCurrTurn(int index) {
-        currentPlayerIndex = index;
-    }
-
-    public void lastTurn() throws RemoteException {
+    /* public void lastTurn() throws RemoteException {
         Boolean last = false;
         if (gameState.getPlayerState(currentPlayerIndex).getScore() >= 20 || last == true) {
             last = true;
@@ -403,15 +419,11 @@ public class GameController implements Serializable {
                         }
                     }
                 });
-
-
                 notifyObservers(new GameEvent("endGame", gameState.getPlayerState(currentPlayerIndex)));
             } else {
                 notifyObservers(new GameEvent("lastTurn", gameState.getPlayerState(currentPlayerIndex)));
             }
         }
-    }
-
-
+    } */
 }
 

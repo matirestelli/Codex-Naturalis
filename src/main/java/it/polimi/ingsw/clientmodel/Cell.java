@@ -1,10 +1,11 @@
 package it.polimi.ingsw.clientmodel;
 import  it.polimi.ingsw.core.model.Card;
+import it.polimi.ingsw.ui.AnsiColor;
 
 public class Cell {
-    char character;
-    Card card;
-    String color;
+    private char character;
+    private Card card;
+    private String color;
 
     public char getCharacter() {
         return character;

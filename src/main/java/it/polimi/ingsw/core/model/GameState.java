@@ -3,21 +3,21 @@ package it.polimi.ingsw.core.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.utils.PlayableCardIds;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 
 
 public class GameState implements java.io.Serializable {
-    private Map<Player, PlayerState> playerStates;
-    private Deck starterDeck;
-    private Deck resourceDeck;
-    private Deck goldDeck;
-    private Deck objectiveDeck;
+
+    private Map<Player, PlayerState> playerStates; // map of players and their states
+    private List<String> playerOrder; // list of players in the order they will play
+    private Deck starterDeck; // deck of starter cards
+    private Deck resourceDeck; // deck of resource cards
+    private Deck goldDeck; // deck of gold cards
+    private Deck objectiveDeck; // deck of objective cards
 
     private List<Objective> commonObj = new ArrayList<>();
 
@@ -47,6 +47,19 @@ public class GameState implements java.io.Serializable {
         this.goldDeck = new Deck("gold", new TypeToken<List<GoldCard>>() {}.getType());
         //this.objectiveDeck = new Deck("objective", new TypeToken<List<Objective>>() {}.getType());
         playerStates = new HashMap<>();
+    }
+
+    public PlayerState getPlayerState(String username) {
+        for (Player player : playerStates.keySet()) {
+            if (player.getUsername().equals(username)) {
+                return playerStates.get(player);
+            }
+        }
+        return null;
+    }
+
+    public List<String> getPlayerOrder() {
+        return playerOrder;
     }
 
     public int getPlayerId(String username) {
@@ -81,7 +94,7 @@ public class GameState implements java.io.Serializable {
         return goldDeck;
     }
 
-    public void addPlayer(Player player) {
+    public synchronized void addPlayer(Player player) {
         playerStates.put(player, new PlayerState());
     }
 
@@ -119,15 +132,9 @@ public class GameState implements java.io.Serializable {
         this.commonObj.add(objective);
     }
 
-    public void initializeMatrix(int matrixDimension) {
+    public void initializeMatrixPlayers(int matrixDimension) {
         for (Player player : playerStates.keySet()) {
             playerStates.get(player).initializeMatrix(matrixDimension);
-        }
-    }
-
-    public void initializeBoard(int matrixDimension, int cardWidth, int cardHeight) {
-        for (Player player : playerStates.keySet()) {
-            playerStates.get(player).initializeBoard( matrixDimension,cardWidth, cardHeight);
         }
     }
 
@@ -140,8 +147,14 @@ public class GameState implements java.io.Serializable {
         initializeResourceDeck();
         initializeGoldDeck();
         initializeObjectiveDeck();
+
+        // load the gold cards visible on the table
+        // TODO: implement for loop to draw n cards. Define n as class variable
         goldCardsVisible.add((Card) goldDeck.drawCard());
         goldCardsVisible.add((Card) goldDeck.drawCard());
+
+        // load the resource cards visible on the table
+        // TODO: implement for loop to draw n cards. Define n as class variable
         resourceCardsVisible.add((Card) resourceDeck.drawCard());
         resourceCardsVisible.add((Card) resourceDeck.drawCard());
     }
@@ -163,7 +176,10 @@ public class GameState implements java.io.Serializable {
             PlayerState ps = playerStates.get(player);
             if (!starterDeck.isEmpty()) {
                 CardGame card = starterDeck.drawCard();
-                ps.setStarterCard((ResourceCard) card);
+                ResourceCard rc = (ResourceCard) card;
+                // TODO: change 10 to matrix dimension
+                rc.setXYCord(10/2, 10/2);
+                ps.setStarterCard(rc);
                 ps.addCardToCodex((Card) card);
             }
         }
@@ -181,6 +197,7 @@ public class GameState implements java.io.Serializable {
     public void assignFirstHandToPlayers() {
         for (Player player : playerStates.keySet()) {
             PlayerState ps = playerStates.get(player);
+            // TODO: implement for loop to draw n cards. Define n as class variable
             for (int i = 0; i < 2; i++) {
                 if (!resourceDeck.isEmpty()) {
                     Card card = (Card) resourceDeck.drawCard();
@@ -202,9 +219,14 @@ public class GameState implements java.io.Serializable {
         }
     }
 
+    public List<Objective> getCommonObjectives() {
+        return this.commonObj;
+    }
+
     public void setCommonObjective(Objective[] commonObj, int index) {
         this.commonObj.set(index, commonObj[index]);
     }
+
     public Objective getCommonObjective(int index) {
         return commonObj.get(index);
     }
@@ -213,13 +235,15 @@ public class GameState implements java.io.Serializable {
         return objectiveDeck;
     }
 
-    public void setSecretObjective(Objective[] secretObj, int index) {
-        for (Player player : playerStates.keySet()) {
-            playerStates.get(player).setSecretObjective(secretObj[index]);
-        }
+    public void setSecretObjective(String username, Objective cardSelected) {
+        getPlayerState(username).setSecretObjective(cardSelected);
     }
 
-    public void placeStarter(Boolean isFront, int cardWidth, int cardHeight, int matrixDimension) {
+    public void assignStarterSide(String username, boolean cardSelected) {
+        getPlayerState(username).setStarterSide(cardSelected);
+    }
+
+    public void placeStarter(int cardWidth, int cardHeight, int matrixDimension) {
         Coordinate leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5,matrixDimension / 2 * cardHeight - 5);
         for (Player player : playerStates.keySet()) {
            Card extractedStarterCard = playerStates.get(player).getStarterCard();
@@ -228,5 +252,61 @@ public class GameState implements java.io.Serializable {
             ((Card) extractedStarterCard).setXYCord(matrixDimension / 2, matrixDimension / 2);
             playerStates.get(player).getMatrix()[((Card) extractedStarterCard).getyMatrixCord()][((Card) extractedStarterCard).getxMatrixCord()] = extractedStarterCard.getId();
         }
+    }
+
+    public void placeStarterInMatrix(String username, int matrixDimension) {
+        PlayerState playerState = getPlayerState(username);
+        Card extractedStarterCard = playerState.getStarterCard();
+        int x = matrixDimension / 2;
+        int y = matrixDimension / 2;
+        playerState.addCardToMatrix(x, y, extractedStarterCard.getId());
+    }
+
+    public void orderPlayers() {
+        playerOrder = new ArrayList<>();
+        for (Player player : playerStates.keySet()) {
+            playerOrder.add(player.getUsername());
+        }
+        // shuffle player order
+        Collections.shuffle(playerOrder);
+    }
+
+    public boolean isOver() {
+        for (Player player : playerStates.keySet()) {
+            if (playerStates.get(player).getScore() >= 20) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public PlayableCardIds getPlayableCardIdsFromHand(String username) {
+        List<Integer> playingHandIds = new ArrayList<>();
+        List<Integer> playingHandIdsBack = new ArrayList<>();
+
+        boolean playable;
+        PlayerState playerState = getPlayerState(username);
+
+        for (Card c : playerState.getHand()) {
+            playable = true;
+            if (c instanceof GoldCard x) {
+                for (Requirement r : x.getRequirements()) {
+                    if (playerState.getPersonalResources().get(r.getResource()) < r.getQta()) {
+                        playable = false;
+                    }
+                }
+            }
+
+            if (playable) {
+                playingHandIds.add(c.getId());
+            } else
+                playingHandIdsBack.add(c.getId());
+        }
+
+        return new PlayableCardIds(playingHandIds, playingHandIdsBack);
+    }
+
+    public Map<Resource, Integer> calculateResource(String us) {
+        return getPlayerState(us).calculateResources();
     }
 }

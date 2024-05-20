@@ -1,6 +1,7 @@
 package it.polimi.ingsw.core.model;
 
 import it.polimi.ingsw.core.model.enums.Color;
+import it.polimi.ingsw.ui.UserInterfaceStrategy;
 
 //import java.util.List;
 //import java.util.Map;
@@ -43,5 +44,4 @@ public class DownLObjective extends PositionObjective{
         p.addScore(getCompleted() * getPoints());
         this.resetCompleted();
     }
-
 }

@@ -1,14 +1,20 @@
 package it.polimi.ingsw.network.socket.client;
 
 import it.polimi.ingsw.core.model.*;
-import it.polimi.ingsw.view.CliView;
+import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.utils.PlayableCardIds;
+import it.polimi.ingsw.ui.GraphicalUserInterface;
+import it.polimi.ingsw.ui.TextUserInterface;
+import it.polimi.ingsw.ui.UserInterfaceStrategy;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Inet4Address;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
@@ -18,12 +24,24 @@ public class Client {
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
     private Scanner scanner = new Scanner(System.in);
-    private CliView view = new CliView();
+    private UserInterfaceStrategy uiStrategy;
 
-    public Client(String host, int port) throws IOException {
+    private ResourceCard starterCard;
+    private List<Card> hand;
+    private List<Card> codex;
+    private Map<Resource, Integer> resources;
+    private Card cardToPlay;
+
+    public Client(String host, int port, UserInterfaceStrategy uiStrategy) throws IOException {
         socket = new Socket(host, port);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
+
+        this.codex = new ArrayList<>();
+        this.hand = new ArrayList<>();
+
+        this.uiStrategy = uiStrategy;
+        this.uiStrategy.initialize();
     }
 
     public void start(String[] args) throws IOException, ClassNotFoundException {
@@ -68,7 +86,7 @@ public class Client {
             outputStream.writeObject(args[3]);
         }
 
-        System.out.println("\nWaiting for server updates...");
+        System.out.println("\nWaiting for server updates...\n\n");
         listenForUpdates();
     }
 
@@ -89,43 +107,41 @@ public class Client {
 
     private void handleEvent(GameEvent event) {
         switch (event.getType()) {
-            case "loadedStarterDeck", "loadedResourceDeck" -> {
-                List<ResourceCard> cards = (List<ResourceCard>) event.getData();
-                System.out.println("Received cards: ");
-                for (ResourceCard card : cards) {
-                    System.out.println(card.getId());
-                }
+            case "notYourTurn" -> {
+                System.out.println("Not your turn! Wait for your turn...");
             }
             case "loadedStarter"-> {
-                CardGame card = (CardGame) event.getData();
-                System.out.println("Received starter card: ");
-                System.out.println(card.getId());
+                starterCard = (ResourceCard) event.getData();
+                // TODO: change parameters and set as class attribute
+                starterCard.setCentre(new Coordinate(10 / 2 * 7 - 5,10 / 2 * 3 - 5));
+                codex.add(starterCard);
+                uiStrategy.displayCard(starterCard);
+                uiStrategy.displayStarterCardBack(starterCard);
             }
             case "starterSide"-> {
-                Boolean side;
-                CardGame card = (CardGame) event.getData();
-                int id = card.getId();
-                System.out.println("Choose f or b: ");
+                System.out.print("Choose front side or back side of starter card (f/b): ");
                 String input = scanner.nextLine();
                 while (!input.equals("f") && !input.equals("b")) {
-                    System.out.print("Input non valido, riprova: ");
+                    System.out.print("Invalid Input! Retry: ");
                     input = scanner.nextLine();
                 }
+
+                starterCard.setSide(input.equals("f"));
                 try {
-                    if(input == "f"){
-                        side=true;
-                    }else{
-                        side=false;
-                    }
-                    outputStream.writeObject(new StarterSide(id, side));
-                    System.out.println("Wait for your turn...");
+                    outputStream.writeObject(new GameEvent("starterSideSelection", input.equals("f")));
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
+
+                // place starter card on the board
+                uiStrategy.placeCard(starterCard, null);
+
+                // display board
+                uiStrategy.displayBoard();
             }
             case "askWhereToDraw"-> {
                 List<Integer> ids = (List<Integer>) event.getData();
-                for(int id : ids){
+                for(int id : ids) {
                     System.out.println(id);
                 }
                 System.out.println("Vuoi perscare una di queste carte o vuoi pescare da A (Resource) o da B (Gold)?");
@@ -141,55 +157,70 @@ public class Client {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
             }
-            case "chooseObjective" -> {
+            case "loadedCommonObjective" -> {
                 List<Objective> objectives = (List<Objective>) event.getData();
-                System.out.println("Extracted objective: ");
+                System.out.println("Game's Common objectives: ");
                 for (Objective objective : objectives) {
+                    // TODO: Fix and implement displayObjective method
                     System.out.println(objective.getId());
                 }
-                System.out.print("Choose one: ");
-                int cardId = scanner.nextInt();
+                System.out.println("\n");
+            }
+            case "chooseObjective" -> {
+                System.out.println("Secret objectives received:");
+                List<Objective> objectives = (List<Objective>) event.getData();
+                for (Objective objective : objectives) {
+                    // TODO: Fix and implement displayObjective method
+                    System.out.println(objective.getId());
+                }
+                uiStrategy.displayMessage("Choose an objective card to keep: ");
                 List<Integer> ids = new ArrayList<>();
                 for(Objective objective : objectives){
                     ids.add(objective.getId());
                 }
+
+                int cardId = scanner.nextInt();
                 while(!ids.contains(cardId)){
-                    System.out.print("Choose one: ");
+                    uiStrategy.displayMessage("Invalid Input! Retry: ");
                     cardId = scanner.nextInt();
                 }
+                scanner.nextLine();
+                // get card from objective list given the id
+                int finalCardId = cardId;
+                Objective card = objectives.stream().filter(o -> o.getId() == finalCardId).findFirst().orElse(null);
+
                 try {
-                    outputStream.writeObject(new SecreteObjectiveCard(cardId));
-                    System.out.println("Wait for everyone to select an objective...");
+                    outputStream.writeObject(new GameEvent("secretObjectiveSelection", card));
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
             }
             case "askAngle" -> {
-                List<Coordinate> angles = (List<Coordinate>) event.getData();
-                view.displayAngle(angles);
-                String input = scanner.nextLine();
-                while (!input.matches("\\d+\\.\\d+") ||  !angles.contains(new Coordinate(parseInt(input.split("\\.")[0]), parseInt(input.split("\\.")[1])))) {
-                    System.out.print("Input non valido, riprova: ");
-                    input = scanner.nextLine();
-                }
+                String input = uiStrategy.displayAngle((List<Coordinate>) event.getData());
+
+                // get card from player's hand by id
+                // TODO: create object for handling card selection
+                String[] splitCardToPlay = input.split("\\.");
+                int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
+                int cornerSelected = Integer.parseInt(splitCardToPlay[1]);
+
+                // card where to attach the selected card
+                Card targetCard = codex.stream().filter(c -> c.getId() == cardToAttachId).findFirst().orElse(null);
+                if (cornerSelected == 0)
+                    uiStrategy.placeCard(cardToPlay, uiStrategy.placeBottomLeft(targetCard, cardToPlay));
+                else if (cornerSelected == 1)
+                    uiStrategy.placeCard(cardToPlay, uiStrategy.placeTopLeft(targetCard, cardToPlay));
+                else if (cornerSelected == 2)
+                    uiStrategy.placeCard(cardToPlay, uiStrategy.placeTopRight(targetCard, cardToPlay));
+                else
+                    uiStrategy.placeCard(cardToPlay, uiStrategy.placeBottomRight(targetCard, cardToPlay));
+
+                uiStrategy.displayBoard();
+
                 try {
-                    outputStream.writeObject(new CardToAttachSelected(input));
+                    outputStream.writeObject(new GameEvent("angleSelection", new CardToAttachSelected(input)));
                 } catch (IOException e) {
                     System.out.println("Error sending angles: " + e.getMessage());
-                }
-            }
-            case "loadedObjective" -> {
-                List<CardGame> objectives = (List<CardGame>) event.getData();
-                System.out.println("Received objectives: ");
-                for (CardGame objective : objectives) {
-                    System.out.println(objective.getId());
-                }
-            }
-            case "loadedGoldDeck" -> {
-                List<GoldCard> cards = (List<GoldCard>) event.getData();
-                System.out.println("Received gold cards: ");
-                for (GoldCard card : cards) {
-                    System.out.println(card.getId());
                 }
             }
             case "assignedStarterCard" -> {
@@ -197,30 +228,34 @@ public class Client {
                 System.out.println("Setted starter card: " + card.getId());
             }
             case "updateHand" -> {
-                List<Card> cards = (List<Card>) event.getData();
-                System.out.println("Updated hand: ");
-                for (Card card : cards) {
-                    System.out.println(card.getId());
+                hand = (List<Card>) event.getData();
+                for (Card card : hand) {
+                    uiStrategy.displayCard(card);
+                    uiStrategy.displayCardBack(card);
                 }
             }
-            case "cardRemoved" -> System.out.println("Card " + event.getData() + " has been selected by someone.");
+            case "updateCodex" -> {
+                codex = (List<Card>) event.getData();
+            }
+            case "beforeTurnEvent" -> {
+                resources = (Map<Resource, Integer>) event.getData();
+            }
             case "currentPlayerTurn" -> {
-                System.out.print("It's your turn! Select a card ID to play: ");
-                List<Card> cards =  (List<Card>) event.getData();
-                List<Integer> ids = new ArrayList<>();
-                for(Card c : cards){
-                    ids.add(c.getId());
+                System.out.println("It's your turn!");
+                PlayableCardIds ids = (PlayableCardIds) event.getData();
+                for (Card card : hand) {
+                    if (ids.getPlayingHandIds().contains(card.getId()))
+                        uiStrategy.displayCard(card);
+                    uiStrategy.displayCardBack(card);
                 }
-                int cardId = scanner.nextInt();
-                while(!ids.contains(cardId)){
-                    System.out.print("Retry: ");
-                    cardId = scanner.nextInt();
-                }
+                CardSelection cs = uiStrategy.askCardSelection(ids.getPlayingHandIds(), ids.getPlayingHandIdsBack());
+                cardToPlay = hand.stream().filter(c -> c.getId() == cs.getId()).findFirst().orElse(null);
                 try {
-                    outputStream.writeObject(new CardSelection(cardId, true));
+                    outputStream.writeObject(new GameEvent("cardSelection", cs));
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
+                hand.remove(cardToPlay);
             }
             case "lastTurn" ->{
                 System.out.println("Last turn! Select a card ID to play: ");
@@ -249,8 +284,17 @@ public class Client {
     }
 
     public static void main(String[] args) {
+        UserInterfaceStrategy uiStrategy;
+
+        String opt = "cli";
+        if (opt.equals("cli")) {
+            uiStrategy = new TextUserInterface();
+        } else {
+            uiStrategy = new GraphicalUserInterface();
+        }
+
         try {
-            Client client = new Client("localhost", 12345);
+            Client client = new Client("localhost", 12345, uiStrategy);
             client.start(args);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

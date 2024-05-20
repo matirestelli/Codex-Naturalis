@@ -1,14 +1,9 @@
 package it.polimi.ingsw.core.model;
 
-public class SecreteObjectiveCard extends Objective{
+public class SecreteObjectiveCard {
+    private Objective card;
 
-    private int id;
-
-    public SecreteObjectiveCard(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
+    public SecreteObjectiveCard(Objective card) {
+        this.card = card;
     }
 }
