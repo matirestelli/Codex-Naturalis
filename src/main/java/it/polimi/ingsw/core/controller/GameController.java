@@ -335,7 +335,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                 // TODO: check if this is correct
                 for (int i = 0; i < observers.size(); i++) {
 
-                    // PlayerState player = gameState.getPlayerState(currentPlayerIndex);
+                    // PlayerState player = gameState.getPlayerState(i);
                     int preScore = player.getScore();
                     Objective card = null;
                     for (int j = 0; j < 3; j++) {
