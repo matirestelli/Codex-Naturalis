@@ -7,6 +7,7 @@ import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.GameServer;
 import it.polimi.ingsw.observers.GameObserver;
 import it.polimi.ingsw.ui.GraphicalUserInterface;
+import it.polimi.ingsw.ui.ObserverUI;
 import it.polimi.ingsw.ui.TextUserInterface;
 import it.polimi.ingsw.ui.UserInterfaceStrategy;
 
@@ -34,15 +35,28 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
     private Map<Resource, Integer> resources;
     private Card cardToPlay;
 
-    public GameClientImpl(String host, int port, UserInterfaceStrategy uiStrategy) throws RemoteException {
+    private ObserverUI observerUI;
+
+    public GameClientImpl(String host, int port, String opt) throws RemoteException {
         super();
+
+        opt = "cli";
+        if (opt.equals("cli")) {
+            this.uiStrategy = new TextUserInterface(this);
+        } else {
+            this.uiStrategy = new GraphicalUserInterface();
+        }
+
         connectToServer(host, port);
 
         this.codex = new ArrayList<>();
         this.hand = new ArrayList<>();
 
-        this.uiStrategy = uiStrategy;
         this.uiStrategy.initialize();
+    }
+
+    public void setObserverUI(ObserverUI observerUI) {
+        this.observerUI = observerUI;
     }
 
     private void connectToServer(String host, int port) throws RemoteException {
@@ -130,7 +144,7 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
             }
             case "starterSide"-> {
                 // ask user to set side of the starter card
-                boolean side = uiStrategy.setStarterSide();
+                /*boolean side = uiStrategy.setStarterSide();
 
                 // set side of the starter card
                 starterCard.setSide(side);
@@ -146,7 +160,7 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
                     gc.handleMove(username, new GameEvent("starterSideSelection", side));
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
-                }
+                }*/
             }
             case "askWhereToDraw"-> {
                 String input = uiStrategy.askWhereToDraw((List<Card>) event.getData());
@@ -230,6 +244,10 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
         }
     }
 
+    public void setObserver(ObserverUI observerUI) {
+        this.observerUI = observerUI;
+    }
+
     @Override
     public void notify(GameEvent event) throws RemoteException {}
 
@@ -237,18 +255,21 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
         UserInterfaceStrategy uiStrategy;
 
         String opt = "cli";
-        if (opt.equals("cli")) {
-            uiStrategy = new TextUserInterface();
-        } else {
-            uiStrategy = new GraphicalUserInterface();
-        }
 
         try {
-            GameClientImpl client = new GameClientImpl("localhost", 1099, uiStrategy);
+            GameClientImpl client = new GameClientImpl("localhost", 1099, opt);
 
             client.login(args);
         } catch (RemoteException e) {
             System.out.println("Error creating the client: " + e.getMessage());
+        }
+    }
+
+    public void handleMoveUI() {
+        try {
+            gc.handleMove(username, new GameEvent("endTurn", null));
+        } catch (IOException e) {
+            System.out.println("Error sending card ID: " + e.getMessage());
         }
     }
 }

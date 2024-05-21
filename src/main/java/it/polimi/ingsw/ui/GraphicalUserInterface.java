@@ -79,8 +79,8 @@ public class GraphicalUserInterface implements UserInterfaceStrategy {
     public void visualizeStarterCard(Card card) {
     }
 
-    public boolean setStarterSide() {
-        return false;
+    public void setStarterSide() {
+
     }
 
     public void displayCommonObjective(List<Objective> obj) {

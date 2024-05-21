@@ -5,20 +5,32 @@ import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
+import it.polimi.ingsw.network.rmi.client.GameClientImpl;
+import it.polimi.ingsw.network.socket.client.Client;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
 
-public class TextUserInterface implements UserInterfaceStrategy {
+public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     private Scanner scanner = new Scanner(System.in);
     private int cardWidth = 7;
     private int cardHeight = 3;
     private int matrixDimension = 10;
     private Cell[][] gameBoard;
+    private Client client;
+    private GameClientImpl gameClient;
+
+    public TextUserInterface(Client client) {
+        client.setObserverUI(this);
+        this.client = client;
+    }
+
+    public TextUserInterface(GameClientImpl client) {
+        client.setObserverUI(this);
+    }
 
     @Override
     public void initialize() {
@@ -444,7 +456,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
         displayStarterCardBack((ResourceCard) card);
     }
 
-    public boolean setStarterSide() {
+    public void setStarterSide() {
         displayMessage("Choose front side or back side of starter card (f/b): ");
         String input = scanner.nextLine();
         while (!input.equals("f") && !input.equals("b")) {
@@ -452,13 +464,13 @@ public class TextUserInterface implements UserInterfaceStrategy {
             input = scanner.nextLine();
         }
 
-        return input.equals("f");
+        client.handleMoveUI(new GameEvent("starterSide", input.equals("f")));
     }
 
     public void displayCommonObjective(List<Objective> objectives) {
         displayMessage("Game's Common objectives: ");
         for (Objective objective : objectives) {
-            objective.displayCard();
+            // objective.displayCard();
             // TODO: Fix and implement displayObjective method
             System.out.println(objective.getId());
         }
@@ -529,5 +541,18 @@ public class TextUserInterface implements UserInterfaceStrategy {
         }
 
         return input;
+    }
+
+    @Override
+    public void updateUI(GameEvent gameEvent) {
+        System.out.println("UI updated!");
+        switch (gameEvent.getType()) {
+            case "loadedStarter" -> {
+                visualizeStarterCard((Card) gameEvent.getData());
+            }
+            case "starterSide" -> {
+                setStarterSide();
+            }
+        }
     }
 }

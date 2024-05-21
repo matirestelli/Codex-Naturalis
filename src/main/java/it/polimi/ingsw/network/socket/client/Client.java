@@ -4,6 +4,7 @@ import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.ui.GraphicalUserInterface;
+import it.polimi.ingsw.ui.ObserverUI;
 import it.polimi.ingsw.ui.TextUserInterface;
 import it.polimi.ingsw.ui.UserInterfaceStrategy;
 
@@ -30,7 +31,9 @@ public class Client {
     private Map<Resource, Integer> resources;
     private Card cardToPlay;
 
-    public Client(String host, int port, UserInterfaceStrategy uiStrategy) throws IOException {
+    private ObserverUI observerUI;
+
+    public Client(String host, int port, String opt) throws IOException {
         socket = new Socket(host, port);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
@@ -38,8 +41,18 @@ public class Client {
         this.codex = new ArrayList<>();
         this.hand = new ArrayList<>();
 
-        this.uiStrategy = uiStrategy;
+        opt = "cli";
+        if (opt.equals("cli")) {
+            this.uiStrategy = new TextUserInterface(this);
+        } else {
+            this.uiStrategy = new GraphicalUserInterface();
+        }
+
         this.uiStrategy.initialize();
+    }
+
+    public void setObserverUI(ObserverUI observerUI) {
+        this.observerUI = observerUI;
     }
 
     public void start(String[] args) throws IOException, ClassNotFoundException {
@@ -110,6 +123,9 @@ public class Client {
                 uiStrategy.displayMessage("Not your turn! Wait for your turn...\n");
             }
             case "loadedStarter"-> {
+                // notify TUI that the starter card is loaded, using the listener/observer pattern
+                observerUI.updateUI(event);
+
                 // get starter card from server
                 starterCard = (ResourceCard) event.getData();
                 // TODO: change parameters and set as class attribute
@@ -120,27 +136,13 @@ public class Client {
                 codex.add(starterCard);
 
                 // display starter card back
-                uiStrategy.visualizeStarterCard(starterCard);
+                // uiStrategy.visualizeStarterCard(starterCard);
             }
             case "starterSide"-> {
+                observerUI.updateUI(event);
+
                 // ask user to set side of the starter card
-                boolean side = uiStrategy.setStarterSide();
-
-                // set side of the starter card
-                starterCard.setSide(side);
-
-                // place starter card on the board
-                uiStrategy.placeCard(starterCard, null);
-
-                // display board
-                uiStrategy.displayBoard();
-
-                // send side to server
-                try {
-                    outputStream.writeObject(new GameEvent("starterSideSelection", side));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
+                // boolean side = uiStrategy.setStarterSide();
             }
             case "askWhereToDraw"-> {
                 String input = uiStrategy.askWhereToDraw((List<Card>) event.getData());
@@ -239,17 +241,34 @@ public class Client {
         UserInterfaceStrategy uiStrategy;
 
         String opt = "cli";
-        if (opt.equals("cli")) {
-            uiStrategy = new TextUserInterface();
-        } else {
-            uiStrategy = new GraphicalUserInterface();
-        }
-
         try {
-            Client client = new Client("localhost", 12345, uiStrategy);
+            Client client = new Client("localhost", 12345, opt);
             client.start(args);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void handleMoveUI(GameEvent gameEvent) {
+        switch (gameEvent.getType()) {
+            case "starterSide" -> {
+                // set side of the starter card
+                boolean side = (boolean) gameEvent.getData();
+                starterCard.setSide(side);
+
+                // place starter card on the board
+                uiStrategy.placeCard(starterCard, null);
+
+                // display board
+                uiStrategy.displayBoard();
+
+                // send side to server
+                try {
+                    outputStream.writeObject(new GameEvent("starterSideSelection", side));
+                } catch (IOException e) {
+                    System.out.println("Error sending card ID: " + e.getMessage());
+                }
+            }
         }
     }
 }

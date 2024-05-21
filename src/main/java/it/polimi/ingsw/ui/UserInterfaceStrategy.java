@@ -21,7 +21,7 @@ public interface UserInterfaceStrategy {
     Coordinate placeTopRight(Card targetCard, Card cardToPlace);
     Coordinate placeBottomLeft(Card targetCard, Card cardToPlace);
     void visualizeStarterCard(Card card);
-    boolean setStarterSide();
+    void setStarterSide();
     void displayCommonObjective(List<Objective> obj);
     Objective chooseObjective(List<Objective> obj);
     void displayHand(List<Card> hand);
