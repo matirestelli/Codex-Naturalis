@@ -4,9 +4,14 @@ import it.polimi.ingsw.clientmodel.Cell;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.utils.PlayableCardIds;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
 
 public class TextUserInterface implements UserInterfaceStrategy {
     private Scanner scanner = new Scanner(System.in);
@@ -149,7 +154,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
             else if (card.getBackResources().size() == 2)
                 upResources += AnsiColor.YELLOW_BACKGROUND.toString() + card.getBackResources().get(0).toString().charAt(0) + card.getBackResources().get(1).toString().charAt(0) + "  " + AnsiColor.RESET;
             else
-                upResources += AnsiColor.YELLOW_BACKGROUND.toString() + card.getBackResources().get(0).toString().charAt(0) + card.getBackResources().get(1).toString().charAt(0) + card.getBackResources().get(2).toString().charAt(0) +  " " + AnsiColor.RESET;
+                upResources += AnsiColor.YELLOW_BACKGROUND.toString() + card.getBackResources().get(0).toString().charAt(0) + card.getBackResources().get(1).toString().charAt(0) + card.getBackResources().get(2).toString().charAt(0) + " " + AnsiColor.RESET;
         } else
             upResources += "    ";
 
@@ -168,7 +173,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
     public void placeCard(Card card, Coordinate leftUpCorner) {
         if (leftUpCorner == null)
-            leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5,matrixDimension / 2 * cardHeight - 5);
+            leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5, matrixDimension / 2 * cardHeight - 5);
         int x = leftUpCorner.getX();
         int y = leftUpCorner.getY();
         boolean whichCard = true;
@@ -314,20 +319,28 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("+");
     }
 
-    public CardSelection askCardSelection(List<Integer> ids, List<Integer> idsBack) {
+    public CardSelection askCardSelection(PlayableCardIds ids, List<Card> hand) {
+        displayMessage("It's your turn!\n");
+
+        for (Card card : hand) {
+            if (ids.getPlayingHandIds().contains(card.getId()))
+                displayCard(card);
+            displayCardBack(card);
+        }
+
         String message = "Inserisci l'id della carta che vuoi giocare (";
-        for (int i = 0; i < ids.size(); i++) {
-            message += ids.get(i) + ".f / " + ids.get(i) + ".b";
-            if (i != ids.size() - 1)
+        for (int i = 0; i < ids.getPlayingHandIds().size(); i++) {
+            message += ids.getPlayingHandIds().get(i) + ".f / " + ids.getPlayingHandIds().get(i) + ".b";
+            if (i != ids.getPlayingHandIds().size() - 1)
                 message += " / ";
         }
 
-        if (!idsBack.isEmpty())
+        if (!ids.getPlayingHandIdsBack().isEmpty())
             message += " / ";
 
-        for (int i = 0; i < idsBack.size(); i++) {
-            message += idsBack.get(i) + ".b";
-            if (i != idsBack.size() - 1)
+        for (int i = 0; i < ids.getPlayingHandIdsBack().size(); i++) {
+            message += ids.getPlayingHandIdsBack().get(i) + ".b";
+            if (i != ids.getPlayingHandIdsBack().size() - 1)
                 message += " / ";
         }
 
@@ -340,19 +353,17 @@ public class TextUserInterface implements UserInterfaceStrategy {
             input = scanner.nextLine();
             input = input.trim();
 
-            // input = scanner.nextLine().trim(); // Prende l'input e rimuove gli spazi bianchi iniziali e finali
-
             try {
                 // Verifica se l'input termina con ".b" e controlla la validità
                 if (input.endsWith(".b")) {
                     int id = Integer.parseInt(input.substring(0, input.length() - 2)); // Rimuove ".b" e prova a convertire in int
-                    if (idsBack.contains(id) || ids.contains(id)) {
+                    if (ids.getPlayingHandIdsBack().contains(id) || ids.getPlayingHandIds().contains(id)) {
                         validInput = true; // L'ID è valido e nell'elenco idsBack
                     }
                 } else {
                     // Controlla se l'input è un ID valido in ids (senza ".b")
                     int id = Integer.parseInt(input.endsWith(".f") ? input.substring(0, input.length() - 2) : input); // Rimuove ".f" se presente e prova a convertire in int
-                    if (ids.contains(id)) {
+                    if (ids.getPlayingHandIds().contains(id)) {
                         validInput = true; // L'ID è valido e nell'elenco ids
                     }
                 }
@@ -384,7 +395,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
         // continue to ask for input until the input is valid and the angle is in the list
         String input = scanner.nextLine();
-        while (!input.matches("\\d+\\.\\d+") ||  !angles.contains(new Coordinate(Integer.parseInt(input.split("\\.")[0]), Integer.parseInt(input.split("\\.")[1])))) {
+        while (!input.matches("\\d+\\.\\d+") || !angles.contains(new Coordinate(Integer.parseInt(input.split("\\.")[0]), Integer.parseInt(input.split("\\.")[1])))) {
             System.out.print("Input non valido, riprova: ");
             input = scanner.nextLine();
         }
@@ -400,7 +411,6 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
         return leftUpCorner;
     }
-
 
     public Coordinate placeTopRight(Card card, Card cardToPlace) {
         Coordinate leftUpCorner;
@@ -427,5 +437,97 @@ public class TextUserInterface implements UserInterfaceStrategy {
         cardToPlace.setCentre(leftUpCorner);
 
         return leftUpCorner;
+    }
+
+    public void visualizeStarterCard(Card card) {
+        displayCard(card);
+        displayStarterCardBack((ResourceCard) card);
+    }
+
+    public boolean setStarterSide() {
+        displayMessage("Choose front side or back side of starter card (f/b): ");
+        String input = scanner.nextLine();
+        while (!input.equals("f") && !input.equals("b")) {
+            System.out.print("Invalid Input! Retry: ");
+            input = scanner.nextLine();
+        }
+
+        return input.equals("f");
+    }
+
+    public void displayCommonObjective(List<Objective> objectives) {
+        displayMessage("Game's Common objectives: ");
+        for (Objective objective : objectives) {
+            objective.displayCard();
+            // TODO: Fix and implement displayObjective method
+            System.out.println(objective.getId());
+        }
+        displayMessage("\n");
+    }
+
+    public Objective chooseObjective(List<Objective> objectives) {
+        displayMessage("Secret objectives received:");
+        System.out.println();
+        for (Objective objective : objectives) {
+            // TODO: Fix and implement displayObjective method
+            System.out.println(objective.getId());
+        }
+        displayMessage("Choose an objective card to keep: ");
+        List<Integer> ids = new ArrayList<>();
+        for (Objective objective : objectives) {
+            ids.add(objective.getId());
+        }
+
+        int cardId = scanner.nextInt();
+        while (!ids.contains(cardId)) {
+            displayMessage("Invalid Input! Retry: ");
+            cardId = scanner.nextInt();
+        }
+        scanner.nextLine();
+        // get card from objective list given the id
+        int finalCardId = cardId;
+        return objectives.stream().filter(o -> o.getId() == finalCardId).findFirst().orElse(null);
+    }
+
+    public void displayHand(List<Card> hand) {
+        displayMessage("Your hand:\n");
+        for (Card card : hand) {
+            displayCard(card);
+            displayCardBack(card);
+        }
+    }
+
+    public void place(Card cardToPlay, Card targetCard, int cornerSelected) {
+        if (cornerSelected == 0)
+            placeCard(cardToPlay, placeBottomLeft(targetCard, cardToPlay));
+        else if (cornerSelected == 1)
+            placeCard(cardToPlay, placeTopLeft(targetCard, cardToPlay));
+        else if (cornerSelected == 2)
+            placeCard(cardToPlay, placeTopRight(targetCard, cardToPlay));
+        else
+            placeCard(cardToPlay, placeBottomRight(targetCard, cardToPlay));
+
+    }
+
+    public String askWhereToDraw(List<Card> cards) {
+        List<Integer> ids = new ArrayList<>();
+        String m = "(";
+        for (Card c : cards) {
+            displayCard(c);
+            displayCardBack(c);
+            ids.add(c.getId());
+            m += c.getId() + " / ";
+        }
+        String mex = "Vuoi perscare una di queste carte o vuoi pescare da A (Resource) o da B (Gold)? ";
+        mex += m.substring(0, m.length() - 3) + " / A / B): \n";
+        displayMessage(mex);
+
+        String input = scanner.nextLine();
+        while (!input.equals("A") && !input.equals("B") && !ids.contains(parseInt(input))) {
+            System.out.print("Input non valido, riprova: ");
+            input = scanner.nextLine();
+        }
+
+        return input;
     }
 }

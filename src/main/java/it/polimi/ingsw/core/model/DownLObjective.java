@@ -1,7 +1,11 @@
 package it.polimi.ingsw.core.model;
 
 import it.polimi.ingsw.core.model.enums.Color;
+import it.polimi.ingsw.ui.AnsiColor;
 import it.polimi.ingsw.ui.UserInterfaceStrategy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //import java.util.List;
 //import java.util.Map;
@@ -43,5 +47,26 @@ public class DownLObjective extends PositionObjective{
         }
         p.addScore(getCompleted() * getPoints());
         this.resetCompleted();
+    }
+
+    public ArrayList<String> displayCard(AnsiColor AnsiColors) {
+        String ANSIColor = "";
+
+        if (getColor() == Color.RED) {
+            ANSIColor += AnsiColors.RED_BACKGROUND;
+        } else if (getColor() == Color.BLUE) {
+            ANSIColor += AnsiColors.BLUE_BACKGROUND;
+        } else if (getColor() == Color.PURPLE) {
+            ANSIColor += AnsiColors.PURPLE_BACKGROUND;
+        } else if (getColor() == Color.GREEN) {
+            ANSIColor += AnsiColors.GREEN_BACKGROUND;
+        }
+
+        ArrayList<String> result = new ArrayList<>();
+        result.add(ANSIColor + "  " + AnsiColors.BOLD + AnsiColors.GOLD + this.getPoints() + AnsiColors.RESET + ANSIColor + "  " + color1.toString().charAt(0) + " " + AnsiColors.RESET);
+        result.add(ANSIColor + "    " + color1.toString().charAt(0) + "  " + AnsiColors.RESET);
+        result.add(ANSIColor + "    " + color2.toString().charAt(0) + "  " + AnsiColors.RESET);
+
+        return result;
     }
 }

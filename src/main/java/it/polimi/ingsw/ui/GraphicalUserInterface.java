@@ -1,9 +1,7 @@
 package it.polimi.ingsw.ui;
 
-import it.polimi.ingsw.core.model.Card;
-import it.polimi.ingsw.core.model.CardSelection;
-import it.polimi.ingsw.core.model.Coordinate;
-import it.polimi.ingsw.core.model.ResourceCard;
+import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.utils.PlayableCardIds;
 
 import java.util.List;
 
@@ -49,7 +47,7 @@ public class GraphicalUserInterface implements UserInterfaceStrategy {
     }
 
     @Override
-    public CardSelection askCardSelection(List<Integer> ids, List<Integer> idsBack) {
+    public CardSelection askCardSelection(PlayableCardIds ids, List<Card> cards) {
         return null;
     }
 
@@ -75,6 +73,30 @@ public class GraphicalUserInterface implements UserInterfaceStrategy {
 
     @Override
     public Coordinate placeBottomLeft(Card targetCard, Card cardToPlace) {
+        return null;
+    }
+
+    public void visualizeStarterCard(Card card) {
+    }
+
+    public boolean setStarterSide() {
+        return false;
+    }
+
+    public void displayCommonObjective(List<Objective> obj) {
+    }
+
+    public Objective chooseObjective(List<Objective> obj) {
+        return null;
+    }
+
+    public void displayHand(List<Card> hand) {
+    }
+
+    public void place(Card cardToPlace, Card targetCard, int position) {
+    }
+
+    public String askWhereToDraw(List<Card> cards) {
         return null;
     }
 }

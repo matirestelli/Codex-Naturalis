@@ -13,7 +13,8 @@ public enum AnsiColor {
     GREEN_BACKGROUND("\u001B[48;5;34m"),
     YELLOW_BACKGROUND("\u001B[48;5;179m"),
     GOLD_PURPLE_BACKGROUND("\u001B[48;5;129m"),
-    GOLD_GREEN_BACKGROUND("\u001B[48;5;28m");
+    GOLD_GREEN_BACKGROUND("\u001B[48;5;28m"),
+    GOLD("\u001B[33m");
 
     private final String code;
 

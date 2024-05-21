@@ -1,9 +1,7 @@
 package it.polimi.ingsw.ui;
 
-import it.polimi.ingsw.core.model.Card;
-import it.polimi.ingsw.core.model.CardSelection;
-import it.polimi.ingsw.core.model.Coordinate;
-import it.polimi.ingsw.core.model.ResourceCard;
+import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.utils.PlayableCardIds;
 
 import java.util.List;
 
@@ -16,10 +14,17 @@ public interface UserInterfaceStrategy {
     String displayResourcesStarter(ResourceCard card, int index1, int index2);
     void placeCard(Card card, Coordinate position);
     void displayBoard();
-    CardSelection askCardSelection(List<Integer> ids, List<Integer> idsBack);
+    CardSelection askCardSelection(PlayableCardIds ids, List<Card> cards);
     String displayAngle(List<Coordinate> angles);
     Coordinate placeBottomRight(Card targetCard, Card cardToPlace);
     Coordinate placeTopLeft(Card targetCard, Card cardToPlace);
     Coordinate placeTopRight(Card targetCard, Card cardToPlace);
     Coordinate placeBottomLeft(Card targetCard, Card cardToPlace);
+    void visualizeStarterCard(Card card);
+    boolean setStarterSide();
+    void displayCommonObjective(List<Objective> obj);
+    Objective chooseObjective(List<Objective> obj);
+    void displayHand(List<Card> hand);
+    void place(Card cardToPlace, Card targetCard, int position);
+    String askWhereToDraw(List<Card> cards);
 }

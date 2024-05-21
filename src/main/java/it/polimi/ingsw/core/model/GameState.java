@@ -148,6 +148,9 @@ public class GameState implements java.io.Serializable {
         initializeGoldDeck();
         initializeObjectiveDeck();
 
+        // shuffle decks
+        shuffleDecks();
+
         // load the gold cards visible on the table
         // TODO: implement for loop to draw n cards. Define n as class variable
         goldCardsVisible.add((Card) goldDeck.drawCard());
@@ -308,5 +311,13 @@ public class GameState implements java.io.Serializable {
 
     public Map<Resource, Integer> calculateResource(String us) {
         return getPlayerState(us).calculateResources();
+    }
+
+    public void removeResourceCardVisible(Card extractedCard) {
+        this.resourceCardsVisible.remove(extractedCard);
+    }
+
+    public void removeGoldCardVisible(Card extractedCard) {
+        this.goldCardsVisible.remove(extractedCard);
     }
 }
