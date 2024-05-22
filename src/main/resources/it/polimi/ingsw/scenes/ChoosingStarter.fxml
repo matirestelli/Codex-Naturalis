@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.polimi.ingsw.ui.GUI.controller.ChoosingStarterController"
+            prefHeight="200.0" prefWidth="300.0"
+            stylesheets="@../style.css"
+            styleClass="anchorChoicePane">
+
+    <children>
+        <VBox  styleClass="choiceBox" prefHeight="200.0" prefWidth="712.0" alignment="CENTER" AnchorPane.bottomAnchor="140" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="140.0">
+            <children>
+                <Label prefHeight="75.0" prefWidth="712.0" alignment="CENTER" text="Choose which side to use of your Starter Card:">
+
+                </Label>
+                <HBox prefHeight="125.0" prefWidth="712.0" alignment="CENTER" >
+                    <Button fx:id="buttonFrontSide" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
+                        <graphic>
+                            <ImageView fx:id="frontSide" fitHeight="122.0" fitWidth="176.0">
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="buttonBackSide" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
+                        <graphic>
+                            <ImageView fx:id="backSide" fitHeight="122.0" fitWidth="176.0">
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+
+
+
+</AnchorPane>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.ScrollPane?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.polimi.ingsw.ui.GUI.controller.LobbyGamesController"
+            prefHeight="200.0" prefWidth="300.0"
+            stylesheets="@../style.css"
+            styleClass="anchorChoicePane">
+    <children>
+        <VBox  styleClass="choiceBox" AnchorPane.bottomAnchor="140" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="140.0">
+            <HBox prefWidth="300" prefHeight="100" alignment="CENTER">
+                <Label text="Games available:" />
+            </HBox>
+
+
+            <ScrollPane maxWidth="400">
+                <content>
+                    <VBox >
+                        <Label text="list of games available:" />
+                    </VBox>
+                </content>
+            </ScrollPane>
+
+            <HBox prefWidth="300" prefHeight="100" alignment="CENTER">
+                <Button fx:id="buttonJoinGame" text="Start Game" onAction="#joinGame" styleClass="game_button" />
+            </HBox>
+        </VBox>
+    </children>
+</AnchorPane>

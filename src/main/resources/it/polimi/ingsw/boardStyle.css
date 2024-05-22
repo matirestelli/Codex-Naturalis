@@ -1,0 +1,195 @@
+
+.text {
+    -fx-font-family: "Poor Richard";
+    -fx-font-size: 15;
+}
+
+.background{
+    -fx-pref-height : 800.0;
+    -fx-pref-width : 1200.0;
+    -fx-background-image: url('images/backgroundMap.png');
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+
+.buttonCard{
+    -fx-effect: dropshadow(one-pass-box, #4b4401, 6, 1, 0, 0);
+    -fx-max-height: 83;
+    -fx-max-width: 120;
+    -fx-min-height: 83;
+    -fx-min-width: 120;
+}
+.buttonCard:hover{
+    -fx-opacity: 0.8;
+    -fx-border-color: #125be1;
+    -fx-effect: dropshadow(one-pass-box,  #125be1, 10, 0.8, 0, 0);
+    -fx-border-width: 4;
+    -fx-border-opacity: 0.8;
+    -fx-cursor: hand;
+}
+
+
+.containerPoints{
+    -fx-background-color: #E3DBB5;
+    -fx-background-radius: 18 18 18 18;
+    -fx-effect: dropshadow(three-pass-box, #3c2414, 10, 0, 4, 4);
+}
+
+.containerCard{
+    -fx-background-radius: 18 18 18 18;
+    -fx-background-color: rgba(227, 219, 181, 0.5);
+    -fx-max-height: 134;
+    -fx-min-height: 134;
+    -fx-effect: dropshadow(three-pass-box, #3c2414, 10, 0, 4, 4);
+}
+
+.table-pane{
+    -fx-background-image: url('images/Pinmaritime.jpg');
+}
+
+.scroll-pane{
+    -fx-effect: dropshadow(three-pass-box, #3c2414, 10, 0, 4, 4);
+
+}
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:#E3DBB5;
+    -fx-background-radius: 5em;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: #E3DBB5;
+    -fx-border-color: #2c1a0f;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: #3c2414;
+    -fx-border-color: #2c1a0f;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #E3DBB5;
+    -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color:#3c2414 ;
+    -fx-border-color: #3c2414;
+}
+
+.icon_button{
+    -fx-background-color:#b0a21a ;
+    -fx-background-radius: 20%;
+    -fx-border-radius: 20%;
+    -fx-effect: dropshadow(one-pass-box, #4b4401, 10, 0.8, 0, 0);
+}
+.icon_button:hover{
+    -fx-cursor: hand;
+}
+
+
+.game_button{
+    -fx-background-color: #b0a21a;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(one-pass-box, #4b4401, 10, 0.8, 0, 0);
+    -fx-text-fill: #4b4401;
+}
+
+.game_butto:hover{
+    -fx-cursor: hand;
+}
+
+.scoreboard{
+    -fx-background-image: url('images/scoreboard.png');
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.chat{
+    -fx-background-color: #ece4ba;
+    -fx-background-radius: 18 18 18 18;
+    -fx-effect: dropshadow(three-pass-box, #3c2414, 10, 0, 4, 4);
+}
+
+.tab-pane{
+    -fx-background-color: #ece4ba;
+    -fx-background-radius: 18 18 18 18;
+    /*-fx-effect: dropshadow(three-pass-box, #3c2414, 10, 0, 4, 4);*/
+   /* -fx-border-color: #3c2414;*/
+    -fx-border-radius: 18 18 18 18;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-control-inner-background: transparent;
+
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #ece4ba; /* Example: Light yellow background for selected tab */
+   /* -fx-background-insets: 3 60 3 3;*/
+    -fx-max-height: 40;
+    -fx-max-width: 70;
+    -fx-min-height: 40;
+    -fx-min-width: 70;
+    -fx-padding:0 20 4 40;
+   /* -fx-text-fill: #3c2414; /* Example: Dark blue text color for selected tab */
+}
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #3c2414; /* Example: Dark blue text color for selected tab */
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: rgba(176, 162, 26, 0.5); /* Example: Light yellow background for selected tab */
+    -fx-background-insets: 0 0 0 20;
+    -fx-background-radius: 18 18 18 18;
+    -fx-cursor: hand;
+}
+
+.text-area{
+    -fx-border-color: #3c2414;
+    -fx-text-fill: #3c2414;
+    -fx-effect: dropshadow(three-pass-box, #3c2414, 10, 0, 4, 4);
+}
+
+
+.text-field{
+    -fx-border-color: #3c2414;
+    -fx-background-radius: 18 18 18 18;
+    -fx-border-radius: 18 18 18 18;
+    -fx-effect: dropshadow(three-pass-box, #3c2414, 10, 0, 4, 4);
+}
+
+
+.icon_button_close{
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+   /* -fx-effect: dropshadow(one-pass-box, #4b4401, 10, 0.8, 0, 0);*/
+}
+.icon_button_close:hover{
+    -fx-cursor: hand;
+}
+
+.pop_up_pane {
+    -fx-background-color: #ece4ba;
+    -fx-background-radius: 18 18 18 18;
+    -fx-alignment: center;
+    -fx-border-color: #3c2414;
+    -fx-border-radius: 18 18 18 18;
+
+}
+
+.top-bar{
+    -fx-background-color: rgba(176, 162, 26, 0.65);
+    -fx-background-radius: 18 18 0 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-radius: 18 18 0 0;
+    -fx-border-color: #3c2414;
+}

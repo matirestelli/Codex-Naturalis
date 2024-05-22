@@ -9,6 +9,7 @@ import it.polimi.ingsw.observers.GameObserver;
 import it.polimi.ingsw.ui.GraphicalUserInterface;
 import it.polimi.ingsw.ui.TextUserInterface;
 import it.polimi.ingsw.ui.UserInterfaceStrategy;
+import it.polimi.ingsw.ui.ViewModelGame;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -22,24 +23,31 @@ import java.util.Scanner;
 
 public class GameClientImpl extends UnicastRemoteObject implements GameClient, GameObserver {
     private GameServer server; // reference to the RMI server
+    private ViewModelGame viewModelGame;
+    private Player client;
+    private Card cardToPlay;
+    private UserInterfaceStrategy uiStrategy;
+    private GameObserver uiObserver;
     private String username; // username of the client
     private Scanner scanner = new Scanner(System.in); // scanner to read input from the user
     private String gameId;
     private GameControllerRemote gc;
-    private UserInterfaceStrategy uiStrategy;
+
 
     private ResourceCard starterCard;
     private List<Card> hand;
     private List<Card> codex;
+
+
     private Map<Resource, Integer> resources;
-    private Card cardToPlay;
+
 
     public GameClientImpl(String host, int port, UserInterfaceStrategy uiStrategy) throws RemoteException {
         super();
         connectToServer(host, port);
 
-        this.codex = new ArrayList<>();
-        this.hand = new ArrayList<>();
+        this.viewModelGame.getPlayerStates().get(client).setCodex(new ArrayList<>());
+        this.viewModelGame.getPlayerStates().get(client).setHand(new ArrayList<>());
 
         this.uiStrategy = uiStrategy;
         this.uiStrategy.initialize();
@@ -62,6 +70,7 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
         // String nickname = scanner.nextLine();
         System.out.println(args[0]);
         username = args[0];
+
 
         // join/create game
         System.out.print("Do you want to join an existing game session or create a new one? (join/create): ");
@@ -110,12 +119,24 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
     @Override
     public void update(GameEvent event) throws RemoteException {
         switch (event.getType()) {
+            //TODO evento di inizio partita che setta il view model con i giocatori
+
             case "notYourTurn" -> {
+                uiObserver.update(event);
+                /*
                 // display message
-                uiStrategy.displayMessage("Not your turn! Wait for your turn...\n");
+               ->   uiStrategy.displayMessage("Not your turn! Wait for your turn...\n");
                 // uiStrategy.displayMenu();
+
+                 */
             }
             case "loadedStarter"-> {
+                starterCard = (ResourceCard) event.getData();
+                this.viewModelGame.getPlayerStates().get(client).setStarterCard(starterCard);
+                this.viewModelGame.getPlayerStates().get(client).getCodex().add(starterCard);
+                uiObserver.update(event);
+
+                /* da mettere in  cli
                 // get starter card from server
                 starterCard = (ResourceCard) event.getData();
                 // TODO: change parameters and set as class attribute
@@ -127,8 +148,12 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
 
                 // display starter card back
                 uiStrategy.visualizeStarterCard(starterCard);
+                 */
             }
             case "starterSide"-> {
+                uiObserver.update(event);
+
+                // da mettere in cli
                 // ask user to set side of the starter card
                 boolean side = uiStrategy.setStarterSide();
 
@@ -141,24 +166,37 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
                 // display board
                 uiStrategy.displayBoard();
 
+
+
                 // send side to server
+                //TODO: da spostare nell'altro update
                 try {
                     gc.handleMove(username, new GameEvent("starterSideSelection", side));
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
             }
+
             case "askWhereToDraw"-> {
+                uiObserver.update(event);
+                // da mettere in cli
                 String input = uiStrategy.askWhereToDraw((List<Card>) event.getData());
 
+
+                //TODO: da spostare nell'altro update
                 try {
                     gc.handleMove(username, new GameEvent("drawCard", input));
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
             }
+
             case "loadedCommonObjective" -> {
+                uiObserver.update(event);
+                /* da mettere in cli
                 uiStrategy.displayCommonObjective((List<Objective>) event.getData());
+
+                 */
             }
             case "chooseObjective" -> {
                 Objective card = uiStrategy.chooseObjective((List<Objective>) event.getData());

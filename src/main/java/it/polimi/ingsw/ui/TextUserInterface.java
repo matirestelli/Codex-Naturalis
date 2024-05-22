@@ -5,20 +5,24 @@ import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
+import it.polimi.ingsw.observers.GameObserver;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
 
-public class TextUserInterface implements UserInterfaceStrategy {
+public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     private Scanner scanner = new Scanner(System.in);
     private int cardWidth = 7;
     private int cardHeight = 3;
     private int matrixDimension = 10;
     private Cell[][] gameBoard;
+    private ResourceCard starterCard;
+    private ObserverUI observerClient;
 
     @Override
     public void initialize() {
@@ -444,6 +448,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
         displayStarterCardBack((ResourceCard) card);
     }
 
+    //rendo void il metodo setStarterSide
     public boolean setStarterSide() {
         displayMessage("Choose front side or back side of starter card (f/b): ");
         String input = scanner.nextLine();
@@ -458,7 +463,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
     public void displayCommonObjective(List<Objective> objectives) {
         displayMessage("Game's Common objectives: ");
         for (Objective objective : objectives) {
-            objective.displayCard();
+            //objective.displayCard();
             // TODO: Fix and implement displayObjective method
             System.out.println(objective.getId());
         }
@@ -530,4 +535,24 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
         return input;
     }
+
+
+
+    public void updateUI(GameEvent gameEvent) {
+        System.out.println("UI updated!");
+        switch (gameEvent.getType()) {
+            case "notYourTurn" -> {
+                this.displayMessage("Not your turn! Wait for your turn...\n");
+            }
+
+            case "loadedStarter" -> {
+                this.visualizeStarterCard((Card) gameEvent.getData());
+
+            }
+            case "starterSide" -> {
+                this.setStarterSide();
+            }
+        }
+    }
+
 }

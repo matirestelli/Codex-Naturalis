@@ -2,8 +2,8 @@
   {
     "id": 90,
     "frontSide": true,
-    "frontCover": "front/starter/90.png",
-    "backCover": "back/starter/90.png",
+    "frontCover": "/it/polimi/ingsw/images/front/starter/0.png",
+    "backCover": "/it/polimi/ingsw/images/back/starter/0.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -55,8 +55,8 @@
   {
     "id": 91,
     "frontSide": true,
-    "frontCover": "front/starter/91.png",
-    "backCover": "back/starter/91.png",
+    "frontCover": "/it/polimi/ingsw/images/front/starter/1.png",
+    "backCover": "/it/polimi/ingsw/images/back/starter/1.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -108,8 +108,8 @@
   {
     "id": 92,
     "frontSide": true,
-    "frontCover": "front/starter/92.png",
-    "backCover": "back/starter/92.png",
+    "frontCover": "/it/polimi/ingsw/images/front/starter/2.png",
+    "backCover": "/it/polimi/ingsw/images/back/starter/2.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -161,8 +161,8 @@
   {
     "id": 93,
     "frontSide": true,
-    "frontCover": "front/starter/93.png",
-    "backCover": "back/starter/93.png",
+    "frontCover": "/it/polimi/ingsw/images/front/starter/3.png",
+    "backCover": "/it/polimi/ingsw/images/back/starter/3.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -214,8 +214,8 @@
   {
     "id": 94,
     "frontSide": true,
-    "frontCover": "front/starter/94.png",
-    "backCover": "back/starter/94.png",
+    "frontCover": "it/polimi/ingsw/images/front/starter/4.png",
+    "backCover": "it/polimi/ingsw/images/back/starter/4.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -257,8 +257,8 @@
   {
     "id": 95,
     "frontSide": true,
-    "frontCover": "front/starter/95.png",
-    "backCover": "back/starter/95.png",
+    "frontCover": "/it/polimi/ingsw/images/front/starter/5.png",
+    "backCover": "/it/polimi/ingsw/images/back/starter/5.png",
     "frontCorners": {
       "0": {
         "empty": false,

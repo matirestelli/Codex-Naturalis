@@ -2,6 +2,7 @@ package it.polimi.ingsw.core.model;
 
 import it.polimi.ingsw.clientmodel.Cell;
 import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.clientmodel.*;
 
 
@@ -20,6 +21,9 @@ public class PlayerState implements Serializable {
     private int[][] matrix;
     private Objective secretObj;
     private Map<Resource, Integer> personalResources;
+
+    //TODO DA IMPLEMENTARE NEL GIOCO
+    private Color color;
 
     public PlayerState() {
         this.score = 0;
@@ -152,6 +156,14 @@ public class PlayerState implements Serializable {
 
     public void addCardToMatrix(int x, int y, int id) {
         matrix[y][x] = id;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
 }

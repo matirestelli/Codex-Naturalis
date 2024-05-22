@@ -2,6 +2,7 @@ package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
+import it.polimi.ingsw.observers.GameObserver;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface UserInterfaceStrategy {
     void displayHand(List<Card> hand);
     void place(Card cardToPlace, Card targetCard, int position);
     String askWhereToDraw(List<Card> cards);
+
+
 }

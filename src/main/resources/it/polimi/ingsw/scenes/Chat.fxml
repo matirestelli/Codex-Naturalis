@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<AnchorPane maxHeight="600.0" maxWidth="400.0" minHeight="600.0" minWidth="400.0" prefHeight="600.0" prefWidth="400.0" styleClass="pop_up_pane" stylesheets="@../boardStyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.ui.GUI.controller.ChatController" onMouseDragged="#dragged" onMousePressed="#pressed">
+ <children>
+
+     <VBox prefHeight="20" prefWidth="400.0" alignment="TOP_RIGHT" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0" styleClass="top-bar">
+         <Button fx:id="closePopUpButton" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false"
+                 onAction="#closePopUp" prefHeight="20.0" prefWidth="20.0" styleClass="icon_button_close">
+             <graphic>
+                 <ImageView fx:id="iconClose" fitHeight="20.0" fitWidth="20.0">
+                     <image>
+                         <Image url="@../icons/iconClose.png"/>
+                     </image>
+                 </ImageView>
+             </graphic>
+         </Button>
+     </VBox>
+
+    <TextField fx:id="inputBox" layoutX="40.0" layoutY="541.0" onKeyPressed="#sendMessage" prefHeight="25.0" prefWidth="320.0" style="-fx-start-margin: 0 0 0 10; -fx-font-family: 'Poor Richard'; -fx-font-size: 15"/>
+      <TabPane fx:id="broadcastTabPane" layoutX="19.0" layoutY="47.0" prefHeight="482.0" prefWidth="360.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="chatBroadcast" text="Chat Broadcast" style="-fx-alignment: center">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="395.0" prefWidth="358.0" style="-fx-border-radius: 18 18 18 18 ; -fx-background-radius: 18 18 18 18;-fx-alignment: center ">
+                     <children>
+                       <TextArea fx:id="messageAreaBroadcast" editable="false" layoutX="20.0" layoutY="51.0" prefHeight="380.0" prefWidth="320.0" >
+                        </TextArea>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="chatDirect" text="Direct Messages" style="-fx-alignment: center">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="294.0" prefWidth="358.0" style="-fx-border-radius: 18 18 18 18 ; -fx-background-radius: 18 18 18 18 ; -fx-alignment: center">
+                     <children>
+                        <TabPane fx:id="directTabPane" layoutY="12.0" prefHeight="441.0" prefWidth="360.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab fx:id="chatPlayer1" text="Player1">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="358.0" style="-fx-border-radius: 18 18 18 18 ; -fx-background-radius: 18 18 18 18 ;-fx-alignment: center">
+                                       <children>
+                                          <TextArea fx:id="messageArea1" editable="false" layoutX="20.0" layoutY="8.0" prefHeight="380.0" prefWidth="320.0" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                              <Tab fx:id="chatPlayer2" text="Player2">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="280.0" prefWidth="200.0" style="-fx-border-radius: 18 18 18 18 ; -fx-background-radius: 18 18 18 18 ;-fx-alignment: center">
+                                       <children>
+                                          <TextArea fx:id="messageArea2" editable="false" layoutX="20.0" layoutY="8.0" prefHeight="380.0" prefWidth="320.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                              <Tab fx:id="chatPlayer3" text="Player3">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="280.0" prefWidth="200.0" style="-fx-border-radius: 18 18 18 18; -fx-background-radius: 18 18 18 18 ;-fx-alignment: center ">
+                                       <children>
+                                          <TextArea fx:id="messageArea3" editable="false" layoutX="20.0" layoutY="8.0" prefHeight="380.0" prefWidth="320.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                          </tabs>
+                        </TabPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+
+
+ </children>
+</AnchorPane>

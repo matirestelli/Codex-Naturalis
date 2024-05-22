@@ -3,9 +3,9 @@ package it.polimi.ingsw.network.socket.client;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
-import it.polimi.ingsw.ui.GraphicalUserInterface;
-import it.polimi.ingsw.ui.TextUserInterface;
-import it.polimi.ingsw.ui.UserInterfaceStrategy;
+import it.polimi.ingsw.ui.*;
+import it.polimi.ingsw.ui.GUI.GUI;
+import javafx.application.Application;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Client {
+public class Client implements ObserverUI{
     private Socket socket;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
@@ -30,20 +30,48 @@ public class Client {
     private Map<Resource, Integer> resources;
     private Card cardToPlay;
 
+    private ObserverUI observerUI;
+
+    private ViewModelGame viewModelGame;
+    private Player player;
+
+    //to set de view as an observer so that it can be updated
+    public void setObserverUI(ObserverUI observerUI) {
+        this.observerUI = observerUI;
+    }
+
+
     public Client(String host, int port, UserInterfaceStrategy uiStrategy) throws IOException {
         socket = new Socket(host, port);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
 
+        this.viewModelGame = new ViewModelGame();
+        //TODO costruttore nel view model game che crea tutto vuoto
         this.codex = new ArrayList<>();
         this.hand = new ArrayList<>();
 
+        this.observerUI = (ObserverUI) uiStrategy;
         this.uiStrategy = uiStrategy;
+        if(uiStrategy instanceof GUI){
+            new Thread() {
+                @Override
+                public void run() {
+                    javafx.application.Application.launch(GUI.class);
+                }
+            }.start();
+        }
         this.uiStrategy.initialize();
+
+        //se è gui faccio partire il thread a parte per lei
+
+
     }
 
     public void start(String[] args) throws IOException, ClassNotFoundException {
         System.out.print("Enter your username: ");
+        //TODO farlo ad eventi
+       // observerUI.updateUI(new GameEvent("username", "username"));
         // String in = scanner.nextLine();
         // outputStream.writeObject(in);
         System.out.println(args[0]);
@@ -107,20 +135,24 @@ public class Client {
         switch (event.getType()) {
             case "notYourTurn" -> {
                 // display message
-                uiStrategy.displayMessage("Not your turn! Wait for your turn...\n");
+                observerUI.updateUI(event);
+               // uiStrategy.displayMessage("Not your turn! Wait for your turn...\n");
             }
             case "loadedStarter"-> {
                 // get starter card from server
-                starterCard = (ResourceCard) event.getData();
+                observerUI.updateUI(event);
+
+                //starterCard = (ResourceCard) event.getData();
                 // TODO: change parameters and set as class attribute
                 // useful for the visualization of the starter card (TUI)
-                starterCard.setCentre(new Coordinate(10 / 2 * 7 - 5,10 / 2 * 3 - 5));
+                //TODO: non so se mi serve la prossima riga
+               // starterCard.setCentre(new Coordinate(10 / 2 * 7 - 5,10 / 2 * 3 - 5));
 
-                // add starter card to codex
-                codex.add(starterCard);
+                // add starter card to codex nel VieModel
+                viewModelGame.getPlayerStates().get(player).getCodex().add(starterCard);
 
                 // display starter card back
-                uiStrategy.visualizeStarterCard(starterCard);
+                //uiStrategy.visualizeStarterCard(starterCard);
             }
             case "starterSide"-> {
                 // ask user to set side of the starter card
@@ -235,14 +267,20 @@ public class Client {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         UserInterfaceStrategy uiStrategy;
+        //GUI gui = new GUI();
+      //  gui.main(null);
 
-        String opt = "cli";
+        //String opt = "cli";
+        String opt = "gui";
         if (opt.equals("cli")) {
             uiStrategy = new TextUserInterface();
         } else {
-            uiStrategy = new GraphicalUserInterface();
+           //uiStrategy = new GraphicalUserInterface();
+            uiStrategy = new GUI();
+           // ((GUI) uiStrategy).main(null);
+            //Application.launch(GUI.class, args);
         }
 
         try {
@@ -250,6 +288,30 @@ public class Client {
             client.start(args);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateUI(GameEvent gameEvent) {
+        switch (gameEvent.getType()) {
+            case "starterSide" -> {
+                // set side of the starter card
+                boolean side = (boolean) gameEvent.getData();
+                starterCard.setSide(side);
+
+                // place starter card on the board
+                uiStrategy.placeCard(starterCard, null);
+
+                // display board
+                uiStrategy.displayBoard();
+
+                // send side to server
+                try {
+                    outputStream.writeObject(new GameEvent("starterSideSelection", side));
+                } catch (IOException e) {
+                    System.out.println("Error sending card ID: " + e.getMessage());
+                }
+            }
         }
     }
 }
