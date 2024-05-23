@@ -53,39 +53,4 @@ public class Chat implements Serializable, ChatIC {
     public void setMsgs(List<Message> msgs) {
         this.msgs = msgs;
     }
-
-    @Override
-    public String toString() {
-        StringBuilder ret = new StringBuilder();
-        int i = 0;
-        int len = this.getMsgs().stream()
-                .map(Message::getText)
-                .reduce((a, b) -> b.length() > a.length() ? b : a)
-                .toString().length();
-        for (Message msg : msgs) {
-            ret.append(msg.toString(i, len, false));
-            i++;
-        }
-        return ret.toString();
-    }
-
-    public String toString(String privateMsgByNickname) {
-        StringBuilder ret = new StringBuilder();
-        int i = 0;
-        int len = this.getMsgs().stream()
-                .map(Message::getText)
-                .reduce((a, b) -> b.length() > a.length() ? b : a)
-                .toString().length();
-
-        for (Message msg : msgs) {
-            if (!msg.whoIsReceiver().equals("*") && ((msg.getSender().equals(privateMsgByNickname) || msg.whoIsReceiver().equals(privateMsgByNickname)))) {
-                ret.append(msg.toString(i, len, true));
-            } else {
-                ret.append(msg.toString(i, len, false));
-            }
-
-            i++;
-        }
-        return ret.toString();
-    }
 }

@@ -78,22 +78,6 @@ public class ClientHandler implements Runnable, GameObserver {
                 // Ricevi messaggi dal client
                 Object message = inputStream.readObject();
                 gc.handleMove(username, (GameEvent) message);
-
-                /* if (message instanceof CardSelection) {
-                    server.playerSelectsCard(gameId, username, (CardSelection) message);
-                    // gameController.playerSelectsCard(username, (CardSelection) message);
-                }else if(message instanceof SecreteObjectiveCard){
-                       server.chooseObjective(gameId, username, (SecreteObjectiveCard) message);
-                }else if(message instanceof CardToAttachSelected){
-                    System.out.println("sono qui");
-                       server.angleChosen(gameId, username, (CardToAttachSelected) message);
-                }
-                else if(message instanceof StarterSide){
-                    server.assignStarterSide(gameId, username, (StarterSide) message);
-                }
-                else if(message instanceof DrawCard){
-                    server.drawCard(gameId, username, (DrawCard) message);
-                } */
             }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error communicating with client: " + e.getMessage());

@@ -13,7 +13,7 @@ public class PlayerState extends Player implements Serializable {
     private int score;
     private ResourceCard starterCard;
     private List<Card> hand;
-    private static Chat chat=new Chat();
+    private Chat chat;
 
     private List<Card> codex;
     private int[][] matrix;
@@ -25,9 +25,10 @@ public class PlayerState extends Player implements Serializable {
         this.hand = new ArrayList<>();
         this.codex = new ArrayList<>();
         this.personalResources = new HashMap<>();
+        this.chat = new Chat();
     }
 
-    public static Chat getChat(){
+    public Chat getChat(){
         return chat;
     }
 

@@ -18,4 +18,12 @@ public class GameEvent implements Serializable {
     public Object getData() {
         return data;
     }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 }

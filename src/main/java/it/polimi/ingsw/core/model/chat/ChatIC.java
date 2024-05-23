@@ -29,12 +29,4 @@ public interface ChatIC {
      * This method returns a string representation
      * @return the string representation
      */
-    String toString();
-
-    /**
-     * This method returns a string representation of the private message
-     * @param privateMsgByNickname nickname of the player
-     * @return the string representation
-     */
-    String toString(String privateMsgByNickname);
 }

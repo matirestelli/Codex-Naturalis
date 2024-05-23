@@ -2,7 +2,6 @@ package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
-import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 
 import java.util.List;
@@ -82,7 +81,6 @@ public class GraphicalUserInterface implements UserInterfaceStrategy {
     }
 
     public void setStarterSide() {
-
     }
 
     public void displayCommonObjective(List<Objective> obj) {
@@ -102,9 +100,7 @@ public class GraphicalUserInterface implements UserInterfaceStrategy {
         return null;
     }
 
-    public void displayChat(Chat chat){}
-
-    public Message writeChat(String sender){return null;}
+    public void displayChat(Chat chat, String username){}
 
     public void selectFromMenu(){}
 }

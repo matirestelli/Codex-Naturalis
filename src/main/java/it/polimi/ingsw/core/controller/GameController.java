@@ -152,19 +152,21 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             case "newMessage" -> {
                 Message message = (Message) event.getData();
                 System.out.println("New message: " + message.getText());
-                if(message.whoIsReceiver().equals("*")){
+                System.out.println("Sender: " + message.getSender());
+                System.out.println("Receiver: " + message.whoIsReceiver());
+
+                if (message.whoIsReceiver().equals("all")) {
+                    gameState.getPlayerState(username).getChat().addMsg(message);
                     for (String us : orderedObserversMap.keySet()) {
-                        Chat chat= new Chat();
-                        chat= gameState.getPlayerState(us).getChat();
-                        chat.addMsg(message);
-                        orderedObserversMap.get(us).update(new GameEvent("Message", gameState.getPlayerState(us).getChat()));
+                        if (!us.equals(username)) {
+                            gameState.getPlayerState(us).getChat().addMsg(message);
+                            orderedObserversMap.get(us).update(new GameEvent("mexIncoming", message));
+                        }
                     }
                 } else {
-                    Chat chat= gameState.getPlayerState(message.whoIsReceiver()).getChat();
-                    orderedObserversMap.get(message.whoIsReceiver()).update(new GameEvent("Message", chat));
-                    Chat chat1= gameState.getPlayerState(username).getChat();
-                    chat1.addMsg(message);
-                    orderedObserversMap.get(username).update(new GameEvent("Message", chat1));
+                    gameState.getPlayerState(username).getChat().addMsg(message);
+                    gameState.getPlayerState(message.whoIsReceiver()).getChat().addMsg(message);
+                    orderedObserversMap.get(message.whoIsReceiver()).update(new GameEvent("mexIncoming", message));
                 }
             }
             case "starterSideSelection" -> {
@@ -177,7 +179,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                 playersReadyToPlayer.add(username);
 
                 if (playersReadyToPlayer.size() == gameState.getPlayerOrder().size()) {
-                    System.out.println("Iniziano i turni");
+                    System.out.println("Turn order: " + gameState.getPlayerOrder());
                     notifyCurrentPlayerTurn();
                 }
             }

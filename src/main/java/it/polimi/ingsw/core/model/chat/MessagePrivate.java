@@ -10,6 +10,11 @@ public class MessagePrivate extends Message{
         this.receiverPrivate=receiver;
     }
 
+    public MessagePrivate(String text, String receiver){
+        super(text);
+        this.receiverPrivate = receiver;
+    }
+
     @Override
     public String whoIsReceiver(){
         return receiverPrivate;

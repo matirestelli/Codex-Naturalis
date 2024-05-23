@@ -25,11 +25,13 @@ public class Client {
     private ObjectInputStream inputStream;
     private Scanner scanner = new Scanner(System.in);
     private String username;
+    private int unreadedMessages;
+    private boolean inCurrentTurn;
 
     private UserInterfaceStrategy uiStrategy;
 
     private ResourceCard starterCard;
-    private Chat chat= new Chat();
+    private Chat chat;
     private List<Card> hand;
     private List<Card> codex;
     private Map<Resource, Integer> resources;
@@ -44,6 +46,10 @@ public class Client {
 
         this.codex = new ArrayList<>();
         this.hand = new ArrayList<>();
+        this.chat = new Chat();
+
+        this.unreadedMessages = 0;
+        this.inCurrentTurn = false;
 
         opt = "cli";
         if (opt.equals("cli")) {
@@ -63,8 +69,9 @@ public class Client {
         System.out.print("Enter your username: ");
         // String in = scanner.nextLine();
         // outputStream.writeObject(in);
-        System.out.println(args[0]);
-        outputStream.writeObject(args[0]);
+        username = args[0];
+        System.out.println(username);
+        outputStream.writeObject(username);
 
         // wait for server response (join/create)
         String message = (String) inputStream.readObject();
@@ -123,9 +130,14 @@ public class Client {
     public void handleEvent(GameEvent event) {
         switch (event.getType()) {
             case "notYourTurn" -> {
+                inCurrentTurn = false;
                 // display message
                 uiStrategy.displayMessage("Not your turn! Wait for your turn...\n");
-                displayMenu();
+
+                if (unreadedMessages > 0)
+                    uiStrategy.displayMessage("\nThere are " + unreadedMessages + " messages you have not read\n\n");
+                uiStrategy.selectFromMenu();
+
             }
             case "loadedStarter"-> {
                 // notify TUI that the starter card is loaded, using the listener/observer pattern
@@ -145,7 +157,6 @@ public class Client {
             }
             case "starterSide"-> {
                 observerUI.updateUI(event);
-                displayMenu();
                 // ask user to set side of the starter card
                 // boolean side = uiStrategy.setStarterSide();
             }
@@ -203,6 +214,7 @@ public class Client {
                 resources = (Map<Resource, Integer>) event.getData();
             }
             case "currentPlayerTurn" -> {
+                inCurrentTurn = true;
                 CardSelection cs = uiStrategy.askCardSelection((PlayableCardIds) event.getData(), hand);
 
                 cardToPlay = hand.stream().filter(c -> c.getId() == cs.getId()).findFirst().orElse(null);
@@ -229,16 +241,13 @@ public class Client {
                 uiStrategy.displayMessage("Game over!");
                 closeConnection();
             }
-            case "Message" -> {
-                System.out.println("Chat updated");
-                Chat chat1 = (Chat) event.getData();
-                this.chat= chat1;
+            case "mexIncoming" -> {
+                if (!inCurrentTurn)
+                    uiStrategy.displayMessage("New message received! You have not read it yet\n");
+                unreadedMessages++;
+                chat.addMsg((Message) event.getData());
             }
         }
-    }
-
-    private void displayMenu() {
-        uiStrategy.selectFromMenu();
     }
 
     private void closeConnection() {
@@ -283,13 +292,38 @@ public class Client {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
             }
-            case "chat" -> {
-                uiStrategy.displayChat(chat);
-                displayMenu();
+            case "displayChat" -> {
+                uiStrategy.displayChat(chat, username);
+                if (!inCurrentTurn)
+                    uiStrategy.selectFromMenu();
             }
-            case "writeChat" -> {
-                Message message = uiStrategy.writeChat(null);
-                message.setSender(username); // sarebbe username ma attualmente username é null
+            case "continue" -> {
+                if (unreadedMessages > 0)
+                    uiStrategy.displayMessage("New message received! You have not read it yet\n");
+
+                if (!inCurrentTurn)
+                    uiStrategy.displayMessage("Wait for your turn...\n");
+            }
+            case "writeNewMex" -> {
+                // send list of players connected to the same game session
+                List<String> playersConnected = new ArrayList<>();
+
+                if (username.equals("us1"))
+                    playersConnected.add("us2");
+                else
+                    playersConnected.add("us1");
+
+                gameEvent.setData(playersConnected);
+                observerUI.updateUI(gameEvent);
+
+                if (!inCurrentTurn)
+                    uiStrategy.selectFromMenu();
+            }
+            case "sendNewMex" -> {
+                // send message to server
+                Message message = (Message) gameEvent.getData();
+                message.setSender(username);
+                chat.addMsg(message);
                 try {
                     outputStream.writeObject(new GameEvent("newMessage", message));
                 } catch (IOException e) {

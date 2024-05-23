@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static java.lang.Integer.parseInt;
-
 public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     private Scanner scanner = new Scanner(System.in);
     private int cardWidth = 7;
@@ -399,50 +397,38 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     }
 
     public void selectFromMenu() {
-        System.out.println("Select an option: ");
-        System.out.println("1. Open chat");
-        System.out.println("2. Exit");
-        System.out.println("3. Write a message");
-        String input= "";
-        input = scanner.nextLine().trim();
-        if(input.equals("1")) {
-            client.handleMoveUI(new GameEvent("chat", null));
-        } else if(input.equals("2")) {
-            client.handleMoveUI(new GameEvent("exit", null));
-        } else if(input.equals("3")) {
-            client.handleMoveUI(new GameEvent("writeChat", null));
+        displayMessage("Select an option: \n");
+        displayMessage("\t1. Visualize messages\n");
+        displayMessage("\t2. Send message\n");
+        displayMessage("\t3. Continue with the game\n");
+        displayMessage("\t4. Exit\n");
+        displayMessage("> ");
+
+        String input;
+        input = scanner.nextLine();
+        switch (input) {
+            case "1" -> client.handleMoveUI(new GameEvent("displayChat", null));
+            case "2" -> client.handleMoveUI(new GameEvent("writeNewMex", null));
+            case "3" -> client.handleMoveUI(new GameEvent("continue", null));
+            case "4" -> client.handleMoveUI(new GameEvent("exit", null));
+
         }
     }
 
-    public void displayChat(Chat chat) {
-            System.out.println("Chat: ");
-            chat.getMsgs().forEach(
-                    m -> System.out.println(m.getSender()+": "+m.getText())
-            );
-    }
-
-    public Message writeChat(String sender) {
-        String input = "";
-            System.out.println("Do you want to send a message, select the receiver or not? (All/Username/No)");
-            input = scanner.nextLine().trim();
-            if(input.equals("All")) {
-                System.out.println("Write your message: ");
-                input = "";
-                input = scanner.nextLine();
-                Message message = new Message(input, sender);
-                return message;
-            } else if(input.equals("No")) {
-               return null;
+    public void displayChat(Chat chat, String username) {
+        System.out.println();
+        for (Message m : chat.getMsgs()) {
+            if (m instanceof MessagePrivate) {
+                MessagePrivate mPrivate = (MessagePrivate) m;
+                if (mPrivate.getSender().equals(username))
+                    System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " [private] you: " + m.getText());
+                else
+                    System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " [private] " + m.getSender() + ": " + m.getText());
             } else {
-                System.out.println("Who is the receiver: ");
-                String receiver= "";
-                receiver = scanner.nextLine();
-                System.out.println("Write your text: ");
-                input = "";
-                input = scanner.nextLine();
-                MessagePrivate messagePrivate = new MessagePrivate(input, sender, receiver);
-                return messagePrivate;
+                System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + m.getSender() + ": " + m.getText());
             }
+        }
+        System.out.println();
     }
 
     public String displayAngle(List<Coordinate> angles) {
@@ -585,7 +571,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         displayMessage(mex);
 
         String input = scanner.nextLine();
-        while (!input.equals("A") && !input.equals("B") && !ids.contains(parseInt(input))) {
+        while (!input.equals("A") && !input.equals("B") && !ids.contains(Integer.parseInt(input))) {
             System.out.print("Input non valido, riprova: ");
             input = scanner.nextLine();
         }
@@ -602,6 +588,28 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
             }
             case "starterSide" -> {
                 setStarterSide();
+            }
+            case "writeNewMex" -> {
+                String mexToDisplay = "Who is the receiver? (all / ";
+                for (String user : (List<String>) gameEvent.getData()) {
+                    mexToDisplay += user + " / ";
+                }
+                mexToDisplay = mexToDisplay.substring(0, mexToDisplay.length() - 3) + "): ";
+                displayMessage(mexToDisplay);
+
+                String receiver = scanner.nextLine();
+
+                if (receiver.equals("all")) {
+                    displayMessage("Write your message: ");
+                    String input = scanner.nextLine();
+                    Message message = new Message(input);
+                    client.handleMoveUI(new GameEvent("sendNewMex", message));
+                } else {
+                    displayMessage("Write your message: ");
+                    String input = scanner.nextLine();
+                    MessagePrivate messagePrivate = new MessagePrivate(input, receiver);
+                    client.handleMoveUI(new GameEvent("sendNewMex", messagePrivate));
+                }
             }
         }
     }
