@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.socket.client;
 
 import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.model.chat.Chat;
+import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.ui.GraphicalUserInterface;
@@ -22,10 +24,12 @@ public class Client {
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
     private Scanner scanner = new Scanner(System.in);
+    private String username;
 
     private UserInterfaceStrategy uiStrategy;
 
     private ResourceCard starterCard;
+    private Chat chat= new Chat();
     private List<Card> hand;
     private List<Card> codex;
     private Map<Resource, Integer> resources;
@@ -116,11 +120,12 @@ public class Client {
         }
     }
 
-    private void handleEvent(GameEvent event) {
+    public void handleEvent(GameEvent event) {
         switch (event.getType()) {
             case "notYourTurn" -> {
                 // display message
                 uiStrategy.displayMessage("Not your turn! Wait for your turn...\n");
+                displayMenu();
             }
             case "loadedStarter"-> {
                 // notify TUI that the starter card is loaded, using the listener/observer pattern
@@ -140,7 +145,7 @@ public class Client {
             }
             case "starterSide"-> {
                 observerUI.updateUI(event);
-
+                displayMenu();
                 // ask user to set side of the starter card
                 // boolean side = uiStrategy.setStarterSide();
             }
@@ -224,7 +229,16 @@ public class Client {
                 uiStrategy.displayMessage("Game over!");
                 closeConnection();
             }
+            case "Message" -> {
+                System.out.println("Chat updated");
+                Chat chat1 = (Chat) event.getData();
+                this.chat= chat1;
+            }
         }
+    }
+
+    private void displayMenu() {
+        uiStrategy.selectFromMenu();
     }
 
     private void closeConnection() {
@@ -265,6 +279,19 @@ public class Client {
                 // send side to server
                 try {
                     outputStream.writeObject(new GameEvent("starterSideSelection", side));
+                } catch (IOException e) {
+                    System.out.println("Error sending card ID: " + e.getMessage());
+                }
+            }
+            case "chat" -> {
+                uiStrategy.displayChat(chat);
+                displayMenu();
+            }
+            case "writeChat" -> {
+                Message message = uiStrategy.writeChat(null);
+                message.setSender(username); // sarebbe username ma attualmente username é null
+                try {
+                    outputStream.writeObject(new GameEvent("newMessage", message));
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }

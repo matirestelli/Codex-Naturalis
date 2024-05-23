@@ -1,9 +1,7 @@
 package it.polimi.ingsw.core.model;
 
-import it.polimi.ingsw.clientmodel.Cell;
 import it.polimi.ingsw.core.model.enums.Resource;
-import it.polimi.ingsw.clientmodel.*;
-
+import it.polimi.ingsw.core.model.chat.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,10 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlayerState implements Serializable {
+public class PlayerState extends Player implements Serializable {
     private int score;
     private ResourceCard starterCard;
     private List<Card> hand;
+    private static Chat chat=new Chat();
 
     private List<Card> codex;
     private int[][] matrix;
@@ -26,6 +25,14 @@ public class PlayerState implements Serializable {
         this.hand = new ArrayList<>();
         this.codex = new ArrayList<>();
         this.personalResources = new HashMap<>();
+    }
+
+    public static Chat getChat(){
+        return chat;
+    }
+
+    public String getUsername() {
+        return super.getUsername();
     }
 
     public void setStarterCard(ResourceCard starterCard) {
@@ -75,6 +82,10 @@ public class PlayerState implements Serializable {
         for (int i = 0; i < this.matrix.length; i++)
             for (int j = 0; j < this.matrix.length; j++)
                 matrix[i][j] = -1;
+    }
+
+    public void initializeChat(){
+        chat=new Chat();
     }
 
     public void setSecretObjective(Objective secretObjective) {

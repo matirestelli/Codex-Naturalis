@@ -10,6 +10,8 @@ public class Player implements Serializable {
         this.username = username;
     }
 
+    public Player(){this.username = username;}
+
     public String getUsername() {
         return username;
     }

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.core.controller;
 
 import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.model.chat.Chat;
+import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayerMove;
 import it.polimi.ingsw.observers.GameObserver;
@@ -55,6 +57,8 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         // initialize matrix for each player
         gameState.initializeMatrixPlayers(this.matrixDimension);
 
+        gameState.initializeChat();
+
         // load decks
         gameState.loadDecks();
 
@@ -88,6 +92,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             // notify observers of the secret objectives
             orderedObserversMap.get(us).update(new GameEvent("chooseObjective", secretChoose));
         }
+
 
         // set side of starter card for each player
         for (String us : orderedObserversMap.keySet()) {
@@ -143,6 +148,24 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                 // set secret objective of player given by username
                 gameState.setSecretObjective(username, cardSelected);
                 // chooseObjective(username, card);
+            }
+            case "newMessage" -> {
+                Message message = (Message) event.getData();
+                System.out.println("New message: " + message.getText());
+                if(message.whoIsReceiver().equals("*")){
+                    for (String us : orderedObserversMap.keySet()) {
+                        Chat chat= new Chat();
+                        chat= gameState.getPlayerState(us).getChat();
+                        chat.addMsg(message);
+                        orderedObserversMap.get(us).update(new GameEvent("Message", gameState.getPlayerState(us).getChat()));
+                    }
+                } else {
+                    Chat chat= gameState.getPlayerState(message.whoIsReceiver()).getChat();
+                    orderedObserversMap.get(message.whoIsReceiver()).update(new GameEvent("Message", chat));
+                    Chat chat1= gameState.getPlayerState(username).getChat();
+                    chat1.addMsg(message);
+                    orderedObserversMap.get(username).update(new GameEvent("Message", chat1));
+                }
             }
             case "starterSideSelection" -> {
                 boolean side = (boolean) event.getData();

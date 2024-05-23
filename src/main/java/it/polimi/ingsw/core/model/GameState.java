@@ -138,6 +138,12 @@ public class GameState implements java.io.Serializable {
         }
     }
 
+    public void initializeChat() {
+        for (Player player : playerStates.keySet()) {
+            playerStates.get(player).initializeChat();
+        }
+    }
+
     public List<CardGame> getObjectiveDeckCopy() {
         return this.objectiveDeckCopy;
     }

@@ -2,6 +2,9 @@ package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.clientmodel.Cell;
 import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.model.chat.Chat;
+import it.polimi.ingsw.core.model.chat.Message;
+import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
@@ -372,7 +375,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
                     if (ids.getPlayingHandIdsBack().contains(id) || ids.getPlayingHandIds().contains(id)) {
                         validInput = true; // L'ID è valido e nell'elenco idsBack
                     }
-                } else {
+                } else if (input.endsWith(".f")) {
                     // Controlla se l'input è un ID valido in ids (senza ".b")
                     int id = Integer.parseInt(input.endsWith(".f") ? input.substring(0, input.length() - 2) : input); // Rimuove ".f" se presente e prova a convertire in int
                     if (ids.getPlayingHandIds().contains(id)) {
@@ -393,6 +396,53 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         String[] splitInput = input.split("\\.");
 
         return new CardSelection(Integer.parseInt(splitInput[0]), splitInput[1].equals("f"));
+    }
+
+    public void selectFromMenu() {
+        System.out.println("Select an option: ");
+        System.out.println("1. Open chat");
+        System.out.println("2. Exit");
+        System.out.println("3. Write a message");
+        String input= "";
+        input = scanner.nextLine().trim();
+        if(input.equals("1")) {
+            client.handleMoveUI(new GameEvent("chat", null));
+        } else if(input.equals("2")) {
+            client.handleMoveUI(new GameEvent("exit", null));
+        } else if(input.equals("3")) {
+            client.handleMoveUI(new GameEvent("writeChat", null));
+        }
+    }
+
+    public void displayChat(Chat chat) {
+            System.out.println("Chat: ");
+            chat.getMsgs().forEach(
+                    m -> System.out.println(m.getSender()+": "+m.getText())
+            );
+    }
+
+    public Message writeChat(String sender) {
+        String input = "";
+            System.out.println("Do you want to send a message, select the receiver or not? (All/Username/No)");
+            input = scanner.nextLine().trim();
+            if(input.equals("All")) {
+                System.out.println("Write your message: ");
+                input = "";
+                input = scanner.nextLine();
+                Message message = new Message(input, sender);
+                return message;
+            } else if(input.equals("No")) {
+               return null;
+            } else {
+                System.out.println("Who is the receiver: ");
+                String receiver= "";
+                receiver = scanner.nextLine();
+                System.out.println("Write your text: ");
+                input = "";
+                input = scanner.nextLine();
+                MessagePrivate messagePrivate = new MessagePrivate(input, sender, receiver);
+                return messagePrivate;
+            }
     }
 
     public String displayAngle(List<Coordinate> angles) {

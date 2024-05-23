@@ -1,6 +1,8 @@
 package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.model.chat.Chat;
+import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 
 import java.util.List;
@@ -27,4 +29,7 @@ public interface UserInterfaceStrategy {
     void displayHand(List<Card> hand);
     void place(Card cardToPlace, Card targetCard, int position);
     String askWhereToDraw(List<Card> cards);
+    public void displayChat(Chat chat);
+    public Message writeChat(String sender);
+    public void selectFromMenu();
 }
