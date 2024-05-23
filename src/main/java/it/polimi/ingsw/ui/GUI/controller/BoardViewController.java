@@ -1,5 +1,7 @@
 package it.polimi.ingsw.ui.GUI.controller;
 
+import it.polimi.ingsw.core.model.Card;
+import it.polimi.ingsw.core.model.CardGame;
 import it.polimi.ingsw.ui.GUI.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -106,10 +108,16 @@ public class BoardViewController extends GUI {
     @FXML
     private Button buttonCard1, buttonCard2, buttonCard3;
 
-    public String cardChose;
+    //useful to save temporarly the card i want to position because i need it in an another method
+    //it contains also the side choosed
+    private static CardGame cardToPlace;
+    //where i want to position the card
+    private static Integer[] positionToPlace;
+    //usefull to save temporary the path of the card image
+    private String cardFront;
 
 
-    public void initialize() {
+    public void setUpBoard() {
         VBox container = new VBox();
         container.setMaxHeight(600);
         container.setMaxWidth(200);
@@ -128,8 +136,22 @@ public class BoardViewController extends GUI {
         container.getChildren().add(playersRecapVbox);
         boardPane.setLeft(container);
 
-        this.positionCard(0, "f", new Integer[]{40, 40});
-        this.drawHand(new ArrayList<>());
+        //I load the first hand of the player
+        this.updateHand(this.viewModel.getMyHand());
+        cardToPlace = this.viewModel.getMyCodex().get(0);
+
+        //I load the starter card choosed by the player
+        this.placeCard(cardToPlace, new Integer[]{40, 40});
+
+        //I load the objectives of the player
+        String objSecretCover = this.viewModel.getSecretObj().getFrontCover();
+        String obj1Cover = this.viewModel.getCommonObj().get(0).getFrontCover();
+        String obj2Cover = this.viewModel.getCommonObj().get(1).getFrontCover();
+        objSecretImageView.setImage(new Image(objSecretCover));
+        obj1ImageView.setImage(new Image(obj1Cover));
+        obj2ImageView.setImage(new Image(obj2Cover));
+
+
         this.updateDeck(0, "r", 0);
     }
 
@@ -256,113 +278,25 @@ public class BoardViewController extends GUI {
     }
 
     //dato l'id della carta,front e back e la posizione, la stampo nella board
-    public void positionCard(Integer idCard, String side, Integer[] position){
-        //per quando mi passeranno solo id: "/it/polimi/ingsw/gc38/images/developmentCards/"+cardName+".png
-        //dovrò fare un case switch se initial, risorsa o gold per il path dell'immagine
-
-        //le prossime righe sono test per vedere se l'immagine viene stampata con le sovrapposizioni giuste
-        ImageView image = new ImageView("it/polimi/ingsw/images/front/starter/0.png");
+    public void placeCard(CardGame cardToPlace, Integer[] position){
+        if(cardToPlace.isFrontSide()){
+            cardFront = cardToPlace.getFrontCover();
+        }
+        else{
+            cardFront = cardToPlace.getBackCover();
+        }
+        ImageView image = new ImageView(new Image(cardFront));
         image.setFitHeight(70);
         image.setFitWidth(120);
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(image, 40, 40);
+        gridPane.add(image, position[0], position[1]);
 
-        image = new ImageView("it/polimi/ingsw/images/front/resource/red/0.png");
-        image.setFitHeight(70);
-        image.setFitWidth(120);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(image, 39, 39);
-
-        image = new ImageView("it/polimi/ingsw/images/front/resource/red/3.png");
-        image.setFitHeight(70);
-        image.setFitWidth(120);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(image, 39, 41);
-
-        image = new ImageView("it/polimi/ingsw/images/front/resource/red/5.png");
-        image.setFitHeight(70);
-        image.setFitWidth(120);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(image, 41, 39);
-
-        image = new ImageView("it/polimi/ingsw/images/front/resource/red/9.png");
-        image.setFitHeight(70);
-        image.setFitWidth(120);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(image, 41, 41);
-
-        image = new ImageView("it/polimi/ingsw/images/front/resource/red/3.png");
-        image.setFitHeight(70);
-        image.setFitWidth(120);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(image, 38, 40);
-
-        image = new ImageView("it/polimi/ingsw/images/front/resource/red/3.png");
-        image.setFitHeight(70);
-        image.setFitWidth(120);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(image, 42, 40);
-
-        image = new ImageView("it/polimi/ingsw/images/front/resource/red/3.png");
-        image.setFitHeight(70);
-        image.setFitWidth(120);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(image, 40, 38);
-
-        image = new ImageView("it/polimi/ingsw/images/front/resource/red/3.png");
-        image.setFitHeight(70);
-        image.setFitWidth(120);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(image, 38, 42);
-
-        image = new ImageView("it/polimi/ingsw/images/front/resource/red/3.png");
-        image.setFitHeight(70);
-        image.setFitWidth(120);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(image, 40, 42);
-
-        image = new ImageView("it/polimi/ingsw/images/front/resource/red/3.png");
-        image.setFitHeight(70);
-        image.setFitWidth(120);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(image, 42, 42);
 
         scrollPane.setHvalue(0.5);
         scrollPane.setVvalue(0.5);
 
     }
 
-    //metodo che disegna la mano di carte del giocatore del turno
-    //nb: le carte sono poi dei bottoni che chiamano il metodo per giocare la carta
-    public void drawHand(List<Integer> hand){
-        ImageView imageCard = new ImageView();
-        imageCard.setFitHeight(70);
-        imageCard.setFitWidth(120);
-        /*
-        for(int i=1; i<=hand.size(); i++){
-            //algoritmo che dall'id della carta mi dice se gold/resource/starter e di che colore
-            //poi setto l'immagine in base ai parametri restituiti dall'algoritmo
-            imageCard = new ImageView("it/polimi/ingsw/gc38/images/front/gold/blue/5.png");
-            imageCard.setFitHeight(70);
-            imageCard.setFitWidth(120);
-            if(i==1){
-                card1ImageView.setImage(imageCard.getImage());
-            }
-            else if(i==2){
-                card2ImageView.setImage(imageCard.getImage());
-            }
-            else if(i==3){
-                card3ImageView.setImage(imageCard.getImage());
-            }
-            */
-            imageCard = new ImageView("it/polimi/ingsw/images/front/gold/blue/5.png");
-            card1ImageView.setImage(imageCard.getImage());
-            imageCard = new ImageView("it/polimi/ingsw/images/front/resource/green/1.png");
-            card2ImageView.setImage(imageCard.getImage());
-            imageCard = new ImageView("it/polimi/ingsw/images/front/resource/red/2.png");
-            card3ImageView.setImage(imageCard.getImage());
-
-    }
 
     //quando chiamo questo metodo modifico la carta del mazzo (resource r oppure gold g)
     //in posizione: 0 -> girata (il back), 1 -> esposta 1, 2 -> esposta 2)
@@ -407,11 +341,30 @@ public class BoardViewController extends GUI {
 
     public void setSide(ActionEvent actionEvent) {
         if(buttonSide.getText().equals("view back side")){
-            //todo cambiare le immagini delle carte con quelle del back
+            String imageCard1 = viewModel.getMyHand().get(0).getBackCover();
+            String imageCard2 = viewModel.getMyHand().get(1).getBackCover();
+            String imageCard3 = viewModel.getMyHand().get(2).getBackCover();
+            //TODO ASK IF THIS ITS OKAY
+            viewModel.getMyHand().get(0).setSide(false);
+            viewModel.getMyHand().get(1).setSide(false);
+            viewModel.getMyHand().get(2).setSide(false);
+            card1ImageView.setImage(new Image(imageCard1));
+            card2ImageView.setImage(new Image(imageCard2));
+            card3ImageView.setImage(new Image(imageCard3));
+
             buttonSide.setText("view front side");
         }
         else{
-            //todo cambiare le immagini delle carte con quelle del front
+            String imageCard1 = viewModel.getMyHand().get(0).getFrontCover();
+            String imageCard2 = viewModel.getMyHand().get(1).getFrontCover();
+            String imageCard3 = viewModel.getMyHand().get(2).getFrontCover();
+            //TODO ASK IF THIS ITS OKAY
+            viewModel.getMyHand().get(0).setSide(true);
+            viewModel.getMyHand().get(1).setSide(true);
+            viewModel.getMyHand().get(2).setSide(true);
+            card1ImageView.setImage(new Image(imageCard1));
+            card2ImageView.setImage(new Image(imageCard2));
+            card3ImageView.setImage(new Image(imageCard3));
             buttonSide.setText("view back side");
         }
     }
@@ -437,4 +390,12 @@ public class BoardViewController extends GUI {
         this.viewChat(popUpStage);
     }
 
+    public void updateHand(List<Card> hand) {
+        String imageCard1 = hand.get(0).getFrontCover();
+        String imageCard2 = hand.get(1).getFrontCover();
+        String imageCard3 = hand.get(2).getFrontCover();
+        card1ImageView.setImage(new Image(imageCard1));
+        card2ImageView.setImage(new Image(imageCard2));
+        card3ImageView.setImage(new Image(imageCard3));
+    }
 }

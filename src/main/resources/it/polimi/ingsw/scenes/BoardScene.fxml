@@ -462,9 +462,6 @@
                                     </font>
                                 </Label>
                                 <ImageView fx:id="objSecretImageView" fitHeight="83.0" fitWidth="120.0">
-                                    <image>
-                                        <Image fx:id="objSecretImage" url="@../images/front/objective/0.png" />
-                                    </image>
                                 </ImageView>
                             </children>
                         </VBox>
@@ -477,9 +474,6 @@
                                     </font>
                                 </Label>
                                 <ImageView fx:id="obj1ImageView" fitHeight="83.0" fitWidth="120.0">
-                                    <image>
-                                        <Image fx:id="obj1Image" url="@../images/front/objective/3.png" />
-                                    </image>
                                 </ImageView>
                             </children>
                         </VBox>
@@ -492,9 +486,6 @@
                                     </font>
                                 </Label>
                                 <ImageView fx:id="obj2ImageView" fitHeight="83.0" fitWidth="120.0">
-                                    <image>
-                                        <Image fx:id="obj2Image" url="@../images/front/objective/10.png" />
-                                    </image>
                                 </ImageView>
                             </children>
                         </VBox>

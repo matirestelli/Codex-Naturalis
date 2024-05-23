@@ -2,8 +2,8 @@
   {
     "id": 0,
     "frontSide": true,
-    "frontCover": "front/starter/0.png",
-    "backCover": "back/starter/0.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/blue/0.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/blue.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -52,8 +52,8 @@
   {
     "id": 1,
     "color": "BLUE",
-    "frontCover": "front/resource/blue/1.png",
-    "backCover": "back/resource/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/blue/1.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/blue.png",
     "point": 1,
     "frontCorners": {
       "0": {
@@ -101,8 +101,8 @@
   {
     "id": 2,
     "color": "BLUE",
-    "frontCover": "front/resource/blue/2.png",
-    "backCover": "back/resource/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/blue/2.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/blue.png",
     "point": 1,
     "frontCorners": {
       "0": {
@@ -150,8 +150,8 @@
   {
     "id": 3,
     "color": "BLUE",
-    "frontCover": "front/resource/blue/3.png",
-    "backCover": "back/resource/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/blue/3.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/blue.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -199,8 +199,8 @@
   {
     "id": 4,
     "color": "BLUE",
-    "frontCover": "front/resource/blue/4.png",
-    "backCover": "back/resource/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/blue/4.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/blue.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -248,8 +248,8 @@
   {
     "id": 5,
     "color": "BLUE",
-    "frontCover": "front/resource/blue/5.png",
-    "backCover": "back/resource/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/blue/5.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/blue.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -297,8 +297,8 @@
   {
     "id": 6,
     "color": "BLUE",
-    "frontCover": "front/resource/blue/6.png",
-    "backCover": "back/resource/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/blue/6.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/blue.png",
     "point": 0,
     "frontCorners": {
       "1": {
@@ -346,8 +346,8 @@
   {
     "id": 7,
     "color": "BLUE",
-    "frontCover": "front/resource/blue/7.png",
-    "backCover": "back/resource/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/blue/7.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/blue.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -395,8 +395,8 @@
   {
     "id": 8,
     "color": "BLUE",
-    "frontCover": "front/resource/blue/8.png",
-    "backCover": "back/resource/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/blue/8.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/blue.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -444,8 +444,8 @@
   {
     "id": 9,
     "color": "BLUE",
-    "frontCover": "front/resource/blue/9.png",
-    "backCover": "back/resource/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/blue/9.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/blue.png",
     "point": 0,
     "frontCorners": {
       "1": {
@@ -493,8 +493,8 @@
   {
     "id": 10,
     "color": "RED",
-    "frontCover": "front/resource/red/10.png",
-    "backCover": "back/resource/red.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/red/0.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
     "point": 1,
     "frontCorners": {
       "0": {
@@ -542,8 +542,8 @@
   {
     "id": 11,
     "color": "RED",
-    "frontCover": "front/resource/red/11.png",
-    "backCover": "back/resource/red.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/red/1.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
     "point": 1,
     "frontCorners": {
       "0": {
@@ -591,8 +591,8 @@
   {
     "id": 12,
     "color": "RED",
-    "frontCover": "front/resource/red/12.png",
-    "backCover": "back/resource/red.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/red/2.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
     "point": 1,
     "frontCorners": {
       "0": {
@@ -640,8 +640,8 @@
   {
     "id": 13,
     "color": "RED",
-    "frontCover": "front/resource/red/13.png",
-    "backCover": "back/resource/red.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/red/3.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -689,8 +689,8 @@
   {
     "id": 14,
     "color": "RED",
-    "frontCover": "front/resource/red/14.png",
-    "backCover": "back/resource/red.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/red/4.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
     "point": 1,
     "frontCorners": {
       "1": {
@@ -738,8 +738,8 @@
   {
     "id": 15,
     "color": "RED",
-    "frontCover": "front/resource/red/15.png",
-    "backCover": "back/resource/red.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/red/5.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -787,8 +787,8 @@
   {
     "id": 16,
     "color": "RED",
-    "frontCover": "front/resource/red/16.png",
-    "backCover": "back/resource/red.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/red/6.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -836,8 +836,8 @@
   {
     "id": 17,
     "color": "RED",
-    "frontCover": "front/resource/red/17.png",
-    "backCover": "back/resource/red.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/red/7.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -885,8 +885,8 @@
   {
     "id": 18,
     "color": "RED",
-    "frontCover": "front/resource/red/18.png",
-    "backCover": "back/resource/red.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/red/8.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
     "point": 1,
     "frontCorners": {
       "1": {
@@ -934,8 +934,8 @@
   {
     "id": 19,
     "color": "RED",
-    "frontCover": "front/resource/red/19.png",
-    "backCover": "back/resource/red.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/red/9.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
     "point": 1,
     "frontCorners": {
       "0": {
@@ -983,8 +983,8 @@
   {
     "id": 20,
     "color": "GREEN",
-    "frontCover": "front/resource/green/20.png",
-    "backCover": "back/resource/green.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/green/0.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/green.png",
     "point": 1,
     "frontCorners": {
       "0": {
@@ -1032,8 +1032,8 @@
   {
     "id": 21,
     "color": "GREEN",
-    "frontCover": "front/resource/green/21.png",
-    "backCover": "back/resource/green.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/green/1.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/green.png",
     "point": 1,
     "frontCorners": {
       "0": {
@@ -1081,8 +1081,8 @@
   {
     "id": 22,
     "color": "GREEN",
-    "frontCover": "front/resource/green/22.png",
-    "backCover": "back/resource/green.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/green/2.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/green.png",
     "point": 1,
     "frontCorners": {
       "1": {
@@ -1130,8 +1130,8 @@
   {
     "id": 23,
     "color": "GREEN",
-    "frontCover": "front/resource/green/23.png",
-    "backCover": "back/resource/green.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/green/3.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/green.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -1179,8 +1179,8 @@
   {
     "id": 24,
     "color": "GREEN",
-    "frontCover": "front/resource/green/24.png",
-    "backCover": "back/resource/green.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/green/4.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/green.png",
     "point": 0,
     "frontCorners": {
       "1": {
@@ -1228,8 +1228,8 @@
   {
     "id": 25,
     "color": "GREEN",
-    "frontCover": "front/resource/green/25.png",
-    "backCover": "back/resource/green.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/green/5.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/green.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -1277,8 +1277,8 @@
   {
     "id": 26,
     "color": "GREEN",
-    "frontCover": "front/resource/green/26.png",
-    "backCover": "back/resource/green.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/green/6.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/green.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -1326,8 +1326,8 @@
   {
     "id": 27,
     "color": "GREEN",
-    "frontCover": "front/resource/green/27.png",
-    "backCover": "back/resource/green.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/green/7.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/green.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -1375,8 +1375,8 @@
   {
     "id": 28,
     "color": "GREEN",
-    "frontCover": "front/resource/green/28.png",
-    "backCover": "back/resource/green.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/green/8.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/green.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -1424,8 +1424,8 @@
   {
     "id": 29,
     "color": "GREEN",
-    "frontCover": "front/resource/green/29.png",
-    "backCover": "back/resource/green.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/green/9.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/green.png",
     "point": 0,
     "frontCorners": {
       "1": {
@@ -1473,8 +1473,8 @@
   {
     "id": 30,
     "color": "PURPLE",
-    "frontCover": "front/resource/purple/30.png",
-    "backCover": "back/resource/purple.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/purple/0.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/purple.png",
     "point": 1,
     "frontCorners": {
       "0": {
@@ -1522,8 +1522,8 @@
   {
     "id": 31,
     "color": "PURPLE",
-    "frontCover": "front/resource/purple/31.png",
-    "backCover": "back/resource/purple.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/purple/1.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/purple.png",
     "point": 1,
     "frontCorners": {
       "0": {
@@ -1571,8 +1571,8 @@
   {
     "id": 32,
     "color": "PURPLE",
-    "frontCover": "front/resource/purple/32.png",
-    "backCover": "back/resource/purple.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/purple/2.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/purple.png",
     "point": 1,
     "frontCorners": {
       "1": {
@@ -1620,8 +1620,8 @@
   {
     "id": 33,
     "color": "PURPLE",
-    "frontCover": "front/resource/purple/33.png",
-    "backCover": "back/resource/purple.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/purple/3.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/purple.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -1669,8 +1669,8 @@
   {
   "id": 34,
   "color": "PURPLE",
-  "frontCover": "front/resource/purple/34.png",
-  "backCover": "back/resource/purple.png",
+  "frontCover": "/it/polimi/ingsw/images/front/resource/purple/4.png",
+  "backCover": "/it/polimi/ingsw/images/back/resource/purple.png",
   "point": 0,
   "frontCorners": {
     "0": {
@@ -1718,8 +1718,8 @@
   {
     "id": 35,
     "color": "PURPLE",
-    "frontCover": "front/resource/purple/35.png",
-    "backCover": "back/resource/purple.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/purple/5.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/purple.png",
     "point": 0,
     "frontCorners": {
       "1": {
@@ -1767,8 +1767,8 @@
   {
     "id": 36,
     "color": "PURPLE",
-    "frontCover": "front/resource/purple/36.png",
-    "backCover": "back/resource/purple.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/purple/6.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/purple.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -1816,8 +1816,8 @@
   {
     "id": 37,
     "color": "PURPLE",
-    "frontCover": "front/resource/purple/37.png",
-    "backCover": "back/resource/purple.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/purple/7.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/purple.png",
     "point": 0,
     "frontCorners": {
       "0": {
@@ -1865,8 +1865,8 @@
   {
     "id": 38,
     "color": "PURPLE",
-    "frontCover": "front/resource/purple/38.png",
-    "backCover": "back/resource/purple.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/purple/8.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/purple.png",
     "point": 0,
     "frontCorners": {
       "1": {
@@ -1914,8 +1914,8 @@
   {
     "id": 39,
     "color": "PURPLE",
-    "frontCover": "front/resource/purple/39.png",
-    "backCover": "back/resource/purple.png",
+    "frontCover": "/it/polimi/ingsw/images/front/resource/purple/9.png",
+    "backCover": "/it/polimi/ingsw/images/back/resource/purple.png",
     "point": 0,
     "frontCorners": {
       "0": {

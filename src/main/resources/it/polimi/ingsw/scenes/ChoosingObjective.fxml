@@ -15,14 +15,14 @@
 <children>
     <VBox  styleClass="choiceBox" prefHeight="533.0" prefWidth="486.0" alignment="CENTER" AnchorPane.bottomAnchor="140" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="140.0">
         <children>
-            <Label prefHeight="75.0" prefWidth="712.0" alignment="TOP_CENTER" text="Choose which side to use of your Starter Card:">
+            <Label prefHeight="75.0" prefWidth="712.0" alignment="TOP_CENTER" text="Choose which secret Objective you want:">
 
             </Label>
             <HBox prefHeight="145.0" prefWidth="712.0" alignment="CENTER" >
                 <children>
                     <VBox prefHeight="145.0" alignment="CENTER">
                         <children>
-                            <Label prefHeight="20.0" prefWidth="712.0" alignment="CENTER" text="Front side">
+                            <Label prefHeight="20.0" prefWidth="712.0" alignment="CENTER" text="Objective 1">
                             </Label>
                             <Button fx:id="buttonObjective1" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
                                 <graphic>
@@ -35,7 +35,7 @@
 
                     <VBox prefHeight="145.0" alignment="CENTER">
                         <children>
-                            <Label prefHeight="20.0" prefWidth="712.0" alignment="CENTER" text="Back side">
+                            <Label prefHeight="20.0" prefWidth="712.0" alignment="CENTER" text="Objective 2">
                             </Label>
                             <Button fx:id="buttonObjective2" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
                                 <graphic>

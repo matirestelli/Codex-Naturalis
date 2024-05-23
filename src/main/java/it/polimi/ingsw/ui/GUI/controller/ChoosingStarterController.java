@@ -40,7 +40,7 @@ public class ChoosingStarterController extends GUI {
             buttonFrontSide.setStyle("-fx-border-color: #52e51f;\n" +
                     "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
             //TODO controlla che true significa front side
-          this.observerClient.updateUI(new GameEvent("starterSide", true));
+          this.observerClient.updateUI(new GameEvent("starterSideSetted", true));
           //metodo della gui che piazza la starter card nella board chiamando il boardViewController
             //starterCard.setSide(true);
             //TODO this.placeCard(starterCard, [39, 39]);
@@ -58,7 +58,7 @@ public class ChoosingStarterController extends GUI {
             buttonBackSide.setStyle("-fx-border-color: #52e51f;\n" +
                     "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
             //TODO controlla che false significa back side
-            this.observerClient.updateUI(new GameEvent("starterSide", false));
+            this.observerClient.updateUI(new GameEvent("starterSideSetted", false));
             //starterCard.setSide(false);
             //TODO this.placeCard(starterCard, [39, 39]); -> penso lo faccio solo nel client con il view model
             settedSide = true;

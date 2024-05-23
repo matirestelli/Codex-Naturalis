@@ -59,7 +59,9 @@ public class Client implements ObserverUI{
                     javafx.application.Application.launch(GUI.class);
                 }
             }.start();
+            //TODO poi fare classe astratta che estende gui e cli così si spostano lì questi attributi
             ((GUI) uiStrategy).setObserverUIClient((ObserverUI)this);
+            ((GUI) uiStrategy).setViewModel(viewModel);
         }
         this.uiStrategy.initialize();
 
@@ -184,6 +186,7 @@ public class Client implements ObserverUI{
             }
             case "askWhereToDraw"-> {
                 System.out.println("Ask where to draw event arrived to client\n");
+                //TODO: PUT IN CLI:
                 String input = uiStrategy.askWhereToDraw((List<Card>) event.getData());
 
                 try {
@@ -194,11 +197,16 @@ public class Client implements ObserverUI{
             }
             case "loadedCommonObjective" -> {
                 System.out.println("Common objective event arrived to client\n");
-                uiStrategy.displayCommonObjective((List<Objective>) event.getData());
+               //TODO PUT IN CLI: uiStrategy.displayCommonObjective((List<Objective>) event.getData());
+                observerUI.updateUI(event);
+                //in realtà la gui non ci deve fare nulla con questo evento perchè quando si inizializza prende dal view model
+                viewModel.setCommonObj((List<Objective>) event.getData());
             }
+
             case "chooseObjective" -> {
                 System.out.println("Choose objective event arrived to client\n");
                 observerUI.updateUI(event);
+                //TODO PUT IN CLI:
              //   Objective card = uiStrategy.chooseObjective((List<Objective>) event.getData());
 
                // try {
@@ -231,11 +239,16 @@ public class Client implements ObserverUI{
             }
             case "updateHand" -> {
                 System.out.println("Update hand event arrived to client\n");
-                hand = (List<Card>) event.getData();
-
-                uiStrategy.displayHand(hand);
+                //hand = (List<Card>) event.getData();
+                viewModel.setMyHand((List<Card>) event.getData());
+                //TODO PUT IN CLI:
+                //uiStrategy.displayHand(hand);
+                observerUI.updateUI(event);
+                //la gui/cli stampano la mano aggiornata del giocatore
             }
+
             case "updateCodex" -> {
+                //TODO capire come mettere e passare il codex e matrice degli altri giocatori
                 System.out.println("Update codex event arrived to client\n");
                 codex = (List<Card>) event.getData();
             }
@@ -313,7 +326,7 @@ public class Client implements ObserverUI{
     @Override
     public void updateUI(GameEvent gameEvent) {
         switch (gameEvent.getType()) {
-            case "starterSide" -> {
+            case "starterSideSetted" -> {
                 // set side of the starter card
 
                 boolean side = (boolean) gameEvent.getData();
@@ -337,13 +350,13 @@ public class Client implements ObserverUI{
                 }
             }
 
-            case "chooseObjective" -> {
+            case "chooseObjectiveSetted" -> {
                 Objective card = (Objective) gameEvent.getData();
                 //added the objective card to the view model
                 viewModel.setSecretObj(card);
                 try {
                     outputStream.writeObject(new GameEvent("secretObjectiveSelection", card));
-                    System.out.println("Objective card sented to server");
+                    System.out.printf("card: %d\n", card.getId());
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }

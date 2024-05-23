@@ -29,7 +29,9 @@ public class ChoosingObjectiveController extends GUI {
 
     public void setObjective(List<Objective> objectives){
         String imageObj1 = objectives.getFirst().getFrontCover();
+        obj1 = objectives.getFirst();
         String imageObj2 = objectives.getLast().getFrontCover();
+        obj2 = objectives.getLast();
         Image frontObj1 = new Image(imageObj1);
         Image frontObj2 = new Image(imageObj2);
         objective1.setImage(frontObj1);
@@ -43,7 +45,7 @@ public class ChoosingObjectiveController extends GUI {
                 buttonObjective1.setStyle("-fx-border-color: #52e51f;\n" +
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
                 //TODO controlla che true significa front side
-                this.observerClient.updateUI(new GameEvent("choseObjective", obj1));
+                this.observerClient.updateUI(new GameEvent("chooseObjectiveSetted", obj1));
                 //metodo della gui che piazza la carta obiettivo segreto nella board chiamando il boardViewController
                 //o forse non da fare perchè lo metto nel view model e lo prende lui poi quando crea la board
                 //TODO
@@ -62,7 +64,7 @@ public class ChoosingObjectiveController extends GUI {
                 buttonObjective2.setStyle("-fx-border-color: #52e51f;\n" +
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
                 //TODO controlla che false significa back side
-                this.observerClient.updateUI(new GameEvent("choseObjective", obj2));
+                this.observerClient.updateUI(new GameEvent("chooseObjectiveSetted", obj2));
                 //metodo della gui che piazza la carta obiettivo segreto nella board chiamando il boardViewController
                 //o forse non da fare perchè lo metto nel view model e lo prende lui poi quando crea la board
                 //TODO

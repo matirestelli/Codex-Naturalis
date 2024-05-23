@@ -39,7 +39,7 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     //il viewmodel del gioco che verrà modificato dopo gli update del server
     //NB il view model anche del client della view viene modificato solo dopo l'update del server non mentre mando al server la mossa
     //questo perchè se il server ritiene la mossa non valida non la registra e non manda un update
-    private ViewModel viewModel;
+    protected static ViewModel viewModel;
 
     //lista dei controller delle varie scene
     private static StartingSceneController startingSceneController;
@@ -296,7 +296,7 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
                      //root = loader.load();
                    //  boardViewController = loader.getController();
                      root = this.getBoardScene();
-                     this.getBoardViewController().initialize();
+                     this.getBoardViewController().setUpBoard();
                      currStage.setScene(new Scene(root));
                      currStage.show();
                     } catch (Exception e) {
@@ -471,6 +471,67 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
             e.printStackTrace();
         }
     }
+
+
+    @Override
+    public void updateUI(GameEvent event) {
+        switch(event.getType()){
+            case "notYourTurn" -> {
+                //TODO fix the fact that it is shown when i go to the board scene -> maybe not show not your turn
+                //only not your turn if i try to do something
+                Platform.runLater(() -> {
+                    this.showErrorPopUp("It's not your turn", currStage);
+                });
+            }
+
+            case "loadedStarter" ->{
+                //initializeScenes();
+                //TODO file fxml e controller
+                // choosingStarterController.setStarterCard(event.getData());
+                System.out.println("Starter card loaded");
+                Platform.runLater(() -> {
+                    this.setStarterCard((CardGame)event.getData());
+                    System.out.printf("Starter card loaded: %d", this.getStarterCard().getId());
+                    System.out.printf("Starter card loaded: %s", this.getStarterCard().getFrontCover());
+
+                    //TODO: sarà così solo che ora il messaggio arriva troppo presto e non ho ancora l'istanza del controller
+                    //perchè il messaggio arriva ancora prima di aver caricato il main dell'applicazione
+                    //this.getChoosingStarterController().setStarterCard((CardGame)event.getData());
+                });
+
+
+            }
+            case "starterSide" -> {
+                Platform.runLater(() -> {
+                    this.test= true;
+                    System.out.println("ask for choice arrived");
+                    //this.getChoosingStarterController().setStarterSide();
+                });
+            }
+
+            case "chooseObjective" -> {
+                System.out.println("ask for objective arrived to view");
+                Platform.runLater(() -> {
+                    //in questo momento non ho ancora fatto load dei controller e quidni gestisco la cosa così:
+                    //this.getChoosingObjectiveController().setObjective((List<Objective>)event.getData());
+                    // this.getChoosingObjectiveController().chooseObjective();
+                    secretObjs = (List<Objective>)event.getData();
+                    System.out.println("ask for objective arrived");
+                    //this.getChoosingObjectiveController().chooseObjective();
+                });
+            }
+
+            case "updateHand" -> {
+                Platform.runLater(() -> {
+                    this.getBoardViewController().updateHand((List<Card>)event.getData());
+                });
+            }
+
+            //TODO: EVENTI ANCORA DA FARE: mazzo updated, risorse di un giocatore e score updated, codex e matrix di un giocatore updated
+        }
+    }
+
+
     @Override
     public void initialize() {
     }
@@ -572,57 +633,6 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     @Override
     public String askWhereToDraw(List<Card> cards) {
         return null;
-    }
-
-
-    @Override
-    public void updateUI(GameEvent event) {
-        switch(event.getType()){
-            case "notYourTurn" -> {
-                //TODO fix the fact that it is shown when i go to the board scene -> maybe not show not your turn
-                //only not your turn if i try to do something
-                Platform.runLater(() -> {
-                    this.showErrorPopUp("It's not your turn", currStage);
-                });
-            }
-
-            case "loadedStarter" ->{
-                //initializeScenes();
-                //TODO file fxml e controller
-               // choosingStarterController.setStarterCard(event.getData());
-                System.out.println("Starter card loaded");
-                Platform.runLater(() -> {
-                     this.setStarterCard((CardGame)event.getData());
-                    System.out.printf("Starter card loaded: %d", this.getStarterCard().getId());
-                    System.out.printf("Starter card loaded: %s", this.getStarterCard().getFrontCover());
-
-                    //TODO: sarà così solo che ora il messaggio arriva troppo presto e non ho ancora l'istanza del controller
-                    //perchè il messaggio arriva ancora prima di aver caricato il main dell'applicazione
-                    //this.getChoosingStarterController().setStarterCard((CardGame)event.getData());
-                });
-
-
-            }
-            case "starterSide" -> {
-                Platform.runLater(() -> {
-                    this.test= true;
-                    System.out.println("ask for choice arrived");
-                    //this.getChoosingStarterController().setStarterSide();
-                });
-            }
-
-            case "chooseObjective" -> {
-                System.out.println("ask for objective arrived to view");
-                Platform.runLater(() -> {
-                    //in questo momento non ho ancora fatto load dei controller e quidni gestisco la cosa così:
-                    //this.getChoosingObjectiveController().setObjective((List<Objective>)event.getData());
-                   // this.getChoosingObjectiveController().chooseObjective();
-                    secretObjs = (List<Objective>)event.getData();
-                    System.out.println("ask for objective arrived");
-                    //this.getChoosingObjectiveController().chooseObjective();
-                });
-            }
-        }
     }
 
     private CardGame getStarterCard() {
@@ -805,4 +815,5 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     public void getObserverUIClient(ObserverUI observerUI) {
         this.observerClient = observerUI;
     }
+
 }
