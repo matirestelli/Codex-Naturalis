@@ -13,26 +13,49 @@
             stylesheets="@../style.css"
             styleClass="anchorChoicePane">
 <children>
-    <VBox prefHeight="200.0" prefWidth="712.0" alignment="CENTER">
+    <VBox  styleClass="choiceBox" prefHeight="533.0" prefWidth="486.0" alignment="CENTER" AnchorPane.bottomAnchor="140" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="140.0">
         <children>
-            <Label prefHeight="75.0" prefWidth="712.0" alignment="CENTER" text="Choose which side to use of your Starter Card:">
+            <Label prefHeight="75.0" prefWidth="712.0" alignment="TOP_CENTER" text="Choose which side to use of your Starter Card:">
 
             </Label>
-            <HBox prefHeight="125.0" prefWidth="712.0" alignment="CENTER" >
-                <Button fx:id="buttonObjective1" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
-                    <graphic>
-                        <ImageView fx:id="objective1" fitHeight="122.0" fitWidth="176.0">
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button fx:id="buttonObjective2" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
-                    <graphic>
-                        <ImageView fx:id="objective2" fitHeight="122.0" fitWidth="176.0">
-                        </ImageView>
-                    </graphic>
-                </Button>
+            <HBox prefHeight="145.0" prefWidth="712.0" alignment="CENTER" >
+                <children>
+                    <VBox prefHeight="145.0" alignment="CENTER">
+                        <children>
+                            <Label prefHeight="20.0" prefWidth="712.0" alignment="CENTER" text="Front side">
+                            </Label>
+                            <Button fx:id="buttonObjective1" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
+                                <graphic>
+                                    <ImageView fx:id="objective1" fitHeight="122.0" fitWidth="176.0">
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        </children>
+                    </VBox>
+
+                    <VBox prefHeight="145.0" alignment="CENTER">
+                        <children>
+                            <Label prefHeight="20.0" prefWidth="712.0" alignment="CENTER" text="Back side">
+                            </Label>
+                            <Button fx:id="buttonObjective2" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
+                                <graphic>
+                                    <ImageView fx:id="objective2" fitHeight="122.0" fitWidth="176.0">
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        </children>
+                    </VBox>
+                </children>
             </HBox>
         </children>
+
+        <HBox alignment="CENTER" prefHeight="103.0" prefWidth="486.0">
+            <children>
+                <Button fx:id="continueButton" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="350.0" mnemonicParsing="false" onAction="#nextscene" text="Continue" style="-fx-background-color: #b0a21a;" styleClass="game_button">
+                </Button>
+            </children>
+        </HBox>
     </VBox>
+
 </children>
 </AnchorPane>

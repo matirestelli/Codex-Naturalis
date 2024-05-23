@@ -5,7 +5,6 @@ import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.ui.*;
 import it.polimi.ingsw.ui.GUI.GUI;
-import javafx.application.Application;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -32,7 +31,7 @@ public class Client implements ObserverUI{
 
     private ObserverUI observerUI;
 
-    private ViewModelGame viewModelGame;
+    private ViewModel viewModel;
     private Player player;
 
     //to set de view as an observer so that it can be updated
@@ -46,7 +45,7 @@ public class Client implements ObserverUI{
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
 
-        this.viewModelGame = new ViewModelGame();
+        this.viewModel = new ViewModel();
         //TODO costruttore nel view model game che crea tutto vuoto
         this.codex = new ArrayList<>();
         this.hand = new ArrayList<>();
@@ -60,8 +59,10 @@ public class Client implements ObserverUI{
                     javafx.application.Application.launch(GUI.class);
                 }
             }.start();
+            ((GUI) uiStrategy).setObserverUIClient((ObserverUI)this);
         }
         this.uiStrategy.initialize();
+
 
         //se è gui faccio partire il thread a parte per lei
 
@@ -74,6 +75,7 @@ public class Client implements ObserverUI{
        // observerUI.updateUI(new GameEvent("username", "username"));
         // String in = scanner.nextLine();
         // outputStream.writeObject(in);
+        //TODO mettere username nel ViewModel
         System.out.println(args[0]);
         outputStream.writeObject(args[0]);
 
@@ -136,11 +138,14 @@ public class Client implements ObserverUI{
             case "notYourTurn" -> {
                 // display message
                 observerUI.updateUI(event);
+                System.out.println("Not your turn event arrivet to client\n");
                // uiStrategy.displayMessage("Not your turn! Wait for your turn...\n");
             }
             case "loadedStarter"-> {
+                System.out.println("Starter card loaded event arrived to client\n");
                 // get starter card from server
                 observerUI.updateUI(event);
+                viewModel.setMyStarterCard((ResourceCard) event.getData());
 
                 //starterCard = (ResourceCard) event.getData();
                 // TODO: change parameters and set as class attribute
@@ -149,32 +154,36 @@ public class Client implements ObserverUI{
                // starterCard.setCentre(new Coordinate(10 / 2 * 7 - 5,10 / 2 * 3 - 5));
 
                 // add starter card to codex nel VieModel
-                viewModelGame.getPlayerStates().get(player).getCodex().add(starterCard);
-
+                viewModel.getMyCodex().add((Card) event.getData());
                 // display starter card back
                 //uiStrategy.visualizeStarterCard(starterCard);
             }
             case "starterSide"-> {
+                System.out.println("Starter side event arrived to client\n");
                 // ask user to set side of the starter card
-                boolean side = uiStrategy.setStarterSide();
-
+                //boolean side = uiStrategy.setStarterSide();
+                observerUI.updateUI(event);
                 // set side of the starter card
-                starterCard.setSide(side);
+               // starterCard.setSide(side);
 
                 // place starter card on the board
-                uiStrategy.placeCard(starterCard, null);
+                //uiStrategy.placeCard(starterCard, null);
 
                 // display board
-                uiStrategy.displayBoard();
+                //uiStrategy.displayBoard();
 
                 // send side to server
+                /*
                 try {
                     outputStream.writeObject(new GameEvent("starterSideSelection", side));
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
+
+                 */
             }
             case "askWhereToDraw"-> {
+                System.out.println("Ask where to draw event arrived to client\n");
                 String input = uiStrategy.askWhereToDraw((List<Card>) event.getData());
 
                 try {
@@ -184,18 +193,22 @@ public class Client implements ObserverUI{
                 }
             }
             case "loadedCommonObjective" -> {
+                System.out.println("Common objective event arrived to client\n");
                 uiStrategy.displayCommonObjective((List<Objective>) event.getData());
             }
             case "chooseObjective" -> {
-                Objective card = uiStrategy.chooseObjective((List<Objective>) event.getData());
+                System.out.println("Choose objective event arrived to client\n");
+                observerUI.updateUI(event);
+             //   Objective card = uiStrategy.chooseObjective((List<Objective>) event.getData());
 
-                try {
-                    outputStream.writeObject(new GameEvent("secretObjectiveSelection", card));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
+               // try {
+               //     outputStream.writeObject(new GameEvent("secretObjectiveSelection", card));
+               // } catch (IOException e) {
+               //     System.out.println("Error sending card ID: " + e.getMessage());
+              //  }
             }
             case "askAngle" -> {
+                System.out.println("Ask angle event arrived to client\n");
                 String input = uiStrategy.displayAngle((List<Coordinate>) event.getData());
 
                 // get card from player's hand by id
@@ -217,17 +230,21 @@ public class Client implements ObserverUI{
                 }
             }
             case "updateHand" -> {
+                System.out.println("Update hand event arrived to client\n");
                 hand = (List<Card>) event.getData();
 
                 uiStrategy.displayHand(hand);
             }
             case "updateCodex" -> {
+                System.out.println("Update codex event arrived to client\n");
                 codex = (List<Card>) event.getData();
             }
             case "beforeTurnEvent" -> {
+                System.out.println("Before turn event arrived to client\n");
                 resources = (Map<Resource, Integer>) event.getData();
             }
             case "currentPlayerTurn" -> {
+                System.out.println("Current player turn event arrived to client\n");
                 CardSelection cs = uiStrategy.askCardSelection((PlayableCardIds) event.getData(), hand);
 
                 cardToPlay = hand.stream().filter(c -> c.getId() == cs.getId()).findFirst().orElse(null);
@@ -240,6 +257,7 @@ public class Client implements ObserverUI{
                 }
             }
             case "lastTurn" -> {
+                System.out.println("Last turn event arrived to client\n");
                 // TODO: bug fix
                 System.out.println("Last turn! Select a card ID to play: ");
                 int cardId = scanner.nextInt();
@@ -251,6 +269,7 @@ public class Client implements ObserverUI{
                 }
             }
             case "endGame" -> {
+                System.out.println("End game event arrived to client\n");
                 uiStrategy.displayMessage("Game over!");
                 closeConnection();
             }
@@ -296,22 +315,41 @@ public class Client implements ObserverUI{
         switch (gameEvent.getType()) {
             case "starterSide" -> {
                 // set side of the starter card
+
                 boolean side = (boolean) gameEvent.getData();
-                starterCard.setSide(side);
+                //added the side choosen to the starter card in the view model
+                viewModel.getMyStarterCard().setSide(side);
+                //added the starter card to the codex in the view model
+                viewModel.getMyMatrix()[39][39] = viewModel.getMyStarterCard().getId();
 
                 // place starter card on the board
-                uiStrategy.placeCard(starterCard, null);
+               // uiStrategy.placeCard(starterCard, null);
 
                 // display board
-                uiStrategy.displayBoard();
+              //  uiStrategy.displayBoard();
 
                 // send side to server
                 try {
                     outputStream.writeObject(new GameEvent("starterSideSelection", side));
+                    System.out.printf("side: %b\n", side);
+                } catch (IOException e) {
+                    System.out.println("Error sending card ID: " + e.getMessage());
+                }
+            }
+
+            case "chooseObjective" -> {
+                Objective card = (Objective) gameEvent.getData();
+                //added the objective card to the view model
+                viewModel.setSecretObj(card);
+                try {
+                    outputStream.writeObject(new GameEvent("secretObjectiveSelection", card));
+                    System.out.println("Objective card sented to server");
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
             }
         }
+
+
     }
 }

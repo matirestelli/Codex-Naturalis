@@ -9,7 +9,7 @@ import it.polimi.ingsw.observers.GameObserver;
 import it.polimi.ingsw.ui.GraphicalUserInterface;
 import it.polimi.ingsw.ui.TextUserInterface;
 import it.polimi.ingsw.ui.UserInterfaceStrategy;
-import it.polimi.ingsw.ui.ViewModelGame;
+import it.polimi.ingsw.ui.ViewModel;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -23,7 +23,7 @@ import java.util.Scanner;
 
 public class GameClientImpl extends UnicastRemoteObject implements GameClient, GameObserver {
     private GameServer server; // reference to the RMI server
-    private ViewModelGame viewModelGame;
+    private ViewModel viewModel;
     private Player client;
     private Card cardToPlay;
     private UserInterfaceStrategy uiStrategy;
@@ -46,8 +46,8 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
         super();
         connectToServer(host, port);
 
-        this.viewModelGame.getPlayerStates().get(client).setCodex(new ArrayList<>());
-        this.viewModelGame.getPlayerStates().get(client).setHand(new ArrayList<>());
+        this.viewModel.getPlayerStates().get(client).setCodex(new ArrayList<>());
+        this.viewModel.getPlayerStates().get(client).setHand(new ArrayList<>());
 
         this.uiStrategy = uiStrategy;
         this.uiStrategy.initialize();
@@ -132,8 +132,8 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
             }
             case "loadedStarter"-> {
                 starterCard = (ResourceCard) event.getData();
-                this.viewModelGame.getPlayerStates().get(client).setStarterCard(starterCard);
-                this.viewModelGame.getPlayerStates().get(client).getCodex().add(starterCard);
+                this.viewModel.getPlayerStates().get(client).setStarterCard(starterCard);
+                this.viewModel.getPlayerStates().get(client).getCodex().add(starterCard);
                 uiObserver.update(event);
 
                 /* da mettere in  cli

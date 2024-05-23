@@ -6,7 +6,7 @@ import it.polimi.ingsw.ui.GUI.controller.*;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.ui.ObserverUI;
 import it.polimi.ingsw.ui.UserInterfaceStrategy;
-import it.polimi.ingsw.ui.ViewModelGame;
+import it.polimi.ingsw.ui.ViewModel;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
@@ -26,12 +26,12 @@ import java.util.List;
 
 public class GUI extends Application implements UserInterfaceStrategy, ObserverUI {
 
-    private Stage currStage;
+    private static Stage currStage;
     private Parent root;
     private double xStage;
     private double yStage;
  //TODO volgio che sia visibile ai figli, non so se protected è il miglior modo
- protected ObserverUI observerClient; //il client che possiede la view
+ protected static ObserverUI observerClient; //il client che possiede la view
 
     //il player del client che possiede alla view
     private Player client;
@@ -39,7 +39,7 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     //il viewmodel del gioco che verrà modificato dopo gli update del server
     //NB il view model anche del client della view viene modificato solo dopo l'update del server non mentre mando al server la mossa
     //questo perchè se il server ritiene la mossa non valida non la registra e non manda un update
-    private ViewModelGame viewModel;
+    private ViewModel viewModel;
 
     //lista dei controller delle varie scene
     private static StartingSceneController startingSceneController;
@@ -58,6 +58,8 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     private static ChoosingStarterController choosingStarterController;
 
     private static CardGame starterCard;
+    private static Boolean test;
+    private static List<Objective> secretObjs;
 
 
     private static Parent joinAGameScene, waitingForPlayersScene, lobbyGamesScene, settingUsernameScene, creatingNewGameScene, settingViewScene, boardScene, choosingObjectiveScene, choosingStarterScene;
@@ -309,7 +311,8 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
                     //choosingStarterController = loader.getController();
                     root = this.getChoosingStarterScene();
                    // System.out.printf("Starter card loaded: %d", this.getStarterCard().getId());
-                   // this.getChoosingStarterController().setStarterCard(this.getStarterCard());
+                   this.getChoosingStarterController().setStarterCard(this.getStarterCard());
+                   this.getChoosingStarterController().chooseStarterSide();
                     currStage.setScene(new Scene(root));
                     currStage.show();
                 } catch (Exception e) {
@@ -323,6 +326,9 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
                     //root = loader.load();
                     //choosingObjectiveController = loader.getController();
                     root = this.getChoosingObjectiveScene();
+                    //da fare qui perchè prima non ho il controller
+                    this.getChoosingObjectiveController().setObjective(secretObjs);
+                    this.getChoosingObjectiveController().chooseObjective();
                     currStage.setScene(new Scene(root));
                     currStage.show();
                 } catch (Exception e) {
@@ -573,8 +579,13 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     public void updateUI(GameEvent event) {
         switch(event.getType()){
             case "notYourTurn" -> {
-                this.showErrorPopUp("It's not your turn", currStage);
+                //TODO fix the fact that it is shown when i go to the board scene -> maybe not show not your turn
+                //only not your turn if i try to do something
+                Platform.runLater(() -> {
+                    this.showErrorPopUp("It's not your turn", currStage);
+                });
             }
+
             case "loadedStarter" ->{
                 //initializeScenes();
                 //TODO file fxml e controller
@@ -590,10 +601,26 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
                     //this.getChoosingStarterController().setStarterCard((CardGame)event.getData());
                 });
 
-              //  Platform.runLater(() -> {
-              //      choosingStarterController.setStarterCard((CardGame) event.getData());
-             //   });
 
+            }
+            case "starterSide" -> {
+                Platform.runLater(() -> {
+                    this.test= true;
+                    System.out.println("ask for choice arrived");
+                    //this.getChoosingStarterController().setStarterSide();
+                });
+            }
+
+            case "chooseObjective" -> {
+                System.out.println("ask for objective arrived to view");
+                Platform.runLater(() -> {
+                    //in questo momento non ho ancora fatto load dei controller e quidni gestisco la cosa così:
+                    //this.getChoosingObjectiveController().setObjective((List<Objective>)event.getData());
+                   // this.getChoosingObjectiveController().chooseObjective();
+                    secretObjs = (List<Objective>)event.getData();
+                    System.out.println("ask for objective arrived");
+                    //this.getChoosingObjectiveController().chooseObjective();
+                });
             }
         }
     }
@@ -614,7 +641,7 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     public void setClient(Player client) {
         this.client = client;
     }
-    public void setViewModel(ViewModelGame viewModel) {
+    public void setViewModel(ViewModel viewModel) {
         this.viewModel = viewModel;
     }
     public void setTurnState(TurnStateEnum turnState) {
@@ -772,4 +799,10 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
         return choosingStarterScene;
     }
 
+    public void setObserverUIClient(ObserverUI observerUI) {
+        this.observerClient = observerUI;
+    }
+    public void getObserverUIClient(ObserverUI observerUI) {
+        this.observerClient = observerUI;
+    }
 }

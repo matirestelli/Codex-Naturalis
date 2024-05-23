@@ -42,7 +42,7 @@ public class WaitingForPlayersController extends GUI implements Initializable {
     public void startGame(ActionEvent actionEvent) {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         //this.changeScene("/it/polimi/ingsw/scenes/BoardScene.fxml", stage);
-        this.changeScene("/it/polimi/ingsw/scenes/ChoosingStarter.fxml", stage);
+        this.changeScene("/it/polimi/ingsw/scenes/ChoosingObjective.fxml", stage);
     }
 
 
