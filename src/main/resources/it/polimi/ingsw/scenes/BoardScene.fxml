@@ -256,87 +256,87 @@
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
                                     </columnConstraints>
                                     <rowConstraints>
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
 
                                     </rowConstraints>
                                 </GridPane>
@@ -412,7 +412,7 @@
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
                                 </Label>
-                                <Button fx:id="buttonCard1" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#playCard">
+                                <Button fx:id="buttonCard1" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0">
                                     <graphic>
                                         <ImageView  fx:id="card1ImageView" fitHeight="83.0" fitWidth="120.0">
                                         </ImageView>
@@ -429,7 +429,7 @@
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
                                 </Label>
-                                <Button styleClass="buttonCard"  fx:id="buttonCard2"  onAction="#playCard" >
+                                <Button styleClass="buttonCard"  fx:id="buttonCard2"  >
                                     <graphic>
                                         <ImageView  fx:id="card2ImageView" fitHeight="83.0" fitWidth="120.0">
                                         </ImageView>
@@ -445,7 +445,7 @@
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
                                 </Label>
-                                <Button styleClass="buttonCard" fx:id="buttonCard3"  onAction="#playCard">
+                                <Button styleClass="buttonCard" fx:id="buttonCard3">
                                     <graphic >
                                         <ImageView  fx:id="card3ImageView" fitHeight="83.0" fitWidth="120.0" >
                                         </ImageView>

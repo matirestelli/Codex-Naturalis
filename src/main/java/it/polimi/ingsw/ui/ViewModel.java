@@ -9,7 +9,7 @@ import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 
 public class ViewModel {
-    //palyer states of all the other players
+    //mappe che associano gli username degli altri players con i loro dati di gioco
     private Map<Player, PlayerState> playerStates ;
     private Card deckGBack;
     private Card deckRBack;
@@ -167,5 +167,6 @@ public class ViewModel {
     public void setBroadcastChat(List<String[]> broadcastChat) {
         this.broadcastChat = broadcastChat;
     }
+
 
 }

@@ -57,6 +57,15 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
         // load decks
         gameState.loadDecks();
+        List<Card> updatedDecks = new ArrayList<>();
+        updatedDecks.addAll(gameState.getResourceCardsVisible());
+        updatedDecks.addAll(gameState.getGoldCardsVisible());
+        updatedDecks.add(gameState.getResourceDeck().getCards().getFirst());
+        updatedDecks.add(gameState.getGoldDeck().getCards().getFirst());
+        //notify observers of the updated decks
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new GameEvent("updateDecks", updatedDecks)) ;
+
 
         // assign the starter card to each player
         gameState.assignStarterCardToPlayers();

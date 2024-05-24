@@ -1,7 +1,6 @@
 package it.polimi.ingsw.ui.GUI.controller;
 
-import it.polimi.ingsw.core.model.Card;
-import it.polimi.ingsw.core.model.CardGame;
+import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.ui.GUI.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +22,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 public class BoardViewController extends GUI {
@@ -87,10 +88,8 @@ public class BoardViewController extends GUI {
     private Label[] playersPoints = new Label[4];
     @FXML
     private Image[] playersPawn = new Image[4];
-
     @FXML
     private ScrollPane scrollPane;
-
     @FXML
     private ImageView card1ImageView, card2ImageView, card3ImageView;
     @FXML
@@ -104,9 +103,27 @@ public class BoardViewController extends GUI {
     @FXML
     private ImageView deckGBackImageView, deckGFront1ImageView, deckGFront2ImageView, deckGBackEco1, deckGBackEco2;
     @FXML
-    private Button buttonDeckGBack, buttonSide;
+    private Button buttonDeckGBack, buttonDeckRBack, buttonDeckRFront1, buttonDeckRFront2, buttonDeckGFront1, buttonDeckGFront2;
+    @FXML
+    private Button buttonSide;
     @FXML
     private Button buttonCard1, buttonCard2, buttonCard3;
+
+    @FXML
+    private Button[] handButtons = {buttonCard1, buttonCard2, buttonCard3};
+    @FXML
+    private Button[] deckVisibleButtons ={ buttonDeckRFront1, buttonDeckRFront2, buttonDeckGFront1, buttonDeckGFront2};
+    @FXML
+    private Button[] deckButtons ={buttonDeckRBack, buttonDeckGBack, buttonDeckRFront1, buttonDeckRFront2, buttonDeckGFront1, buttonDeckGFront2};
+    @FXML
+    private ImageView[] handImages = {card1ImageView, card2ImageView, card3ImageView};
+
+    private static Boolean cardSelected = false;
+    private static Boolean cardDrawn = false;
+    private static Boolean cardPlaced = false;
+    //side of the card in the hand
+    private static Boolean side = true;
+    private static String buttonCardSelectedId;
 
     //useful to save temporarly the card i want to position because i need it in an another method
     //it contains also the side choosed
@@ -115,7 +132,8 @@ public class BoardViewController extends GUI {
     private static Integer[] positionToPlace;
     //usefull to save temporary the path of the card image
     private String cardFront;
-
+    //usefull to save the image of the card that the player whant to play, is back or front side because I take it from its button selected
+    private static CardGame cardToPlay;
 
     public void setUpBoard() {
         VBox container = new VBox();
@@ -137,6 +155,7 @@ public class BoardViewController extends GUI {
         boardPane.setLeft(container);
 
         //I load the first hand of the player
+        //TODO ELIMINATE WHEN WAIT FOR THE USERNAME AT THE BEGINNING IMPLEMENTED
         this.updateHand(this.viewModel.getMyHand());
         cardToPlace = this.viewModel.getMyCodex().get(0);
 
@@ -151,8 +170,14 @@ public class BoardViewController extends GUI {
         obj1ImageView.setImage(new Image(obj1Cover));
         obj2ImageView.setImage(new Image(obj2Cover));
 
-
-        this.updateDeck(0, "r", 0);
+        //loading the initial decks
+        //TODO ELIMINATE WHEN WAIT FOR THE USERNAME AT THE BEGINNING IMPLEMENTED
+        List<Card> initialDecks = new ArrayList<>();
+        initialDecks.addAll(this.viewModel.getResourceCardsVisible());
+        initialDecks.addAll(this.viewModel.getGoldCardsVisible());
+        initialDecks.add(this.viewModel.getDeckRBack());
+        initialDecks.add(this.viewModel.getDeckGBack());
+        this.updateDecks(initialDecks);
     }
 
 
@@ -286,7 +311,7 @@ public class BoardViewController extends GUI {
             cardFront = cardToPlace.getBackCover();
         }
         ImageView image = new ImageView(new Image(cardFront));
-        image.setFitHeight(70);
+        image.setFitHeight(83);
         image.setFitWidth(120);
         gridPane.setAlignment(Pos.CENTER);
         gridPane.add(image, position[0], position[1]);
@@ -300,30 +325,121 @@ public class BoardViewController extends GUI {
 
     //quando chiamo questo metodo modifico la carta del mazzo (resource r oppure gold g)
     //in posizione: 0 -> girata (il back), 1 -> esposta 1, 2 -> esposta 2)
-    public void updateDeck (Integer idCardRemoved, String type, Integer position){
-        //per ora solo test:
-        ImageView imageCard = new ImageView();
-        imageCard.setFitHeight(70);
-        imageCard.setFitWidth(120);
-        imageCard = new ImageView("it/polimi/ingsw/images/back/gold/blue.png");
-        deckGBackImageView.setImage(imageCard.getImage());
-        deckGBackEco1.setImage(imageCard.getImage());
-        deckGBackEco2.setImage(imageCard.getImage());
-
-        imageCard = new ImageView("it/polimi/ingsw/images/back/resource/purple.png");
-        deckRBackImageView.setImage(imageCard.getImage());
-        deckRBackEco1.setImage(imageCard.getImage());
-        deckRBackEco2.setImage(imageCard.getImage());
+    public void updateDecks (List<Card> updatedDecks){
+        //TODO CAPIRE COME PARAMETRIZZARE MEGLIO LA COSA
+        String imageCardRBack = updatedDecks.get(4).getBackCover();
+        deckGBackImageView.setImage(new Image(imageCardRBack));
+        deckGBackEco1.setImage(new Image(imageCardRBack));
+        deckGBackEco2.setImage(new Image(imageCardRBack));
+        buttonDeckRBack.setUserData(updatedDecks.get(4).getId());
 
 
-        imageCard = new ImageView("it/polimi/ingsw/images/front/resource/green/1.png");
-        deckRFront1ImageView.setImage(imageCard.getImage());
-        imageCard = new ImageView("it/polimi/ingsw/images/front/resource/red/2.png");
-        deckRFront2ImageView.setImage(imageCard.getImage());
-        imageCard = new ImageView("it/polimi/ingsw/images/front/gold/blue/1.png");
-        deckGFront1ImageView.setImage(imageCard.getImage());
-        imageCard = new ImageView("it/polimi/ingsw/images/front/gold/blue/2.png");
-        deckGFront2ImageView.setImage(imageCard.getImage());
+        String imageCardGBack = updatedDecks.get(5).getBackCover();
+        deckRBackImageView.setImage(new Image(imageCardGBack));
+        deckRBackEco1.setImage(new Image(imageCardGBack));
+        deckRBackEco2.setImage(new Image(imageCardGBack));
+        buttonDeckGBack.setUserData(updatedDecks.get(5).getId());
+
+        String imageCardRFront1 = updatedDecks.get(0).getFrontCover();
+        deckRFront1ImageView.setImage(new Image(imageCardRFront1));
+        buttonDeckRFront1.setUserData(updatedDecks.get(0).getId());
+
+        String imageCardRFront2 = updatedDecks.get(1).getFrontCover();
+        deckRFront2ImageView.setImage(new Image(imageCardRFront2));
+        buttonDeckRFront2.setUserData(updatedDecks.get(1).getId());
+
+        String imageCardGFront1 = updatedDecks.get(2).getFrontCover();
+        deckGFront1ImageView.setImage(new Image(imageCardGFront1));
+        buttonDeckGFront1.setUserData(updatedDecks.get(2).getId());
+
+        String imageCardGFront2 = updatedDecks.get(3).getFrontCover();
+        deckGFront2ImageView.setImage(new Image(imageCardGFront2));
+        buttonDeckGFront2.setUserData(updatedDecks.get(3).getId());
+
+        //TODO ASK perchè non funziona
+        /*
+        for(Button b: deckButtons){
+            b.setOnAction(e -> {
+                this.showErrorPopUp("You can't draw a card now", (Stage) b.getScene().getWindow());
+            });
+            b.setOnMouseEntered(e -> {
+                b.setStyle("-fx-border-color: #e51f1f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+            });
+            b.setOnMouseExited(e -> {
+                b.setStyle("-fx-border-color: none;\n" +
+                        "-fx-effect: none;");
+            });
+        }
+
+         */
+        buttonDeckGBack.setOnAction(e -> {
+            this.showErrorPopUp("You can't draw a card now", (Stage) buttonDeckGBack.getScene().getWindow());
+        });
+        buttonDeckGBack.setOnMouseEntered(e -> {
+            buttonDeckGBack.setStyle("-fx-border-color: #e51f1f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonDeckGBack.setOnMouseExited(e -> {
+            buttonDeckGBack.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+        buttonDeckRBack.setOnAction(e -> {
+            this.showErrorPopUp("You can't draw a card now", (Stage) buttonDeckRBack.getScene().getWindow());
+        });
+        buttonDeckRBack.setOnMouseEntered(e -> {
+            buttonDeckRBack.setStyle("-fx-border-color: #e51f1f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonDeckRBack.setOnMouseExited(e -> {
+            buttonDeckRBack.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+        buttonDeckRFront1.setOnAction(e -> {
+            this.showErrorPopUp("You can't draw a card now", (Stage) buttonDeckRFront1.getScene().getWindow());
+        });
+        buttonDeckRFront1.setOnMouseEntered(e -> {
+            buttonDeckRFront1.setStyle("-fx-border-color: #e51f1f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonDeckRFront1.setOnMouseExited(e -> {
+            buttonDeckRFront1.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+        buttonDeckRFront2.setOnAction(e -> {
+            this.showErrorPopUp("You can't draw a card now", (Stage) buttonDeckRFront2.getScene().getWindow());
+        });
+        buttonDeckRFront2.setOnMouseEntered(e -> {
+            buttonDeckRFront2.setStyle("-fx-border-color: #e51f1f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonDeckRFront2.setOnMouseExited(e -> {
+            buttonDeckRFront2.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+        buttonDeckGFront1.setOnAction(e -> {
+            this.showErrorPopUp("You can't draw a card now", (Stage) buttonDeckGFront1.getScene().getWindow());
+        });
+        buttonDeckGFront1.setOnMouseEntered(e -> {
+            buttonDeckGFront1.setStyle("-fx-border-color: #e51f1f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonDeckGFront1.setOnMouseExited(e -> {
+            buttonDeckGFront1.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+        buttonDeckGFront2.setOnAction(e -> {
+            this.showErrorPopUp("You can't draw a card now", (Stage) buttonDeckRFront2.getScene().getWindow());
+        });
+        buttonDeckGFront2.setOnMouseEntered(e -> {
+            buttonDeckGFront2.setStyle("-fx-border-color: #e51f1f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonDeckGFront2.setOnMouseExited(e -> {
+            buttonDeckGFront2.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+
 
     }
 
@@ -341,20 +457,34 @@ public class BoardViewController extends GUI {
 
     public void setSide(ActionEvent actionEvent) {
         if(buttonSide.getText().equals("view back side")){
+            for(int i=0; i<3; i++){
+                String imageCard = viewModel.getMyHand().get(i).getBackCover();
+                viewModel.getMyHand().get(i).setSide(false);
+                handImages[i].setImage(new Image(imageCard));
+            }
+            /*
             String imageCard1 = viewModel.getMyHand().get(0).getBackCover();
             String imageCard2 = viewModel.getMyHand().get(1).getBackCover();
             String imageCard3 = viewModel.getMyHand().get(2).getBackCover();
-            //TODO ASK IF THIS ITS OKAY
             viewModel.getMyHand().get(0).setSide(false);
             viewModel.getMyHand().get(1).setSide(false);
             viewModel.getMyHand().get(2).setSide(false);
+            this.side = false;
             card1ImageView.setImage(new Image(imageCard1));
             card2ImageView.setImage(new Image(imageCard2));
             card3ImageView.setImage(new Image(imageCard3));
 
+             */
+
             buttonSide.setText("view front side");
         }
         else{
+            for(int i=0; i<3; i++){
+                String imageCard = viewModel.getMyHand().get(i).getFrontCover();
+                viewModel.getMyHand().get(i).setSide(true);
+                handImages[i].setImage(new Image(imageCard));
+            }
+            /*
             String imageCard1 = viewModel.getMyHand().get(0).getFrontCover();
             String imageCard2 = viewModel.getMyHand().get(1).getFrontCover();
             String imageCard3 = viewModel.getMyHand().get(2).getFrontCover();
@@ -362,9 +492,11 @@ public class BoardViewController extends GUI {
             viewModel.getMyHand().get(0).setSide(true);
             viewModel.getMyHand().get(1).setSide(true);
             viewModel.getMyHand().get(2).setSide(true);
+            this.side = true;
             card1ImageView.setImage(new Image(imageCard1));
             card2ImageView.setImage(new Image(imageCard2));
             card3ImageView.setImage(new Image(imageCard3));
+             */
             buttonSide.setText("view back side");
         }
     }
@@ -374,12 +506,6 @@ public class BoardViewController extends GUI {
         this.showScoreboardPopUp(popUpStage);
     }
 
-    public void playCard(ActionEvent actionEvent) {
-        Button buttonPressed = (Button) actionEvent.getTarget();
-        buttonPressed.setStyle("-fx-border-color: #52e51f;\n" +
-                "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
-
-    }
 
     public void setTurn(String messageTurn){
 
@@ -391,11 +517,391 @@ public class BoardViewController extends GUI {
     }
 
     public void updateHand(List<Card> hand) {
+        //todo ask perchè mi da problemi l'array
+       /* for(int i=0; i<3; i++){
+            String imageCard = hand.get(i).getFrontCover();
+            handImages[i].setImage(new Image(imageCard));
+            handButtons[i].setUserData(hand.get(i).getId());
+        }
+        for(Button b: handButtons){
+            b.setOnAction(e -> {
+                this.showErrorPopUp("You can't draw a card now", (Stage) b.getScene().getWindow());
+            });
+            b.setOnMouseEntered(e -> {
+                b.setStyle("-fx-border-color: #e51f1f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+            });
+            b.setOnMouseExited(e -> {
+                b.setStyle("-fx-border-color: none;\n" +
+                        "-fx-effect: none;");
+            });
+        }
+
+        */
+
         String imageCard1 = hand.get(0).getFrontCover();
-        String imageCard2 = hand.get(1).getFrontCover();
-        String imageCard3 = hand.get(2).getFrontCover();
         card1ImageView.setImage(new Image(imageCard1));
+        //I set in the button the id con the card it is referred to
+        buttonCard1.setUserData(hand.get(0).getId());
+        buttonCard1.setOnAction(e -> {
+            this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard1.getScene().getWindow());
+        });
+        buttonCard1.setOnMouseEntered(e -> {
+            buttonCard1.setStyle("-fx-border-color: #e51f1f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonCard1.setOnMouseExited(e -> {
+            buttonCard1.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+
+        String imageCard2 = hand.get(1).getFrontCover();
         card2ImageView.setImage(new Image(imageCard2));
+        buttonCard2.setUserData(hand.get(1).getId());
+        buttonCard2.setOnAction(e -> {
+            this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard2.getScene().getWindow());
+        });
+        buttonCard2.setOnMouseEntered(e -> {
+            buttonCard2.setStyle("-fx-border-color: #e51f1f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonCard2.setOnMouseExited(e -> {
+            buttonCard2.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+
+        String imageCard3 = hand.get(2).getFrontCover();
         card3ImageView.setImage(new Image(imageCard3));
+        buttonCard3.setUserData(hand.get(2).getId());
+        buttonCard3.setOnAction(e -> {
+            this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard3.getScene().getWindow());
+        });
+        buttonCard3.setOnMouseEntered(e -> {
+            buttonCard3.setStyle("-fx-border-color: #e51f1f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonCard3.setOnMouseExited(e -> {
+            buttonCard3.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+    }
+
+    public void selectCardToPlay(){
+        //quando clicco il bottone mando update al client della scelta adottata
+
+        //TODO ask perchè non funziona
+        /*
+        for(Button b: handButtons){
+            b.setOnAction(e -> {
+                if(!cardSelected){
+                    b.setStyle("-fx-border-color: #52e51f;\n" +
+                            "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                    CardSelection cs = new CardSelection((int)b.getUserData(), this.side);
+                    buttonCardSelectedId = b.getId();
+                    this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
+                    cardSelected = true;
+                }
+                else {
+                    this.showErrorPopUp("You have already chosen the card to play", (Stage) b.getScene().getWindow());
+                }
+
+            });
+        }
+        if(buttonCard1.getId().equals(buttonCardSelectedId)){
+            cardToPlay = this.viewModel.getMyHand().get(0);
+        }
+        else if(buttonCard2.getId().equals(buttonCardSelectedId)){
+            cardToPlay = this.viewModel.getMyHand().get(1);
+        }
+        else if(buttonCard3.getId().equals(buttonCardSelectedId)){
+            cardToPlay = this.viewModel.getMyHand().get(2);
+        }
+
+         */
+
+        buttonCard1.setOnAction(e -> {
+            if(!cardSelected){
+                buttonCard1.setStyle("-fx-border-color: #52e51f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                CardSelection cs = new CardSelection((int)buttonCard1.getUserData(), this.side);
+                cardToPlay = this.viewModel.getMyHand().get(0);
+                buttonCardSelectedId = buttonCard1.getId();
+                this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
+                cardSelected = true;
+            }
+            else {
+                this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonCard1.getScene().getWindow());
+            }
+
+        });
+
+
+        buttonCard2.setOnAction(e -> {
+            if(!cardSelected){
+                buttonCard1.setStyle("-fx-border-color: #52e51f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                CardSelection cs = new CardSelection((int)buttonCard1.getUserData(),this.side );
+                cardToPlay = this.viewModel.getMyHand().get(1);
+                buttonCardSelectedId = buttonCard2.getId();
+                this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
+                cardSelected = true;
+            }
+            else {
+                this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonCard2.getScene().getWindow());
+            }
+
+        });
+
+        buttonCard3.setOnAction(e -> {
+            if(!cardSelected){
+                buttonCard1.setStyle("-fx-border-color: #52e51f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                CardSelection cs = new CardSelection((int)buttonCard1.getUserData(), this.side);
+                cardToPlay = this.viewModel.getMyHand().get(2);
+                buttonCardSelectedId = buttonCard3.getId();
+                this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
+                cardSelected = true;
+            }
+            else {
+                this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonCard3.getScene().getWindow());
+            }
+
+        });
+
+
+    }
+
+    public void askForAngle(List<Coordinate> angles){
+
+        /*TODO ask perchè non va
+        for(Button b: handButtons){
+            if(b.getId().equals(buttonCardSelectedId)){
+                b.setStyle("-fx-border-color: #52e51f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+            }
+            b.setOnAction(e -> {
+                this.showErrorPopUp("You have already chosen the card to play", (Stage) b.getScene().getWindow());
+            });
+            b.setOnMouseEntered(e -> {
+                b.setStyle("-fx-border-color: #e51f1f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+            });
+            b.setOnMouseExited(e -> {
+                b.setStyle("-fx-border-color: none;\n" +
+                        "-fx-effect: none;");
+            });
+        }
+
+         */
+
+        if(buttonCard1.getId().equals(buttonCardSelectedId)){
+            buttonCard1.setStyle("-fx-border-color: #52e51f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+        }
+        else if(buttonCard2.getId().equals(buttonCardSelectedId)){
+            buttonCard2.setStyle("-fx-border-color: #52e51f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+        }
+        else if(buttonCard3.getId().equals(buttonCardSelectedId)){
+            buttonCard3.setStyle("-fx-border-color: #52e51f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+        }
+        buttonCard1.setOnAction(e -> {
+            this.showErrorPopUp("You already selected a card to play", (Stage) buttonCard1.getScene().getWindow());
+            });
+        buttonCard1.setOnMouseEntered(e -> {
+            buttonCard1.setStyle("-fx-border-color: #e51f1f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonCard1.setOnMouseExited(e -> {
+            buttonCard1.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+        buttonCard2.setOnAction(e -> {
+            this.showErrorPopUp("You already selected a card to play", (Stage) buttonCard2.getScene().getWindow());
+        });
+        buttonCard2.setOnMouseEntered(e -> {
+            buttonCard2.setStyle("-fx-border-color: #e51f1f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonCard2.setOnMouseExited(e -> {
+            buttonCard2.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+        buttonCard3.setOnAction(e -> {
+            this.showErrorPopUp("You already selected a card to play", (Stage) buttonCard3.getScene().getWindow());
+        });
+        buttonCard3.setOnMouseEntered(e -> {
+            buttonCard3.setStyle("-fx-border-color: #e51f1f;\n" +
+                    "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
+        });
+        buttonCard3.setOnMouseExited(e -> {
+            buttonCard3.setStyle("-fx-border-color: none;\n" +
+                    "-fx-effect: none;");
+        });
+
+
+
+
+        List<Integer[]> tempButtons = new ArrayList<>();
+       for(Coordinate c : angles){
+           int cardToAttach = c.getX();
+           int angle = c.getY();
+           int[][] matrix = viewModel.getMyMatrix();
+          //TODO FIND A MORE EASY WAY TO SEARCH IN THE MATRIX
+           for(int i=0; i< matrix.length; i++){
+               for(int j=0; j<matrix.length; j++){
+                   if(matrix[i][j] == cardToAttach){
+                       positionToPlace = new Integer[]{i,j};
+                   }
+               }
+           }
+           Button placeHere = new Button();
+           placeHere.getStyleClass().add("buttonCard");
+           placeHere.setStyle("-fx-background-color: rgba(215,222,9,0.3)");
+           placeHere.setText(cardToAttach+"."+angle);
+           switch (angle){
+               case 0:
+                   positionToPlace[0] = positionToPlace[0]-1;
+                   positionToPlace[1] = positionToPlace[1]+1;
+                   gridPane.add(placeHere, positionToPlace[0], positionToPlace[1]);
+                   break;
+               case 1:
+                     positionToPlace[0] = positionToPlace[0]-1;
+                     positionToPlace[1] = positionToPlace[1]-1;
+                    gridPane.add(placeHere, positionToPlace[0], positionToPlace[1]);
+                   break;
+               case 2:
+                   positionToPlace[0] = positionToPlace[0]+1;
+                     positionToPlace[1] = positionToPlace[1]-1;
+                     gridPane.add(placeHere, positionToPlace[0], positionToPlace[1]);
+                   break;
+               case 3:
+                     positionToPlace[0] = positionToPlace[0]+1;
+                     positionToPlace[1] = positionToPlace[1]+1;
+                   gridPane.add(placeHere, positionToPlace[0], positionToPlace[1]);
+                   break;
+           }
+           tempButtons.add(positionToPlace);
+           placeHere.setUserData(positionToPlace);
+              placeHere.setOnAction(e -> {
+                if(!cardPlaced){
+                     this.observerClient.updateUI(new GameEvent("cardPlaced", placeHere.getText()));
+                     this.matrixUpdated(tempButtons, (Integer[]) placeHere.getUserData() );
+                     cardPlaced = true;
+                }
+                else{
+                     this.showErrorPopUp("You have already chosen the position to place the card", (Stage) placeHere.getScene().getWindow());
+                }
+              });
+       }
+    }
+
+    public void matrixUpdated(List<Integer[]> tempButtons, Integer[] positionToPlaceCard){
+        for(Integer[] i : tempButtons){
+            gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == i[0] && GridPane.getColumnIndex(node) == i[1]);
+        }
+        System.out.printf("Card placed in position: %d, %d", positionToPlaceCard[0], positionToPlaceCard[1]);
+        System.out.printf("Card id to place: %d", cardToPlay.getId());
+        placeCard(cardToPlay, positionToPlaceCard);
+        if(buttonCard1.getId().equals(buttonCardSelectedId)){
+            card1ImageView.getImage().cancel();
+        }
+        else if(buttonCard2.getId().equals(buttonCardSelectedId)){
+            card2ImageView.getImage().cancel();
+        }
+        else if(buttonCard3.getId().equals(buttonCardSelectedId)){
+            card3ImageView.getImage().cancel();
+        }
+    }
+
+    public void drawFromDecks() {
+        //quando clicco il bottone mando update al client della scelta adottata
+        buttonDeckGBack.setOnAction(e -> {
+            if(!cardDrawn){
+                buttonDeckGBack.setStyle("-fx-border-color: #52e51f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                cardDrawn = true;
+                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", "A"));
+            }
+            else {
+                this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonCard1.getScene().getWindow());
+            }
+
+        });
+        buttonDeckRBack.setOnAction(e -> {
+            if(!cardDrawn){
+                buttonDeckRBack.setStyle("-fx-border-color: #52e51f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                cardDrawn = true;
+                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", "B"));
+            }
+            else {
+                this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonCard1.getScene().getWindow());
+            }
+        });
+
+        //TODO ask perchè non va
+        /*
+        for(Button b: deckVisibleButtons){
+            b.setOnAction(e -> {
+                if(!cardDrawn){
+                    b.setStyle("-fx-border-color: #52e51f;\n" +
+                            "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                    this.observerClient.updateUI(new GameEvent("whereToDrawSelected", (String)b.getUserData()));
+                }
+                else {
+                    this.showErrorPopUp("You have already chosen the card to play", (Stage) b.getScene().getWindow());
+                }
+            });
+        }
+
+         */
+        buttonDeckRFront1.setOnAction(e -> {
+            if(!cardDrawn){
+                buttonDeckRFront1.setStyle("-fx-border-color: #52e51f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                cardDrawn = true;
+                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", (String)buttonDeckRFront1.getUserData()));
+            }
+            else {
+                this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonDeckRFront1.getScene().getWindow());
+            }
+        });
+        buttonDeckRFront2.setOnAction(e -> {
+            if(!cardDrawn){
+                buttonDeckRFront2.setStyle("-fx-border-color: #52e51f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                cardDrawn = true;
+                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", (String)buttonDeckRFront2.getUserData()));
+            }
+            else {
+                this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonDeckRFront2.getScene().getWindow());
+            }
+        });
+        buttonDeckGFront1.setOnAction(e -> {
+            if(!cardDrawn){
+                buttonDeckGFront1.setStyle("-fx-border-color: #52e51f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                cardDrawn = true;
+                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", (String)buttonDeckGFront1.getUserData()));
+            }
+            else {
+                this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonDeckGFront1.getScene().getWindow());
+            }
+        });
+        buttonDeckGFront2.setOnAction(e -> {
+            if(!cardDrawn){
+                buttonDeckGFront2.setStyle("-fx-border-color: #52e51f;\n" +
+                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                cardDrawn = true;
+                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", (String)buttonDeckGFront2.getUserData()));
+            }
+            else {
+                this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonDeckGFront2.getScene().getWindow());
+            }
+        });
     }
 }
+
+

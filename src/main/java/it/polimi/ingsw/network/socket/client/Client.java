@@ -160,6 +160,19 @@ public class Client implements ObserverUI{
                 // display starter card back
                 //uiStrategy.visualizeStarterCard(starterCard);
             }
+            case "updateDecks" -> {
+                //TODO pensare a come parametrizzarlo meglio (se necessario)
+                System.out.println("Update decks event arrived to client\n");
+                List<Card> updatedDecks = (List<Card>) event.getData();
+                viewModel.getResourceCardsVisible().add(updatedDecks.get(0));
+                viewModel.getResourceCardsVisible().add(updatedDecks.get(1));
+                viewModel.getGoldCardsVisible().add(updatedDecks.get(2));
+                viewModel.getGoldCardsVisible().add(updatedDecks.get(3));
+                viewModel.setDeckRBack(updatedDecks.get(4));
+                viewModel.setDeckGBack(updatedDecks.get(5));
+                observerUI.updateUI(event);
+            }
+
             case "starterSide"-> {
                 System.out.println("Starter side event arrived to client\n");
                 // ask user to set side of the starter card
@@ -187,13 +200,14 @@ public class Client implements ObserverUI{
             case "askWhereToDraw"-> {
                 System.out.println("Ask where to draw event arrived to client\n");
                 //TODO: PUT IN CLI:
-                String input = uiStrategy.askWhereToDraw((List<Card>) event.getData());
+                //String input = uiStrategy.askWhereToDraw((List<Card>) event.getData());
+                observerUI.updateUI(event);
 
-                try {
-                    outputStream.writeObject(new GameEvent("drawCard", input));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
+                //try {
+                //    outputStream.writeObject(new GameEvent("drawCard", input));
+               // } catch (IOException e) {
+                //    System.out.println("Error sending card ID: " + e.getMessage());
+               // }
             }
             case "loadedCommonObjective" -> {
                 System.out.println("Common objective event arrived to client\n");
@@ -217,25 +231,28 @@ public class Client implements ObserverUI{
             }
             case "askAngle" -> {
                 System.out.println("Ask angle event arrived to client\n");
-                String input = uiStrategy.displayAngle((List<Coordinate>) event.getData());
+                //String input = uiStrategy.displayAngle((List<Coordinate>) event.getData());
 
+                //TODO PUT IN CLI:
                 // get card from player's hand by id
                 // TODO: create object for handling card selection
-                String[] splitCardToPlay = input.split("\\.");
-                int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
+               // String[] splitCardToPlay = input.split("\\.");
+               // int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
 
                 // card where to attach the selected card
-                Card targetCard = codex.stream().filter(c -> c.getId() == cardToAttachId).findFirst().orElse(null);
+               // Card targetCard = codex.stream().filter(c -> c.getId() == cardToAttachId).findFirst().orElse(null);
 
-                uiStrategy.place(cardToPlay, targetCard, Integer.parseInt(splitCardToPlay[1]));
+                //  uiStrategy.place(cardToPlay, targetCard, Integer.parseInt(splitCardToPlay[1]));
 
-                uiStrategy.displayBoard();
+               // uiStrategy.displayBoard();
+                System.out.println("ask angle arrived to client ");
+                observerUI.updateUI(event);
 
-                try {
-                    outputStream.writeObject(new GameEvent("angleSelection", new CardToAttachSelected(input)));
-                } catch (IOException e) {
-                    System.out.println("Error sending angles: " + e.getMessage());
-                }
+                //try {
+                //    outputStream.writeObject(new GameEvent("angleSelection", new CardToAttachSelected(input)));
+               // } catch (IOException e) {
+                //    System.out.println("Error sending angles: " + e.getMessage());
+               // }
             }
             case "updateHand" -> {
                 System.out.println("Update hand event arrived to client\n");
@@ -258,16 +275,12 @@ public class Client implements ObserverUI{
             }
             case "currentPlayerTurn" -> {
                 System.out.println("Current player turn event arrived to client\n");
-                CardSelection cs = uiStrategy.askCardSelection((PlayableCardIds) event.getData(), hand);
+                observerUI.updateUI(event);
 
-                cardToPlay = hand.stream().filter(c -> c.getId() == cs.getId()).findFirst().orElse(null);
-                hand.remove(cardToPlay);
-
-                try {
-                    outputStream.writeObject(new GameEvent("cardSelection", cs));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
+                //TODO PUT IN CLI:
+                // CardSelection cs = uiStrategy.askCardSelection((PlayableCardIds) event.getData(), hand);
+                //cardToPlay = hand.stream().filter(c -> c.getId() == cs.getId()).findFirst().orElse(null);
+                //hand.remove(cardToPlay);
             }
             case "lastTurn" -> {
                 System.out.println("Last turn event arrived to client\n");
@@ -326,14 +339,14 @@ public class Client implements ObserverUI{
     @Override
     public void updateUI(GameEvent gameEvent) {
         switch (gameEvent.getType()) {
-            case "starterSideSetted" -> {
+            case "starterSide" -> {
                 // set side of the starter card
 
                 boolean side = (boolean) gameEvent.getData();
                 //added the side choosen to the starter card in the view model
                 viewModel.getMyStarterCard().setSide(side);
                 //added the starter card to the codex in the view model
-                viewModel.getMyMatrix()[39][39] = viewModel.getMyStarterCard().getId();
+                viewModel.getMyMatrix()[40][40] = viewModel.getMyStarterCard().getId();
 
                 // place starter card on the board
                // uiStrategy.placeCard(starterCard, null);
@@ -350,7 +363,7 @@ public class Client implements ObserverUI{
                 }
             }
 
-            case "chooseObjectiveSetted" -> {
+            case "chooseObjective" -> {
                 Objective card = (Objective) gameEvent.getData();
                 //added the objective card to the view model
                 viewModel.setSecretObj(card);
@@ -361,6 +374,35 @@ public class Client implements ObserverUI{
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
             }
+
+            case "cardToPlaySelected" -> {
+                CardSelection cs = (CardSelection) gameEvent.getData();
+                try {
+                    outputStream.writeObject(new GameEvent("cardSelection", cs));
+                    System.out.printf("card: %d\n", cs.getId());
+                } catch (IOException e) {
+                    System.out.println("Error sending card ID: " + e.getMessage());
+                }
+            }
+
+            case "angleSelected" -> {
+                try {  outputStream.writeObject(new GameEvent("angleSelection", new CardToAttachSelected((String) gameEvent.getData())));
+                       System.out.printf("angle: %s\n", (String) gameEvent.getData());
+                     } catch (IOException e) {
+                        System.out.println("Error sending angles: " + e.getMessage());
+                    }
+            }
+
+            case "whereToDrawSelected" -> {
+                String input = (String) gameEvent.getData();
+                try {
+                    outputStream.writeObject(new GameEvent("drawCard", input));
+                    System.out.printf("where to draw: %s\n", (String) gameEvent.getData());
+                } catch (IOException e) {
+                    System.out.println("Error sending card ID: " + e.getMessage());
+                }
+            }
+
         }
 
 

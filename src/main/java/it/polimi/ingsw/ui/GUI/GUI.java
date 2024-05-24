@@ -21,8 +21,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
+
 import java.io.IOException;
 import java.util.List;
+
 
 public class GUI extends Application implements UserInterfaceStrategy, ObserverUI {
 
@@ -480,6 +482,7 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
                 //TODO fix the fact that it is shown when i go to the board scene -> maybe not show not your turn
                 //only not your turn if i try to do something
                 Platform.runLater(() -> {
+                    this.setTurnState(TurnStateEnum.NOT_YOUR_TURN);
                     this.showErrorPopUp("It's not your turn", currStage);
                 });
             }
@@ -523,11 +526,41 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
 
             case "updateHand" -> {
                 Platform.runLater(() -> {
+                    System.out.println("update hand arrived to view");
                     this.getBoardViewController().updateHand((List<Card>)event.getData());
                 });
             }
 
-            //TODO: EVENTI ANCORA DA FARE: mazzo updated, risorse di un giocatore e score updated, codex e matrix di un giocatore updated
+            case "updateDecks" -> {
+                Platform.runLater(() -> {
+                    //TODO ora da errore perchè non ho ancora caricato il controller, in teoria quando fa queste cose poi prima aspetta username
+                    this.getBoardViewController().updateDecks((List<Card>)event.getData());
+                });
+            }
+
+            case "currentPlayerTurn" -> {
+                Platform.runLater(() -> {
+                    System.out.println("current player turn arrived to view");
+                    this.setTurnState(TurnStateEnum.SELECT_CARD);
+                    this.getBoardViewController().selectCardToPlay();
+                });
+            }
+
+            case "askAngle" -> {
+                Platform.runLater(() -> {
+                    System.out.println("ask for angle arrived to view");
+                    this.getBoardViewController().askForAngle((List<Coordinate>)event.getData());
+                });
+            }
+
+            case "askWhereToDraw" -> {
+                Platform.runLater(() -> {
+                    System.out.println("ask for where to draw arrived to view");
+                    this.getBoardViewController().drawFromDecks();
+                });
+            }
+
+            //TODO: EVENTI ANCORA DA FARE: risorse di un giocatore e score updated, codex e matrix di un giocatore updated
         }
     }
 
@@ -656,6 +689,9 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     }
     public void setTurnState(TurnStateEnum turnState) {
         this.turnState = turnState;
+    }
+    public TurnStateEnum getTurnState() {
+        return turnState;
     }
     public void setStarterCard(CardGame starterCard) {
         this.starterCard = starterCard;
@@ -815,5 +851,6 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     public void getObserverUIClient(ObserverUI observerUI) {
         this.observerClient = observerUI;
     }
+
 
 }
