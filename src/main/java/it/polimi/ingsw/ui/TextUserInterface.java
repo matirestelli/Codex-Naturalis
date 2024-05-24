@@ -421,11 +421,11 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
             if (m instanceof MessagePrivate) {
                 MessagePrivate mPrivate = (MessagePrivate) m;
                 if (mPrivate.getSender().equals(username))
-                    System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " [private] you: " + m.getText());
+                    System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " " + " [private] you: " + m.getText());
                 else
-                    System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " [private] " + m.getSender() + ": " + m.getText());
+                    System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " " + " [private] " + m.getSender() + ": " + m.getText());
             } else {
-                System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + m.getSender() + ": " + m.getText());
+                System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " " + m.getSender() + ": " + m.getText());
             }
         }
         System.out.println();
