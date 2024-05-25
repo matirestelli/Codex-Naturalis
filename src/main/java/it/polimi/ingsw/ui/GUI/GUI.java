@@ -484,6 +484,7 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
                 Platform.runLater(() -> {
                     this.setTurnState(TurnStateEnum.NOT_YOUR_TURN);
                     this.showErrorPopUp("It's not your turn", currStage);
+                    this.getBoardViewController().message("It's not your turn");
                 });
             }
 
@@ -554,6 +555,7 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
             }
 
             case "askWhereToDraw" -> {
+                System.out.println("ask for where to draw arrived to client");
                 Platform.runLater(() -> {
                     System.out.println("ask for where to draw arrived to view");
                     this.getBoardViewController().drawFromDecks();

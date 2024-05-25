@@ -325,6 +325,16 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         // notify player of updated hand
         orderedObserversMap.get(username).update(new GameEvent("updateHand", new ArrayList<>(player.getHand())));
 
+        //notify al players of new decks states
+        List<Card> updatedDecks = new ArrayList<>();
+        updatedDecks.addAll(gameState.getResourceCardsVisible());
+        updatedDecks.addAll(gameState.getGoldCardsVisible());
+        updatedDecks.add(gameState.getResourceDeck().getCards().getFirst());
+        updatedDecks.add(gameState.getGoldDeck().getCards().getFirst());
+        //notify observers of the updated decks
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new GameEvent("updateDecks", updatedDecks)) ;
+
         // check if last turn
         // lastTurn(username);
 

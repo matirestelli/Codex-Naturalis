@@ -66,7 +66,11 @@ public class ViewModel {
     }
 
     public void setMyHand(List<Card> myHand) {
+
         this.myHand = myHand;
+        for(Card c : myHand){
+            c.setSide(true);
+        }
     }
 
     public List<Card> getMyCodex() {

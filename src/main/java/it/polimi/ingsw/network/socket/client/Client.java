@@ -386,7 +386,8 @@ public class Client implements ObserverUI{
             }
 
             case "angleSelected" -> {
-                try {  outputStream.writeObject(new GameEvent("angleSelection", new CardToAttachSelected((String) gameEvent.getData())));
+                try {
+                    outputStream.writeObject(new GameEvent("angleSelection", new CardToAttachSelected((String) gameEvent.getData())));
                        System.out.printf("angle: %s\n", (String) gameEvent.getData());
                      } catch (IOException e) {
                         System.out.println("Error sending angles: " + e.getMessage());
