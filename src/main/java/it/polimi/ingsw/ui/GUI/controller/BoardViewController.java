@@ -129,6 +129,7 @@ public class BoardViewController extends GUI {
     //side of the card in the hand
     private static Boolean side = true;
     private static String buttonCardSelectedId;
+    private static String angleChosen;
 
     //useful to save temporarly the card i want to position because i need it in an another method
     //it contains also the side choosed
@@ -337,6 +338,7 @@ public class BoardViewController extends GUI {
         deckGBackEco1.setImage(new Image(imageCardRBack));
         deckGBackEco2.setImage(new Image(imageCardRBack));
         buttonDeckRBack.setUserData(updatedDecks.get(4).getId());
+        buttonDeckRBack.getStyleClass().add("buttonCard");
 
 
         String imageCardGBack = updatedDecks.get(5).getBackCover();
@@ -344,22 +346,27 @@ public class BoardViewController extends GUI {
         deckRBackEco1.setImage(new Image(imageCardGBack));
         deckRBackEco2.setImage(new Image(imageCardGBack));
         buttonDeckGBack.setUserData(updatedDecks.get(5).getId());
+        buttonDeckGBack.getStyleClass().add("buttonCard");
 
         String imageCardRFront1 = updatedDecks.get(0).getFrontCover();
         deckRFront1ImageView.setImage(new Image(imageCardRFront1));
         buttonDeckRFront1.setUserData(updatedDecks.get(0).getId());
+        buttonDeckRFront1.getStyleClass().add("buttonCard");
 
         String imageCardRFront2 = updatedDecks.get(1).getFrontCover();
         deckRFront2ImageView.setImage(new Image(imageCardRFront2));
         buttonDeckRFront2.setUserData(updatedDecks.get(1).getId());
+        buttonDeckRFront2.getStyleClass().add("buttonCard");
 
         String imageCardGFront1 = updatedDecks.get(2).getFrontCover();
         deckGFront1ImageView.setImage(new Image(imageCardGFront1));
         buttonDeckGFront1.setUserData(updatedDecks.get(2).getId());
+        buttonDeckGFront1.getStyleClass().add("buttonCard");
 
         String imageCardGFront2 = updatedDecks.get(3).getFrontCover();
         deckGFront2ImageView.setImage(new Image(imageCardGFront2));
         buttonDeckGFront2.setUserData(updatedDecks.get(3).getId());
+        buttonDeckGFront2.getStyleClass().add("buttonCard");
 
         //TODO ASK perchè non funziona
         /*
@@ -548,6 +555,7 @@ public class BoardViewController extends GUI {
         card1ImageView.setImage(new Image(imageCard1));
         //I set in the button the id con the card it is referred to
         buttonCard1.setUserData(hand.get(0).getId());
+        buttonCard1.getStyleClass().add("buttonCard");
         buttonCard1.setOnAction(e -> {
             this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard1.getScene().getWindow());
         });
@@ -563,6 +571,7 @@ public class BoardViewController extends GUI {
         String imageCard2 = hand.get(1).getFrontCover();
         card2ImageView.setImage(new Image(imageCard2));
         buttonCard2.setUserData(hand.get(1).getId());
+        buttonCard2.getStyleClass().add("buttonCard");
         buttonCard2.setOnAction(e -> {
             this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard2.getScene().getWindow());
         });
@@ -578,6 +587,7 @@ public class BoardViewController extends GUI {
         String imageCard3 = hand.get(2).getFrontCover();
         card3ImageView.setImage(new Image(imageCard3));
         buttonCard3.setUserData(hand.get(2).getId());
+        buttonCard3.getStyleClass().add("buttonCard");
         buttonCard3.setOnAction(e -> {
             this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard3.getScene().getWindow());
         });
@@ -592,6 +602,7 @@ public class BoardViewController extends GUI {
     }
 
     public void selectCardToPlay(){
+        this.cardSelected = false;
         this.message("IT'S YOUR TURN!\nSelect the card you want to play");
         //quando clicco il bottone mando update al client della scelta adottata
 
@@ -701,6 +712,10 @@ public class BoardViewController extends GUI {
     }
 
     public void askForAngle(List<Coordinate> angles){
+        for(Coordinate c: angles){
+            System.out.printf("Card: %d, Angle: %d\n", c.getX(), c.getY());
+        }
+        this.cardPlaced = false;
         this.message("Select where you want to play the card");
 
         /*TODO ask perchè non va
@@ -723,7 +738,7 @@ public class BoardViewController extends GUI {
         }
 
          */
-        System.out.printf(buttonCardSelectedId);
+        //TODO ASK WHY IT DOESN'T WORK
         if(buttonCard1.getId().equals(buttonCardSelectedId)){
             buttonCard1.setStyle("-fx-border-color: #52e51f;\n" +
                     "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
@@ -741,50 +756,48 @@ public class BoardViewController extends GUI {
             });
 
         //TODO guarda se è questo che non ti fa cambiare il colore
-        /*
+
         buttonCard1.setOnMouseEntered(e -> {
             buttonCard1.setStyle("-fx-border-color: #e51f1f;\n" +
                     "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
-        /*
+
         buttonCard1.setOnMouseExited(e -> {
             buttonCard1.setStyle("-fx-border-color: none;\n" +
                     "-fx-effect: none;");
         });
 
-         */
+
         buttonCard2.setOnAction(e -> {
             this.showErrorPopUp("You already selected a card to play", (Stage) buttonCard2.getScene().getWindow());
         });
 
-        /*
+
         buttonCard2.setOnMouseEntered(e -> {
             buttonCard2.setStyle("-fx-border-color: #e51f1f;\n" +
                     "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
-        /*
+
         buttonCard2.setOnMouseExited(e -> {
             buttonCard2.setStyle("-fx-border-color: none;\n" +
                     "-fx-effect: none;");
         });
 
-         */
+
         buttonCard3.setOnAction(e -> {
             this.showErrorPopUp("You already selected a card to play", (Stage) buttonCard3.getScene().getWindow());
         });
 
-        /*
+
         buttonCard3.setOnMouseEntered(e -> {
             buttonCard3.setStyle("-fx-border-color: #e51f1f;\n" +
                     "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
-        /*
+
         buttonCard3.setOnMouseExited(e -> {
             buttonCard3.setStyle("-fx-border-color: none;\n" +
                     "-fx-effect: none;");
         });
-
-         */
 
         List<Integer[]> tempButtons = new ArrayList<>();
        for(Coordinate c : angles){
@@ -801,7 +814,8 @@ public class BoardViewController extends GUI {
            }
            Button placeHere = new Button();
            placeHere.getStyleClass().add("buttonCard");
-           placeHere.setStyle("-fx-background-color: rgba(215,222,9,0.3)");
+           placeHere.setStyle("-fx-background-color: rgba(215,222,9,0.3);\n" +
+                   "-fx-opacity: 0.5;");
            placeHere.setText(cardToAttach+"."+angle);
            switch (angle){
                case 0:
@@ -829,9 +843,10 @@ public class BoardViewController extends GUI {
            placeHere.setUserData(positionToPlace);
               placeHere.setOnAction(e -> {
                 if(!cardPlaced){
-                     this.observerClient.updateUI(new GameEvent("angleSelected", placeHere.getText()));
-                     this.matrixUpdated(tempButtons, (Integer[]) placeHere.getUserData() );
                      cardPlaced = true;
+                     angleChosen = placeHere.getText();
+                     this.observerClient.updateUI(new GameEvent("angleSelected", angleChosen));
+                    this.matrixUpdated(tempButtons, (Integer[]) placeHere.getUserData());
                 }
                 else{
                      this.showErrorPopUp("You have already chosen the position to place the card", (Stage) placeHere.getScene().getWindow());
@@ -842,25 +857,28 @@ public class BoardViewController extends GUI {
 
     public void matrixUpdated(List<Integer[]> tempButtons, Integer[] positionToPlaceCard){
         for(Integer[] i : tempButtons){
-            gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == i[0] && GridPane.getColumnIndex(node) == i[1]);
+            System.out.println("\nbutton removed from position: "+i[0]+", "+i[1]);
+            gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node).equals(i[1]) && GridPane.getColumnIndex(node).equals(i[0]));
         }
         System.out.printf("Card placed in position: %d, %d", positionToPlaceCard[0], positionToPlaceCard[1]);
         System.out.printf("Card id to place: %d", cardToPlay.getId());
         placeCard(cardToPlay, positionToPlaceCard);
+        //TODO ask if its okay here
+        this.viewModel.getMyMatrix()[positionToPlaceCard[0]][positionToPlaceCard[1]] = cardToPlay.getId();
 
-        //TODO capire perchè non va
         if(buttonCard1.getId().equals(buttonCardSelectedId)){
-            card1ImageView.getImage().cancel();
+            card1ImageView.setImage(null);
         }
         else if(buttonCard2.getId().equals(buttonCardSelectedId)){
-            card2ImageView.getImage().cancel();
+            card2ImageView.setImage(null);
         }
         else if(buttonCard3.getId().equals(buttonCardSelectedId)){
-            card3ImageView.getImage().cancel();
+            card3ImageView.setImage(null);
         }
     }
 
     public void drawFromDecks() {
+        this.cardDrawn = false;
         this.message("Select the card to draw");
         //quando clicco il bottone mando update al client della scelta adottata
         buttonDeckGBack.setOnAction(e -> {

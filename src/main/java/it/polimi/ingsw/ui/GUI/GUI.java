@@ -483,7 +483,7 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
                 //only not your turn if i try to do something
                 Platform.runLater(() -> {
                     this.setTurnState(TurnStateEnum.NOT_YOUR_TURN);
-                    this.showErrorPopUp("It's not your turn", currStage);
+                   // this.showErrorPopUp("It's not your turn", currStage);
                     this.getBoardViewController().message("It's not your turn");
                 });
             }
