@@ -225,20 +225,19 @@ public class Client {
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
                 }
-            }
+    }
             case "lastTurn" -> {
                 // TODO: bug fix
-                System.out.println("Last turn! Select a card ID to play: ");
-                int cardId = scanner.nextInt();
-
-                try {
-                    outputStream.writeObject(new CardSelection(cardId, false));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
+                System.out.println("Last turn! \n");
+            }
+            case "reachedPoints" -> {
+                uiStrategy.displayMessage("You have reached 20 points, wait for the other players to finish their turn!\n");
             }
             case "endGame" -> {
-                uiStrategy.displayMessage("Game over!");
+                uiStrategy.displayMessage("Game over! \n\nResults: \n");
+                for(int i=1; i<((List<Integer>) event.getData()).size()+1; i++){
+                    uiStrategy.displayMessage(i+". Player: "+((List<Integer>) event.getData()).get(i-1)+ "\n");
+                }
                 closeConnection();
             }
             case "mexIncoming" -> {

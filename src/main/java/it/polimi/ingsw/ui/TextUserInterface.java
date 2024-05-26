@@ -567,11 +567,17 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
             m += c.getId() + " / ";
         }
         String mex = "Vuoi perscare una di queste carte o vuoi pescare da A (Resource) o da B (Gold)? ";
-        mex += m.substring(0, m.length() - 3) + " / A / B): \n";
+        mex += m.substring(0, m.length() - 3) + " / A / B): ";
         displayMessage(mex);
 
         String input = scanner.nextLine();
-        while (!input.equals("A") && !input.equals("B") && !ids.contains(Integer.parseInt(input))) {
+
+        try {
+            while (!input.equals("A") && !input.equals("B") && !ids.contains(Integer.parseInt(input))) {
+                System.out.print("Input non valido, riprova: ");
+                input = scanner.nextLine();
+            }
+        }catch(NumberFormatException e){
             System.out.print("Input non valido, riprova: ");
             input = scanner.nextLine();
         }
