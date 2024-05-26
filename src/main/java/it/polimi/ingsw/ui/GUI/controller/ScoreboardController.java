@@ -21,8 +21,8 @@ public class ScoreboardController {
     @FXML
     private ImageView pawn;
     private ViewModel model = new ViewModel();
-    private Map<Player, PlayerState> playersStates = new HashMap<Player, PlayerState>();
-    private List<PlayerState> players = new ArrayList<PlayerState>();
+    private Map<String, ViewModelPlayerstate> playersStates = new HashMap<String, ViewModelPlayerstate>();
+    private List<ViewModelPlayerstate> players = new ArrayList<ViewModelPlayerstate>();
     private Stage stage;
     private Scene scene;
     private double x,y;
@@ -30,7 +30,7 @@ public class ScoreboardController {
     @FXML
     private Button closePopUpButton;
 
-    private Map<PlayerState, ImageView> pawns = new HashMap<PlayerState, ImageView>();
+    private Map<ViewModelPlayerstate, ImageView> pawns = new HashMap<ViewModelPlayerstate, ImageView>();
 
     //array che mi dice quante pedine ci sono già in una posizione -> per nel caso IMPILARLE con le coordinate giuste
     private int[] pawnsInPosition = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ;
@@ -57,7 +57,7 @@ public class ScoreboardController {
 
     public void setPawns(){
         playersStates = model.getPlayerStates();
-        players = new ArrayList<PlayerState>(playersStates.values());
+        players = new ArrayList<ViewModelPlayerstate>(playersStates.values());
         for(int i=0; i<players.size(); i++){
             switch(players.get(i).getColor()){
                 case BLUE:

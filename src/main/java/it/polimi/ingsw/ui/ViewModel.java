@@ -10,7 +10,9 @@ import it.polimi.ingsw.core.model.enums.Resource;
 
 public class ViewModel {
     //mappe che associano gli username degli altri players con i loro dati di gioco
-    private Map<Player, PlayerState> playerStates ;
+    private List<String> players;
+    private Map<String, Integer> playerOrder;
+    private Map<String, ViewModelPlayerstate> playerStates ;
     private Card deckGBack;
     private Card deckRBack;
     private List<Card> resourceCardsVisible;
@@ -35,6 +37,8 @@ public class ViewModel {
         this.myCodex = new ArrayList<>();
         this.myResources = new HashMap<>();
         this.myMatrix = new int[81][81];
+        this.players = new ArrayList<>();
+        this.playerOrder = new HashMap<>();
         this.myScore = 0;
     }
 
@@ -116,12 +120,22 @@ public class ViewModel {
     //lista che contiene la chat di gioco broadcast rappresentata come una lista di array con chiave lo username del giocatore e valore il messaggio
     private List<String[]> broadcastChat = new ArrayList<>();
 
-    public Map<Player, PlayerState> getPlayerStates() {
+    public Map<String, ViewModelPlayerstate> getPlayerStates() {
         return playerStates;
     }
 
-    public void setPlayerStates(Map<Player, PlayerState> playerStates) {
+    public void setPlayerStates(Map<String, ViewModelPlayerstate> playerStates) {
         this.playerStates = playerStates;
+    }
+    public void createPlayerStates(List<String> usernames){
+        for(String username : usernames){
+            playerStates.put(username, new ViewModelPlayerstate());
+        }
+    }
+
+    public void setStateOfPlayer(String username, ViewModelPlayerstate state){
+        //it over writes the previous state of the player
+        playerStates.put(username, state);
     }
 
     public Card getDeckGBack() {
@@ -172,5 +186,19 @@ public class ViewModel {
         this.broadcastChat = broadcastChat;
     }
 
+    public List<String> getPlayers() {
+        return players;
+    }
 
+    public void setPlayers(List<String> players) {
+
+        this.players = players;
+        for(int i = 0; i < players.size(); i++){
+            playerOrder.put(players.get(i), i);
+        }
+    }
+
+    public Map<String, Integer> getPlayerOrder() {
+        return playerOrder;
+    }
 }

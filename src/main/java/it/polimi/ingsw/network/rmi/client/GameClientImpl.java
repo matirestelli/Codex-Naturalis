@@ -46,8 +46,10 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
         super();
         connectToServer(host, port);
 
-        this.viewModel.getPlayerStates().get(client).setCodex(new ArrayList<>());
-        this.viewModel.getPlayerStates().get(client).setHand(new ArrayList<>());
+       // this.viewModel.getPlayerStates().get(client).setCodex(new ArrayList<>());
+       // this.viewModel.getPlayerStates().get(client).setHand(new ArrayList<>());
+        this.viewModel.setMyCodex(new ArrayList<>());
+        this.viewModel.setMyHand(new ArrayList<>());
 
         this.uiStrategy = uiStrategy;
         this.uiStrategy.initialize();
@@ -132,8 +134,10 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
             }
             case "loadedStarter"-> {
                 starterCard = (ResourceCard) event.getData();
-                this.viewModel.getPlayerStates().get(client).setStarterCard(starterCard);
-                this.viewModel.getPlayerStates().get(client).getCodex().add(starterCard);
+               // this.viewModel.getPlayerStates().get(client).setStarterCard(starterCard);
+                this.viewModel.setMyStarterCard(starterCard);
+              //  this.viewModel.getPlayerStates().get(client).getCodex().add(starterCard);
+                this.viewModel.getMyCodex().add(starterCard);
                 uiObserver.update(event);
 
                 /* da mettere in  cli

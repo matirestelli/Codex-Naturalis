@@ -137,11 +137,20 @@ public class Client implements ObserverUI{
 
     private void handleEvent(GameEvent event) {
         switch (event.getType()) {
+            //todo later eliminate, only for now to have the username
+            case "loadedUsername" -> {
+                System.out.println("Username loaded event arrived to client\n");
+                viewModel.setMyUsername((String) event.getData());
+            }
             case "notYourTurn" -> {
                 // display message
                 observerUI.updateUI(event);
                 System.out.println("Not your turn event arrivet to client\n");
                // uiStrategy.displayMessage("Not your turn! Wait for your turn...\n");
+            }
+            case "loadedPlayers" ->{
+                viewModel.setPlayers((List<String>) event.getData());
+                //for now it doesn't update the view, it's not needed
             }
             case "loadedStarter"-> {
                 System.out.println("Starter card loaded event arrived to client\n");
@@ -298,6 +307,21 @@ public class Client implements ObserverUI{
                 System.out.println("End game event arrived to client\n");
                 uiStrategy.displayMessage("Game over!");
                 closeConnection();
+            }
+
+            case "updatePlayerstate"-> {
+                Map<String, ViewModelPlayerstate> playerUpdated = (Map<String, ViewModelPlayerstate>) event.getData();
+                String usernameTarget = playerUpdated.keySet().stream().findFirst().orElse(null);
+                if(usernameTarget.equals(viewModel.getMyUsername())){
+                    viewModel.setMyCodex(playerUpdated.get(viewModel.getMyUsername()).getCodex());
+                    viewModel.setMyResources(playerUpdated.get(viewModel.getMyUsername()).getPersonalResources());
+                    viewModel.setMyScore(playerUpdated.get(viewModel.getMyUsername()).getScore());
+                    observerUI.updateUI(new GameEvent("updateMyPlayerstate", null));
+                }
+                else{
+                    viewModel.setStateOfPlayer(usernameTarget, playerUpdated.get(usernameTarget));
+                    observerUI.updateUI(new GameEvent("updatePlayerstate", (String) usernameTarget));
+                }
             }
         }
     }

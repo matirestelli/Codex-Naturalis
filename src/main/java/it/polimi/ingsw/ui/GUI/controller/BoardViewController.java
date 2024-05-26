@@ -1,6 +1,7 @@
 package it.polimi.ingsw.ui.GUI.controller;
 
 import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.ui.GUI.GUI;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -24,10 +25,7 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 public class BoardViewController extends GUI {
@@ -188,8 +186,10 @@ public class BoardViewController extends GUI {
 
 
     public void setPlayersRecapVbox(VBox playersRecapVbox){
+        //NB: the order in the array of labels is the same of the order of the players in the game
         //TODO : poi il for sarà fino a quanto numero max di giocatori della partita
-        for(int i=0; i<4; i++){
+       // for(int i=0; i<4; i++){
+        for (int i=0; i<viewModel.getPlayers().size(); i++){
             numAnimals[i] = (new Label("0 "));
             numAnimals[i].setFont(myFont);
             numInsect[i] = (new Label("0 "));
@@ -216,7 +216,7 @@ public class BoardViewController extends GUI {
             playersRow1[i].alignmentProperty().set(Pos.CENTER);
             playersRow1[i].setPrefHeight(43);
             playersRow1[i].setPrefWidth(200);
-            String text = "Player: " + i;
+            String text = "Player: " + viewModel.getPlayers().get(i);
             playersRow1[i].getChildren().add(new Label(text));
             playersRow1[i].getChildren().add(playersPoints[i]);
 
@@ -290,14 +290,14 @@ public class BoardViewController extends GUI {
 
             //poi sarà se la i è uguale al numero ID del giocatore di cui è la board (client)
             //ho dovuto mettere un booleano perchè non so come mai ma entrava nell'if due volte
-            if(i==1 && test==false){
+            if(viewModel.getPlayers().get(i).equals(viewModel.getMyUsername() ) && test==false){
                 containerVBoxRight.getChildren().add(playersRow1[i]);
                 containerVBoxRight.getChildren().add(playersRow2[i]);
                 containerVBoxRight.getChildren().add(playersRow3[i]);
                 test=true;
             }
 
-            else if(i!=1){
+            else if(! viewModel.getPlayers().get(i).equals(viewModel.getMyUsername() )){
                 playersVBoxesRecap[i].getChildren().add(playersRow1[i]);
                 playersVBoxesRecap[i].getChildren().add(playersRow2[i]);
                 playersVBoxesRecap[i].getChildren().add(playersRow3[i]);
@@ -1026,6 +1026,39 @@ public class BoardViewController extends GUI {
     public void message(String message){
        labelTurn.setText(message);
     }
+
+
+    public void updatePlayerstate(String userTarget) {
+        Integer numberOrder = viewModel.getPlayerOrder().get(userTarget);
+        Map<Resource,Integer> resources = viewModel.getPlayerStates().get(userTarget).getPersonalResources();
+        int score = viewModel.getPlayerStates().get(userTarget).getScore();
+        numAnimals[numberOrder].setText(resources.get(Resource.ANIMAL)+"");
+        numInsect[numberOrder].setText(resources.get(Resource.INSECT)+"");
+        numFungi[numberOrder].setText(resources.get(Resource.FUNGI)+"");
+        numPlant[numberOrder].setText(resources.get(Resource.PLANT)+"");
+        numQuill[numberOrder].setText(resources.get(Resource.QUILL)+"");
+        numManuscript[numberOrder].setText(resources.get(Resource.MANUSCRIPT)+"");
+        //todo ask if noun or inkwell
+        numInkwell[numberOrder].setText(resources.get(Resource.NOUN)+"");
+        playersPoints[numberOrder].setText("pt:"+score);
+    }
+
+    public void updateMyPlayerstate(){
+        Integer numberOrder = viewModel.getPlayerOrder().get(viewModel.getMyUsername()) ;
+        Map<Resource,Integer> resources = viewModel.getMyResources();
+        int myScore = viewModel.getMyScore();
+        numAnimals[numberOrder].setText(resources.get(Resource.ANIMAL)+"");
+        numInsect[numberOrder].setText(resources.get(Resource.INSECT)+"");
+        numFungi[numberOrder].setText(resources.get(Resource.FUNGI)+"");
+        numPlant[numberOrder].setText(resources.get(Resource.PLANT)+"");
+        numQuill[numberOrder].setText(resources.get(Resource.QUILL)+"");
+        numManuscript[numberOrder].setText(resources.get(Resource.MANUSCRIPT)+"");
+        //todo ask if noun or inkwell
+        numInkwell[numberOrder].setText(resources.get(Resource.NOUN)+"");
+        playersPoints[numberOrder].setText("pt:"+myScore);
+    }
+
+
 }
 
 

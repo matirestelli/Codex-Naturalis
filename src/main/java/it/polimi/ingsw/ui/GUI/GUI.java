@@ -562,6 +562,19 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
                 });
             }
 
+            case "updateMyPlayerstate" -> {
+                Platform.runLater(() -> {
+                    this.getBoardViewController().updateMyPlayerstate();
+                });
+            }
+
+            case "updatePlayerstate" -> {
+                Platform.runLater(() -> {
+                    this.getBoardViewController().updatePlayerstate((String) event.getData());
+                });
+
+            }
+
             //TODO: EVENTI ANCORA DA FARE: risorse di un giocatore e score updated, codex e matrix di un giocatore updated
         }
     }
