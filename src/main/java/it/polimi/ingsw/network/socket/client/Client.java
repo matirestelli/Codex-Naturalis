@@ -274,11 +274,12 @@ public class Client implements ObserverUI{
             }
 
             case "updateCodex" -> {
-                //TODO capire come mettere e passare il codex e matrice degli altri giocatori
+                //TODO probabilmente togliere
                 System.out.println("Update codex event arrived to client\n");
                 codex = (List<Card>) event.getData();
             }
             case "beforeTurnEvent" -> {
+                //TODO probabilmente togliere
                 System.out.println("Before turn event arrived to client\n");
                 resources = (Map<Resource, Integer>) event.getData();
             }
@@ -293,19 +294,26 @@ public class Client implements ObserverUI{
             }
             case "lastTurn" -> {
                 System.out.println("Last turn event arrived to client\n");
-                // TODO: bug fix
-                System.out.println("Last turn! Select a card ID to play: ");
-                int cardId = scanner.nextInt();
+                observerUI.updateUI(event);
 
-                try {
-                    outputStream.writeObject(new CardSelection(cardId, false));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
+                //todo put in cli -> maybe only printf last turn, but then usually event for card selection
+
+                // TODO: bug fix
+                //System.out.println("Last turn! Select a card ID to play: ");
+               // int cardId = scanner.nextInt();
+
+                //try {
+                  //  outputStream.writeObject(new CardSelection(cardId, false));
+                //} catch (IOException e) {
+                 //   System.out.println("Error sending card ID: " + e.getMessage());
+                //}
             }
+
             case "endGame" -> {
                 System.out.println("End game event arrived to client\n");
-                uiStrategy.displayMessage("Game over!");
+                observerUI.updateUI(event);
+                //todo put in cli
+               // uiStrategy.displayMessage("Game over!");
                 closeConnection();
             }
 

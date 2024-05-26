@@ -543,7 +543,7 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
                 Platform.runLater(() -> {
                     System.out.println("current player turn arrived to view");
                     this.setTurnState(TurnStateEnum.SELECT_CARD);
-                    this.getBoardViewController().selectCardToPlay();
+                    this.getBoardViewController().selectCardToPlay((PlayableCardIds)event.getData());
                 });
             }
 
@@ -575,7 +575,21 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
 
             }
 
-            //TODO: EVENTI ANCORA DA FARE: risorse di un giocatore e score updated, codex e matrix di un giocatore updated
+            case "lastTurn" -> {
+                //todo capire cosa inviano come event.data
+                Platform.runLater(() -> {
+                    this.getBoardViewController().message("This is your Last Turn \n Make it count!");
+                    this.getBoardViewController().selectCardToPlay((PlayableCardIds)event.getData());
+                });
+            }
+
+            case "endGame" -> {
+                //todo capire cosa inviano come event.data
+                Platform.runLater(() -> {
+                    this.getBoardViewController().message("The game has ended");
+                });
+            }
+
         }
     }
 

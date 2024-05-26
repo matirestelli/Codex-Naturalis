@@ -2,6 +2,7 @@ package it.polimi.ingsw.ui.GUI.controller;
 
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.ui.GUI.GUI;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -601,11 +602,10 @@ public class BoardViewController extends GUI {
         });
     }
 
-    public void selectCardToPlay(){
+    public void selectCardToPlay(PlayableCardIds cardsOnlyBack){
         this.cardSelected = false;
         this.message("IT'S YOUR TURN!\nSelect the card you want to play");
         //quando clicco il bottone mando update al client della scelta adottata
-
         //TODO ask perchè non funziona
         /*
         for(Button b: handButtons){
@@ -637,14 +637,23 @@ public class BoardViewController extends GUI {
          */
 
         buttonCard1.setOnAction(e -> {
+            Boolean playableFront = true;
+            if(cardsOnlyBack.getPlayingHandIdsBack().contains((int)buttonCard1.getUserData())){
+                playableFront = false;
+            }
             if(!cardSelected){
                 buttonCard1.setStyle("-fx-border-color: #52e51f;\n" +
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
-                CardSelection cs = new CardSelection((int)buttonCard1.getUserData(), this.side);
-                cardToPlay = this.viewModel.getMyHand().get(0);
-                buttonCardSelectedId = buttonCard1.getId();
-                this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
-                cardSelected = true;
+                if(!playableFront && this.side){
+                    this.showErrorPopUp("You can't play this card front, only its back", (Stage) buttonCard1.getScene().getWindow());
+                }
+                else{
+                    CardSelection cs = new CardSelection((int)buttonCard1.getUserData(), this.side);
+                    cardToPlay = this.viewModel.getMyHand().get(0);
+                    buttonCardSelectedId = buttonCard1.getId();
+                    this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
+                    cardSelected = true;
+                }
             }
             else {
                 this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonCard1.getScene().getWindow());
@@ -662,14 +671,23 @@ public class BoardViewController extends GUI {
 
 
         buttonCard2.setOnAction(e -> {
+            Boolean playableFront = true;
+            if(cardsOnlyBack.getPlayingHandIdsBack().contains((int)buttonCard2.getUserData())){
+                playableFront = false;
+            }
             if(!cardSelected){
                 buttonCard2.setStyle("-fx-border-color: #52e51f;\n" +
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
-                CardSelection cs = new CardSelection((int)buttonCard2.getUserData(),this.side );
-                cardToPlay = this.viewModel.getMyHand().get(1);
-                buttonCardSelectedId = buttonCard2.getId();
-                this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
-                cardSelected = true;
+                if(!playableFront && this.side){
+                    this.showErrorPopUp("You can't play this card front, only its back", (Stage) buttonCard1.getScene().getWindow());
+                }
+                else{
+                    CardSelection cs = new CardSelection((int)buttonCard2.getUserData(),this.side );
+                    cardToPlay = this.viewModel.getMyHand().get(1);
+                    buttonCardSelectedId = buttonCard2.getId();
+                    this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
+                    cardSelected = true;
+                }
             }
             else {
                 this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonCard2.getScene().getWindow());
@@ -686,14 +704,23 @@ public class BoardViewController extends GUI {
         });
 
         buttonCard3.setOnAction(e -> {
+            Boolean playableFront = true;
+            if(cardsOnlyBack.getPlayingHandIdsBack().contains((int)buttonCard3.getUserData())){
+                playableFront = false;
+            }
             if(!cardSelected){
-                buttonCard3.setStyle("-fx-border-color: #52e51f;\n" +
-                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
-                CardSelection cs = new CardSelection((int)buttonCard3.getUserData(), this.side);
-                cardToPlay = this.viewModel.getMyHand().get(2);
-                buttonCardSelectedId = buttonCard3.getId();
-                this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
-                cardSelected = true;
+                if(!playableFront && this.side){
+                    this.showErrorPopUp("You can't play this card front, only its back", (Stage) buttonCard1.getScene().getWindow());
+                }
+                else{
+                    buttonCard3.setStyle("-fx-border-color: #52e51f;\n" +
+                            "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+                    CardSelection cs = new CardSelection((int)buttonCard3.getUserData(), this.side);
+                    cardToPlay = this.viewModel.getMyHand().get(2);
+                    buttonCardSelectedId = buttonCard3.getId();
+                    this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
+                    cardSelected = true;
+                }
             }
             else {
                 this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonCard3.getScene().getWindow());
@@ -716,7 +743,7 @@ public class BoardViewController extends GUI {
             System.out.printf("Card: %d, Angle: %d\n", c.getX(), c.getY());
         }
         this.cardPlaced = false;
-        this.message("Select where you want to play the card");
+        this.message("Select where you want \n to play the card");
 
         /*TODO ask perchè non va
         for(Button b: handButtons){
