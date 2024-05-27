@@ -46,7 +46,7 @@ public class Client implements ObserverUI{
         inputStream = new ObjectInputStream(socket.getInputStream());
 
         this.viewModel = new ViewModel();
-        //TODO costruttore nel view model game che crea tutto vuoto
+        //todo: remove if not used
         this.codex = new ArrayList<>();
         this.hand = new ArrayList<>();
 
