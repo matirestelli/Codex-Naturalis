@@ -108,5 +108,5 @@ public class GraphicalUserInterface implements UserInterfaceStrategy {
 
     public String askJoinCreate(){return null;}
 
-    public String askGameId(String joinCreate){return null;}
+    public String askGameId(String joinCreate, String gameIds){return null;}
 }

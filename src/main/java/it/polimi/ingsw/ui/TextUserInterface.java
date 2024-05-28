@@ -612,7 +612,6 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     }
 
     public String askJoinCreate() {
-        displayMessage("Do you want to join an existing game or create a new one? (join / create): ");
         String input = scanner.nextLine();
         while (!input.equals("join") && !input.equals("create")) {
             displayMessage("Invalid Input! Retry: ");
@@ -621,11 +620,16 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         return input;
     }
 
-    public String askGameId(String joinCreate) {
+    public String askGameId(String joinCreate, String gameIds) {
         String gameId = "";
         if( joinCreate.equals("join")) {
+            System.out.println("Game available: " + gameIds);
             displayMessage("Insert the game id to join: ");
             gameId = scanner.nextLine().trim();
+            while(!gameIds.contains(gameId)) {
+                displayMessage("Invalid Input! Retry: ");
+                gameId = scanner.nextLine().trim();
+            }
         } else {
             displayMessage("Insert the game id: ");
             gameId = scanner.nextLine().trim();

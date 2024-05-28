@@ -70,13 +70,12 @@ public class Client {
     public void start(String[] args) throws IOException, ClassNotFoundException {
 
         String username = uiStrategy.askUsername();
-        String joinCreate = uiStrategy.askJoinCreate();
         //username = args[0];
         outputStream.writeObject(username);
-
         // wait for server response (join/create)
         String message = (String) inputStream.readObject();
         System.out.print(message);
+        String joinCreate = uiStrategy.askJoinCreate();
 
         // in = scanner.nextLine();
         System.out.println(joinCreate);
@@ -85,11 +84,10 @@ public class Client {
 
         // TODO: remove later, for testing
         String in = joinCreate;
-        String gameId = uiStrategy.askGameId(joinCreate);
         if (in.equals("join")) {
             // get list of available game sessions
             message = (String) inputStream.readObject();
-            System.out.println(message);
+            String gameId = uiStrategy.askGameId(joinCreate, message);
             // send gameId to server
             // in = scanner.nextLine();
             outputStream.writeObject(gameId);
@@ -99,6 +97,7 @@ public class Client {
             // create new game session
             // in = scanner.nextLine();
             // outputStream.writeObject(in);
+            String gameId = uiStrategy.askGameId(joinCreate, null);
             outputStream.writeObject(gameId);
             //outputStream.writeObject(args[3]);
 

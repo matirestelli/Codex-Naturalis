@@ -33,5 +33,5 @@ public interface UserInterfaceStrategy {
     public void selectFromMenu();
     public String askUsername();
     public String askJoinCreate();
-    public String askGameId(String joinCreate);
+    public String askGameId(String joinCreate, String gameIds);
 }
