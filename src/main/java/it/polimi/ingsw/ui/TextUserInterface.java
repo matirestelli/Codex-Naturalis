@@ -586,6 +586,22 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     }
 
     public void displayPawn(Color pawn) {
+        String red = "\033[91m";
+        String green = "\033[92m";
+        String yellow = "\033[93m";
+        String blue = "\033[94m";
+        String reset = "\033[0m";
+        String colorAnsi = "";
+        switch (pawn) {
+            case RED -> colorAnsi= red;
+            case GREEN -> colorAnsi = green;
+            case YELLOW -> colorAnsi = yellow;
+            case BLUE -> colorAnsi = blue;
+        }
+        String cube = colorAnsi + "█";
+        String printPawn = String.format(
+                "%s%s%s%s%s%s\n" , cube, cube, cube, cube, cube, reset);
+        System.out.print(printPawn);
         System.out.println("Pawn assigned: " + pawn);
     }
 
