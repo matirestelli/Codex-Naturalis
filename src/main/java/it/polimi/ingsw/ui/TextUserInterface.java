@@ -637,6 +637,17 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         return gameId;
     }
 
+    public int askNumberOfPlayers() {
+        displayMessage("Insert the number of players (2-4): ");
+        int numPlayers = scanner.nextInt();
+        while (numPlayers < 2 || numPlayers > 4) {
+            displayMessage("Invalid Input! Retry: ");
+            numPlayers = scanner.nextInt();
+        }
+        scanner.nextLine();
+        return numPlayers;
+    }
+
     @Override
     public void updateUI(GameEvent gameEvent) {
         System.out.println("UI updated!");

@@ -101,11 +101,12 @@ public class Client {
             outputStream.writeObject(gameId);
             //outputStream.writeObject(args[3]);
 
-            System.out.print("Insert number of players: ");
+            int numPlayers = uiStrategy.askNumberOfPlayers();
             // int id = scanner.nextInt();
             // outputStream.writeObject(id);
-            System.out.println(args[3]);
-            outputStream.writeObject(args[3]);
+            //System.out.println(args[3]);
+            outputStream.writeObject(numPlayers);
+            //outputStream.writeObject(args[3]);
         }
 
         System.out.println("\nWaiting for server updates...\n\n");

@@ -34,4 +34,5 @@ public interface UserInterfaceStrategy {
     public String askUsername();
     public String askJoinCreate();
     public String askGameId(String joinCreate, String gameIds);
+    public int askNumberOfPlayers();
 }
