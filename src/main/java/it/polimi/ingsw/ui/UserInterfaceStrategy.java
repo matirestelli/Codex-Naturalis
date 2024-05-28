@@ -31,4 +31,5 @@ public interface UserInterfaceStrategy {
     String askWhereToDraw(List<Card> cards);
     public void displayChat(Chat chat, String username);
     public void selectFromMenu();
+    public String askUsername();
 }

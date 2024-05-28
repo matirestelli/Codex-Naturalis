@@ -103,4 +103,6 @@ public class GraphicalUserInterface implements UserInterfaceStrategy {
     public void displayChat(Chat chat, String username){}
 
     public void selectFromMenu(){}
+
+    public String askUsername(){return null;}
 }

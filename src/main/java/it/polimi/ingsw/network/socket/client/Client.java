@@ -68,10 +68,9 @@ public class Client {
     }
 
     public void start(String[] args) throws IOException, ClassNotFoundException {
-        System.out.print("Enter your username: ");
-        // String in = scanner.nextLine();
-        // outputStream.writeObject(in);
-        username = args[0];
+
+        String username = uiStrategy.askUsername();
+        //username = args[0];
         System.out.println(username);
         outputStream.writeObject(username);
 

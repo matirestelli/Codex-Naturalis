@@ -605,6 +605,12 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         System.out.println("Pawn assigned: " + pawn);
     }
 
+    public String askUsername() {
+        displayMessage("Insert your username: ");
+        String username = scanner.nextLine().trim();
+        return username;
+    }
+
     @Override
     public void updateUI(GameEvent gameEvent) {
         System.out.println("UI updated!");
