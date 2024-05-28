@@ -32,4 +32,5 @@ public interface UserInterfaceStrategy {
     public void displayChat(Chat chat, String username);
     public void selectFromMenu();
     public String askUsername();
+    public String askJoinCreate();
 }

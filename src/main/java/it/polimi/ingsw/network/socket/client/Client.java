@@ -70,6 +70,7 @@ public class Client {
     public void start(String[] args) throws IOException, ClassNotFoundException {
 
         String username = uiStrategy.askUsername();
+        String joinCreate = uiStrategy.askJoinCreate();
         //username = args[0];
         System.out.println(username);
         outputStream.writeObject(username);
@@ -79,12 +80,12 @@ public class Client {
         System.out.print(message);
 
         // in = scanner.nextLine();
-        System.out.println(args[1]);
-        outputStream.writeObject(args[1]);
+        System.out.println(joinCreate);
+        outputStream.writeObject(joinCreate);
         // outputStream.writeObject(in);
 
         // TODO: remove later, for testing
-        String in = args[1];
+        String in = joinCreate;
         if (in.equals("join")) {
             // get list of available game sessions
             message = (String) inputStream.readObject();

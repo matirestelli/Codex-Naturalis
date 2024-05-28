@@ -611,6 +611,16 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         return username;
     }
 
+    public String askJoinCreate() {
+        displayMessage("Do you want to join an existing game or create a new one? (join / create): ");
+        String input = scanner.nextLine();
+        while (!input.equals("join") && !input.equals("create")) {
+            displayMessage("Invalid Input! Retry: ");
+            input = scanner.nextLine();
+        }
+        return input;
+    }
+
     @Override
     public void updateUI(GameEvent gameEvent) {
         System.out.println("UI updated!");
