@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.socket.client;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.chat.Message;
+import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.ui.GraphicalUserInterface;
@@ -155,6 +156,10 @@ public class Client {
 
                 // display starter card back
                 // uiStrategy.visualizeStarterCard(starterCard);
+            }
+            case "loadedPawn"-> {
+                observerUI.updateUI(event);
+                Color colors = (Color) event.getData();
             }
             case "starterSide"-> {
                 observerUI.updateUI(event);

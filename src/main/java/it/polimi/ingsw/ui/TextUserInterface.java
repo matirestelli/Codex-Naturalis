@@ -585,12 +585,19 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         return input;
     }
 
+    public void displayPawn(Color pawn) {
+        System.out.println("Pawn assigned: " + pawn);
+    }
+
     @Override
     public void updateUI(GameEvent gameEvent) {
         System.out.println("UI updated!");
         switch (gameEvent.getType()) {
             case "loadedStarter" -> {
                 visualizeStarterCard((Card) gameEvent.getData());
+            }
+            case "loadedPawn" -> {
+                displayPawn((Color) gameEvent.getData());
             }
             case "starterSide" -> {
                 setStarterSide();

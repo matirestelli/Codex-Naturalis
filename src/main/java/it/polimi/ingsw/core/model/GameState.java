@@ -3,6 +3,7 @@ package it.polimi.ingsw.core.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 
@@ -18,6 +19,7 @@ public class GameState implements java.io.Serializable {
     private Deck resourceDeck; // deck of resource cards
     private Deck goldDeck; // deck of gold cards
     private Deck objectiveDeck; // deck of objective cards
+    private List<Color> colors = new ArrayList<>(Arrays.asList(Color.RED, Color.GREEN, Color.YELLOW, Color.BLUE));
 
     private List<Objective> commonObj = new ArrayList<>();
 
@@ -41,12 +43,21 @@ public class GameState implements java.io.Serializable {
         return goldCardsVisible;
     }
 
+
+
     public GameState() {
         this.starterDeck = new Deck("starter", new TypeToken<List<ResourceCard>>() {}.getType());
         this.resourceDeck = new Deck("resource", new TypeToken<List<ResourceCard>>() {}.getType());
         this.goldDeck = new Deck("gold", new TypeToken<List<GoldCard>>() {}.getType());
         //this.objectiveDeck = new Deck("objective", new TypeToken<List<Objective>>() {}.getType());
         playerStates = new HashMap<>();
+    }
+
+    public void intializePawn(){
+        for (Player player : playerStates.keySet()) {
+            //extract a random color from the colors list and assign it to the player
+            playerStates.get(player).setPawn(colors.remove(new Random().nextInt(colors.size())));
+        }
     }
 
     public PlayerState getPlayerState(String username) {

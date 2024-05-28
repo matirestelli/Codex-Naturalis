@@ -1,5 +1,6 @@
 package it.polimi.ingsw.core.model;
 
+import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.chat.*;
 
@@ -14,6 +15,7 @@ public class PlayerState extends Player implements Serializable {
     private ResourceCard starterCard;
     private List<Card> hand;
     private Chat chat;
+    private Color pawn;
 
     private List<Card> codex;
     private int[][] matrix;
@@ -26,6 +28,14 @@ public class PlayerState extends Player implements Serializable {
         this.codex = new ArrayList<>();
         this.personalResources = new HashMap<>();
         this.chat = new Chat();
+    }
+
+    public void setPawn(Color pawn) {
+        this.pawn = pawn;
+    }
+
+    public Color getPawn() {
+        return pawn;
     }
 
     public Chat getChat(){
