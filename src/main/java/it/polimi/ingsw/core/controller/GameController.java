@@ -6,6 +6,7 @@ import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayerMove;
 import it.polimi.ingsw.observers.GameObserver;
+import javafx.util.Pair;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -354,12 +355,12 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     public void lastTurn(String username) throws RemoteException {
         PlayerState player = gameState.getPlayerState(username);
         // System.out.println("User: " + username + " Score: " + player.getScore());
-        if (player.getScore() >= 1 || last == true) {
+        if (player.getScore() >= 2 || last == true) {
             last = true;
             if(username == orderedObserversMap.keySet().toArray()[orderedObserversMap.size() - 1]){
                 // calculate points
-                List<Integer> rank = new ArrayList<>();
-                Map<Integer, Integer> scoresWOobj = new HashMap<>();
+                List<Pair<String, Integer>> rank = new ArrayList<>();
+                Map<String, Integer> scoresWOobj = new HashMap<>();
                 // TODO: check if this is correct
                 for (String us : orderedObserversMap.keySet()) {
 
@@ -406,18 +407,16 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                         }
                     }
                     int scoreObj = gameState.getPlayerState(us).getScore() - preScore;
-                    scoresWOobj.put(currentPlayerIndex, scoreObj);
-                    rank.add(currentPlayerIndex);
+                    scoresWOobj.put(us, scoreObj);
+                    rank.add(new Pair<>(us, gameState.getPlayerState(us).getScore()));
                 }
-                Collections.sort(rank, new Comparator<Integer>() {
+                Collections.sort(rank, new Comparator<Pair<String, Integer>>() {
                     @Override
-                    public int compare(Integer index1, Integer index2) {
-                        PlayerState player1 = gameState.getPlayerState(index1);
-                        PlayerState player2 = gameState.getPlayerState(index2);
-                        if (player1.getScore() == player2.getScore()) {
-                            return Integer.compare(scoresWOobj.get(index2), scoresWOobj.get(index1)); // Ordine decrescente
-                        } else {
-                            return Integer.compare(player2.getScore(), player1.getScore()); // Ordine decrescente
+                    public int compare(Pair<String, Integer> o1, Pair<String, Integer> o2) {
+                        if(o1.getValue().equals(o2.getValue()))
+                            return scoresWOobj.get(o2.getKey()).compareTo(scoresWOobj.get(o1.getKey()));
+                        else{
+                            return o2.getValue().compareTo(o1.getValue());
                         }
                     }
                 });

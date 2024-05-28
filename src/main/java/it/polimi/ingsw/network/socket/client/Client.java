@@ -9,6 +9,7 @@ import it.polimi.ingsw.ui.GraphicalUserInterface;
 import it.polimi.ingsw.ui.ObserverUI;
 import it.polimi.ingsw.ui.TextUserInterface;
 import it.polimi.ingsw.ui.UserInterfaceStrategy;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -227,16 +228,15 @@ public class Client {
                 }
     }
             case "lastTurn" -> {
-                // TODO: bug fix
                 System.out.println("Last turn! \n");
             }
             case "reachedPoints" -> {
                 uiStrategy.displayMessage("You have reached 20 points, wait for the other players to finish their turn!\n");
             }
             case "endGame" -> {
-                uiStrategy.displayMessage("Game over! \n\nResults: \n");
-                for(int i=1; i<((List<Integer>) event.getData()).size()+1; i++){
-                    uiStrategy.displayMessage(i+". Player: "+((List<Integer>) event.getData()).get(i-1)+ "\n");
+                uiStrategy.displayMessage("Game over!\nResults:\n");
+                for(int i = 1; i<((List<Pair<String, Integer>>) event.getData()).size()+1; i++){
+                    uiStrategy.displayMessage(i+") Player: "+((List<Pair<String, Integer>>) event.getData()).get(i-1).getKey() + " Points: " + ((List<Pair<String, Integer>>) event.getData()).get(i-1).getValue() + "\n");
                 }
                 closeConnection();
             }
