@@ -577,7 +577,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
                 System.out.print("Input non valido, riprova: ");
                 input = scanner.nextLine();
             }
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.print("Input non valido, riprova: ");
             input = scanner.nextLine();
         }
@@ -593,14 +593,14 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         String reset = "\033[0m";
         String colorAnsi = "";
         switch (pawn) {
-            case RED -> colorAnsi= red;
+            case RED -> colorAnsi = red;
             case GREEN -> colorAnsi = green;
             case YELLOW -> colorAnsi = yellow;
             case BLUE -> colorAnsi = blue;
         }
         String cube = colorAnsi + "█";
         String printPawn = String.format(
-                "%s%s%s%s%s%s\n" , cube, cube, cube, cube, cube, reset);
+                "%s%s%s%s%s%s\n", cube, cube, cube, cube, cube, reset);
         System.out.print(printPawn);
         System.out.println("Pawn assigned: " + pawn);
     }
@@ -619,6 +619,18 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
             input = scanner.nextLine();
         }
         return input;
+    }
+
+    public String askGameId(String joinCreate) {
+        String gameId = "";
+        if( joinCreate.equals("join")) {
+            displayMessage("Insert the game id to join: ");
+            gameId = scanner.nextLine().trim();
+        } else {
+            displayMessage("Insert the game id: ");
+            gameId = scanner.nextLine().trim();
+        }
+        return gameId;
     }
 
     @Override

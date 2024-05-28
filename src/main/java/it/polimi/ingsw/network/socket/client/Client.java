@@ -72,7 +72,6 @@ public class Client {
         String username = uiStrategy.askUsername();
         String joinCreate = uiStrategy.askJoinCreate();
         //username = args[0];
-        System.out.println(username);
         outputStream.writeObject(username);
 
         // wait for server response (join/create)
@@ -86,22 +85,22 @@ public class Client {
 
         // TODO: remove later, for testing
         String in = joinCreate;
+        String gameId = uiStrategy.askGameId(joinCreate);
         if (in.equals("join")) {
             // get list of available game sessions
             message = (String) inputStream.readObject();
             System.out.println(message);
-            System.out.print("Enter game id to join: ");
             // send gameId to server
             // in = scanner.nextLine();
-            outputStream.writeObject(args[2]);
+            outputStream.writeObject(gameId);
+            //outputStream.writeObject(args[3]);
             // outputStream.writeObject(in);
         } else if (in.equals("create")) {
             // create new game session
-            System.out.print("Enter the game id: ");
             // in = scanner.nextLine();
             // outputStream.writeObject(in);
-            System.out.println(args[2]);
-            outputStream.writeObject(args[2]);
+            outputStream.writeObject(gameId);
+            //outputStream.writeObject(args[3]);
 
             System.out.print("Insert number of players: ");
             // int id = scanner.nextInt();
