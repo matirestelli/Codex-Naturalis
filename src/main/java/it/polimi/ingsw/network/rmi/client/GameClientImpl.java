@@ -3,31 +3,31 @@ package it.polimi.ingsw.network.rmi.client;
 import it.polimi.ingsw.core.controller.GameControllerRemote;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.enums.Resource;
-import it.polimi.ingsw.core.utils.PlayableCardIds;
+import it.polimi.ingsw.core.model.message.request.MessageServer2Client;
+import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
+import it.polimi.ingsw.core.model.message.response.StarterSideSelectedMessage;
+import it.polimi.ingsw.network.GameClientProxy;
 import it.polimi.ingsw.network.GameServer;
-import it.polimi.ingsw.observers.GameObserver;
+import it.polimi.ingsw.network.ClientAbstract;
 import it.polimi.ingsw.ui.GraphicalUserInterface;
 import it.polimi.ingsw.ui.ObserverUI;
 import it.polimi.ingsw.ui.TextUserInterface;
-import it.polimi.ingsw.ui.UserInterfaceStrategy;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class GameClientImpl extends UnicastRemoteObject implements GameClient, GameObserver {
+public class GameClientImpl extends ClientAbstract implements GameClient {
     private GameServer server; // reference to the RMI server
     private String username; // username of the client
     private Scanner scanner = new Scanner(System.in); // scanner to read input from the user
     private String gameId;
     private GameControllerRemote gc;
-    private UserInterfaceStrategy uiStrategy;
+    private GameClientProxy clientProxy;
 
     private ResourceCard starterCard;
     private List<Card> hand;
@@ -37,8 +37,18 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
 
     private ObserverUI observerUI;
 
-    public GameClientImpl(String host, int port, String opt) throws RemoteException {
-        super();
+    @Override
+    public void sendMessage(MessageClient2Server message) {
+        message.appendToType(" from " + username);
+        try {
+            gc.handleMove(username, message);
+        } catch (RemoteException e) {
+            System.out.println("Error sending message: " + e.getMessage());
+        }
+    }
+
+    public GameClientImpl(ModelView modelView, String host, int port, String opt) throws RemoteException {
+        super(modelView);
 
         opt = "cli";
         if (opt.equals("cli")) {
@@ -63,7 +73,9 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
         try {
             Registry registry = LocateRegistry.getRegistry(host, port);
             server = (GameServer) registry.lookup("GameServer");
-            server.registerClient(this);
+            this.clientProxy = new GameClientProxy(this);
+            server.registerClient(clientProxy);
+            // server.registerClient(this);
             System.out.println("Connected to the game server at " + host + ":" + port);
         } catch (Exception e) {
             System.out.println("Failed to connect to the server: " + e.getMessage());
@@ -90,7 +102,7 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
             gameId = args[2];
             System.out.println(args[2]);
             try {
-                gc = server.joinSession(gameId, username, this);
+                gc = server.joinSession(gameId, username, clientProxy);
                 if (server.allPlayersConnected(gameId)) {
                     System.out.println("Game is full. Waiting for it to start...");
                     gc.startGame();
@@ -110,7 +122,7 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
             int numPlayers = Integer.parseInt(args[3]);
             // int number = scanner.nextInt();
             try {
-                gc = server.createNewSession(gameId, username, numPlayers, this);
+                gc = server.createNewSession(gameId, username, numPlayers, clientProxy);
             } catch (RemoteException e) {
                 System.out.println("Error creating the game session: " + e.getMessage());
             } catch (NullPointerException e) {
@@ -122,8 +134,14 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
     }
 
     @Override
-    public void update(GameEvent event) throws RemoteException {
+    public void update(MessageServer2Client message) throws RemoteException {
+        message.doAction(this);
+    }
+
+    /* @Override
+    public void update(MessageServer2Client event) throws RemoteException {
         switch (event.getType()) {
+
             case "notYourTurn" -> {
                 // display message
                 uiStrategy.displayMessage("Not your turn! Wait for your turn...\n");
@@ -142,7 +160,7 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
                 // display starter card back
                 uiStrategy.visualizeStarterCard(starterCard);
             }
-            case "starterSide"-> {
+            /* case "starterSide"-> {
                 // ask user to set side of the starter card
                 /*boolean side = uiStrategy.setStarterSide();
 
@@ -160,9 +178,9 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
                     gc.handleMove(username, new GameEvent("starterSideSelection", side));
                 } catch (IOException e) {
                     System.out.println("Error sending card ID: " + e.getMessage());
-                }*/
+                }
             }
-            case "askWhereToDraw"-> {
+            /* case "askWhereToDraw"-> {
                 String input = uiStrategy.askWhereToDraw((List<Card>) event.getData());
 
                 try {
@@ -242,34 +260,29 @@ public class GameClientImpl extends UnicastRemoteObject implements GameClient, G
                 System.out.println("Game over!");
             }
         }
-    }
+    }*/
 
-    public void setObserver(ObserverUI observerUI) {
+    /*public void setObserver(ObserverUI observerUI) {
         this.observerUI = observerUI;
-    }
-
-    @Override
-    public void notify(GameEvent event) throws RemoteException {}
+    }*/
 
     public static void main(String[] args) {
-        UserInterfaceStrategy uiStrategy;
-
         String opt = "cli";
 
+        ModelView modelView = new ModelView();
         try {
-            GameClientImpl client = new GameClientImpl("localhost", 1099, opt);
-
+            GameClientImpl client = new GameClientImpl(modelView, "localhost", 1099, opt);
             client.login(args);
         } catch (RemoteException e) {
             System.out.println("Error creating the client: " + e.getMessage());
         }
     }
 
-    public void handleMoveUI() {
+    /* public void handleMoveUI() {
         try {
             gc.handleMove(username, new GameEvent("endTurn", null));
         } catch (IOException e) {
             System.out.println("Error sending card ID: " + e.getMessage());
         }
-    }
+    } */
 }

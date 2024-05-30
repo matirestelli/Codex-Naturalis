@@ -1,4 +1,6 @@
 package it.polimi.ingsw.core.model.chat;
+import it.polimi.ingsw.core.controller.GameController;
+
 import java.io.Serializable;
 import java.time.LocalTime;
 
@@ -44,5 +46,9 @@ public class Message implements Serializable {
 
     public String whoIsReceiver() {
         return "all";
+    }
+
+    public void doAction(String username, GameController gameController) {
+
     }
 }

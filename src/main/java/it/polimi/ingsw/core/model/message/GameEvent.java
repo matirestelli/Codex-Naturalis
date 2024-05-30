@@ -1,4 +1,4 @@
-package it.polimi.ingsw.core.model;
+package it.polimi.ingsw.core.model.message;
 
 import java.io.Serializable;
 

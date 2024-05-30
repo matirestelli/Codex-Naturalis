@@ -4,6 +4,7 @@ import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
+import it.polimi.ingsw.network.ClientAbstract;
 
 import java.util.List;
 
@@ -25,14 +26,18 @@ public interface UserInterfaceStrategy {
     void visualizeStarterCard(Card card);
     void setStarterSide();
     void displayCommonObjective(List<Objective> obj);
-    Objective chooseObjective(List<Objective> obj);
+    void chooseObjective(List<Objective> obj);
     void displayHand(List<Card> hand);
     void place(Card cardToPlace, Card targetCard, int position);
-    String askWhereToDraw(List<Card> cards);
+    void askWhereToDraw(List<Card> cards);
     public void displayChat(Chat chat, String username);
     public void selectFromMenu();
     public String askUsername();
     public String askJoinCreate();
     public String askGameId(String joinCreate, String gameIds);
     public int askNumberOfPlayers();
+    public void visualiseStarterCardLoaded(Card card);
+    void showNotYourTurn();
+    void currentTurn(PlayableCardIds data);
+    void showAvailableAngles(List<Coordinate> data);
 }

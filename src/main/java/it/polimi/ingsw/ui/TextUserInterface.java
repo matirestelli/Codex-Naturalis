@@ -7,9 +7,10 @@ import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.model.message.GameEvent;
+import it.polimi.ingsw.core.model.message.response.*;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
-import it.polimi.ingsw.network.rmi.client.GameClientImpl;
-import it.polimi.ingsw.network.socket.client.Client;
+import it.polimi.ingsw.network.ClientAbstract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +22,10 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     private int cardHeight = 3;
     private int matrixDimension = 10;
     private Cell[][] gameBoard;
-    private Client client;
-    private GameClientImpl gameClient;
+    private ClientAbstract gameClient;
 
-    public TextUserInterface(Client client) {
-        client.setObserverUI(this);
-        this.client = client;
-    }
-
-    public TextUserInterface(GameClientImpl client) {
-        client.setObserverUI(this);
+    public TextUserInterface(ClientAbstract gameClient) {
+        this.gameClient = gameClient;
     }
 
     @Override
@@ -42,6 +37,12 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
                 gameBoard[i][j] = new Cell();
                 this.gameBoard[i][j].setCharacter(' ');
             }
+    }
+
+    @Override
+    public void visualiseStarterCardLoaded(Card card) {
+        visualizeStarterCard(card);
+        // gameClient.sendMessage(new StarterSideSelectedMessage("starterSideSelected", side));
     }
 
     @Override
@@ -333,8 +334,6 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     }
 
     public CardSelection askCardSelection(PlayableCardIds ids, List<Card> hand) {
-        displayMessage("It's your turn!\n");
-
         for (Card card : hand) {
             if (ids.getPlayingHandIds().contains(card.getId()))
                 displayCard(card);
@@ -407,11 +406,20 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         String input;
         input = scanner.nextLine();
         switch (input) {
-            case "1" -> client.handleMoveUI(new GameEvent("displayChat", null));
-            case "2" -> client.handleMoveUI(new GameEvent("writeNewMex", null));
-            case "3" -> client.handleMoveUI(new GameEvent("continue", null));
-            case "4" -> client.handleMoveUI(new GameEvent("exit", null));
+            case "1" -> displayChat(gameClient.getModelView().getChat(), gameClient.getModelView().getMyUsername());
+            case "2" -> {
+                // ciao
+            }
+            case "3" -> {
+                if (gameClient.getModelView().getMyUnreadedMessages() > 0)
+                    displayMessage("New message received! You have not read it yet\n");
 
+                if (!gameClient.getModelView().isMyTurn())
+                    displayMessage("Wait for your turn...\n");
+            }
+            case "4" -> {
+                // ciao
+            }
         }
     }
 
@@ -429,6 +437,25 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
             }
         }
         System.out.println();
+    }
+
+    public void currentTurn(PlayableCardIds ids) {
+        displayMessage("It's your turn!\n");
+        CardSelection cs = askCardSelection(ids, gameClient.getModelView().getMyHand());
+
+        gameClient.getModelView().setMyPlayingCard(gameClient.getModelView().getMyHand().stream().filter(c -> c.getId() == cs.getId()).findFirst().orElse(null));
+        gameClient.getModelView().getMyHand().remove(gameClient.getModelView().getMyPlayingCard());
+
+        gameClient.sendMessage(new CardSelectedMessage("cardSelection", cs));
+    }
+
+    public void showNotYourTurn() {
+        gameClient.getModelView().setMyTurn(false);
+        // display message
+
+        if (gameClient.getModelView().getMyUnreadedMessages() > 0)
+            displayMessage("\nThere are " + gameClient.getModelView().getMyUnreadedMessages() + " messages you have not read\n\n");
+        selectFromMenu();
     }
 
     public String displayAngle(List<Coordinate> angles) {
@@ -500,11 +527,15 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
             input = scanner.nextLine();
         }
 
-        client.handleMoveUI(new GameEvent("starterSide", input.equals("f")));
+        gameClient.getModelView().getMyStarterCard().setSide(input.equals("f"));
+        placeCard(gameClient.getModelView().getMyStarterCard(), null);
+        displayBoard();
+
+        gameClient.sendMessage(new StarterSideSelectedMessage("starterSideSelected", input.equals("f")));
     }
 
     public void displayCommonObjective(List<Objective> objectives) {
-        displayMessage("Game's Common objectives: ");
+        displayMessage("Game's Common objectives:\n");
         for (Objective objective : objectives) {
             // objective.displayCard();
             // TODO: Fix and implement displayObjective method
@@ -513,7 +544,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         displayMessage("\n");
     }
 
-    public Objective chooseObjective(List<Objective> objectives) {
+    public void chooseObjective(List<Objective> objectives) {
         displayMessage("Secret objectives received:");
         System.out.println();
         for (Objective objective : objectives) {
@@ -534,7 +565,9 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         scanner.nextLine();
         // get card from objective list given the id
         int finalCardId = cardId;
-        return objectives.stream().filter(o -> o.getId() == finalCardId).findFirst().orElse(null);
+
+        gameClient.sendMessage(new SelectedObjMessage("chooseSecretObjective", objectives.stream().filter(o -> o.getId() == finalCardId).findFirst().orElse(null)));
+        // return objectives.stream().filter(o -> o.getId() == finalCardId).findFirst().orElse(null);
     }
 
     public void displayHand(List<Card> hand) {
@@ -557,7 +590,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
 
     }
 
-    public String askWhereToDraw(List<Card> cards) {
+    public void askWhereToDraw(List<Card> cards) {
         List<Integer> ids = new ArrayList<>();
         String m = "(";
         for (Card c : cards) {
@@ -582,7 +615,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
             input = scanner.nextLine();
         }
 
-        return input;
+        gameClient.sendMessage(new SelectedDrewCard("drawCard", input));
     }
 
     public void displayPawn(Color pawn) {
@@ -652,9 +685,6 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     public void updateUI(GameEvent gameEvent) {
         System.out.println("UI updated!");
         switch (gameEvent.getType()) {
-            case "loadedStarter" -> {
-                visualizeStarterCard((Card) gameEvent.getData());
-            }
             case "loadedPawn" -> {
                 displayPawn((Color) gameEvent.getData());
             }
@@ -675,14 +705,32 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
                     displayMessage("Write your message: ");
                     String input = scanner.nextLine();
                     Message message = new Message(input);
-                    client.handleMoveUI(new GameEvent("sendNewMex", message));
+                    //client.handleMoveUI(new GameEvent("sendNewMex", message));
                 } else {
                     displayMessage("Write your message: ");
                     String input = scanner.nextLine();
                     MessagePrivate messagePrivate = new MessagePrivate(input, receiver);
-                    client.handleMoveUI(new GameEvent("sendNewMex", messagePrivate));
+                    //client.handleMoveUI(new GameEvent("sendNewMex", messagePrivate));
                 }
             }
         }
+    }
+
+    public void showAvailableAngles(List<Coordinate> angles) {
+        String input = displayAngle(angles);
+
+        // get card from player's hand by id
+        // TODO: create object for handling card selection
+        String[] splitCardToPlay = input.split("\\.");
+        int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
+
+        // card where to attach the selected card
+        Card targetCard = gameClient.getModelView().getMyCodex().stream().filter(c -> c.getId() == cardToAttachId).findFirst().orElse(null);
+
+        place(gameClient.getModelView().getMyPlayingCard(), targetCard, Integer.parseInt(splitCardToPlay[1]));
+
+        displayBoard();
+
+        gameClient.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(input)));
     }
 }

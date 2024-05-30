@@ -4,6 +4,7 @@ import it.polimi.ingsw.core.controller.GameController;
 import it.polimi.ingsw.core.controller.GameControllerRemote;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.utils.GameSessionManager;
+import it.polimi.ingsw.network.GameClientProxy;
 import it.polimi.ingsw.network.rmi.client.GameClient;
 import it.polimi.ingsw.observers.GameObserver;
 
@@ -62,7 +63,7 @@ public class GameServer implements it.polimi.ingsw.network.GameServer {
     }
 
     @Override
-    public void registerClient(GameClient client) throws RemoteException {
+    public void registerClient(GameObserver client) throws RemoteException {
         System.out.println("New client registered.");
     }
 

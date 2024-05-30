@@ -5,6 +5,7 @@ import it.polimi.ingsw.core.controller.GameControllerRemote;
 import it.polimi.ingsw.core.model.CardSelection;
 import it.polimi.ingsw.core.model.GameSession;
 import it.polimi.ingsw.core.utils.GameSessionManager;
+import it.polimi.ingsw.network.GameClientProxy;
 import it.polimi.ingsw.network.rmi.client.GameClient;
 import it.polimi.ingsw.observers.GameObserver;
 
@@ -20,7 +21,7 @@ public class GameServerImpl extends UnicastRemoteObject implements it.polimi.ing
     }
 
     @Override
-    public void registerClient(GameClient client) throws RemoteException {
+    public void registerClient(GameObserver client) throws RemoteException {
         System.out.println("\nNew client registered on RMI server: " + client + "...");
     }
 

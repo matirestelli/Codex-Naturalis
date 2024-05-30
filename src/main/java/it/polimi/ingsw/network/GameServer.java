@@ -19,7 +19,7 @@ public interface GameServer extends Remote {
     String listGameSessions() throws RemoteException;
 
     // Metodo per registrare un client
-    void registerClient(GameClient client) throws RemoteException;
+    void registerClient(GameObserver client) throws RemoteException;
 
     boolean allPlayersConnected(String gameId) throws RemoteException;
 }

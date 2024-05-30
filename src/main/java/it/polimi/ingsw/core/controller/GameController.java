@@ -1,12 +1,12 @@
 package it.polimi.ingsw.core.controller;
 
 import it.polimi.ingsw.core.model.*;
-import it.polimi.ingsw.core.model.chat.Chat;
-import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.model.message.request.*;
+import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
+import it.polimi.ingsw.core.model.message.response.StarterSideSelectedMessage;
 import it.polimi.ingsw.core.utils.PlayerMove;
 import it.polimi.ingsw.observers.GameObserver;
-import javafx.util.Pair;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -69,16 +69,19 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         gameState.assignStarterCardToPlayers();
 
         // notify observers of the starter card assigned to each player
-        for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new GameEvent("loadedStarter", gameState.getPlayerState(us).getStarterCard()));
+        for (String us : orderedObserversMap.keySet()) {
+            orderedObserversMap.get(us).update(new StarterCardLoadedMessage("starterCardLoaded", gameState.getPlayerState(us).getStarterCard()));
+        }
 
-        for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new GameEvent("loadedPawn", gameState.getPlayerState(us).getPawn()));
+        // TODO: fix
+        /* for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new GameEvent("loadedPawn", gameState.getPlayerState(us).getPawn())); */
 
         // assign the first hand of cards to each player
         gameState.assignFirstHandToPlayers();
         for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new GameEvent("updateHand", gameState.getPlayerState(us).getHand()));
+            orderedObserversMap.get(us).update(new UpdatedHandMessage("updateHand", gameState.getPlayerState(us).getHand()));
+
 
         // assign common objectives of the game
         // TODO: implement for loop to draw n cards. Define n as class variable
@@ -87,7 +90,8 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
         // notify observers of the common objectives
         for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new GameEvent("loadedCommonObjective", gameState.getCommonObjectives()));
+            orderedObserversMap.get(us).update(new LoadedCommonObjectiveMessage("loadedCommonObjective", gameState.getCommonObjectives()));
+
 
         // assign secret objectives to each player
         for (String us : orderedObserversMap.keySet()) {
@@ -96,20 +100,19 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             secretChoose.add(gameState.getObjectiveDeck().drawCard());
             secretChoose.add(gameState.getObjectiveDeck().drawCard());
             // notify observers of the secret objectives
-            orderedObserversMap.get(us).update(new GameEvent("chooseObjective", secretChoose));
+            orderedObserversMap.get(us).update(new ChooseSecretObjMessage("chooseObjective", secretChoose));
         }
-
 
         // set side of starter card for each player
         for (String us : orderedObserversMap.keySet()) {
             // notify observers of the side of the starter card
-            orderedObserversMap.get(us).update(new GameEvent("starterSide", gameState.getPlayerState(us).getStarterCard()));
+            orderedObserversMap.get(us).update(new StarterSideSelectionMessage("starterSide", gameState.getPlayerState(us).getStarterCard()));
         }
     }
 
     // TODO: Fix this method, launching exception in case of false offer
     @Override
-    public synchronized void handleMove(String username, GameEvent event) throws RemoteException {
+    public synchronized void handleMove(String username, MessageClient2Server event) throws RemoteException {
         // add the move to the queue
         boolean offer = moveQueue.offer(new PlayerMove(username, event));
         if (!offer) {
@@ -117,45 +120,58 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         }
     }
 
-    public void processMove(String username, GameEvent event) throws RemoteException {
-        System.out.println("Processing move: " + event.getType());
-        String type = event.getType();
-        switch (type) {
-            case "cardSelection" -> {
-                CardSelection cardSelection = (CardSelection) event.getData();
-                // get card from player hand by id
-                Card cardToPlay = gameState.getPlayerState(username).getCardFromHand(cardSelection.getId());
-                // remove selected card from player hand
-                gameState.getPlayerState(username).removeCardFromHand(cardToPlay);
-                // set side of selected card
-                cardToPlay.setSide(cardSelection.getSide());
+    public void handleChoseObjective(String username, Objective cardSelected) throws RemoteException {
+        System.out.println("Chose objective: " + cardSelected);
+        // set secret objective of player given by username
+        gameState.setSecretObjective(username, cardSelected);
+    }
 
-                // get list of possible angles to place the card
-                List<Coordinate> angoliDisponibili = new ArrayList<>();
-                // TODO: make test as attribute of GameState class
-                test = new HashMap<>();
-                PlayerState ps = gameState.getPlayerState(username);
-                for (Card c : ps.getCodex())
-                    angoliDisponibili.addAll(c.findFreeAngles(ps.getMatrix(), ps.getCodex(), cardToPlay.getId(), test));
+    public void handleStarterSideSelected(String username, boolean side) throws RemoteException {
+        System.out.println("Starter side selected: " + side);
+        // assign side of starter card to player given by username
+        gameState.assignStarterSide(username, side);
+        // place starter card in middle of matrix
+        gameState.placeStarterInMatrix(username, matrixDimension);
 
-                // add card to player codex
-                gameState.getPlayerState(username).addCardToCodex(cardToPlay);
+        playersReadyToPlayer.add(username);
 
-                // TODO: set card to place as attribute of PlayerState class
-                cardToPlace = cardToPlay;
+        if (playersReadyToPlayer.size() == gameState.getPlayerOrder().size()) {
+            System.out.println("Turn order: " + gameState.getPlayerOrder());
+            notifyCurrentPlayerTurn();
+        }
+    }
 
-                // notify player of free angles
-                orderedObserversMap.get(username).update(new GameEvent("askAngle", angoliDisponibili));
+    public void handleCardSelected(String username, CardSelection cardSelection) throws RemoteException {
+        // get card from player hand by id
+        Card cardToPlay = gameState.getPlayerState(username).getCardFromHand(cardSelection.getId());
+        // remove selected card from player hand
+        gameState.getPlayerState(username).removeCardFromHand(cardToPlay);
+        // set side of selected card
+        cardToPlay.setSide(cardSelection.getSide());
 
-                // advanceTurn();
-            }
-            case "secretObjectiveSelection" -> {
-                Objective cardSelected = (Objective) event.getData();
-                // set secret objective of player given by username
-                gameState.setSecretObjective(username, cardSelected);
-                // chooseObjective(username, card);
-            }
-            case "newMessage" -> {
+        // get list of possible angles to place the card
+        List<Coordinate> angoliDisponibili = new ArrayList<>();
+        // TODO: make test as attribute of GameState class
+        test = new HashMap<>();
+        PlayerState ps = gameState.getPlayerState(username);
+        for (Card c : ps.getCodex())
+            angoliDisponibili.addAll(c.findFreeAngles(ps.getMatrix(), ps.getCodex(), cardToPlay.getId(), test));
+
+        // add card to player codex
+        gameState.getPlayerState(username).addCardToCodex(cardToPlay);
+
+        // TODO: set card to place as attribute of PlayerState class
+        cardToPlace = cardToPlay;
+
+        // notify player of free angles
+        orderedObserversMap.get(username).update(new AvailableAnglesMessage("askAngle", angoliDisponibili));
+    }
+
+    public void processMove(String username, MessageClient2Server message) throws RemoteException {
+        System.out.println("Processing move: " + message.getType());
+        message.doAction(username, this);
+
+            /* case "newMessage" -> {
                 Message message = (Message) event.getData();
                 System.out.println("New message: " + message.getText());
                 System.out.println("Sender: " + message.getSender());
@@ -174,38 +190,15 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                     gameState.getPlayerState(message.whoIsReceiver()).getChat().addMsg(message);
                     orderedObserversMap.get(message.whoIsReceiver()).update(new GameEvent("mexIncoming", message));
                 }
-            }
-            case "starterSideSelection" -> {
-                boolean side = (boolean) event.getData();
-                // assign side of starter card to player given by username
-                gameState.assignStarterSide(username, side);
-                // place starter card in middle of matrix
-                gameState.placeStarterInMatrix(username, matrixDimension);
-
-                playersReadyToPlayer.add(username);
-
-                if (playersReadyToPlayer.size() == gameState.getPlayerOrder().size()) {
-                    System.out.println("Turn order: " + gameState.getPlayerOrder());
-                    notifyCurrentPlayerTurn();
-                }
-            }
-            case "angleSelection" -> {
-                angleChosen(username, (CardToAttachSelected) event.getData());
-            }
-            case "drawCard" -> {
-                drawCard(username, (String) event.getData());
-            }
-            default -> {
-                System.out.println("Unknown move type: " + type);
-            }
-        }
+            } */
     }
 
     public void processMoves() {
         while (true) {
             try {
                 PlayerMove playerMove = moveQueue.take(); // Blocca fino a quando un elemento è disponibile
-                processMove(playerMove.getUsername(), playerMove.getEvent());
+                // processMove(playerMove.getUsername(), playerMove.getEvent());
+                processMove(playerMove.getUsername(), playerMove.getMex());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (RemoteException e) {
@@ -234,16 +227,17 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         String us = gameState.getPlayerOrder().get(currentPlayerIndex);
         for (String username : orderedObserversMap.keySet()) {
             if (!username.equals(us))
-                orderedObserversMap.get(username).update(new GameEvent("notYourTurn", us));
+                orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", us));
         }
-        GameEvent beforeTurnEvent = new GameEvent("beforeTurnEvent", gameState.calculateResource(us));
-        orderedObserversMap.get(us).update(beforeTurnEvent);
+
+        orderedObserversMap.get(us).update(new BeforeTurnMessage("beforeTurnEvent", gameState.calculateResource(us)));
+
         // send list of ids of playable cards from playing hand
-        if(last){
+        /* if (last) {
             orderedObserversMap.get(us).update(new GameEvent("lastTurn", gameState.getPlayerState(currentPlayerIndex)));
-        }
-        GameEvent turnEvent = new GameEvent("currentPlayerTurn", gameState.getPlayableCardIdsFromHand(us));
-        orderedObserversMap.get(us).update(turnEvent);
+        } */
+
+        orderedObserversMap.get(us).update(new YourTurnMessage("currentPlayerTurn", gameState.getPlayableCardIdsFromHand(us)));
     }
 
     @Override
@@ -294,7 +288,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         }
 
         // notify observers of the updated codex
-        orderedObserversMap.get(username).update(new GameEvent("updateCodex", new ArrayList<>(player.getCodex())));
+        orderedObserversMap.get(username).update(new UpdateCodexMessage("updateCodex", player.getCodex()));
 
         player.getMatrix()[cardToPlace.getyMatrixCord()][cardToPlace.getxMatrixCord()] = cardToPlace.getId();
 
@@ -303,7 +297,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         visibileCards.addAll(gameState.getGoldCardsVisible());
 
         // TODO: fix this update method
-        orderedObserversMap.get(username).update(new GameEvent("askWhereToDraw", visibileCards));
+        orderedObserversMap.get(username).update(new DrawNewCardMessage("askWhereToDraw", visibileCards));
     }
 
     public void drawCard(String username, String choose) throws RemoteException {
@@ -348,16 +342,17 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         player.calculateResources();
 
         // notify player of updated hand
-        orderedObserversMap.get(username).update(new GameEvent("updateHand", new ArrayList<>(player.getHand())));
+        orderedObserversMap.get(username).update(new UpdatedHandMessage("updateHand", new ArrayList<>(player.getHand())));
 
         // check if last turn
-        lastTurn(username);
+        // TODO: fix
+        // lastTurn(username);
 
         // advance turn
         advanceTurn();
     }
 
-    public void lastTurn(String username) throws RemoteException {
+    /* public void lastTurn(String username) throws RemoteException {
         PlayerState player = gameState.getPlayerState(username);
         // System.out.println("User: " + username + " Score: " + player.getScore());
         if (player.getScore() >= 2 || last == true) {
@@ -432,5 +427,5 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                 orderedObserversMap.get(username).update(new GameEvent("reachedPoints", gameState.getPlayerState(currentPlayerIndex)));
             }
         }
-    }
+    } */
 }

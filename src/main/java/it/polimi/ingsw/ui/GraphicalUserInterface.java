@@ -3,12 +3,35 @@ package it.polimi.ingsw.ui;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
+import it.polimi.ingsw.network.ClientAbstract;
 
 import java.util.List;
 
 public class GraphicalUserInterface implements UserInterfaceStrategy {
+    ClientAbstract client;
+
+    public void currentTurn(PlayableCardIds data) {
+    }
+
+    public void showAvailableAngles(List<Coordinate> data) {
+    }
+
+    public void showNotYourTurn() {
+    }
+
+    public GraphicalUserInterface() {
+    }
+
+    public GraphicalUserInterface(ClientAbstract client) {
+        this.client = client;
+    }
+
     @Override
     public void initialize() {
+
+    }
+
+    public void visualiseStarterCardLoaded(Card card) {
 
     }
 
@@ -86,8 +109,8 @@ public class GraphicalUserInterface implements UserInterfaceStrategy {
     public void displayCommonObjective(List<Objective> obj) {
     }
 
-    public Objective chooseObjective(List<Objective> obj) {
-        return null;
+    public void chooseObjective(List<Objective> obj) {
+
     }
 
     public void displayHand(List<Card> hand) {
@@ -96,8 +119,7 @@ public class GraphicalUserInterface implements UserInterfaceStrategy {
     public void place(Card cardToPlace, Card targetCard, int position) {
     }
 
-    public String askWhereToDraw(List<Card> cards) {
-        return null;
+    public void askWhereToDraw(List<Card> cards) {
     }
 
     public void displayChat(Chat chat, String username){}
