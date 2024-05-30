@@ -999,7 +999,7 @@ public class BoardViewController extends GUI {
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
                 cardDrawn = true;
                 String temp = ""+buttonDeckRFront2.getUserData();
-                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", temp));
+                client.sendMessage(new SelectedDrewCard("drawCard", temp));
             }
             else {
                 this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonDeckRFront2.getScene().getWindow());
@@ -1020,7 +1020,7 @@ public class BoardViewController extends GUI {
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
                 cardDrawn = true;
                 String temp = ""+buttonDeckGFront1.getUserData();
-                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", temp));
+                client.sendMessage(new SelectedDrewCard("drawCard", temp));
             }
             else {
                 this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonDeckGFront1.getScene().getWindow());
@@ -1041,7 +1041,7 @@ public class BoardViewController extends GUI {
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
                 cardDrawn = true;
                 String temp = ""+buttonDeckGFront2.getUserData();
-                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", temp));
+                client.sendMessage(new SelectedDrewCard("drawCard", temp));
             }
             else {
                 this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonDeckGFront2.getScene().getWindow());

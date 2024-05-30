@@ -29,7 +29,6 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     private Map<Integer, Map<Integer, List<Coordinate>>> test;
     private Card cardToPlace;
 
-
     public GameController(GameState gameState) throws RemoteException {
         super();
         this.gameState = gameState;

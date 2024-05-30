@@ -1,7 +1,6 @@
 package it.polimi.ingsw.ui.GUI.controller;
 
 import it.polimi.ingsw.core.model.CardGame;
-import it.polimi.ingsw.core.model.GameEvent;
 import it.polimi.ingsw.core.model.Objective;
 import it.polimi.ingsw.core.model.message.response.SelectedObjMessage;
 import it.polimi.ingsw.ui.GUI.GUI;
@@ -45,12 +44,9 @@ public class ChoosingObjectiveController extends GUI {
             if(!settedObjective){
                 buttonObjective1.setStyle("-fx-border-color: #52e51f;\n" +
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
-                //TODO controlla che true significa front side
-                this.observerClient.updateUI(new GameEvent("chooseObjective", obj1));
-                //metodo della gui che piazza la carta obiettivo segreto nella board chiamando il boardViewController
-                //o forse non da fare perchè lo metto nel view model e lo prende lui poi quando crea la board
-                //TODO
-                //cambio scena passando alla boardView
+                viewModel.setSecretObj(obj1);
+                client.sendMessage(new SelectedObjMessage("chooseSecretObjective", obj1));
+
                 settedObjective = true;
             }
             else {
@@ -64,12 +60,9 @@ public class ChoosingObjectiveController extends GUI {
             if(!settedObjective){
                 buttonObjective2.setStyle("-fx-border-color: #52e51f;\n" +
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
-                //TODO controlla che false significa back side
-                this.observerClient.updateUI(new GameEvent("chooseObjective", obj2));
-                //metodo della gui che piazza la carta obiettivo segreto nella board chiamando il boardViewController
-                //o forse non da fare perchè lo metto nel view model e lo prende lui poi quando crea la board
-                //TODO
-                //cambio scena passando alla boardView
+                viewModel.setSecretObj(obj2);
+                client.sendMessage(new SelectedObjMessage("chooseSecretObjective", obj2));
+
                 settedObjective = true;
             }
             else {

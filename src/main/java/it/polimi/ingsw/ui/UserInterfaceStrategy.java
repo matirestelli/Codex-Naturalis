@@ -5,6 +5,7 @@ import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
+import it.polimi.ingsw.network.socket.client.Client;
 
 import java.util.List;
 

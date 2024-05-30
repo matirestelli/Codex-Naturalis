@@ -20,13 +20,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
-
 import java.io.IOException;
 import java.util.List;
 
-
-public class GUI extends Application implements UserInterfaceStrategy, ObserverUI {
+public class GUI extends Application implements UserInterfaceStrategy {
 
     private static Stage currStage;
     private Parent root;

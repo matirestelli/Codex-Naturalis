@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
+public class TextUserInterface implements UserInterfaceStrategy {
     private Scanner scanner = new Scanner(System.in);
     private int cardWidth = 7;
     private int cardHeight = 3;
@@ -26,11 +26,6 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
 
     public TextUserInterface(ClientAbstract gameClient) {
         this.gameClient = gameClient;
-    }
-
-    @Override
-    public void initialize() {
-        System.out.println("Text User Interface initialized!");
         this.gameBoard = new Cell[matrixDimension * cardHeight][matrixDimension * cardWidth];
         for (int i = 0; i < matrixDimension * cardHeight; i++)
             for (int j = 0; j < matrixDimension * cardWidth; j++) {
