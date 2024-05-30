@@ -602,6 +602,11 @@ public class BoardViewController extends GUI {
         });
     }
 
+    public void onButtonPressed() {
+
+    }
+
+
     public void selectCardToPlay(PlayableCardIds cardsOnlyBack){
         this.cardSelected = false;
         this.message("IT'S YOUR TURN!\nSelect the card you want to play");

@@ -34,6 +34,10 @@ public class Client implements ObserverUI{
     private ViewModel viewModel;
     private Player player;
 
+    public ViewModel getViewModel() {
+        return viewModel;
+    }
+
     //to set de view as an observer so that it can be updated
     public void setObserverUI(ObserverUI observerUI) {
         this.observerUI = observerUI;
@@ -124,6 +128,8 @@ public class Client implements ObserverUI{
         try {
             while (!socket.isClosed()) {
                 Object data = inputStream.readObject();
+                GameEvent gameEvent = (GameEvent) data;
+                gameEvent.doAction(this);
                 if (data instanceof GameEvent) {
                     handleEvent((GameEvent) data);
                 }
