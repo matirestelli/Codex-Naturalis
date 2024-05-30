@@ -1,0 +1,96 @@
+
+
+.text {
+    -fx-font-family: "Poor Richard";
+    -fx-font-size: 25;
+}
+
+.game_button{
+    -fx-background-color: #b0a21a;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(one-pass-box, #4b4401, 10, 0.8, 0, 0);
+    -fx-text-fill: #4b4401;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    /*-fx-font-family: "Old English Text MT";*/
+}
+
+.button:hover{
+    -fx-opacity: 0.8;
+    -fx-cursor: hand;
+}
+
+.radio-button .radio{
+    -fx-border-radius: 50%;
+    -fx-border-color: #4b4401;
+    -fx-padding: 0;
+}
+
+
+.radio-button:selected .radio .dot {
+    -fx-background-color: #4b4401;
+    -fx-background-insets: 0;
+}
+
+.choiceBox {
+    -fx-background-color: #ece4ba;
+    -fx-background-radius: 18 18 18 18;
+    -fx-effect: dropshadow(three-pass-box, #3c2414, 10, 0, 4, 4);
+    -fx-pref-height: 533.0;
+    -fx-pref-width : 486.0 ;
+    -fx-alignment: center;
+    -fx-bottomAnchor : 140;
+    -fx-leftAnchor : 320.0;
+    -fx-rightAnchor : 320.0;
+    -fx-topAnchor : 140.0 ;
+}
+
+.anchorChoicePane {
+    -fx-pref-height : 800.0;
+    -fx-pref-width : 1200.0;
+    -fx-background-image: url('images/backgroundForest.png');
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.pop_up_pane {
+    -fx-background-color: #ece4ba;
+    -fx-background-radius: 18 18 18 18;
+    -fx-pref-height: 224.5;
+    -fx-pref-width : 303.0 ;
+    -fx-max-height: 224.5;
+    -fx-max-width : 303.0 ;
+    -fx-min-height: 224.5;
+    -fx-min-width : 303.0 ;
+    -fx-alignment: center;
+    -fx-border-color: #4b4401;
+    -fx-border-radius: 18 18 18 18;
+
+}
+
+.icon_button{
+   -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-effect: dropshadow(one-pass-box, #4b4401, 10, 0.8, 0, 0);
+}
+.icon_button:hover{
+    -fx-cursor: hand;
+}
+
+.icon_button_close{
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+}
+.icon_button_close:hover{
+    -fx-cursor: hand;
+}
+.top-bar{
+    -fx-background-color: rgba(176, 162, 26, 0.65);
+    -fx-background-radius: 18 18 0 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-radius: 18 18 0 0;
+    -fx-border-color: #3c2414;
+}

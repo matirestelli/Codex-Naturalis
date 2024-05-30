@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.ui.GUI.controller.JoinAGameController"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@../style.css"
+            styleClass="anchorChoicePane">
+
+    <children>
+        <Button fx:id="fullScreen" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="571.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#setFullScreen" prefHeight="30.0" prefWidth="30.0" style="-fx-graphic: url(../icons/iconaFullScreen.png); -fx-background-color: #ffffff;" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <graphic>
+                <ImageView fx:id="iconaScreen" fitHeight="28.0" fitWidth="28.0">
+                    <image>
+                        <Image fx:id="iconaFullScreen" url="@../icons/iconaFullScreen.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+        <VBox styleClass="choiceBox" AnchorPane.bottomAnchor="140" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="140.0">
+            <VBox alignment="CENTER" prefHeight="533.0" prefWidth="486.0">
+                <children>
+
+                    <HBox alignment="TOP_CENTER" prefHeight="533.0" prefWidth="486.0">
+                        <ImageView fx:id="avatarImage" fitHeight="100.0" fitWidth="418.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../icons/avatarImage.png" />
+                            </image>
+                        </ImageView>
+                    </HBox>
+
+                    <VBox alignment="TOP_CENTER" prefHeight="533.0" prefWidth="486.0">
+                        <HBox alignment="TOP_CENTER" prefHeight="533.0" prefWidth="486.0">
+                            <children>
+                                <Label fx:id="labelHowManyPlayers"  text="How many players?">
+                                    <font>
+                                        <Font name="Bookman Old Style Regular" size="30.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+
+                        <HBox fx:id="chosePlayers" alignment="CENTER" prefHeight="533.0" prefWidth="486.0" spacing="20">
+                            <children>
+                                <RadioButton fx:id="button2" layoutX="513.0" layoutY="254.0" mnemonicParsing="false" onAction="#setPlayers" text="2">
+                                    <font>
+                                        <Font name="Bookman Old Style Regular" size="18.0" />
+                                    </font>
+                                    <toggleGroup>
+                                        <ToggleGroup fx:id="numPlayers" />
+                                    </toggleGroup>
+                                </RadioButton>
+                                <RadioButton fx:id="button3" layoutX="513.0" layoutY="297.0" mnemonicParsing="false" onAction="#setPlayers" text="3" toggleGroup="$numPlayers">
+                                    <font>
+                                        <Font name="Bookman Old Style Regular" size="18.0" />
+                                    </font>
+                                </RadioButton>
+                                <RadioButton fx:id="button4" layoutX="513.0" layoutY="340.0" mnemonicParsing="false" onAction="#setPlayers" text="4" toggleGroup="$numPlayers">
+                                    <font>
+                                        <Font name="Bookman Old Style Regular" size="18.0" />
+                                    </font>
+                                </RadioButton>
+
+                            </children>
+                        </HBox>
+
+                    </VBox>
+
+                    <HBox alignment="CENTER" prefHeight="533.0" prefWidth="486.0">
+                        <children>
+                            <Button fx:id="loginButton" layoutX="266.0" layoutY="238.0" mnemonicParsing="false" onAction="#login" text="Login" style="-fx-background-color: #b0a21a;" styleClass="game_button">
+                            </Button>
+                        </children>
+                    </HBox>
+                </children>
+            </VBox>
+        </VBox>
+
+
+    </children>
+
+</AnchorPane>
+

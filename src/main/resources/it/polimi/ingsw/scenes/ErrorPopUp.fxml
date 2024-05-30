@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox alignment="TOP_CENTER" prefHeight="224.5" prefWidth="303.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css" styleClass="pop_up_pane" fx:controller="it.polimi.ingsw.ui.GUI.controller.ErrorPopUpController" onMouseDragged="#dragged" onMousePressed="#pressed" style="-fx-padding: -38 0 0 0">
+    <children>
+        <VBox prefHeight="30" prefWidth="303.0" minWidth="303" minHeight="30" alignment="TOP_RIGHT" layoutX="0" layoutY="-150" styleClass="top-bar">
+            <Button fx:id="closePopUpButton" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false"
+                    onAction="#closePopUp" prefHeight="20.0" prefWidth="20.0" styleClass="icon_button_close">
+                <graphic>
+                    <ImageView fx:id="iconClose" fitHeight="20.0" fitWidth="20.0">
+                        <image>
+                            <Image url="@../icons/iconClose.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </VBox>
+        <HBox prefWidth="323.0" alignment="CENTER" >
+            <children>
+                <Label fx:id="errorLabel" text="ERROR" textAlignment="CENTER" textFill="#f0483a">
+
+                </Label>
+
+            </children>
+        </HBox>
+
+
+        <Line fx:id="errorLine" endX="130.0" fill="#ee3f33" startX="-150.0" stroke="#e42b2b" />
+        <Text fx:id="messageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Error Message Text" textAlignment="CENTER" wrappingWidth="200.0">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <VBox.margin>
+                <Insets top="15.0" />
+            </VBox.margin>
+        </Text>
+        <ImageView fx:id="errorImage" fitHeight="49.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../icons/iconRedFlag.png" />
+            </image>
+            <VBox.margin>
+                <Insets top="15.0" />
+            </VBox.margin>
+        </ImageView>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="7.0" />
+    </padding>
+</VBox>

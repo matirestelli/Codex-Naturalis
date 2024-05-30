@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.ui.GUI.controller.ScoreboardController"
+            prefHeight="354.0" prefWidth="182.0"
+            fx:id="anchorPane"
+
+            stylesheets="@../boardStyle.css"
+            styleClass="scoreboard"
+            onMouseDragged="#dragged" onMousePressed="#pressed">
+ <children>
+         <Button fx:id="closePopUpButton"  contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false"
+                 onAction="#closePopUp" maxHeight="20" maxWidth="20" prefHeight="20.0" prefWidth="20.0"  styleClass="icon_button" AnchorPane.rightAnchor="0">
+             <graphic>
+                 <ImageView fx:id="iconClose" fitHeight="20.0" fitWidth="20.0">
+                     <image>
+                         <Image url="@../icons/iconClose.png"/>
+                     </image>
+                 </ImageView>
+             </graphic>
+         </Button>
+ </children>
+</AnchorPane>

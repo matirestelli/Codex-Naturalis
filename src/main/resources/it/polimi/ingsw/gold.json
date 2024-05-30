@@ -2,8 +2,8 @@
   {
     "id": 40,
     "frontSide": true,
-    "frontCover": "front/gold/blue/0.png",
-    "backCover": "back/gold/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/0.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -65,8 +65,8 @@
   {
     "id": 41,
     "frontSide": true,
-    "frontCover": "front/gold/blue/1.png",
-    "backCover": "back/gold/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/1.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -128,8 +128,8 @@
   {
     "id": 42,
     "frontSide": true,
-    "frontCover": "front/gold/blue/2.png",
-    "backCover": "back/gold/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/2.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -190,8 +190,8 @@
   },{
   "id": 43,
   "frontSide": true,
-  "frontCover": "front/gold/blue/3.png",
-  "backCover": "back/gold/blue.png",
+  "frontCover": "/it/polimi/ingsw/images/front/gold/blue/3.png",
+  "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
   "frontCorners": {
     "1": {
       "empty": true,
@@ -253,8 +253,8 @@
   {
     "id": 44,
     "frontSide": true,
-    "frontCover": "front/gold/blue/4.png",
-    "backCover": "back/gold/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/4.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -316,8 +316,8 @@
   {
     "id": 45,
     "frontSide": true,
-    "frontCover": "front/gold/blue/5.png",
-    "backCover": "back/gold/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/5.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -379,8 +379,8 @@
   {
     "id": 46,
     "frontSide": true,
-    "frontCover": "front/gold/blue/2.png",
-    "backCover": "back/gold/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/6.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -433,8 +433,8 @@
   {
     "id": 47,
     "frontSide": true,
-    "frontCover": "front/gold/blue/7.png",
-    "backCover": "back/gold/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/7.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
     "frontCorners": {
       "1": {
         "empty": true,
@@ -487,8 +487,8 @@
   {
     "id": 48,
     "frontSide": true,
-    "frontCover": "front/gold/blue/8.png",
-    "backCover": "back/gold/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/8.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
     "frontCorners": {
       "2": {
         "empty": true,
@@ -541,8 +541,8 @@
   {
     "id": 49,
     "frontSide": true,
-    "frontCover": "front/gold/blue/9.png",
-    "backCover": "back/gold/blue.png",
+    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/9.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
     "frontCorners": {
       "2": {
         "empty": true,
@@ -591,6 +591,1805 @@
         "resource": "ANIMAL"
       }
     ]
-  }
+  },
+  {
+    "id": 50,
+    "frontSide": true,
+    "frontCover": "/it/polimi/ingsw/images/front/gold/green/0.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": false,
+        "resource": "QUILL",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ],
+    "color": "GREEN",
+    "point": {
+      "qta": 1,
+      "resource": "QUILL"
+    },
+    "requirements": [
+      {
+        "qta": 2,
+        "resource": "PLANT"
+      },
+      {
+        "qta": 1,
+        "resource": "INSECT"
+      }
+    ]
+    },
+  {
+    "id": 51,
+    "frontSide": true,
+    "frontCover": "/it/polimi/ingsw/images/front/gold/green/1.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCorners": {
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": false,
+        "resource": "MANUSCRIPT",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ],
+    "color": "GREEN",
+    "point": {
+      "qta": 1,
+      "resource": "MANUSCRIPT"
+    },
+    "requirements": [
+      {
+        "qta": 2,
+        "resource": "PLANT"
+      },
+      {
+        "qta": 1,
+        "resource": "FUNGI"
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "frontSide": true,
+    "frontCover": "/it/polimi/ingsw/images/front/gold/green/2.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "NOUN",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ],
+    "color": "GREEN",
+    "point": {
+      "qta": 1,
+      "resource": "NOUN"
+    },
+    "requirements": [
+      {
+        "qta": 2,
+        "resource": "PLANT"
+      },
+      {
+        "qta": 1,
+        "resource": "ANIMAL"
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "frontSide": true,
+    "frontCover": "/it/polimi/ingsw/images/front/gold/green/3.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ],
+    "color": "GREEN",
+    "point": {
+      "qta": 2,
+      "resource": "ANGLE_COVERED"
+    },
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "PLANT"
+      },
+      {
+        "qta": 1,
+        "resource": "INSECT"
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "frontSide": true,
+    "frontCover": "/it/polimi/ingsw/images/front/gold/green/4.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ],
+    "color": "GREEN",
+    "point": {
+      "qta": 2,
+      "resource": "ANGLE_COVERED"
+    },
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "PLANT"
+      },
+      {
+        "qta": 1,
+        "resource": "INSECT"
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "frontSide": true,
+    "frontCover": "/it/polimi/ingsw/images/front/gold/green/5.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ],
+    "color": "GREEN",
+    "point": {
+      "qta": 2,
+      "resource": "ANGLE_COVERED"
+    },
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "PLANT"
+      },
+      {
+        "qta": 1,
+        "resource": "FUNGI"
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "frontSide": true,
+    "frontCover": "/it/polimi/ingsw/images/front/gold/green/6.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCorners": {
+      "0": {
+        "empty": false,
+        "resource": "QUILL",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ],
+    "color": "GREEN",
+    "point": {
+      "qta": 3,
+      "resource": "NO_RESOURCE"
+    },
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "PLANT"
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "frontSide": true,
+    "frontCover": "/it/polimi/ingsw/images/front/gold/green/7.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCorners": {
+      "1": {
+        "empty": false,
+        "resource": "MANUSCRIPT",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ],
+    "color": "GREEN",
+    "point": {
+      "qta": 3,
+      "resource": "NO_RESOURCE"
+    },
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "PLANT"
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "frontSide": true,
+    "frontCover": "/it/polimi/ingsw/images/front/gold/green/8.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCorners": {
+      "2": {
+        "empty": false,
+        "resource": "NOUN",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ],
+    "color": "GREEN",
+    "point": {
+      "qta": 3,
+      "resource": "NO_RESOURCE"
+    },
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "PLANT"
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "frontSide": true,
+    "frontCover": "/it/polimi/ingsw/images/front/gold/green/9.png",
+    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCorners": {
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backCorners": {
+      "0": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "1": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "2": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      },
+      "3": {
+        "empty": true,
+        "resource": "NO_RESOURCE",
+        "hidden": false
+      }
+    },
+    "backResources": [
+      "PLANT"
+    ],
+    "color": "GREEN",
+    "point": {
+      "qta": 5,
+      "resource": "NO_RESOURCE"
+    },
+    "requirements": [
+      {
+        "qta": 5,
+        "resource": "PLANT"
+      }
+    ]
+  },
+    {
+      "id": 60,
+        "frontSide": true,
+        "frontCover": "/it/polimi/ingsw/images/front/gold/purple/0.png",
+        "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+        "frontCorners": {
+        "1": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+        },
+        "2": {
+            "empty": true,
+            "resource": "QUILL",
+            "hidden": false
+        },
+        "3": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+        }
+        },
+        "backCorners": {
+        "0": {
+            "empty": false,
+            "resource": "QUILL",
+            "hidden": false
+        },
+        "1": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+        },
+        "2": {
+            "empty": false,
+            "resource": "QUILL",
+            "hidden": false
+        },
+        "3": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+        }
+        },
+        "backResources": [
+        "INSECT"
+        ],
+        "color": "PURPLE",
+        "point": {
+        "qta": 1,
+        "resource": "QUILL"
+        },
+        "requirements": [
+        {
+            "qta": 2,
+            "resource": "INSECT"
+        },
+        {
+            "qta": 1,
+            "resource": "PLANT"
+        }
+        ]
+    },
+    {       "id": 61,
+            "frontSide": true,
+            "frontCover": "/it/polimi/ingsw/images/front/gold/purple/1.png",
+            "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+            "frontCorners": {
+            "0": {
+                "empty": true,
+                "resource": "MANUSCRIPT",
+                "hidden": false
+            },
+            "1": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+            },
+            "3": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+            }
+            },
+            "backCorners": {
+            "0": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+            },
+            "1": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+            },
+            "2": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+            },
+            "3": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+            }
+            },
+            "backResources": [
+            "INSECT"
+            ],
+            "color": "PURPLE",
+            "point": {
+            "qta": 1,
+            "resource": "MANUSCRIPT"
+            },
+            "requirements": [
+            {
+                "qta": 2,
+                "resource": "INSECT"
+            },
+            {
+                "qta": 1,
+                "resource": "ANIMAL"
+            }
+            ]
+        },
+
+    {
+        "id": 62,
+        "frontSide": true,
+        "frontCover": "/it/polimi/ingsw/images/front/gold/purple/2.png",
+        "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+        "frontCorners": {
+            "0": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "2": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "3": {
+            "empty": false,
+            "resource": "NOUN",
+            "hidden": false
+            }
+        },
+        "backCorners": {
+            "0": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "1": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "2": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "3": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            }
+        },
+        "backResources": [
+            "INSECT"
+        ],
+        "color": "PURPLE",
+        "point": {
+            "qta": 1,
+            "resource": "NOUN"
+        },
+        "requirements": [
+            {
+            "qta": 2,
+            "resource": "INSECT"
+            },
+            {
+            "qta": 1,
+            "resource": "FUNGI"
+            }
+        ]
+        },
+
+    {
+        "id": 63,
+        "frontSide": true,
+        "frontCover": "/it/polimi/ingsw/images/front/gold/purple/3.png",
+        "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+        "frontCorners": {
+            "1": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "2": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "3": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            }
+        },
+        "backCorners": {
+            "0": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "1": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "2": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "3": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            }
+        },
+        "backResources": [
+            "INSECT"
+        ],
+        "color": "PURPLE",
+        "point": {
+            "qta": 2,
+            "resource": "ANGLE_COVERED"
+        },
+        "requirements": [
+            {
+            "qta": 3,
+            "resource": "INSECT"
+            },
+            {
+            "qta": 1,
+            "resource": "ANIMAL"
+            }
+        ]
+        },
+
+    {
+        "id": 64,
+        "frontSide": true,
+        "frontCover": "/it/polimi/ingsw/images/front/gold/purple/4.png",
+        "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+        "frontCorners": {
+            "0": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "1": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "2": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            }
+        },
+        "backCorners": {
+            "0": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "1": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "2": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            },
+            "3": {
+            "empty": true,
+            "resource": "NO_RESOURCE",
+            "hidden": false
+            }
+        },
+        "backResources": [
+            "INSECT"
+        ],
+        "color": "PURPLE",
+        "point": {
+            "qta": 2,
+            "resource": "ANGLE_COVERED"
+        },
+        "requirements": [
+            {
+            "qta": 3,
+            "resource": "INSECT"
+            },
+            {
+            "qta": 1,
+            "resource": "PLANT"
+            }
+        ]
+        },
+
+    {
+      "id": 65,
+            "frontSide": true,
+            "frontCover": "/it/polimi/ingsw/images/front/gold/purple/5.png",
+            "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+            "frontCorners": {
+                "0": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+                },
+                "1": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+                },
+                "3": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+                }
+            },
+            "backCorners": {
+                "0": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+                },
+                "1": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+                },
+                "2": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+                },
+                "3": {
+                "empty": true,
+                "resource": "NO_RESOURCE",
+                "hidden": false
+                }
+            },
+            "backResources": [
+                "INSECT"
+            ],
+            "color": "PURPLE",
+            "point": {
+                "qta": 2,
+                "resource": "ANGLE_COVERED"
+            },
+            "requirements": [
+                {
+                "qta": 3,
+                "resource": "INSECT"
+                },
+                {
+                "qta": 1,
+                "resource": "FUNGI"
+                }
+            ]
+            },
+
+    {
+        "id": 66,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/purple/6.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+                "frontCorners": {
+                    "0": {
+                    "empty": false,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": false,
+                    "resource": "NOUN",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "INSECT"
+                ],
+                "color": "PURPLE",
+                "point": {
+                    "qta": 3,
+                    "resource": "NO_RESOURCE"
+                },
+                "requirements": [
+                    {
+                    "qta": 3,
+                    "resource": "INSECT"
+                    }
+                ]
+                },
+
+    {
+        "id": 67,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/purple/7.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+                "frontCorners": {
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": false,
+                    "resource": "MANUSCRIPT",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "INSECT"
+                ],
+                "color": "PURPLE",
+                "point": {
+                    "qta": 3,
+                    "resource": "NO_RESOURCE"
+                },
+                "requirements": [
+                    {
+                    "qta": 3,
+                    "resource": "INSECT"
+                    }
+                ]
+                },
+
+    {
+        "id": 68,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/purple/8.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+                "frontCorners": {
+                    "0": {
+                    "empty": false,
+                    "resource": "QUILL",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "INSECT"
+                ],
+                "color": "PURPLE",
+                "point": {
+                    "qta": 3,
+                    "resource": "NO_RESOURCE"
+                },
+                "requirements": [
+                    {
+                    "qta": 3,
+                    "resource": "INSECT"
+                    }
+                ]
+                },
+
+    {
+        "id": 69,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/purple/9.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+                "frontCorners": {
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "INSECT"
+                ],
+                "color": "PURPLE",
+                "point": {
+                    "qta": 5,
+                    "resource": "NO_RESOURCE"
+                },
+                "requirements": [
+                    {
+                    "qta": 5,
+                    "resource": "INSECT"
+                    }
+                ]
+                },
+
+    {
+        "id": 70,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/red/0.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                      "empty": true,
+                      "resource": "NO_RESOURCE",
+                      "hidden": false
+                    },
+                    "3": {
+                      "empty": true,
+                      "resource": "QUILL",
+                      "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": false,
+                    "resource": "QUILL",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": false,
+                    "resource": "QUILL",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "FUNGI"
+                ],
+                "color": "RED",
+                "point": {
+                    "qta": 1,
+                    "resource": "QUILL"
+                },
+                "requirements": [
+                    {
+                    "qta": 2,
+                    "resource": "FUNGI"
+                    },
+                    {
+                    "qta": 1,
+                    "resource": "ANIMAL"
+                    }
+                ]
+                },
+
+    {
+        "id": 71,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/red/1.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCorners": {
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": false,
+                    "resource": "NOUN",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "FUNGI"
+                ],
+                "color": "RED",
+                "point": {
+                    "qta": 1,
+                    "resource": "NOUN"
+                },
+                "requirements": [
+                    {
+                    "qta": 2,
+                    "resource": "FUNGI"
+                    },
+                    {
+                    "qta": 1,
+                    "resource": "PLANT"
+                    }
+                ]
+                },
+
+    {
+        "id": 72,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/red/2.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": false,
+                    "resource": "MANUSCRIPT",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "FUNGI"
+                ],
+                "color": "RED",
+                "point": {
+                    "qta": 1,
+                    "resource": "MANUSCRIPT"
+                },
+                "requirements": [
+                    {
+                    "qta": 2,
+                    "resource": "FUNGI"
+                    },
+                  {
+                    "qta": 1,
+                    "resource": "INSECT"
+                  }
+                ]
+                },
+
+    {
+        "id": 73,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/red/3.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCorners": {
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "FUNGI"
+                ],
+                "color": "RED",
+                "point": {
+                    "qta": 2,
+                    "resource": "ANGLE_COVERED"
+                },
+                "requirements": [
+                    {
+                    "qta": 3,
+                    "resource": "FUNGI"
+                    },
+                    {
+                    "qta": 1,
+                    "resource": "ANIMAL"
+                    }
+                ]
+                },
+
+    {
+        "id": 74,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/red/4.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "FUNGI"
+                ],
+                "color": "RED",
+                "point": {
+                    "qta": 2,
+                    "resource": "ANGLE_COVERED"
+                },
+                "requirements": [
+                    {
+                    "qta": 3,
+                    "resource": "FUNGI"
+                    },
+                    {
+                    "qta": 1,
+                    "resource": "PLANT"
+                    }
+                ]
+                },
+
+    {
+        "id": 75,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/red/5.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "FUNGI"
+                ],
+                "color": "RED",
+                "point": {
+                    "qta": 2,
+                    "resource": "ANGLE_COVERED"
+                },
+                "requirements": [
+                    {
+                    "qta": 3,
+                    "resource": "FUNGI"
+                    },
+                    {
+                    "qta": 1,
+                    "resource": "INSECT"
+                    }
+                ]
+                },
+
+    {
+        "id": 76,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/red/6.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCorners": {
+                    "0": {
+                    "empty": false,
+                    "resource": "NOUN",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "FUNGI"
+                ],
+                "color": "RED",
+                "point": {
+                    "qta": 3,
+                    "resource": "NO_RESOURCE"
+                },
+                "requirements": [
+                    {
+                    "qta": 3,
+                    "resource": "FUNGI"
+                    }
+                ]
+                },
+
+    {
+        "id": 77,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/red/7.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCorners": {
+                    "1": {
+                    "empty": false,
+                    "resource": "QUILL",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "FUNGI"
+                ],
+                "color": "RED",
+                "point": {
+                    "qta": 3,
+                    "resource": "NO_RESOURCE"
+                },
+                "requirements": [
+                    {
+                    "qta": 3,
+                    "resource": "FUNGI"
+                    }
+                ]
+                },
+
+    {
+        "id": 78,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/red/8.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCorners": {
+                    "2": {
+                    "empty": false,
+                    "resource": "MANUSCRIPT",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "FUNGI"
+                ],
+                "color": "RED",
+                "point": {
+                    "qta": 3,
+                    "resource": "NO_RESOURCE"
+                },
+                "requirements": [
+                    {
+                    "qta": 3,
+                    "resource": "FUNGI"
+                    }
+                ]
+                },
+
+    {
+        "id": 79,
+                "frontSide": true,
+                "frontCover": "/it/polimi/ingsw/images/front/gold/red/9.png",
+                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backCorners": {
+                    "0": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "1": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "2": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    },
+                    "3": {
+                    "empty": true,
+                    "resource": "NO_RESOURCE",
+                    "hidden": false
+                    }
+                },
+                "backResources": [
+                    "FUNGI"
+                ],
+                "color": "RED",
+                "point": {
+                    "qta": 5,
+                    "resource": "NO_RESOURCE"
+                },
+                "requirements": [
+                    {
+                    "qta": 5,
+                    "resource": "FUNGI"
+                    }
+                ]
+                }
 
 ]

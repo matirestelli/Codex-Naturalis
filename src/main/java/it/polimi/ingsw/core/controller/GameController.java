@@ -29,6 +29,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     private Map<Integer, Map<Integer, List<Coordinate>>> test;
     private Card cardToPlace;
 
+
     public GameController(GameState gameState) throws RemoteException {
         super();
         this.gameState = gameState;
@@ -62,11 +63,29 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
         // load decks
         gameState.loadDecks();
+        List<Card> updatedDecks = new ArrayList<>();
+        updatedDecks.addAll(gameState.getResourceCardsVisible());
+        updatedDecks.addAll(gameState.getGoldCardsVisible());
+        updatedDecks.add(gameState.getResourceDeck().getCards().getFirst());
+        updatedDecks.add(gameState.getGoldDeck().getCards().getFirst());
+        //notify observers of the updated decks
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new GameEvent("updateDecks", updatedDecks)) ;
+
 
         gameState.intializePawn();
 
         // assign the starter card to each player
         gameState.assignStarterCardToPlayers();
+
+        //todo then cancel it, now I need it to put username in viewModel beacause now it's a parameter of the main
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new GameEvent("loadedUsername", us));
+
+        //notify observers of the list of players with their usernames (using playerorder)
+        //TODO: assign a color to each player and send it also to the observers, maybe a map also for colors and username, only one event
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new GameEvent("loadedPlayers", gameState.getPlayerOrder()));
 
         // notify observers of the starter card assigned to each player
         for (String us : orderedObserversMap.keySet()) {
@@ -344,9 +363,31 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         // notify player of updated hand
         orderedObserversMap.get(username).update(new UpdatedHandMessage("updateHand", new ArrayList<>(player.getHand())));
 
+        //notify al players of new decks states
+        List<Card> updatedDecks = new ArrayList<>();
+        updatedDecks.addAll(gameState.getResourceCardsVisible());
+        updatedDecks.addAll(gameState.getGoldCardsVisible());
+        updatedDecks.add(gameState.getResourceDeck().getCards().getFirst());
+        updatedDecks.add(gameState.getGoldDeck().getCards().getFirst());
+        //notify observers of the updated decks
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new GameEvent("updateDecks", updatedDecks)) ;
+
         // check if last turn
         // TODO: fix
         // lastTurn(username);
+
+
+        //TODO ask if it's okay
+        //update all players of the player's resources count, score and codex, also the player that played
+        ViewModelPlayerstate updatedPlayerstate = new ViewModelPlayerstate();
+        updatedPlayerstate.setScore(player.getScore());
+        updatedPlayerstate.setCodex(player.getCodex());
+        updatedPlayerstate.setPersonalResources(player.calculateResources());
+        Map<String, ViewModelPlayerstate> updatedPlayer = new HashMap<>();
+        updatedPlayer.put(username, updatedPlayerstate);
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new GameEvent("updatePlayerstate", updatedPlayer ));
 
         // advance turn
         advanceTurn();
