@@ -12,6 +12,7 @@ public class UpdatedHandMessage extends MessageServer2Client {
 
     public void doAction(ClientAbstract client) {
         client.getModelView().setMyHand((List<Card>) this.getData());
+
         client.getUIStrategy().displayHand((List<Card>) this.getData());
     }
 }

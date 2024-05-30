@@ -1,8 +1,7 @@
 package it.polimi.ingsw.ui.GUI.controller;
 
+import it.polimi.ingsw.core.model.message.response.StarterSideSelectedMessage;
 import it.polimi.ingsw.ui.GUI.GUI;
-import it.polimi.ingsw.ui.ObserverUI;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -39,11 +38,11 @@ public class ChoosingStarterController extends GUI {
             if(!settedSide){
             buttonFrontSide.setStyle("-fx-border-color: #52e51f;\n" +
                     "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
-            //TODO controlla che true significa front side
-          this.observerClient.updateUI(new GameEvent("starterSide", true));
-          //metodo della gui che piazza la starter card nella board chiamando il boardViewController
-            //starterCard.setSide(true);
-            //TODO this.placeCard(starterCard, [39, 39]);
+
+                viewModel.getMyStarterCard().setSide(true);
+                viewModel.getMyMatrix()[40][40] = viewModel.getMyStarterCard().getId();
+                client.sendMessage(new StarterSideSelectedMessage("starterSideSelected", true));
+
             settedSide = true;
             }
             else {
@@ -57,10 +56,10 @@ public class ChoosingStarterController extends GUI {
             if(!settedSide){
             buttonBackSide.setStyle("-fx-border-color: #52e51f;\n" +
                     "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
-            //TODO controlla che false significa back side
-            this.observerClient.updateUI(new GameEvent("starterSide", false));
-            //starterCard.setSide(false);
-            //TODO this.placeCard(starterCard, [39, 39]); -> penso lo faccio solo nel client con il view model
+
+                viewModel.getMyStarterCard().setSide(false);
+                viewModel.getMyMatrix()[40][40] = viewModel.getMyStarterCard().getId();
+                client.sendMessage(new StarterSideSelectedMessage("starterSideSelected", false));
             settedSide = true;
             }
             else {

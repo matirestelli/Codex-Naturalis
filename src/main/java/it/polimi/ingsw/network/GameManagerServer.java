@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.socket.server.GameServer;
 
 import java.rmi.RemoteException;
 
+
 public class GameManagerServer {
     private static GameSessionManager sessionManager;
 

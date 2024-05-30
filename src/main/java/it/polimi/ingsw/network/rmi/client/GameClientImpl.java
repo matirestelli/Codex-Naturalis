@@ -5,18 +5,15 @@ import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.request.MessageServer2Client;
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
-import it.polimi.ingsw.core.model.message.response.StarterSideSelectedMessage;
 import it.polimi.ingsw.network.GameClientProxy;
 import it.polimi.ingsw.network.GameServer;
 import it.polimi.ingsw.network.ClientAbstract;
-import it.polimi.ingsw.ui.GraphicalUserInterface;
-import it.polimi.ingsw.ui.ObserverUI;
+import it.polimi.ingsw.ui.GUI.GUI;
 import it.polimi.ingsw.ui.TextUserInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -35,7 +32,6 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     private Map<Resource, Integer> resources;
     private Card cardToPlay;
 
-    private ObserverUI observerUI;
 
     @Override
     public void sendMessage(MessageClient2Server message) {
@@ -54,20 +50,24 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         if (opt.equals("cli")) {
             this.uiStrategy = new TextUserInterface(this);
         } else {
-            this.uiStrategy = new GraphicalUserInterface();
+            this.uiStrategy = new GUI();
+            this.uiStrategy.setClient(this);
+            new Thread() {
+                @Override
+                public void run() {
+                    javafx.application.Application.launch(GUI.class);
+                }
+            }.start();
+            this.uiStrategy.setViewModel(modelView);
         }
 
         connectToServer(host, port);
 
-        this.codex = new ArrayList<>();
-        this.hand = new ArrayList<>();
+       // this.codex = new ArrayList<>();
+      //  this.hand = new ArrayList<>();
 
-        this.uiStrategy.initialize();
     }
 
-    public void setObserverUI(ObserverUI observerUI) {
-        this.observerUI = observerUI;
-    }
 
     private void connectToServer(String host, int port) throws RemoteException {
         try {

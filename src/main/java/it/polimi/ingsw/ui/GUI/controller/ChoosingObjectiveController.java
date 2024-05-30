@@ -3,6 +3,7 @@ package it.polimi.ingsw.ui.GUI.controller;
 import it.polimi.ingsw.core.model.CardGame;
 import it.polimi.ingsw.core.model.GameEvent;
 import it.polimi.ingsw.core.model.Objective;
+import it.polimi.ingsw.core.model.message.response.SelectedObjMessage;
 import it.polimi.ingsw.ui.GUI.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,12 +1,12 @@
 package it.polimi.ingsw.ui.GUI;
 
+import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
+import it.polimi.ingsw.network.ClientAbstract;
 import it.polimi.ingsw.ui.GUI.boardstate.TurnStateEnum;
 import it.polimi.ingsw.ui.GUI.controller.*;
 import it.polimi.ingsw.core.model.*;
-import it.polimi.ingsw.ui.ObserverUI;
 import it.polimi.ingsw.ui.UserInterfaceStrategy;
-import it.polimi.ingsw.ui.ViewModel;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
@@ -33,15 +33,12 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     private double xStage;
     private double yStage;
  //TODO volgio che sia visibile ai figli, non so se protected è il miglior modo
- protected static ObserverUI observerClient; //il client che possiede la view
-
-    //il player del client che possiede alla view
-    private Player client;
+   protected static ClientAbstract client ; //il client che possiede la view
 
     //il viewmodel del gioco che verrà modificato dopo gli update del server
     //NB il view model anche del client della view viene modificato solo dopo l'update del server non mentre mando al server la mossa
     //questo perchè se il server ritiene la mossa non valida non la registra e non manda un update
-    protected static ViewModel viewModel;
+    protected static ModelView viewModel;
 
     //lista dei controller delle varie scene
     private static StartingSceneController startingSceneController;
@@ -66,6 +63,7 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
 
     private static Parent joinAGameScene, waitingForPlayersScene, lobbyGamesScene, settingUsernameScene, creatingNewGameScene, settingViewScene, boardScene, choosingObjectiveScene, choosingStarterScene;
     private static Parent startingScene;
+
 
 
     @Override
@@ -475,6 +473,7 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     }
 
 
+    /*
     @Override
     public void updateUI(GameEvent event) {
         switch(event.getType()){
@@ -593,15 +592,129 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
         }
     }
 
+     */
+
+    //metodi chiamati dai message.execute, comuni con tui grazie a uiStrategy
+    @Override
+    public void chooseObjective(List<Objective> obj) {
+        System.out.println("ask for objective arrived to view");
+        Platform.runLater(() -> {
+            //in questo momento non ho ancora fatto load dei controller e quidni gestisco la cosa così:
+            //this.getChoosingObjectiveController().setObjective((List<Objective>)event.getData());
+            // this.getChoosingObjectiveController().chooseObjective();
+            secretObjs = obj;
+            System.out.println("ask for objective arrived");
+            //this.getChoosingObjectiveController().chooseObjective();
+        });
+    }
+
 
     @Override
-    public void initialize() {
+    public void setStarterSide() {
+        //gui does nothing for now
+        //perchè il messaggio arriva ancora prima di aver caricato il main dell'applicazione
+        //this.getChoosingStarterController().setStarterCard((CardGame)event.getData());
     }
 
     @Override
-    public void displayMessage(String message) {
+    public void visualiseStarterCardLoaded(Card card) {
+        Platform.runLater(() -> {
+            this.setStarterCard( card);
+            System.out.printf("Starter card loaded: %d", this.getStarterCard().getId());
+            System.out.printf("Starter card loaded: %s", this.getStarterCard().getFrontCover());
+
+            //TODO: sarà così solo che ora il messaggio arriva troppo presto e non ho ancora l'istanza del controller
+            //perchè il messaggio arriva ancora prima di aver caricato il main dell'applicazione
+            //this.getChoosingStarterController().setStarterCard((CardGame)event.getData());
+        });
 
     }
+
+    @Override
+    public void updateDecks(List<Card> updatedDecks) {
+        Platform.runLater(() -> {
+            //TODO ora da errore perchè non ho ancora caricato il controller, in teoria quando fa queste cose poi prima aspetta username
+            this.getBoardViewController().updateDecks(updatedDecks);
+        });
+    }
+
+
+    @Override
+    public void currentTurn(PlayableCardIds data) {
+        Platform.runLater(() -> {
+            this.getBoardViewController().selectCardToPlay(data);
+        });
+    }
+
+    @Override
+    public void updateMyPlayerState() {
+        Platform.runLater(() -> {
+            this.getBoardViewController().updateMyPlayerstate();
+        });
+    }
+
+    @Override
+    public void updatePlayerState(String player) {
+        Platform.runLater(() -> {
+            this.getBoardViewController().updatePlayerstate(player);
+        });
+    }
+
+    @Override
+    public void showAvailableAngles(List<Coordinate> data) {
+        Platform.runLater(() -> {
+            this.getBoardViewController().askForAngle(data);
+        });
+    }
+
+    @Override
+    public void askWhereToDraw(List<Card> cards) {
+        Platform.runLater(() -> {
+            this.getBoardViewController().drawFromDecks();
+        });
+    }
+
+    @Override
+    public void displayHand(List<Card> hand) {
+        Platform.runLater(() -> {
+            System.out.println("update hand arrived to view");
+            this.getBoardViewController().updateHand(hand);
+        });
+    }
+
+    @Override
+    public void showNotYourTurn() {
+        Platform.runLater(() -> {
+            this.getBoardViewController().message("It's not your turn");
+        });
+    }
+
+    @Override
+    public void lastTurn() {
+        //todo capire cosa inviano come event.data
+        Platform.runLater(() -> {
+            this.getBoardViewController().message("This is your Last Turn \n Make it count!");
+            //in teoria nessun dato, solo messaggio diverso
+        });
+    }
+
+    @Override
+    public void endGame() {
+    //todo capire cosa inviano come event.data
+        Platform.runLater(() -> {
+            this.getBoardViewController().message("The game has ended");
+        });
+    }
+
+
+    public ClientAbstract getClient(){
+        return client;
+    }
+
+    public void setClient (ClientAbstract client){
+        this.client = client;
+    }
+
 
     @Override
     public void displayCard(Card card) {
@@ -668,24 +781,11 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     }
 
     @Override
-    public boolean setStarterSide() {
-        return false;
-    }
-
-    @Override
     public void displayCommonObjective(List<Objective> obj) {
-
+        // gui does that automatically
     }
 
-    @Override
-    public Objective chooseObjective(List<Objective> obj) {
-        return null;
-    }
 
-    @Override
-    public void displayHand(List<Card> hand) {
-
-    }
 
     @Override
     public void place(Card cardToPlace, Card targetCard, int position) {
@@ -693,9 +793,37 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     }
 
     @Override
-    public String askWhereToDraw(List<Card> cards) {
+    public void displayChat(Chat chat, String username) {
+
+    }
+
+    @Override
+    public void selectFromMenu() {
+
+    }
+
+    @Override
+    public String askUsername() {
         return null;
     }
+
+    @Override
+    public String askJoinCreate() {
+        return null;
+    }
+
+    @Override
+    public String askGameId(String joinCreate, String gameIds) {
+        return null;
+    }
+
+    @Override
+    public int askNumberOfPlayers() {
+        return 0;
+    }
+
+
+
 
     private CardGame getStarterCard() {
         return this.starterCard;
@@ -707,13 +835,8 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     public void setChoosingStarterController(ChoosingStarterController choosingStarterController) {
         this.choosingStarterController = choosingStarterController;
     }
-    public void setObserverClient(ObserverUI observerClient) {
-        this.observerClient = observerClient;
-    }
-    public void setClient(Player client) {
-        this.client = client;
-    }
-    public void setViewModel(ViewModel viewModel) {
+
+    public void setViewModel(ModelView viewModel) {
         this.viewModel = viewModel;
     }
     public void setTurnState(TurnStateEnum turnState) {
@@ -872,13 +995,6 @@ public class GUI extends Application implements UserInterfaceStrategy, ObserverU
     }
     public Parent getChoosingStarterScene() {
         return choosingStarterScene;
-    }
-
-    public void setObserverUIClient(ObserverUI observerUI) {
-        this.observerClient = observerUI;
-    }
-    public void getObserverUIClient(ObserverUI observerUI) {
-        this.observerClient = observerUI;
     }
 
 

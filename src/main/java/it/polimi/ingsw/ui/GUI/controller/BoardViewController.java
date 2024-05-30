@@ -2,6 +2,9 @@ package it.polimi.ingsw.ui.GUI.controller;
 
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.model.message.response.AngleSelectedMessage;
+import it.polimi.ingsw.core.model.message.response.CardSelectedMessage;
+import it.polimi.ingsw.core.model.message.response.SelectedDrewCard;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.ui.GUI.GUI;
 import javafx.animation.PauseTransition;
@@ -334,20 +337,20 @@ public class BoardViewController extends GUI {
     //in posizione: 0 -> girata (il back), 1 -> esposta 1, 2 -> esposta 2)
     public void updateDecks (List<Card> updatedDecks){
         //TODO CAPIRE COME PARAMETRIZZARE MEGLIO LA COSA
-        String imageCardRBack = updatedDecks.get(4).getBackCover();
+        String imageCardRBack = updatedDecks.get(5).getBackCover();
         deckGBackImageView.setImage(new Image(imageCardRBack));
         deckGBackEco1.setImage(new Image(imageCardRBack));
         deckGBackEco2.setImage(new Image(imageCardRBack));
-        buttonDeckRBack.setUserData(updatedDecks.get(4).getId());
-        buttonDeckRBack.getStyleClass().add("buttonCard");
+        buttonDeckGBack.setUserData(updatedDecks.get(5).getId());
+        buttonDeckGBack.getStyleClass().add("buttonCard");
 
 
-        String imageCardGBack = updatedDecks.get(5).getBackCover();
+        String imageCardGBack = updatedDecks.get(4).getBackCover();
         deckRBackImageView.setImage(new Image(imageCardGBack));
         deckRBackEco1.setImage(new Image(imageCardGBack));
         deckRBackEco2.setImage(new Image(imageCardGBack));
-        buttonDeckGBack.setUserData(updatedDecks.get(5).getId());
-        buttonDeckGBack.getStyleClass().add("buttonCard");
+        buttonDeckRBack.setUserData(updatedDecks.get(4).getId());
+        buttonDeckRBack.getStyleClass().add("buttonCard");
 
         String imageCardRFront1 = updatedDecks.get(0).getFrontCover();
         deckRFront1ImageView.setImage(new Image(imageCardRFront1));
@@ -656,7 +659,7 @@ public class BoardViewController extends GUI {
                     CardSelection cs = new CardSelection((int)buttonCard1.getUserData(), this.side);
                     cardToPlay = this.viewModel.getMyHand().get(0);
                     buttonCardSelectedId = buttonCard1.getId();
-                    this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
+                    client.sendMessage(new CardSelectedMessage("cardSelection", cs));
                     cardSelected = true;
                 }
             }
@@ -690,7 +693,7 @@ public class BoardViewController extends GUI {
                     CardSelection cs = new CardSelection((int)buttonCard2.getUserData(),this.side );
                     cardToPlay = this.viewModel.getMyHand().get(1);
                     buttonCardSelectedId = buttonCard2.getId();
-                    this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
+                    client.sendMessage(new CardSelectedMessage("cardSelection", cs));
                     cardSelected = true;
                 }
             }
@@ -723,7 +726,7 @@ public class BoardViewController extends GUI {
                     CardSelection cs = new CardSelection((int)buttonCard3.getUserData(), this.side);
                     cardToPlay = this.viewModel.getMyHand().get(2);
                     buttonCardSelectedId = buttonCard3.getId();
-                    this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
+                    client.sendMessage(new CardSelectedMessage("cardSelection", cs));
                     cardSelected = true;
                 }
             }
@@ -877,7 +880,7 @@ public class BoardViewController extends GUI {
                 if(!cardPlaced){
                      cardPlaced = true;
                      angleChosen = placeHere.getText();
-                     this.observerClient.updateUI(new GameEvent("angleSelected", angleChosen));
+                     client.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(angleChosen)));
                     this.matrixUpdated(tempButtons, (Integer[]) placeHere.getUserData());
                 }
                 else{
@@ -918,7 +921,7 @@ public class BoardViewController extends GUI {
                 buttonDeckGBack.setStyle("-fx-border-color: #52e51f;\n" +
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
                 cardDrawn = true;
-                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", "A"));
+                client.sendMessage(new SelectedDrewCard("drawCard", "B"));
             }
             else {
                 this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonCard1.getScene().getWindow());
@@ -938,7 +941,7 @@ public class BoardViewController extends GUI {
                 buttonDeckRBack.setStyle("-fx-border-color: #52e51f;\n" +
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
                 cardDrawn = true;
-                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", "B"));
+                client.sendMessage(new SelectedDrewCard("drawCard", "A"));
             }
             else {
                 this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonCard1.getScene().getWindow());
@@ -975,7 +978,7 @@ public class BoardViewController extends GUI {
                         "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
                 cardDrawn = true;
                 String temp = ""+buttonDeckRFront1.getUserData();
-                this.observerClient.updateUI(new GameEvent("whereToDrawSelected", temp));
+                client.sendMessage(new SelectedDrewCard("drawCard", temp));
             }
             else {
                 this.showErrorPopUp("You have already chosen the card to play", (Stage) buttonDeckRFront1.getScene().getWindow());

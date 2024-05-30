@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class SearchingPlayersController {
+
+    //todo guardare se no la elimino
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -45,7 +47,7 @@ public class SearchingPlayersController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/BoardScene.fxml"));
             root = loader.load();
             boardViewController = loader.getController();
-            boardViewController.initialize();
+            //boardViewController.initialize();
 
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);

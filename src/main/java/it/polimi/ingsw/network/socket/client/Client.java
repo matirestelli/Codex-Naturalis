@@ -4,7 +4,7 @@ import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.message.request.MessageServer2Client;
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
 import it.polimi.ingsw.network.ClientAbstract;
-import it.polimi.ingsw.ui.GraphicalUserInterface;
+import it.polimi.ingsw.ui.GUI.GUI;
 import it.polimi.ingsw.ui.TextUserInterface;
 
 import java.io.IOException;
@@ -25,15 +25,20 @@ public class Client extends ClientAbstract {
         this.outputStream = new ObjectOutputStream(socket.getOutputStream());
         this.inputStream = new ObjectInputStream(socket.getInputStream());
 
-        opt = "cli";
         if (opt.equals("cli")) {
             this.uiStrategy = new TextUserInterface(this);
         } else {
-            this.uiStrategy = new GraphicalUserInterface();
+            this.uiStrategy = new GUI();
+            this.uiStrategy.setClient(this);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        javafx.application.Application.launch(GUI.class);
+                    }
+                }.start();
+                this.uiStrategy.setViewModel(modelView);
+            }
         }
-
-        this.uiStrategy.initialize();
-    }
 
     public void start(String[] args) throws IOException, ClassNotFoundException {
         username = args[0];

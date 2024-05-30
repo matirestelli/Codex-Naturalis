@@ -1,6 +1,5 @@
 package it.polimi.ingsw.ui.GUI.controller;
 
-import it.polimi.ingsw.ui.ViewModel;
 import it.polimi.ingsw.core.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,9 +19,11 @@ import java.util.Map;
 public class ScoreboardController {
     @FXML
     private ImageView pawn;
-    private ViewModel model = new ViewModel();
-    private Map<String, ViewModelPlayerstate> playersStates = new HashMap<String, ViewModelPlayerstate>();
-    private List<ViewModelPlayerstate> players = new ArrayList<ViewModelPlayerstate>();
+    private ModelView model;
+    //todo settare il model view quando chiami la classe mettendolo dalla classe gui o boardController
+
+    private Map<String, ViewModelPlayerState> playersStates = new HashMap<String, ViewModelPlayerState>();
+    private List<ViewModelPlayerState> players = new ArrayList<ViewModelPlayerState>();
     private Stage stage;
     private Scene scene;
     private double x,y;

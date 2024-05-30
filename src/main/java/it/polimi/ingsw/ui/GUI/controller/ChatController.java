@@ -1,6 +1,5 @@
 package it.polimi.ingsw.ui.GUI.controller;
 
-import it.polimi.ingsw.ui.ViewModel;
 import it.polimi.ingsw.core.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,14 +55,14 @@ public class ChatController {
     private Tab chatBroadcast, chatDirect, chatPlayer1, chatPlayer2, chatPlayer3;
     @FXML
     private TabPane broadcastTabPane, directTabPane;
-    private ViewModel viewModel;
+    private ModelView viewModel;
     private Player client;
     private int numPlayers;
     private List<String> listPlayersUsername;
     private List<Player> contectedPlayers;
     private Map<Player, List<String[]>> directMessageClient;
 
-    public void initialize(ViewModel viewModel, Player client) {
+    public void initialize(ModelView viewModel, Player client) {
         //inizializza la chat inserendo i nomi dei giocatori della partita e recupera i vecchi messaggi se ci sono quando hai chiudo
         //la chat l'ultima volta
         /*

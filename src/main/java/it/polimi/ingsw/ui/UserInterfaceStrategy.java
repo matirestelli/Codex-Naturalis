@@ -9,8 +9,31 @@ import it.polimi.ingsw.network.ClientAbstract;
 import java.util.List;
 
 public interface UserInterfaceStrategy {
-    void initialize();
-    void displayMessage(String message);
+
+    //metodi per i messaggi
+    void showAvailableAngles(List<Coordinate> data);
+    void chooseObjective(List<Objective> obj);
+    void askWhereToDraw(List<Card> cards);
+    void displayCommonObjective(List<Objective> obj);
+    void showNotYourTurn();
+    public void visualiseStarterCardLoaded(Card card);
+    void setStarterSide();
+
+    void displayHand(List<Card> hand);
+    void currentTurn(PlayableCardIds data);
+    void updateDecks(List<Card> updatedDecks);
+    void updateMyPlayerState();
+    void updatePlayerState(String player);
+
+    //todo ancora in messaggi
+    void lastTurn();
+    //todo ancora in messaggi
+    void endGame();
+
+
+
+
+    //metodi per la cli:
     void displayCard(Card card);
     void displayCardBack(Card card);
     void displayStarterCardBack(ResourceCard card);
@@ -24,20 +47,17 @@ public interface UserInterfaceStrategy {
     Coordinate placeTopRight(Card targetCard, Card cardToPlace);
     Coordinate placeBottomLeft(Card targetCard, Card cardToPlace);
     void visualizeStarterCard(Card card);
-    void setStarterSide();
-    void displayCommonObjective(List<Objective> obj);
-    void chooseObjective(List<Objective> obj);
-    void displayHand(List<Card> hand);
+
     void place(Card cardToPlace, Card targetCard, int position);
-    void askWhereToDraw(List<Card> cards);
     public void displayChat(Chat chat, String username);
     public void selectFromMenu();
     public String askUsername();
     public String askJoinCreate();
     public String askGameId(String joinCreate, String gameIds);
     public int askNumberOfPlayers();
-    public void visualiseStarterCardLoaded(Card card);
-    void showNotYourTurn();
-    void currentTurn(PlayableCardIds data);
-    void showAvailableAngles(List<Coordinate> data);
+
+    void setClient(ClientAbstract client);
+    void setViewModel(ModelView modelView);
+
+
 }

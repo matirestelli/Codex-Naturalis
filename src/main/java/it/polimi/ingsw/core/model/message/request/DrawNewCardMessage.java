@@ -12,6 +12,7 @@ public class DrawNewCardMessage extends MessageServer2Client {
 
     @Override
     public void doAction(ClientAbstract client) {
+
         client.getUIStrategy().askWhereToDraw((List<Card>) getData());
     }
 }

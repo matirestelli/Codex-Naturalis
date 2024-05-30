@@ -46,11 +46,6 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     }
 
     @Override
-    public void displayMessage(String message) {
-        System.out.print(message);
-    }
-
-    @Override
     public void displayCard(Card card) {
         Card c = card instanceof ResourceCard ? (ResourceCard) card : (GoldCard) card;
         AnsiColor ANSIColor = getANSIColorForCard(c);
@@ -396,12 +391,12 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     }
 
     public void selectFromMenu() {
-        displayMessage("Select an option: \n");
-        displayMessage("\t1. Visualize messages\n");
-        displayMessage("\t2. Send message\n");
-        displayMessage("\t3. Continue with the game\n");
-        displayMessage("\t4. Exit\n");
-        displayMessage("> ");
+        System.out.println("Select an option: \n");
+        System.out.println("\t1. Visualize messages\n");
+        System.out.println("\t2. Send message\n");
+        System.out.println("\t3. Continue with the game\n");
+        System.out.println("\t4. Exit\n");
+        System.out.println("> ");
 
         String input;
         input = scanner.nextLine();
@@ -412,10 +407,10 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
             }
             case "3" -> {
                 if (gameClient.getModelView().getMyUnreadedMessages() > 0)
-                    displayMessage("New message received! You have not read it yet\n");
+                    System.out.println("New message received! You have not read it yet\n");
 
                 if (!gameClient.getModelView().isMyTurn())
-                    displayMessage("Wait for your turn...\n");
+                    System.out.println("Wait for your turn...\n");
             }
             case "4" -> {
                 // ciao
@@ -440,7 +435,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     }
 
     public void currentTurn(PlayableCardIds ids) {
-        displayMessage("It's your turn!\n");
+        System.out.println("It's your turn!\n");
         CardSelection cs = askCardSelection(ids, gameClient.getModelView().getMyHand());
 
         gameClient.getModelView().setMyPlayingCard(gameClient.getModelView().getMyHand().stream().filter(c -> c.getId() == cs.getId()).findFirst().orElse(null));
@@ -449,12 +444,37 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         gameClient.sendMessage(new CardSelectedMessage("cardSelection", cs));
     }
 
+    @Override
+    public void updateDecks(List<Card> updatedDecks) {
+
+    }
+
+    @Override
+    public void updateMyPlayerState() {
+        // only for GUI
+    }
+
+    @Override
+    public void updatePlayerState(String player) {
+        // only for GUI
+    }
+
+    @Override
+    public void lastTurn() {
+        //todo
+    }
+
+    @Override
+    public void endGame() {
+        //todo
+    }
+
     public void showNotYourTurn() {
         gameClient.getModelView().setMyTurn(false);
         // display message
 
         if (gameClient.getModelView().getMyUnreadedMessages() > 0)
-            displayMessage("\nThere are " + gameClient.getModelView().getMyUnreadedMessages() + " messages you have not read\n\n");
+            System.out.println("\nThere are " + gameClient.getModelView().getMyUnreadedMessages() + " messages you have not read\n\n");
         selectFromMenu();
     }
 
@@ -520,7 +540,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     }
 
     public void setStarterSide() {
-        displayMessage("Choose front side or back side of starter card (f/b): ");
+        System.out.println("Choose front side or back side of starter card (f/b): ");
         String input = scanner.nextLine();
         while (!input.equals("f") && !input.equals("b")) {
             System.out.print("Invalid Input! Retry: ");
@@ -535,23 +555,23 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     }
 
     public void displayCommonObjective(List<Objective> objectives) {
-        displayMessage("Game's Common objectives:\n");
+        System.out.println("Game's Common objectives:\n");
         for (Objective objective : objectives) {
             // objective.displayCard();
             // TODO: Fix and implement displayObjective method
             System.out.println(objective.getId());
         }
-        displayMessage("\n");
+        System.out.println("\n");
     }
 
     public void chooseObjective(List<Objective> objectives) {
-        displayMessage("Secret objectives received:");
+        System.out.println("Secret objectives received:");
         System.out.println();
         for (Objective objective : objectives) {
             // TODO: Fix and implement displayObjective method
             System.out.println(objective.getId());
         }
-        displayMessage("Choose an objective card to keep: ");
+        System.out.println("Choose an objective card to keep: ");
         List<Integer> ids = new ArrayList<>();
         for (Objective objective : objectives) {
             ids.add(objective.getId());
@@ -559,7 +579,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
 
         int cardId = scanner.nextInt();
         while (!ids.contains(cardId)) {
-            displayMessage("Invalid Input! Retry: ");
+            System.out.println("Invalid Input! Retry: ");
             cardId = scanner.nextInt();
         }
         scanner.nextLine();
@@ -571,7 +591,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     }
 
     public void displayHand(List<Card> hand) {
-        displayMessage("Your hand:\n");
+        System.out.println("Your hand:\n");
         for (Card card : hand) {
             displayCard(card);
             displayCardBack(card);
@@ -601,7 +621,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         }
         String mex = "Vuoi perscare una di queste carte o vuoi pescare da A (Resource) o da B (Gold)? ";
         mex += m.substring(0, m.length() - 3) + " / A / B): ";
-        displayMessage(mex);
+        System.out.println(mex);
 
         String input = scanner.nextLine();
 
@@ -639,7 +659,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     }
 
     public String askUsername() {
-        displayMessage("Insert your username: ");
+        System.out.println("Insert your username: ");
         String username = scanner.nextLine().trim();
         return username;
     }
@@ -647,7 +667,7 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
     public String askJoinCreate() {
         String input = scanner.nextLine();
         while (!input.equals("join") && !input.equals("create")) {
-            displayMessage("Invalid Input! Retry: ");
+            System.out.println("Invalid Input! Retry: ");
             input = scanner.nextLine();
         }
         return input;
@@ -657,63 +677,28 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         String gameId = "";
         if( joinCreate.equals("join")) {
             System.out.println("Game available: " + gameIds);
-            displayMessage("Insert the game id to join: ");
+            System.out.println("Insert the game id to join: ");
             gameId = scanner.nextLine().trim();
             while(!gameIds.contains(gameId)) {
-                displayMessage("Invalid Input! Retry: ");
+                System.out.println("Invalid Input! Retry: ");
                 gameId = scanner.nextLine().trim();
             }
         } else {
-            displayMessage("Insert the game id: ");
+            System.out.println("Insert the game id: ");
             gameId = scanner.nextLine().trim();
         }
         return gameId;
     }
 
     public int askNumberOfPlayers() {
-        displayMessage("Insert the number of players (2-4): ");
+        System.out.println("Insert the number of players (2-4): ");
         int numPlayers = scanner.nextInt();
         while (numPlayers < 2 || numPlayers > 4) {
-            displayMessage("Invalid Input! Retry: ");
+            System.out.println("Invalid Input! Retry: ");
             numPlayers = scanner.nextInt();
         }
         scanner.nextLine();
         return numPlayers;
-    }
-
-    @Override
-    public void updateUI(GameEvent gameEvent) {
-        System.out.println("UI updated!");
-        switch (gameEvent.getType()) {
-            case "loadedPawn" -> {
-                displayPawn((Color) gameEvent.getData());
-            }
-            case "starterSide" -> {
-                setStarterSide();
-            }
-            case "writeNewMex" -> {
-                String mexToDisplay = "Who is the receiver? (all / ";
-                for (String user : (List<String>) gameEvent.getData()) {
-                    mexToDisplay += user + " / ";
-                }
-                mexToDisplay = mexToDisplay.substring(0, mexToDisplay.length() - 3) + "): ";
-                displayMessage(mexToDisplay);
-
-                String receiver = scanner.nextLine();
-
-                if (receiver.equals("all")) {
-                    displayMessage("Write your message: ");
-                    String input = scanner.nextLine();
-                    Message message = new Message(input);
-                    //client.handleMoveUI(new GameEvent("sendNewMex", message));
-                } else {
-                    displayMessage("Write your message: ");
-                    String input = scanner.nextLine();
-                    MessagePrivate messagePrivate = new MessagePrivate(input, receiver);
-                    //client.handleMoveUI(new GameEvent("sendNewMex", messagePrivate));
-                }
-            }
-        }
     }
 
     public void showAvailableAngles(List<Coordinate> angles) {
@@ -732,5 +717,15 @@ public class TextUserInterface implements UserInterfaceStrategy, ObserverUI {
         displayBoard();
 
         gameClient.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(input)));
+    }
+
+    @Override
+    public void setClient(ClientAbstract client) {
+
+    }
+
+    @Override
+    public void setViewModel(ModelView modelView) {
+
     }
 }

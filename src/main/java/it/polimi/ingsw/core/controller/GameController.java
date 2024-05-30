@@ -63,6 +63,9 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
         // load decks
         gameState.loadDecks();
+
+        //todo put in a message:
+
         List<Card> updatedDecks = new ArrayList<>();
         updatedDecks.addAll(gameState.getResourceCardsVisible());
         updatedDecks.addAll(gameState.getGoldCardsVisible());
@@ -70,7 +73,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         updatedDecks.add(gameState.getGoldDeck().getCards().getFirst());
         //notify observers of the updated decks
         for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new GameEvent("updateDecks", updatedDecks)) ;
+            orderedObserversMap.get(us).update(new UpdatedDecksMessage("updateDecks", updatedDecks)) ;
 
 
         gameState.intializePawn();
@@ -80,12 +83,11 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
         //todo then cancel it, now I need it to put username in viewModel beacause now it's a parameter of the main
         for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new GameEvent("loadedUsername", us));
+            orderedObserversMap.get(us).update(new LoadedUsernameMessage("loadedUsername", us));
 
-        //notify observers of the list of players with their usernames (using playerorder)
-        //TODO: assign a color to each player and send it also to the observers, maybe a map also for colors and username, only one event
+        //notify observers of the order of players and username of all the players
         for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new GameEvent("loadedPlayers", gameState.getPlayerOrder()));
+            orderedObserversMap.get(us).update(new LoadedPlayersMessage("loadedPlayers", gameState.getPlayerOrder()));
 
         // notify observers of the starter card assigned to each player
         for (String us : orderedObserversMap.keySet()) {
@@ -364,6 +366,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         orderedObserversMap.get(username).update(new UpdatedHandMessage("updateHand", new ArrayList<>(player.getHand())));
 
         //notify al players of new decks states
+        //todo capire perchè la prima del mazzo non corrisponde alla prima del mazzo il cli
         List<Card> updatedDecks = new ArrayList<>();
         updatedDecks.addAll(gameState.getResourceCardsVisible());
         updatedDecks.addAll(gameState.getGoldCardsVisible());
@@ -371,23 +374,21 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         updatedDecks.add(gameState.getGoldDeck().getCards().getFirst());
         //notify observers of the updated decks
         for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new GameEvent("updateDecks", updatedDecks)) ;
+            orderedObserversMap.get(us).update(new UpdatedDecksMessage("updateDecks", updatedDecks)) ;
+
+        //update all players of the player's resources count, score and codex, also the player that played
+        ViewModelPlayerState updatedPlayerState = new ViewModelPlayerState();
+        updatedPlayerState.setScore(player.getScore());
+        updatedPlayerState.setCodex(player.getCodex());
+        updatedPlayerState.setPersonalResources(player.calculateResources());
+        Map<String, ViewModelPlayerState> updatedPlayer = new HashMap<>();
+        updatedPlayer.put(username, updatedPlayerState);
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new UpdatedPlayerStateMessage("updatePlayerState", updatedPlayer ));
 
         // check if last turn
         // TODO: fix
         // lastTurn(username);
-
-
-        //TODO ask if it's okay
-        //update all players of the player's resources count, score and codex, also the player that played
-        ViewModelPlayerstate updatedPlayerstate = new ViewModelPlayerstate();
-        updatedPlayerstate.setScore(player.getScore());
-        updatedPlayerstate.setCodex(player.getCodex());
-        updatedPlayerstate.setPersonalResources(player.calculateResources());
-        Map<String, ViewModelPlayerstate> updatedPlayer = new HashMap<>();
-        updatedPlayer.put(username, updatedPlayerstate);
-        for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new GameEvent("updatePlayerstate", updatedPlayer ));
 
         // advance turn
         advanceTurn();
