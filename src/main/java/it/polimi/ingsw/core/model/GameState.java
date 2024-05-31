@@ -49,7 +49,7 @@ public class GameState implements java.io.Serializable {
         this.starterDeck = new Deck("starter", new TypeToken<List<ResourceCard>>() {}.getType());
         this.resourceDeck = new Deck("resource", new TypeToken<List<ResourceCard>>() {}.getType());
         this.goldDeck = new Deck("gold", new TypeToken<List<GoldCard>>() {}.getType());
-        //this.objectiveDeck = new Deck("objective", new TypeToken<List<Objective>>() {}.getType());
+        this.objectiveDeck = new Deck("objective", new TypeToken<List<Objective>>() {}.getType());
         playerStates = new HashMap<>();
     }
 
@@ -129,16 +129,9 @@ public class GameState implements java.io.Serializable {
     }
 
     public void initializeObjectiveDeck() {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Objective.class, new ObjectiveCardDeserializer())
-                .create();
-
-        Type objectiveCardListType = new TypeToken<List<Objective>>() {}.getType();
-        this.objectiveDeck = new Deck("objective",objectiveCardListType);
-        this.objectiveDeck.loadCardsFromJSON();
-        for(CardGame c: this.objectiveDeck.getCards()){
-            this.objectiveDeckCopy.add(c);
-        }
+        Gson gson = new GsonBuilder().registerTypeAdapter(Objective.class, new ObjectiveCardDeserializer()).create();
+        this.objectiveDeck.loadCardsFromJSON(gson);
+        this.objectiveDeckCopy.addAll(this.objectiveDeck.getCards());
         System.out.println("Objective deck loaded");
     }
 

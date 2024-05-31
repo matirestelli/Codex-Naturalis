@@ -48,6 +48,18 @@ public class Deck implements Serializable {
         this.empty = cards.isEmpty();
     }
 
+    public void loadCardsFromJSON(Gson gson) {
+        List<Card> cards = new ArrayList<>();
+        try {
+            cards = gson.fromJson(new FileReader(this.configFile), this.typeOfCard);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        this.cards = cards;
+        this.empty = cards.isEmpty();
+    }
+
     public boolean isEmpty() {
         return this.cards.isEmpty();
     }

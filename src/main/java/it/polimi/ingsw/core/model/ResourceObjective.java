@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 public class ResourceObjective extends Objective {
-    List<Requirement> requirements;
+    List<Requirement> requirements;;
+
+    public String getType() {
+        return "Resource";
+    }
 
     public ResourceObjective() {
         requirements = new ArrayList<>();

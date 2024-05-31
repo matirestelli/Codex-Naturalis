@@ -3,10 +3,14 @@ package it.polimi.ingsw.core.model;
 import it.polimi.ingsw.core.model.enums.Color;
 
 public class DxDiagonalObjective extends PositionObjective{
-    private Color color;
+    private Color color1 ;
+
+    public String getType() {
+        return "DxDiagonal";
+    }
 
     public void setColor(Color color) {
-        this.color = color;
+        this.color1  = color;
     }
 
 
@@ -20,9 +24,9 @@ public class DxDiagonalObjective extends PositionObjective{
                 if (p.getMatrix()[i][j] != -1 && p.getMatrix()[i+1][j-1] != -1 && p.getMatrix()[i+2][j-2] != -1 &&
                         p.getMatrix()[i][j] < 90 && p.getMatrix()[i+1][j-1] < 90 && p.getMatrix()[i+2][j-2] < 90)
                 {
-                    if (this.getCard(p, p.getMatrix()[i][j]).getColor() == color &&
-                            this.getCard(p, p.getMatrix()[i +1][j - 1]).getColor() == color &&
-                            this.getCard(p, p.getMatrix()[i + 2][j - 2]).getColor() == color) {
+                    if (this.getCard(p, p.getMatrix()[i][j]).getColor() == color1  &&
+                            this.getCard(p, p.getMatrix()[i +1][j - 1]).getColor() == color1  &&
+                            this.getCard(p, p.getMatrix()[i + 2][j - 2]).getColor() == color1 ) {
                         if (!this.getIDusati().contains(p.getMatrix()[i][j]) &&
                                 !this.getIDusati().contains(p.getMatrix()[i + 1][j - 1]) &&
                                 !this.getIDusati().contains(p.getMatrix()[i + 2][j - 2])) {

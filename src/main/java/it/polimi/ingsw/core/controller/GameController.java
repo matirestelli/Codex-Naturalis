@@ -271,7 +271,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
     @Override
     public void advanceTurn() throws RemoteException {
-        if (gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore() >= 2 || last == true) {
+        if (gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore() >= 1 || last == true) {
             lastTurn(gameState.getPlayerOrder().get(currentPlayerIndex));
         } else {
             System.out.println("User: " + gameState.getPlayerOrder().get(currentPlayerIndex) + " Score: " + gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore());
@@ -399,9 +399,6 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new UpdatedPlayerStateMessage("updatePlayerState", updatedPlayer ));
 
-        // check if last turn
-        //lastTurn(username);
-
         // advance turn
         advanceTurn();
     }
@@ -442,7 +439,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     public void lastTurn(String username) throws RemoteException {
         PlayerState player = gameState.getPlayerState(username);
         //System.out.println("User: " + username + " Score: " + player.getScore());
-        if (player.getScore() >= 2 || last == true) {  // also if checked in advanceTurn
+        if (player.getScore() >= 1 || last == true) {  // also if checked in advanceTurn
             last = true;
             if(username == orderedObserversMap.keySet().toArray()[orderedObserversMap.size() - 1]){
                 // calculate points
@@ -450,12 +447,9 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                 Map<String, Integer> scoresWOobj = new HashMap<>();
                 // TODO: check if this is correct
                 for (String us : orderedObserversMap.keySet()) {
-
                     PlayerState ps = gameState.getPlayerState(us);
                     int preScore = ps.getScore();
                     System.out.println("Pre score: " + preScore);
-                    // orderedObserversMap.get(username).update(new GameEvent("notYourTurn", us));
-
                     Objective card = null;
                     for (int j = 0; j < 3; j++) {
                         if (j == 0) {
@@ -467,30 +461,41 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                         if (j == 2) {
                             card = gameState.getCommonObjective(1);
                         }
-                        if (card instanceof SxDiagonalObjective) {
-                            SxDiagonalObjective c = (SxDiagonalObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof DxDiagonalObjective) {
-                            DxDiagonalObjective c = (DxDiagonalObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof LObjective) {
-                            LObjective c = (LObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof ReverseLObjective) {
-                            ReverseLObjective c = (ReverseLObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof DownLObjective) {
-                            DownLObjective c = (DownLObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof DownReverseLObjective) {
-                            DownReverseLObjective c = (DownReverseLObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof ResourceObjective) {
-                            ResourceObjective c = (ResourceObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else {
-                            System.out.println("INVALID CARD TYPE");
-                            //throw new IllegalArgumentException("Invalid card type");
+                        String type = card.getType();
+                        System.out.println("Objective: " + card);
+                        System.out.println("Type objective: " + type);
+                        switch (type) {
+                            case "L" -> {
+                                LObjective c = (LObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "ReverseL" -> {
+                                ReverseLObjective c = (ReverseLObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "DownL" -> {
+                                DownLObjective c = (DownLObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "DownReverseL" -> {
+                                DownReverseLObjective c = (DownReverseLObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "SxDiagonal" -> {
+                                SxDiagonalObjective c = (SxDiagonalObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "DxDiagonal" -> {
+                                DxDiagonalObjective c = (DxDiagonalObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "Resource" -> {
+                                ResourceObjective c = (ResourceObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            default -> {
+                                System.out.println("Error in type of objective");
+                            }
                         }
                     }
                     int scoreObj = gameState.getPlayerState(us).getScore() - preScore;

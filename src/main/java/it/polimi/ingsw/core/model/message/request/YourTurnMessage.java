@@ -10,7 +10,6 @@ public class YourTurnMessage extends MessageServer2Client {
 
     @Override
     public void doAction(ClientAbstract client) {
-        System.out.println("YourTurnMessage");
         client.getModelView().setMyTurn(true);
         client.getUIStrategy().currentTurn((PlayableCardIds) this.getData());
     }
