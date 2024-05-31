@@ -9,6 +9,7 @@ import it.polimi.ingsw.core.model.message.request.*;
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
 import it.polimi.ingsw.core.utils.PlayerMove;
 import it.polimi.ingsw.observers.GameObserver;
+import javafx.util.Pair;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -270,8 +271,13 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
     @Override
     public void advanceTurn() throws RemoteException {
-        currentPlayerIndex = (currentPlayerIndex + 1) % orderedObserversMap.size();
-        notifyCurrentPlayerTurn();
+        if (gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore() >= 2 || last == true) {
+            lastTurn(gameState.getPlayerOrder().get(currentPlayerIndex));
+        } else {
+            System.out.println("User: " + gameState.getPlayerOrder().get(currentPlayerIndex) + " Score: " + gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore());
+            currentPlayerIndex = (currentPlayerIndex + 1) % orderedObserversMap.size();
+            notifyCurrentPlayerTurn();
+        }
     }
 
     public void angleChosen(String username, CardToAttachSelected cardToAttach) throws RemoteException {
@@ -394,8 +400,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             orderedObserversMap.get(us).update(new UpdatedPlayerStateMessage("updatePlayerState", updatedPlayer ));
 
         // check if last turn
-        // TODO: fix
-        // lastTurn(username);
+        //lastTurn(username);
 
         // advance turn
         advanceTurn();
@@ -434,10 +439,10 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                 orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", username));
     }
 
-    /* public void lastTurn(String username) throws RemoteException {
+    public void lastTurn(String username) throws RemoteException {
         PlayerState player = gameState.getPlayerState(username);
-        // System.out.println("User: " + username + " Score: " + player.getScore());
-        if (player.getScore() >= 2 || last == true) {
+        //System.out.println("User: " + username + " Score: " + player.getScore());
+        if (player.getScore() >= 2 || last == true) {  // also if checked in advanceTurn
             last = true;
             if(username == orderedObserversMap.keySet().toArray()[orderedObserversMap.size() - 1]){
                 // calculate points
@@ -503,11 +508,15 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                     }
                 });
                 for (String us : orderedObserversMap.keySet()) {
-                    orderedObserversMap.get(us).update(new GameEvent("endGame", rank));
+                    orderedObserversMap.get(us).update(new EndGameMessage("endGame", rank));
+                    notYourTurn(us);
                 }
             } else {
-                orderedObserversMap.get(username).update(new GameEvent("reachedPoints", gameState.getPlayerState(currentPlayerIndex)));
+                currentPlayerIndex = (currentPlayerIndex + 1) % orderedObserversMap.size();
+                String us = gameState.getPlayerOrder().get(currentPlayerIndex);
+                orderedObserversMap.get(us).update(new LastTurnMessage("lastTurn", null));
+                notifyCurrentPlayerTurn();
             }
         }
-    } */
+    }
 }

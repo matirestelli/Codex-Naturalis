@@ -11,6 +11,7 @@ import it.polimi.ingsw.core.model.message.request.newChatMessage;
 import it.polimi.ingsw.core.model.message.response.*;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -479,12 +480,15 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
     @Override
     public void lastTurn() {
-        //todo
+        System.out.println("Last turn, play carefully!\n");
     }
 
     @Override
-    public void endGame() {
-        //todo
+    public void endGame(List<Pair<String, Integer>> data) {
+        System.out.println("Game over!\nResults:\n");
+        for (int i = 1; i < data.size()+1; i++) {
+            System.out.println("#" + i + " " +data.get(i-1).getKey() + " Points: " + data.get(i-1).getValue());
+        }
     }
 
     public void showNotYourTurn() {

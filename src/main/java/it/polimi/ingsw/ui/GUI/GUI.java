@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.List;
@@ -697,7 +698,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     }
 
     @Override
-    public void endGame() {
+    public void endGame(List<Pair<String, Integer>> rank) {
     //todo capire cosa inviano come event.data
         Platform.runLater(() -> {
             this.getBoardViewController().message("The game has ended");

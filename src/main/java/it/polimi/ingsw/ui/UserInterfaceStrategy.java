@@ -5,6 +5,7 @@ import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
+import javafx.util.Pair;
 
 import java.util.List;
 
@@ -24,10 +25,9 @@ public interface UserInterfaceStrategy {
     void updateMyPlayerState();
     void updatePlayerState(String player);
 
-    //todo ancora in messaggi
     void lastTurn();
-    //todo ancora in messaggi
-    void endGame();
+
+    void endGame(List<Pair<String, Integer>> data);
 
     //metodi per la cli:
     void displayCard(Card card);
