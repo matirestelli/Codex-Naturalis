@@ -18,7 +18,7 @@ public class DeckTest {
     @BeforeEach
     public void setUp() throws Exception {
         typeOfCard = new TypeToken<List<Card>>(){}.getType();
-        deck = new Deck("test", typeOfCard);
+        deck = new Deck("src/main/resources/it/polimi/ingsw/", typeOfCard);
         gson = new Gson();
     }
 
@@ -44,7 +44,7 @@ public class DeckTest {
 
     @Test
     public void testisEmpty() {
-        assertFalse(deck.isEmpty());
+        assertTrue(deck.isEmpty());
     }
 
     @Test

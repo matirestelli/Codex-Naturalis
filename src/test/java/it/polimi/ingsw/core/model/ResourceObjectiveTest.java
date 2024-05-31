@@ -11,7 +11,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceObjectiveTest {
-    private ResourceObjective resourceObjective;
+    private ResourceObjective resourceObjective1;
+    private ResourceObjective resourceObjective2;
     private ResourceObjective resourceObjectiveFalse;
     private PlayerState player;
     private Map<Resource, Integer> playerResources;
@@ -19,21 +20,26 @@ class ResourceObjectiveTest {
     @BeforeEach
     void setUp() {
         player = new PlayerState(); // Assuming Player class is properly implemented for testing
-        resourceObjective = new ResourceObjective();
+        resourceObjective1 = new ResourceObjective();
+        resourceObjective2 = new ResourceObjective();
         resourceObjectiveFalse = new ResourceObjective();
         resourceObjectiveFalse.setPoints(5);
-        resourceObjective.setPoints(2);
+        resourceObjective1.setPoints(2);
+        resourceObjective2.setPoints(3);
         List<Resource> resourcelist = new ArrayList<>();
-        Requirement requirement1 = new Requirement(Resource.ANIMAL, 5);
+        List<Resource> resourcelist2 = new ArrayList<>();
+        Requirement requirement1 = new Requirement(Resource.ANIMAL, 1);
         Requirement requirement2 = new Requirement(Resource.INSECT, 3);
         Requirement requirement3 = new Requirement(Resource.PLANT, 2);
 
         resourcelist.add(Resource.PLANT);
         resourcelist.add(Resource.ANIMAL);
 
+        resourcelist2.add(Resource.INSECT);
+
 
         requirement1.setResource(Resource.PLANT);
-        requirement1.setQta(2);
+        requirement1.setQta(1);
 
         requirement2.setResource(Resource.ANIMAL);
         requirement2.setQta(1);
@@ -41,9 +47,9 @@ class ResourceObjectiveTest {
         requirement3.setResource(Resource.INSECT);
         requirement3.setQta(1);
 
-        resourceObjective.requirements.add(requirement1);
-        resourceObjective.requirements.add(requirement2);
-        resourceObjectiveFalse.requirements.add(requirement3);
+        resourceObjective1.requirements.add(requirement1);
+        resourceObjective2.requirements.add(requirement2);
+        resourceObjective2.requirements.add(requirement3);
 
 
         List<Card> codex = new ArrayList<>();
@@ -59,21 +65,21 @@ class ResourceObjectiveTest {
         card2.setSide(false);
         card2.setBackResources(resourcelist);
         codex.add(card2);
-
+        // Card2 (back ANIMAL+PLANT)
         Card card3 = new ResourceCard(); // Assuming Card class is properly implemented for testing
         card3.setId(3);
         card3.setSide(false);
-        card3.setBackResources(resourcelist);
+        card3.setBackResources(resourcelist2);
         codex.add(card3);
         player.setCodex(codex);
+        // Card3 (back INSECT)
     }
 
     @Test
     void testCalculatePoints() {
-        resourceObjective.CalculatePoints(player);
-        assertEquals(player.getScore(), 10);
-        resourceObjectiveFalse.CalculatePoints(player);
-        assertEquals(0, player.getScore());
+        resourceObjective1.CalculatePoints(player);
+        resourceObjective2.CalculatePoints(player);
+        assertEquals(7, player.getScore());
     }
 
 

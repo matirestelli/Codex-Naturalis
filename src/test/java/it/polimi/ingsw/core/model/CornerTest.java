@@ -18,17 +18,17 @@ public class CornerTest {
     @Test
     public void testisEmpty() {
         Corner corner = new Corner();
-        assertTrue(corner.isEmpty());
-        corner.setEmpty(false);
         assertFalse(corner.isEmpty());
+        corner.setEmpty(true);
+        assertTrue(corner.isEmpty());
     }
 
     @Test
     public void testsetEmpty() {
         Corner corner = new Corner();
-        assertTrue(corner.isEmpty());
-        corner.setEmpty(false);
         assertFalse(corner.isEmpty());
+        corner.setEmpty(true);
+        assertTrue(corner.isEmpty());
     }
 
     @Test

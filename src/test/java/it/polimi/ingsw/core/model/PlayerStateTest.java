@@ -12,31 +12,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerStateTest {
     private PlayerState player;
-    private String nickname;
     private int score;
     private List<Card> playingHand;
     private List<Card> codex;
     private int[][] matrix;
     private Objective secretObjective;
     private Map<Resource, Integer> personalResources;
-    private boolean firstPlayer;
-    private boolean turn;
     private Color pawn;
-    private boolean deadlock;
 
     @BeforeEach
     void setUp() {
-        nickname = "testPlayer";
         score = 10;
         playingHand = new ArrayList<>();
         codex = new ArrayList<>();
         matrix = new int[4][4];
         secretObjective = new Objective(); // Assuming Card class is properly implemented for testing
         personalResources = new HashMap<>();
-        firstPlayer = true;
-        turn = true;
         pawn = Color.RED; // Assuming Color enum is properly implemented for testing
-        deadlock = false;
         player = new PlayerState();
         player.getUsername();
         player.setScore(score);
@@ -182,11 +174,13 @@ class PlayerStateTest {
         card1.setSide(true);
         Map<Integer, Corner> frontCorners1 = new HashMap<>();
         frontCorners1.put(0, new Corner() {{
-            setEmpty(false);
             setResource(Resource.PLANT);
         }});
-        frontCorners1.put(1, new Corner() {{
-        }});
+        frontCorners1.put(1, new Corner() {
+            {
+                setResource(Resource.ANIMAL);
+            }
+        });
         card1.setFrontCorners(frontCorners1);
 
         Card card2 = new ResourceCard();
@@ -199,7 +193,7 @@ class PlayerStateTest {
 
         Map<Resource, Integer> expectedResources = new HashMap<>();
         expectedResources.put(Resource.PLANT, 1);
-        expectedResources.put(Resource.ANIMAL, 2);
+        expectedResources.put(Resource.ANIMAL, 3);
         expectedResources.put(Resource.FUNGI, 0);
         expectedResources.put(Resource.INSECT, 0);
         expectedResources.put(Resource.QUILL, 0);
@@ -216,7 +210,8 @@ class PlayerStateTest {
 
     @Test
     void testsetstaterSide() {
-        Card startercard = new ResourceCard(); // Assuming Card class is properly
+        ResourceCard startercard = new ResourceCard(); // Assuming Card class is properly
+        player.setStarterCard(startercard);
         player.setStarterSide(true);
         assertTrue(startercard.isFrontSide());
     }

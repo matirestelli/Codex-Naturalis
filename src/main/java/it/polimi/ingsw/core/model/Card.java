@@ -82,10 +82,9 @@ public abstract class Card extends CardGame implements Serializable {
         Map<Integer, List<Coordinate>> testCornersMap = new HashMap<>();
         int targetId;
 
-        if (this.getActualCorners().containsKey(0) && !this.getActualCorners().get(0).isHidden() /* && this.getxMatrixCord()-1>=0 && this.getyMatrixCord()+1<=matrix.length-1 */) {
-            // if(this.getyMatrixCord() + 2 >= matrix.length) targetId= -1;
-            // else targetId = matrix[this.getyMatrixCord() + 2][this.getxMatrixCord()];
-            targetId = matrix[this.getyMatrixCord() + 2][this.getxMatrixCord()];
+        if (this.getActualCorners().containsKey(0) && !this.getActualCorners().get(0).isHidden() && this.getxMatrixCord()-1>=0 && this.getyMatrixCord()+1<=matrix.length-1) {
+            if(this.getyMatrixCord() + 2 >= matrix.length) targetId= -1;
+            else targetId = matrix[this.getyMatrixCord() + 2][this.getxMatrixCord()];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
@@ -102,9 +101,8 @@ public abstract class Card extends CardGame implements Serializable {
                         });
             }
 
-            // if(this.getxMatrixCord() - 2 < 0) targetId= -1;
-            // else targetId = matrix[this.getyMatrixCord()][this.getxMatrixCord() - 2];
-            targetId = matrix[this.getyMatrixCord()][this.getxMatrixCord() - 2];
+            if(this.getxMatrixCord() - 2 < 0) targetId= -1;
+            else targetId = matrix[this.getyMatrixCord()][this.getxMatrixCord() - 2];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
@@ -121,9 +119,8 @@ public abstract class Card extends CardGame implements Serializable {
                         });
             }
 
-            // if(this.getyMatrixCord() + 2 >= matrix.length || this.getxMatrixCord() - 2 < 0) targetId= -1;
-            // else targetId = matrix[this.getyMatrixCord() + 2][this.getxMatrixCord() - 2];
-            targetId = matrix[this.getyMatrixCord() + 2][this.getxMatrixCord() - 2];
+            if(this.getyMatrixCord() + 2 >= matrix.length || this.getxMatrixCord() - 2 < 0) targetId= -1;
+            else targetId = matrix[this.getyMatrixCord() + 2][this.getxMatrixCord() - 2];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
@@ -152,10 +149,9 @@ public abstract class Card extends CardGame implements Serializable {
         pos.set(true);
         testCorners.clear();
 
-        if (this.getActualCorners().containsKey(1) && !this.getActualCorners().get(1).isHidden() /* && this.getxMatrixCord()-1>=0 && this.getyMatrixCord()-1>=0 */) {
-            // if (this.getyMatrixCord() - 2 < 0) targetId = -1;
-            // else targetId = matrix[this.getyMatrixCord() - 2][this.getxMatrixCord()];
-            targetId = matrix[this.getyMatrixCord() - 2][this.getxMatrixCord()];
+        if (this.getActualCorners().containsKey(1) && !this.getActualCorners().get(1).isHidden() && this.getxMatrixCord()-1>=0 && this.getyMatrixCord()-1>=0) {
+            if (this.getyMatrixCord() - 2 < 0) targetId = -1;
+            else targetId = matrix[this.getyMatrixCord() - 2][this.getxMatrixCord()];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
@@ -170,8 +166,8 @@ public abstract class Card extends CardGame implements Serializable {
                         });
             }
 
-            // if (this.getxMatrixCord() - 2 < 0) targetId = -1;
-            /* else */ targetId = matrix[this.getyMatrixCord()][this.getxMatrixCord() - 2];
+            if (this.getxMatrixCord() - 2 < 0) targetId = -1;
+            else targetId = matrix[this.getyMatrixCord()][this.getxMatrixCord() - 2];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
@@ -186,8 +182,8 @@ public abstract class Card extends CardGame implements Serializable {
                         });
             }
 
-            // if (this.getyMatrixCord() - 2 < 0 || this.getxMatrixCord() - 2 < 0) targetId = -1;
-            /* else */ targetId = matrix[this.getyMatrixCord() - 2][this.getxMatrixCord() - 2];
+            if (this.getyMatrixCord() - 2 < 0 || this.getxMatrixCord() - 2 < 0) targetId = -1;
+            else targetId = matrix[this.getyMatrixCord() - 2][this.getxMatrixCord() - 2];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
@@ -214,9 +210,9 @@ public abstract class Card extends CardGame implements Serializable {
         pos.set(true);
         testCorners.clear();
 
-        if (this.getActualCorners().containsKey(2) && !this.getActualCorners().get(2).isHidden() /* && this.getxMatrixCord()+1<=matrix.length-1 && this.getyMatrixCord()-1>=0 */) {
-            // if (this.getyMatrixCord() - 2 < 0) targetId = -1;
-            /* else */ targetId = matrix[this.getyMatrixCord() - 2][this.getxMatrixCord()];
+        if (this.getActualCorners().containsKey(2) && !this.getActualCorners().get(2).isHidden() && this.getxMatrixCord()+1<=matrix.length-1 && this.getyMatrixCord()-1>=0) {
+            if (this.getyMatrixCord() - 2 < 0) targetId = -1;
+            else targetId = matrix[this.getyMatrixCord() - 2][this.getxMatrixCord()];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
@@ -231,8 +227,8 @@ public abstract class Card extends CardGame implements Serializable {
                         });
             }
 
-            // if (this.getxMatrixCord() + 2 >= matrix[0].length) targetId = -1;
-            /* else */ targetId = matrix[this.getyMatrixCord()][this.getxMatrixCord() + 2];
+            if (this.getxMatrixCord() + 2 >= matrix[0].length) targetId = -1;
+            else targetId = matrix[this.getyMatrixCord()][this.getxMatrixCord() + 2];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
@@ -247,8 +243,8 @@ public abstract class Card extends CardGame implements Serializable {
                         });
             }
 
-            // if (this.getyMatrixCord() - 2 < 0 || this.getxMatrixCord() + 2 >= matrix[0].length) targetId = -1;
-            /* else */ targetId = matrix[this.getyMatrixCord() - 2][this.getxMatrixCord() + 2];
+            if (this.getyMatrixCord() - 2 < 0 || this.getxMatrixCord() + 2 >= matrix[0].length) targetId = -1;
+            else targetId = matrix[this.getyMatrixCord() - 2][this.getxMatrixCord() + 2];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
@@ -275,9 +271,9 @@ public abstract class Card extends CardGame implements Serializable {
         pos.set(true);
         testCorners.clear();
 
-        if (this.getActualCorners().containsKey(3) && !this.getActualCorners().get(3).isHidden() /* && this.getxMatrixCord()+1<=matrix.length-1 && this.getyMatrixCord()+1<=matrix.length-1 */) {
-            // if (this.getyMatrixCord() + 2 >= matrix.length) targetId = -1;
-            /* else */ targetId = matrix[this.getyMatrixCord() + 2][this.getxMatrixCord()];
+        if (this.getActualCorners().containsKey(3) && !this.getActualCorners().get(3).isHidden() && this.getxMatrixCord()+1<=matrix.length-1 && this.getyMatrixCord()+1<=matrix.length-1) {
+            if (this.getyMatrixCord() + 2 >= matrix.length) targetId = -1;
+            else targetId = matrix[this.getyMatrixCord() + 2][this.getxMatrixCord()];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
@@ -292,8 +288,8 @@ public abstract class Card extends CardGame implements Serializable {
                         });
             }
 
-            // if (this.getxMatrixCord() + 2 >= matrix.length) targetId = -1;
-            /* else */ targetId = matrix[this.getyMatrixCord()][this.getxMatrixCord() + 2];
+            if (this.getxMatrixCord() + 2 >= matrix.length) targetId = -1;
+            else targetId = matrix[this.getyMatrixCord()][this.getxMatrixCord() + 2];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
@@ -308,8 +304,8 @@ public abstract class Card extends CardGame implements Serializable {
                         });
             }
 
-            // if (this.getyMatrixCord() + 2 >= matrix[0].length || this.getxMatrixCord() + 2 >= matrix[0].length) targetId = -1;
-            /* else */ targetId = matrix[this.getyMatrixCord() + 2][this.getxMatrixCord() + 2];
+            if (this.getyMatrixCord() + 2 >= matrix[0].length || this.getxMatrixCord() + 2 >= matrix[0].length) targetId = -1;
+            else targetId = matrix[this.getyMatrixCord() + 2][this.getxMatrixCord() + 2];
             if (targetId != -1) {
                 int finalTargetId = targetId;
                 codex.stream()
