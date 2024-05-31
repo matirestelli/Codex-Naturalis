@@ -93,16 +93,20 @@ public class GameState implements java.io.Serializable {
         this.starterDeck = deck;
     }
 
-    public void setStarterCards(List<Card> cards) {
-        this.starterDeck.setCards(cards);
-    }
-
     public Deck getResourceDeck() {
         return resourceDeck;
     }
 
     public Deck getGoldDeck() {
         return goldDeck;
+    }
+
+    public void setResourceDeck(Deck deck) {
+        this.resourceDeck = deck;
+    }
+
+    public void setGoldDeck(Deck deck) {
+        this.goldDeck = deck;
     }
 
     public synchronized void addPlayer(Player player) {
