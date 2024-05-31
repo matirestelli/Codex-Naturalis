@@ -15,11 +15,7 @@
 
         <javafx.version >21</javafx.version >
         <javafx.maven.plugin.version >0.0.8</javafx.maven.plugin.version >
-
     </properties>
-
-
-
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
