@@ -820,7 +820,10 @@ public class GUI extends Application implements UserInterfaceStrategy {
         return 0;
     }
 
+    @Override
+    public void displayPawn(it.polimi.ingsw.core.model.enums.Color pawn) {
 
+    }
 
 
     private CardGame getStarterCard() {

@@ -2,6 +2,7 @@ package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
+import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
 
@@ -50,6 +51,7 @@ public interface UserInterfaceStrategy {
     public String askJoinCreate();
     public String askGameId(String joinCreate, String gameIds);
     public int askNumberOfPlayers();
+    public void displayPawn(Color pawn);
 
     void setClient(ClientAbstract client);
     void setViewModel(ModelView modelView);

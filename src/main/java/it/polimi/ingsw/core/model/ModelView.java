@@ -13,6 +13,9 @@ public class ModelView {
     private List<String> players;
     private Map<String, Integer> playerOrder;
     private Map<String, ViewModelPlayerState> playerStates ;
+
+
+    private Map<String, Color> playerPawns;
     private Card deckGBack;
     private Card deckRBack;
     private List<Card> resourceCardsVisible;
@@ -25,7 +28,7 @@ public class ModelView {
     private String myUsername;
     private int myUnreadedMessages;
     private boolean myTurn;
-    private Color myColor;
+    //private Color myPawn;
     private int myScore;
     private int[][] myMatrix;
     private Map<Resource, Integer> myResources;
@@ -121,14 +124,6 @@ public class ModelView {
 
     public void setMyUsername(String myUsername) {
         this.myUsername = myUsername;
-    }
-
-    public Color getMyColor() {
-        return myColor;
-    }
-
-    public void setMyColor(Color myColor) {
-        this.myColor = myColor;
     }
 
     public int getMyScore() {
@@ -234,5 +229,13 @@ public class ModelView {
 
     public Map<String, Integer> getPlayerOrder() {
         return playerOrder;
+    }
+
+    public Map<String, Color> getPlayerPawns() {
+        return playerPawns;
+    }
+
+    public void setPlayerPawns(Map<String, Color> playerPawns) {
+        this.playerPawns = playerPawns;
     }
 }

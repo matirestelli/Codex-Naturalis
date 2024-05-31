@@ -1,6 +1,7 @@
 package it.polimi.ingsw.core.controller;
 
 import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.request.*;
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
@@ -24,6 +25,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     private int matrixDimension;
 
     private List<String> playersReadyToPlayer = new ArrayList<>();
+    private Map<String, Color> playerPawns;
 
     private Map<Integer, Map<Integer, List<Coordinate>>> test;
     private Card cardToPlace;
@@ -34,6 +36,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         this.observers = new LinkedHashMap<>();
         this.moveQueue = new LinkedBlockingQueue<>();
         this.moveProcessor = new Thread(this::processMoves);
+        this.playerPawns = new HashMap<>();
         this.moveProcessor.start();
         this.currentPlayerIndex = 0;
 
@@ -71,7 +74,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         updatedDecks.add(gameState.getGoldDeck().getCards().getFirst());
         //notify observers of the updated decks
         for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new UpdatedDecksMessage("updateDecks", updatedDecks)) ;
+            orderedObserversMap.get(us).update(new UpdatedDecksMessage("updateDecks", updatedDecks));
 
 
         gameState.intializePawn();
@@ -92,9 +95,12 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             orderedObserversMap.get(us).update(new StarterCardLoadedMessage("starterCardLoaded", gameState.getPlayerState(us).getStarterCard()));
         }
 
-        // TODO: fix
-        /* for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new GameEvent("loadedPawn", gameState.getPlayerState(us).getPawn())); */
+        for (String us : orderedObserversMap.keySet()){
+            playerPawns.put(us, gameState.getPlayerState(us).getPawn());
+            }
+
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new LoadedPawnsMessage("loadedPawns", playerPawns));
 
         // assign the first hand of cards to each player
         gameState.assignFirstHandToPlayers();
@@ -155,6 +161,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         playersReadyToPlayer.add(username);
 
         if (playersReadyToPlayer.size() == gameState.getPlayerOrder().size()) {
+            //send to all the players the players pawn
             System.out.println("Turn order: " + gameState.getPlayerOrder());
             notifyCurrentPlayerTurn();
         }
