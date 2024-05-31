@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.socket.server;
 import it.polimi.ingsw.core.controller.GameControllerRemote;
 import it.polimi.ingsw.core.model.message.request.MessageServer2Client;
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
-import it.polimi.ingsw.core.model.message.response.StarterSideSelectedMessage;
 import it.polimi.ingsw.observers.GameObserver;
 
 import java.io.IOException;
@@ -121,8 +120,7 @@ public class ClientHandler implements Runnable, GameObserver {
             } */
 
             while (true) {
-                // Ricevi messaggi dal client
-                // MessageServer2Client message = (MessageServer2Client) inputStream.readObject();
+                // receive messages from client
                 gc.handleMove(username, (MessageClient2Server) inputStream.readObject());
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -132,33 +130,14 @@ public class ClientHandler implements Runnable, GameObserver {
         }
     }
 
-    /*@Override
-    public void update(GameEvent event) {
-        System.out.println("-------------Sending event to client: " + event.getType());
-        System.out.println("Event data: " + event.getData());
-
-        try {
-            outputStream.writeObject(event);
-            outputStream.flush();
-        } catch (IOException e) {
-            System.out.println("Error sending event to client: " + e.getMessage());
-            // closeConnection();
-        }
-    }*/
-
-    // @Override
+    @Override
     public void update(MessageServer2Client event) {
-        System.out.println("-------------Sending event to client: " + event.getType());
-        System.out.println("Event data: " + event.getData());
-
         try {
-            // add to event the client reference
-
             outputStream.writeObject(event);
             outputStream.flush();
         } catch (IOException e) {
             System.out.println("Error sending event to client: " + e.getMessage());
-            // closeConnection();
+            closeConnection();
         }
     }
 

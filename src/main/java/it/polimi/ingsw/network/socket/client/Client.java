@@ -102,7 +102,8 @@ public class Client extends ClientAbstract {
         }
     }
 
-    /* public void handleEvent(GameEvent event) {
+    /*
+    public void handleEvent(GameEvent event) {
         switch (event.getType()) {
             case "loadedPawn"-> {
                 observerUI.updateUI(event);
@@ -128,7 +129,8 @@ public class Client extends ClientAbstract {
                 chat.addMsg((Message) event.getData());
             }
         }
-    }*/
+    }
+    */
 
     private void closeConnection() {
         try {
@@ -152,7 +154,6 @@ public class Client extends ClientAbstract {
 
     public static void main(String[] args) {
         ModelView modelView = new ModelView();
-
         try {
             Client client = new Client(modelView, "localhost", 12345, args[args.length - 1]);
             client.start(args);

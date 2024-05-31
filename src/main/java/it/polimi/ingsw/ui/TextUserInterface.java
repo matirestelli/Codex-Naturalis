@@ -7,7 +7,6 @@ import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
-import it.polimi.ingsw.core.model.message.GameEvent;
 import it.polimi.ingsw.core.model.message.response.*;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;

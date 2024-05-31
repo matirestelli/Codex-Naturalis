@@ -1,7 +1,6 @@
 package it.polimi.ingsw.core.controller;
 
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
-import it.polimi.ingsw.core.model.message.response.StarterSideSelectedMessage;
 import it.polimi.ingsw.observers.GameObserver;
 
 import java.rmi.Remote;

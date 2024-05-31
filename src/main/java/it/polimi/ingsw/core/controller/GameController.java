@@ -4,7 +4,6 @@ import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.request.*;
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
-import it.polimi.ingsw.core.model.message.response.StarterSideSelectedMessage;
 import it.polimi.ingsw.core.utils.PlayerMove;
 import it.polimi.ingsw.observers.GameObserver;
 

@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.rmi.client;
 
 import it.polimi.ingsw.core.controller.GameControllerRemote;
 import it.polimi.ingsw.core.model.*;
-import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.request.MessageServer2Client;
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
 import it.polimi.ingsw.network.GameClientProxy;
@@ -14,24 +13,13 @@ import it.polimi.ingsw.ui.TextUserInterface;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 public class GameClientImpl extends ClientAbstract implements GameClient {
     private GameServer server; // reference to the RMI server
     private String username; // username of the client
-    private Scanner scanner = new Scanner(System.in); // scanner to read input from the user
     private String gameId;
     private GameControllerRemote gc;
     private GameClientProxy clientProxy;
-
-    private ResourceCard starterCard;
-    private List<Card> hand;
-    private List<Card> codex;
-    private Map<Resource, Integer> resources;
-    private Card cardToPlay;
-
 
     @Override
     public void sendMessage(MessageClient2Server message) {
@@ -46,7 +34,6 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     public GameClientImpl(ModelView modelView, String host, int port, String opt) throws RemoteException {
         super(modelView);
 
-        opt = "cli";
         if (opt.equals("cli")) {
             this.uiStrategy = new TextUserInterface(this);
         } else {
@@ -62,12 +49,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         }
 
         connectToServer(host, port);
-
-       // this.codex = new ArrayList<>();
-      //  this.hand = new ArrayList<>();
-
     }
-
 
     private void connectToServer(String host, int port) throws RemoteException {
         try {
@@ -75,7 +57,6 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             server = (GameServer) registry.lookup("GameServer");
             this.clientProxy = new GameClientProxy(this);
             server.registerClient(clientProxy);
-            // server.registerClient(this);
             System.out.println("Connected to the game server at " + host + ":" + port);
         } catch (Exception e) {
             System.out.println("Failed to connect to the server: " + e.getMessage());
@@ -138,151 +119,13 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         message.doAction(this);
     }
 
-    /* @Override
-    public void update(MessageServer2Client event) throws RemoteException {
-        switch (event.getType()) {
-
-            case "notYourTurn" -> {
-                // display message
-                uiStrategy.displayMessage("Not your turn! Wait for your turn...\n");
-                // uiStrategy.displayMenu();
-            }
-            case "loadedStarter"-> {
-                // get starter card from server
-                starterCard = (ResourceCard) event.getData();
-                // TODO: change parameters and set as class attribute
-                // useful for the visualization of the starter card (TUI)
-                starterCard.setCentre(new Coordinate(10 / 2 * 7 - 5,10 / 2 * 3 - 5));
-
-                // add starter card to codex
-                codex.add(starterCard);
-
-                // display starter card back
-                uiStrategy.visualizeStarterCard(starterCard);
-            }
-            /* case "starterSide"-> {
-                // ask user to set side of the starter card
-                /*boolean side = uiStrategy.setStarterSide();
-
-                // set side of the starter card
-                starterCard.setSide(side);
-
-                // place starter card on the board
-                uiStrategy.placeCard(starterCard, null);
-
-                // display board
-                uiStrategy.displayBoard();
-
-                // send side to server
-                try {
-                    gc.handleMove(username, new GameEvent("starterSideSelection", side));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
-            }
-            /* case "askWhereToDraw"-> {
-                String input = uiStrategy.askWhereToDraw((List<Card>) event.getData());
-
-                try {
-                    gc.handleMove(username, new GameEvent("drawCard", input));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
-            }
-            case "loadedCommonObjective" -> {
-                uiStrategy.displayCommonObjective((List<Objective>) event.getData());
-            }
-            case "chooseObjective" -> {
-                Objective card = uiStrategy.chooseObjective((List<Objective>) event.getData());
-
-                try {
-                    gc.handleMove(username, new GameEvent("secretObjectiveSelection", card));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
-            }
-            case "askAngle" -> {
-                String input = uiStrategy.displayAngle((List<Coordinate>) event.getData());
-
-                // get card from player's hand by id
-                // TODO: create object for handling card selection
-                String[] splitCardToPlay = input.split("\\.");
-                int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
-
-                // card where to attach the selected card
-                Card targetCard = codex.stream().filter(c -> c.getId() == cardToAttachId).findFirst().orElse(null);
-
-                uiStrategy.place(cardToPlay, targetCard, Integer.parseInt(splitCardToPlay[1]));
-
-                uiStrategy.displayBoard();
-
-                try {
-                    gc.handleMove(username, new GameEvent("angleSelection", new CardToAttachSelected(input)));
-                } catch (IOException e) {
-                    System.out.println("Error sending angles: " + e.getMessage());
-                }
-            }
-            case "updateHand" -> {
-                hand = (List<Card>) event.getData();
-
-                uiStrategy.displayHand(hand);
-            }
-            case "updateCodex" -> {
-                codex = (List<Card>) event.getData();
-            }
-            case "beforeTurnEvent" -> {
-                resources = (Map<Resource, Integer>) event.getData();
-            }
-            case "currentPlayerTurn" -> {
-                CardSelection cs = uiStrategy.askCardSelection((PlayableCardIds) event.getData(), hand);
-
-                cardToPlay = hand.stream().filter(c -> c.getId() == cs.getId()).findFirst().orElse(null);
-                hand.remove(cardToPlay);
-
-                try {
-                    gc.handleMove(username, new GameEvent("cardSelection", cs));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
-            }
-            case "lastTurn" -> {
-                // TODO: bug fix
-                System.out.println("Last turn! Select a card ID to play: ");
-                int cardId = scanner.nextInt();
-
-                try {
-                    gc.handleMove(username, new GameEvent("cardSelection", new CardSelection(cardId, false)));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
-            }
-            case "endGame" -> {
-                System.out.println("Game over!");
-            }
-        }
-    }*/
-
-    /*public void setObserver(ObserverUI observerUI) {
-        this.observerUI = observerUI;
-    }*/
-
     public static void main(String[] args) {
-        String opt = "cli";
-
         ModelView modelView = new ModelView();
         try {
-            GameClientImpl client = new GameClientImpl(modelView, "localhost", 1099, opt);
+            GameClientImpl client = new GameClientImpl(modelView, "localhost", 1099, args[args.length - 1]);
             client.login(args);
         } catch (RemoteException e) {
             System.out.println("Error creating the client: " + e.getMessage());
         }
     }
-
-    /* public void handleMoveUI() {
-        try {
-            gc.handleMove(username, new GameEvent("endTurn", null));
-        } catch (IOException e) {
-            System.out.println("Error sending card ID: " + e.getMessage());
-        }
-    } */
 }

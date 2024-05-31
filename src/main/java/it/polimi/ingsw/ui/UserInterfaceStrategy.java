@@ -2,15 +2,12 @@ package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
-import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
-import it.polimi.ingsw.network.socket.client.Client;
 
 import java.util.List;
 
 public interface UserInterfaceStrategy {
-
     //metodi per i messaggi
     void showAvailableAngles(List<Coordinate> data);
     void chooseObjective(List<Objective> obj);
@@ -30,9 +27,6 @@ public interface UserInterfaceStrategy {
     void lastTurn();
     //todo ancora in messaggi
     void endGame();
-
-
-
 
     //metodi per la cli:
     void displayCard(Card card);
@@ -59,6 +53,4 @@ public interface UserInterfaceStrategy {
 
     void setClient(ClientAbstract client);
     void setViewModel(ModelView modelView);
-
-
 }

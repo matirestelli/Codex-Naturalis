@@ -13,6 +13,8 @@ public class SelectedObjMessage extends MessageClient2Server {
 
     @Override
     public void doAction(String username, GameController gc) throws RemoteException {
+        int id = ((Objective) getData()).getId();
+        System.out.println(getType() + " " + id);
         gc.handleChoseObjective(username, (Objective) getData());
     }
 }

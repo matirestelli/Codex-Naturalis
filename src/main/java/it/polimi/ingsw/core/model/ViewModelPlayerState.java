@@ -1,4 +1,5 @@
 package it.polimi.ingsw.core.model;
+
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 
