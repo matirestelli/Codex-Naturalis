@@ -1,6 +1,8 @@
 package it.polimi.ingsw.core.controller;
 
 import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.model.chat.Message;
+import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.request.*;
@@ -397,6 +399,39 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
         // advance turn
         advanceTurn();
+    }
+
+    public void receivedMessageBroadcast(Message message){
+        for (String us : orderedObserversMap.keySet()) {
+            try {
+                orderedObserversMap.get(us).update(new newChatMessage("newMessage", message));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            notYourTurn(message.getSender());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void receivedMessagePrivate(MessagePrivate message) {
+        try {
+            orderedObserversMap.get(message.whoIsReceiver()).update(new newChatMessage("newMessage", message));
+            orderedObserversMap.get(message.getSender()).update(new newChatMessage("newMessage", message));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            notYourTurn(message.getSender());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void notYourTurn(String username) throws RemoteException {
+                orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", username));
     }
 
     /* public void lastTurn(String username) throws RemoteException {

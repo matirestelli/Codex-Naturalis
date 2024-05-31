@@ -128,7 +128,6 @@ public class GameState implements java.io.Serializable {
         System.out.println("Gold deck loaded");
     }
 
-
     public void initializeObjectiveDeck() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Objective.class, new ObjectiveCardDeserializer())

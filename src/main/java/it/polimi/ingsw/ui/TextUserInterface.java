@@ -7,6 +7,7 @@ import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.model.message.request.newChatMessage;
 import it.polimi.ingsw.core.model.message.response.*;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
@@ -391,13 +392,36 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("\t3. Continue with the game\n");
         System.out.println("\t4. Exit\n");
         System.out.println("> ");
-
         String input;
         input = scanner.nextLine();
         switch (input) {
-            case "1" -> displayChat(gameClient.getModelView().getChat(), gameClient.getModelView().getMyUsername());
+            case "1" -> {
+                displayChat(gameClient.getModelView().getChat(), gameClient.getModelView().getMyUsername());
+                gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+            }
             case "2" -> {
-                // ciao
+                System.out.print("Receiver ( All");
+                for (String user : gameClient.getModelView().getPlayers())
+                    System.out.print(" / " + user);
+                System.out.print(" ): ");
+                input = "";
+                input = scanner.nextLine().trim();
+                while (!input.equals("All") && !gameClient.getModelView().getPlayers().contains(input)) {
+                    System.out.print("Invalid Input! Retry: ");
+                    input = scanner.nextLine();
+                }
+                if(input.equals("All")) {
+                    System.out.print("Write a message to all: ");
+                    input = "";
+                    input = scanner.nextLine();
+                    Message m = new Message(input, gameClient.getModelView().getMyUsername());
+                    gameClient.sendMessage(new messageBroadcast("messageToAll", m));
+                }else {
+                    System.out.print("Message to " + input + ": ");
+                    String text = scanner.nextLine();
+                    MessagePrivate m = new MessagePrivate(text, gameClient.getModelView().getMyUsername(), input);
+                    gameClient.sendMessage(new messagePrivate("messageToUser", m));
+                }
             }
             case "3" -> {
                 if (gameClient.getModelView().getMyUnreadedMessages() > 0)

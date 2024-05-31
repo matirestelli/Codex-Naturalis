@@ -48,6 +48,7 @@ public class ModelView {
         this.myMatrix = new int[81][81];
         this.players = new ArrayList<>();
         this.playerOrder = new HashMap<>();
+        this.chat = new Chat();
         this.myScore = 0;
     }
 
