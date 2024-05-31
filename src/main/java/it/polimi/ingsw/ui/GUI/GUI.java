@@ -7,6 +7,7 @@ import it.polimi.ingsw.ui.GUI.boardstate.TurnStateEnum;
 import it.polimi.ingsw.ui.GUI.controller.*;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.ui.UserInterfaceStrategy;
+
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
