@@ -3,6 +3,7 @@ package it.polimi.ingsw.ui;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.enums.Color;
+import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
 import javafx.util.Pair;
@@ -58,4 +59,6 @@ public interface UserInterfaceStrategy {
     void setViewModel(ModelView modelView);
 
     void displayScoreboard(Map<String, Integer> data);
+
+    void displayPersonalResources(Map<Resource, Integer> data);
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.ui.GUI;
 
 import it.polimi.ingsw.core.model.chat.Chat;
+import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
 import it.polimi.ingsw.ui.GUI.boardstate.TurnStateEnum;
@@ -97,6 +98,9 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     //TODO
     public void displayScoreboard(Map<String, Integer> data) {
+    }
+
+    public void displayPersonalResources(Map<Resource, Integer> data) {
     }
 
     public void initializeScenes() {

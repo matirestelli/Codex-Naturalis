@@ -766,6 +766,14 @@ public class TextUserInterface implements UserInterfaceStrategy {
         gameClient.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(input)));
     }
 
+    public void displayPersonalResources(Map<Resource, Integer> resources) {
+        System.out.println("Your resources:\n");
+        for (Map.Entry<Resource, Integer> entry : resources.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+        System.out.println();
+    }
+
     @Override
     public void setClient(ClientAbstract client) {
 
