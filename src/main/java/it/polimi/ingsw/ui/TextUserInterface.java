@@ -325,6 +325,36 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("+");
     }
 
+    public String getBoardString() {
+        Card card;
+        StringBuilder toprint = new StringBuilder();
+        toprint.append("+");
+        for (int i = 0; i < gameBoard[0].length; i++)
+            toprint.append("-");
+        toprint.append("+\n");
+
+        for (int i = 0; i < gameBoard.length; i++) {
+            toprint.append("|");
+            for (int j = 0; j < gameBoard[i].length; j++) {
+                card = gameBoard[i][j].getCard();
+                if (card != null)
+                    toprint.append(gameBoard[i][j].getColor() + gameBoard[i][j].getCharacter() + AnsiColor.RESET);
+                else
+                    toprint.append(gameBoard[i][j].getCharacter());
+            }
+            toprint.append("|\n");
+            toprint.append(AnsiColor.RESET);
+        }
+
+        toprint.append("+");
+        for (int i = 0; i < gameBoard[0].length; i++)
+            toprint.append("-");
+        toprint.append("+");
+        return toprint.toString();
+        //toprint.toString();
+        //gameClient.sendMessage(new sendBoard("displayBoard", toprint.toString()));
+    }
+
     public CardSelection askCardSelection(PlayableCardIds ids, List<Card> hand) {
         for (Card card : hand) {
             if (ids.getPlayingHandIds().contains(card.getId()))
@@ -440,7 +470,22 @@ public class TextUserInterface implements UserInterfaceStrategy {
                 gameClient.sendMessage(new DisplayMenu("displayMenu", null));
             }
             case "5" -> {
-
+                System.out.println("Choose the player: ");
+                for (String player : gameClient.getModelView().getPlayers()) {
+                    if (!player.equals(gameClient.getModelView().getMyUsername()))
+                        System.out.println(player + ", ");
+                }
+                input = "";
+                input= scanner.nextLine();
+                while (!gameClient.getModelView().getPlayers().contains(input) || input.equals(gameClient.getModelView().getMyUsername())) {
+                    System.out.print("Invalid Input! Retry: ");
+                    input = scanner.nextLine();
+                }
+                List<String> usernames = new ArrayList<>();
+                usernames.add(input);
+                usernames.add(gameClient.getModelView().getMyUsername());
+                gameClient.sendMessage(new DisplayCodex("displayCodex", usernames));
+                gameClient.sendMessage(new DisplayMenu("displayMenu", null));
             }
             case "6" -> {
 

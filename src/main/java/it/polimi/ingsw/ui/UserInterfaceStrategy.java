@@ -61,4 +61,6 @@ public interface UserInterfaceStrategy {
     void displayScoreboard(Map<String, Integer> data);
 
     void displayPersonalResources(Map<Resource, Integer> data);
+
+    String getBoardString();
 }

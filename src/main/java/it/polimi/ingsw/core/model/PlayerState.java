@@ -3,6 +3,8 @@ package it.polimi.ingsw.core.model;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.chat.*;
+import it.polimi.ingsw.network.ClientAbstract;
+import it.polimi.ingsw.ui.TextUserInterface;
 
 import java.io.Serializable;
 import java.util.ArrayList;
