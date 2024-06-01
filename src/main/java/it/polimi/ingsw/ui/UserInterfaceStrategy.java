@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.ClientAbstract;
 import javafx.util.Pair;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserInterfaceStrategy {
     //metodi per i messaggi
@@ -55,4 +56,6 @@ public interface UserInterfaceStrategy {
 
     void setClient(ClientAbstract client);
     void setViewModel(ModelView modelView);
+
+    void displayScoreboard(Map<String, Integer> data);
 }

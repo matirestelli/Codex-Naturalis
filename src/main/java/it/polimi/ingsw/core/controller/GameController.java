@@ -42,7 +42,6 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         this.playerPawns = new HashMap<>();
         this.moveProcessor.start();
         this.currentPlayerIndex = 0;
-
         this.matrixDimension = 10;
     }
 
@@ -271,7 +270,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
     @Override
     public void advanceTurn() throws RemoteException {
-        if (gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore() >= 1 || last == true) {
+        if (gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore() >= 20 || last == true) {
             lastTurn(gameState.getPlayerOrder().get(currentPlayerIndex));
         } else {
             System.out.println("User: " + gameState.getPlayerOrder().get(currentPlayerIndex) + " Score: " + gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore());
@@ -433,13 +432,22 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     }
 
     public void notYourTurn(String username) throws RemoteException {
-                orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", username));
+        orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", username));
+    }
+
+    public void scoreboard(String username) throws RemoteException {
+        Map<String, Integer> scoreboard = new HashMap<>();
+        for (String player : orderedObserversMap.keySet()) {
+            int newScore = gameState.getPlayerState(player).getScore();
+            scoreboard.put(player, newScore);
+        }
+        orderedObserversMap.get(username).update(new DisplayScoreboard("displayScoreboard", scoreboard));
     }
 
     public void lastTurn(String username) throws RemoteException {
         PlayerState player = gameState.getPlayerState(username);
         //System.out.println("User: " + username + " Score: " + player.getScore());
-        if (player.getScore() >= 1 || last == true) {  // also if checked in advanceTurn
+        if (player.getScore() >= 20 || last == true) {  // also if checked in advanceTurn
             last = true;
             if(username == orderedObserversMap.keySet().toArray()[orderedObserversMap.size() - 1]){
                 // calculate points

@@ -68,6 +68,14 @@ public class ModelView {
         return myUnreadedMessages;
     }
 
+    public void setMyUnreadedMessages(int myUnreadedMessages) {
+        this.myUnreadedMessages = myUnreadedMessages;
+    }
+
+    public void addUnreadedMessage() {
+        this.myUnreadedMessages++;
+    }
+
     public void setMyTurn(boolean myTurn) {
         this.myTurn = myTurn;
     }

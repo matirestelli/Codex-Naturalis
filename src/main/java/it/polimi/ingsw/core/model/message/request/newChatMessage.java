@@ -10,6 +10,7 @@ public class newChatMessage extends MessageServer2Client  {
 
     public void doAction(ClientAbstract client){
         Message message = ((Message) getData());
+        client.getModelView().addUnreadedMessage();
             if (message.getSender().equals(client.getModelView().getMyUsername())) {
                 message.setSender("You");
                 client.getModelView().getChat().addMsg(message);

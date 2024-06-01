@@ -15,6 +15,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class TextUserInterface implements UserInterfaceStrategy {
@@ -391,12 +392,15 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("\t1. Visualize messages\n");
         System.out.println("\t2. Send message\n");
         System.out.println("\t3. Continue with the game\n");
-        System.out.println("\t4. Exit\n");
+        System.out.println("\t4. Visualize scoreboard\n");
+        System.out.println("\t5. Visualize other players codex\n");
+        System.out.println("\t6. Exit\n");
         System.out.println("> ");
         String input;
         input = scanner.nextLine();
         switch (input) {
             case "1" -> {
+                gameClient.getModelView().setMyUnreadedMessages(0);
                 displayChat(gameClient.getModelView().getChat(), gameClient.getModelView().getMyUsername());
                 gameClient.sendMessage(new DisplayMenu("displayMenu", null));
             }
@@ -432,10 +436,31 @@ public class TextUserInterface implements UserInterfaceStrategy {
                     System.out.println("Wait for your turn...\n");
             }
             case "4" -> {
-                // ciao
+                gameClient.sendMessage(new DisplayScoreboard("displayScoreboard", null));
+                gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+            }
+            case "5" -> {
+
+            }
+            case "6" -> {
+
             }
         }
     }
+
+    public void displayScoreboard(Map<String, Integer> scoreboard) {
+        System.out.println("Scoreboard:\n");
+        for (String player : gameClient.getModelView().getPlayers()) {
+            int score = scoreboard.get(player);
+            System.out.print(player + ": " +score + " ");
+            for (int i = 0; i < score; i++) {
+                System.out.print("■");
+            }
+            System.out.println("\n");
+        }
+        System.out.println();
+    }
+
 
     public void displayChat(Chat chat, String username) {
         System.out.println();

@@ -24,6 +24,7 @@ import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class GUI extends Application implements UserInterfaceStrategy {
 
@@ -92,6 +93,10 @@ public class GUI extends Application implements UserInterfaceStrategy {
      */
     public static void main(String[] args) {
         Application.launch(args);
+    }
+
+    //TODO
+    public void displayScoreboard(Map<String, Integer> data) {
     }
 
     public void initializeScenes() {
