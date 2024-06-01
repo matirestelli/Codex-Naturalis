@@ -100,7 +100,12 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void displayScoreboard(Map<String, Integer> data) {
     }
 
+    //TODO
     public void displayPersonalResources(Map<Resource, Integer> data) {
+    }
+
+    public void getBoardString(String asker) {
+        //only for cli
     }
 
     public void initializeScenes() {

@@ -1,11 +1,13 @@
 package it.polimi.ingsw.ui;
 
+import it.polimi.ingsw.clientmodel.Cell;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.model.message.request.newChatMessage;
 import it.polimi.ingsw.core.model.message.response.*;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
@@ -37,6 +39,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
     @Override
     public void visualiseStarterCardLoaded(Card card) {
         visualizeStarterCard(card);
+        // gameClient.sendMessage(new StarterSideSelectedMessage("starterSideSelected", side));
     }
 
     @Override
@@ -322,6 +325,37 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("+");
     }
 
+    public void getBoardString(String asker) {
+        Card card;
+        StringBuilder toprint = new StringBuilder();
+        toprint.append("+");
+        for (int i = 0; i < gameBoard[0].length; i++)
+            toprint.append("-");
+        toprint.append("+\n");
+
+        for (int i = 0; i < gameBoard.length; i++) {
+            toprint.append("|");
+            for (int j = 0; j < gameBoard[i].length; j++) {
+                card = gameBoard[i][j].getCard();
+                if (card != null)
+                    toprint.append(gameBoard[i][j].getColor() + gameBoard[i][j].getCharacter() + AnsiColor.RESET);
+                else
+                    toprint.append(gameBoard[i][j].getCharacter());
+            }
+            toprint.append("|\n");
+            toprint.append(AnsiColor.RESET);
+        }
+
+        toprint.append("+");
+        for (int i = 0; i < gameBoard[0].length; i++)
+            toprint.append("-");
+        toprint.append("+");
+        List<String> strings = new ArrayList<>();
+        strings.add(toprint.toString());
+        strings.add(asker);
+        gameClient.sendMessage(new sendBoard("displayBoard", strings));
+    }
+
     public CardSelection askCardSelection(PlayableCardIds ids, List<Card> hand) {
         for (Card card : hand) {
             if (ids.getPlayingHandIds().contains(card.getId()))
@@ -437,8 +471,22 @@ public class TextUserInterface implements UserInterfaceStrategy {
                 gameClient.sendMessage(new DisplayMenu("displayMenu", null));
             }
             case "5" -> {
-                displayBoard();
-
+                System.out.println("Choose the player: ");
+                for (String player : gameClient.getModelView().getPlayers()) {
+                    if (!player.equals(gameClient.getModelView().getMyUsername()))
+                        System.out.println(player + ", ");
+                }
+                input = "";
+                input= scanner.nextLine();
+                while (!gameClient.getModelView().getPlayers().contains(input) || input.equals(gameClient.getModelView().getMyUsername())) {
+                    System.out.print("Invalid Input! Retry: ");
+                    input = scanner.nextLine();
+                }
+                List<String> usernames = new ArrayList<>();
+                usernames.add(input);
+                usernames.add(gameClient.getModelView().getMyUsername());
+                gameClient.sendMessage(new DisplayCodex("displayCodex", usernames));
+                //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
             }
             case "6" -> {
 
@@ -758,10 +806,10 @@ public class TextUserInterface implements UserInterfaceStrategy {
         Card targetCard = gameClient.getModelView().getMyCodex().stream().filter(c -> c.getId() == cardToAttachId).findFirst().orElse(null);
 
         place(gameClient.getModelView().getMyPlayingCard(), targetCard, Integer.parseInt(splitCardToPlay[1]));
-        gameClient.getModelView().addCardToCodex(gameClient.getModelView().getMyPlayingCard());
+
         displayBoard();
 
-        gameClient.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(input, gameClient.getModelView().getMyCodex())));
+        gameClient.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(input)));
     }
 
     public void displayPersonalResources(Map<Resource, Integer> resources) {

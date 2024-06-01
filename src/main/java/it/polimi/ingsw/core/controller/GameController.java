@@ -448,6 +448,16 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         orderedObserversMap.get(username).update(new DisplayScoreboard("displayScoreboard", scoreboard));
     }
 
+    public void printCodex(List<String> username) throws RemoteException {
+        String usernameRequested = username.get(0);
+        String asker = username.get(1);
+        orderedObserversMap.get(usernameRequested).update(new DisplayCodex("displayCodex", asker));
+    }
+
+    public void printBoard(List<String> data) throws RemoteException {
+        orderedObserversMap.get(data.get(1)).update(new DisplayBoard("displayBoard", data.get(0)));
+    }
+
     public void lastTurn(String username) throws RemoteException {
         PlayerState player = gameState.getPlayerState(username);
         //System.out.println("User: " + username + " Score: " + player.getScore());
