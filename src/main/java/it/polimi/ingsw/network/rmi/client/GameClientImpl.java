@@ -13,6 +13,8 @@ import it.polimi.ingsw.ui.TextUserInterface;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class GameClientImpl extends ClientAbstract implements GameClient {
     private GameServer server; // reference to the RMI server
@@ -20,6 +22,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     private String gameId;
     private GameControllerRemote gc;
     private GameClientProxy clientProxy;
+    private ExecutorService notificationExecutor;
 
     @Override
     public void sendMessage(MessageClient2Server message) {
@@ -33,6 +36,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
 
     public GameClientImpl(ModelView modelView, String host, int port, String opt) throws RemoteException {
         super(modelView);
+        this.notificationExecutor = Executors.newSingleThreadExecutor();
 
         if (opt.equals("cli")) {
             this.uiStrategy = new TextUserInterface(this);
@@ -115,8 +119,14 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     }
 
     @Override
-    public void update(MessageServer2Client message) throws RemoteException {
-        message.doAction(this);
+    public void update(MessageServer2Client message) {
+        notificationExecutor.submit(() -> {
+            try {
+                message.doAction(this);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public static void main(String[] args) {

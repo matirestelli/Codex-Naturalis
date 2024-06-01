@@ -1,6 +1,5 @@
 package it.polimi.ingsw.core.model;
 
-import it.polimi.ingsw.clientmodel.Cell;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;

@@ -78,13 +78,12 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new UpdatedDecksMessage("updateDecks", updatedDecks));
 
-
         gameState.intializePawn();
 
         // assign the starter card to each player
         gameState.assignStarterCardToPlayers();
 
-        //todo then cancel it, now I need it to put username in viewModel beacause now it's a parameter of the main
+        //todo then cancel it, now I need it to put username in viewModel because now it's a parameter of the main
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new LoadedUsernameMessage("loadedUsername", us));
 
@@ -279,8 +278,13 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         }
     }
 
+    public void updateCodex(String username, List<Card> codex) throws RemoteException {
+        gameState.getPlayerState(username).setCodex(codex);
+    }
+
     public void angleChosen(String username, CardToAttachSelected cardToAttach) throws RemoteException {
         PlayerState player = gameState.getPlayerState(username);
+        player.setCodex(cardToAttach.getCodex());
         String[] splitCardToPlay = cardToAttach.getString().split("\\.");
         int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
         int cornerSelected = Integer.parseInt(splitCardToPlay[1]);

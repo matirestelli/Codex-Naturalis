@@ -1,13 +1,11 @@
 package it.polimi.ingsw.ui;
 
-import it.polimi.ingsw.clientmodel.Cell;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
-import it.polimi.ingsw.core.model.message.request.newChatMessage;
 import it.polimi.ingsw.core.model.message.response.*;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
@@ -39,7 +37,6 @@ public class TextUserInterface implements UserInterfaceStrategy {
     @Override
     public void visualiseStarterCardLoaded(Card card) {
         visualizeStarterCard(card);
-        // gameClient.sendMessage(new StarterSideSelectedMessage("starterSideSelected", side));
     }
 
     @Override
@@ -440,6 +437,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                 gameClient.sendMessage(new DisplayMenu("displayMenu", null));
             }
             case "5" -> {
+                displayBoard();
 
             }
             case "6" -> {
@@ -760,10 +758,10 @@ public class TextUserInterface implements UserInterfaceStrategy {
         Card targetCard = gameClient.getModelView().getMyCodex().stream().filter(c -> c.getId() == cardToAttachId).findFirst().orElse(null);
 
         place(gameClient.getModelView().getMyPlayingCard(), targetCard, Integer.parseInt(splitCardToPlay[1]));
-
+        gameClient.getModelView().addCardToCodex(gameClient.getModelView().getMyPlayingCard());
         displayBoard();
 
-        gameClient.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(input)));
+        gameClient.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(input, gameClient.getModelView().getMyCodex())));
     }
 
     public void displayPersonalResources(Map<Resource, Integer> resources) {

@@ -13,8 +13,6 @@ public class ModelView {
     private List<String> players;
     private Map<String, Integer> playerOrder;
     private Map<String, ViewModelPlayerState> playerStates ;
-
-
     private Map<String, Color> playerPawns;
     private Card deckGBack;
     private Card deckRBack;

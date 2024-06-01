@@ -1,6 +1,4 @@
-package it.polimi.ingsw.clientmodel;
-import  it.polimi.ingsw.core.model.Card;
-import it.polimi.ingsw.ui.AnsiColor;
+package it.polimi.ingsw.core.model;
 
 public class Cell {
     private char character;
