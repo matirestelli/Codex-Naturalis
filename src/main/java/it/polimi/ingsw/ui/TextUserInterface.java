@@ -325,7 +325,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("+");
     }
 
-    public String getBoardString() {
+    public void getBoardString(String asker) {
         Card card;
         StringBuilder toprint = new StringBuilder();
         toprint.append("+");
@@ -350,9 +350,10 @@ public class TextUserInterface implements UserInterfaceStrategy {
         for (int i = 0; i < gameBoard[0].length; i++)
             toprint.append("-");
         toprint.append("+");
-        return toprint.toString();
-        //toprint.toString();
-        //gameClient.sendMessage(new sendBoard("displayBoard", toprint.toString()));
+        List<String> strings = new ArrayList<>();
+        strings.add(toprint.toString());
+        strings.add(asker);
+        gameClient.sendMessage(new sendBoard("displayBoard", strings));
     }
 
     public CardSelection askCardSelection(PlayableCardIds ids, List<Card> hand) {
@@ -485,7 +486,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                 usernames.add(input);
                 usernames.add(gameClient.getModelView().getMyUsername());
                 gameClient.sendMessage(new DisplayCodex("displayCodex", usernames));
-                gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
             }
             case "6" -> {
 

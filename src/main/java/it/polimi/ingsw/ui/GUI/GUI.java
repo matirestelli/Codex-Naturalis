@@ -104,9 +104,8 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void displayPersonalResources(Map<Resource, Integer> data) {
     }
 
-    public String getBoardString() {
+    public void getBoardString(String asker) {
         //only for cli
-        return null;
     }
 
     public void initializeScenes() {

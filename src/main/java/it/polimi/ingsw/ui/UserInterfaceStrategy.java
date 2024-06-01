@@ -62,5 +62,5 @@ public interface UserInterfaceStrategy {
 
     void displayPersonalResources(Map<Resource, Integer> data);
 
-    String getBoardString();
+    void getBoardString(String asker);
 }

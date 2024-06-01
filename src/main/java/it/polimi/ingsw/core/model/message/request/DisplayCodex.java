@@ -15,8 +15,7 @@ public class DisplayCodex extends MessageServer2Client{
 
     @Override
     public void doAction(ClientAbstract client) throws RemoteException {
-        String board = client.getUIStrategy().getBoardString();
-        GameObserver askerObserver = (GameObserver) getData();
-        askerObserver.update(new DisplayBoard("displayBoard", board));
+        String asker = (String) getData();
+        client.getUIStrategy().getBoardString(asker);
     }
 }
