@@ -13,6 +13,7 @@ public class ModelView {
     private List<String> players;
     private Map<String, Integer> playerOrder;
     private Map<String, ViewModelPlayerState> playerStates ;
+    private Map<String, Color> playerPawns;
     private Card deckGBack;
     private Card deckRBack;
     private List<Card> resourceCardsVisible;
@@ -25,7 +26,7 @@ public class ModelView {
     private String myUsername;
     private int myUnreadedMessages;
     private boolean myTurn;
-    private Color myColor;
+    //private Color myPawn;
     private int myScore;
     private int[][] myMatrix;
     private Map<Resource, Integer> myResources;
@@ -45,6 +46,7 @@ public class ModelView {
         this.myMatrix = new int[81][81];
         this.players = new ArrayList<>();
         this.playerOrder = new HashMap<>();
+        this.chat = new Chat();
         this.myScore = 0;
     }
 
@@ -56,20 +58,20 @@ public class ModelView {
         return playingCard;
     }
 
-    public void setChat(Chat chat) {
-        this.chat = chat;
-    }
-
     public Chat getChat() {
         return chat;
+    }
+
+    public int getMyUnreadedMessages() {
+        return myUnreadedMessages;
     }
 
     public void setMyUnreadedMessages(int myUnreadedMessages) {
         this.myUnreadedMessages = myUnreadedMessages;
     }
 
-    public int getMyUnreadedMessages() {
-        return myUnreadedMessages;
+    public void addUnreadedMessage() {
+        this.myUnreadedMessages++;
     }
 
     public void setMyTurn(boolean myTurn) {
@@ -87,7 +89,6 @@ public class ModelView {
     public int[][] getMyMatrix() {
         return myMatrix;
     }
-
     public void setSecretObj(Objective privateObj) {
         this.secretObj = privateObj;
     }
@@ -132,14 +133,6 @@ public class ModelView {
         this.myUsername = myUsername;
     }
 
-    public Color getMyColor() {
-        return myColor;
-    }
-
-    public void setMyColor(Color myColor) {
-        this.myColor = myColor;
-    }
-
     public int getMyScore() {
         return myScore;
     }
@@ -170,7 +163,6 @@ public class ModelView {
     public void setPlayerStates(Map<String, ViewModelPlayerState> playerStates) {
         this.playerStates = playerStates;
     }
-
     public void createPlayerStates(List<String> usernames){
         for(String username : usernames){
             playerStates.put(username, new ViewModelPlayerState());
@@ -244,5 +236,13 @@ public class ModelView {
 
     public Map<String, Integer> getPlayerOrder() {
         return playerOrder;
+    }
+
+    public Map<String, Color> getPlayerPawns() {
+        return playerPawns;
+    }
+
+    public void setPlayerPawns(Map<String, Color> playerPawns) {
+        this.playerPawns = playerPawns;
     }
 }

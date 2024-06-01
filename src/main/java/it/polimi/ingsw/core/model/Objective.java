@@ -14,6 +14,7 @@ public class Objective extends Card implements Serializable {
     // private String frontCover; // front side of the objective
     // private String backCover; // back side of the objective
     private int points;
+    private String type;
     private boolean isCompleted;
     private int completed; //numero di volte che l'obiettivo è stato completato
     private List<Integer> IDusati = new ArrayList<>();  //lista di carte già usate per completare un obiettivo
@@ -26,6 +27,10 @@ public class Objective extends Card implements Serializable {
     public int setCompleted() { //incrementa il numero di volte che l'obiettivo è stato completato
         completed++;
         return completed;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void resetCompleted() { //resetta il numero di volte che l'obiettivo è stato completato

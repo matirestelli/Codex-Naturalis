@@ -1,6 +1,5 @@
 package it.polimi.ingsw.ui;
 
-import it.polimi.ingsw.clientmodel.Cell;
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.chat.Message;
@@ -10,9 +9,11 @@ import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.response.*;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class TextUserInterface implements UserInterfaceStrategy {
@@ -322,6 +323,37 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("+");
     }
 
+    public void getBoardString(String asker) {
+        Card card;
+        StringBuilder toprint = new StringBuilder();
+        toprint.append("+");
+        for (int i = 0; i < gameBoard[0].length; i++)
+            toprint.append("-");
+        toprint.append("+\n");
+
+        for (int i = 0; i < gameBoard.length; i++) {
+            toprint.append("|");
+            for (int j = 0; j < gameBoard[i].length; j++) {
+                card = gameBoard[i][j].getCard();
+                if (card != null)
+                    toprint.append(gameBoard[i][j].getColor() + gameBoard[i][j].getCharacter() + AnsiColor.RESET);
+                else
+                    toprint.append(gameBoard[i][j].getCharacter());
+            }
+            toprint.append("|\n");
+            toprint.append(AnsiColor.RESET);
+        }
+
+        toprint.append("+");
+        for (int i = 0; i < gameBoard[0].length; i++)
+            toprint.append("-");
+        toprint.append("+");
+        List<String> strings = new ArrayList<>();
+        strings.add(toprint.toString());
+        strings.add(asker);
+        gameClient.sendMessage(new sendBoard("displayBoard", strings));
+    }
+
     public CardSelection askCardSelection(PlayableCardIds ids, List<Card> hand) {
         for (Card card : hand) {
             if (ids.getPlayingHandIds().contains(card.getId()))
@@ -389,15 +421,41 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("\t1. Visualize messages\n");
         System.out.println("\t2. Send message\n");
         System.out.println("\t3. Continue with the game\n");
-        System.out.println("\t4. Exit\n");
+        System.out.println("\t4. Visualize scoreboard\n");
+        System.out.println("\t5. Visualize other players codex\n");
+        System.out.println("\t6. Exit\n");
         System.out.println("> ");
-
         String input;
         input = scanner.nextLine();
         switch (input) {
-            case "1" -> displayChat(gameClient.getModelView().getChat(), gameClient.getModelView().getMyUsername());
+            case "1" -> {
+                gameClient.getModelView().setMyUnreadedMessages(0);
+                displayChat(gameClient.getModelView().getChat(), gameClient.getModelView().getMyUsername());
+                gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+            }
             case "2" -> {
-                // ciao
+                System.out.print("Receiver ( All");
+                for (String user : gameClient.getModelView().getPlayers())
+                    System.out.print(" / " + user);
+                System.out.print(" ): ");
+                input = "";
+                input = scanner.nextLine().trim();
+                while (!input.equals("All") && !gameClient.getModelView().getPlayers().contains(input)) {
+                    System.out.print("Invalid Input! Retry: ");
+                    input = scanner.nextLine();
+                }
+                if(input.equals("All")) {
+                    System.out.print("Write a message to all: ");
+                    input = "";
+                    input = scanner.nextLine();
+                    Message m = new Message(input, gameClient.getModelView().getMyUsername());
+                    gameClient.sendMessage(new messageBroadcast("messageToAll", m));
+                }else {
+                    System.out.print("Message to " + input + ": ");
+                    String text = scanner.nextLine();
+                    MessagePrivate m = new MessagePrivate(text, gameClient.getModelView().getMyUsername(), input);
+                    gameClient.sendMessage(new messagePrivate("messageToUser", m));
+                }
             }
             case "3" -> {
                 if (gameClient.getModelView().getMyUnreadedMessages() > 0)
@@ -407,10 +465,46 @@ public class TextUserInterface implements UserInterfaceStrategy {
                     System.out.println("Wait for your turn...\n");
             }
             case "4" -> {
-                // ciao
+                gameClient.sendMessage(new DisplayScoreboard("displayScoreboard", null));
+                gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+            }
+            case "5" -> {
+                System.out.println("Choose the player: ");
+                for (String player : gameClient.getModelView().getPlayers()) {
+                    if (!player.equals(gameClient.getModelView().getMyUsername()))
+                        System.out.println(player + ", ");
+                }
+                input = "";
+                input= scanner.nextLine();
+                while (!gameClient.getModelView().getPlayers().contains(input) || input.equals(gameClient.getModelView().getMyUsername())) {
+                    System.out.print("Invalid Input! Retry: ");
+                    input = scanner.nextLine();
+                }
+                List<String> usernames = new ArrayList<>();
+                usernames.add(input);
+                usernames.add(gameClient.getModelView().getMyUsername());
+                gameClient.sendMessage(new DisplayCodex("displayCodex", usernames));
+                //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+            }
+            case "6" -> {
+
             }
         }
     }
+
+    public void displayScoreboard(Map<String, Integer> scoreboard) {
+        System.out.println("Scoreboard:\n");
+        for (String player : gameClient.getModelView().getPlayers()) {
+            int score = scoreboard.get(player);
+            System.out.print(player + ": " +score + " ");
+            for (int i = 0; i < score; i++) {
+                System.out.print("■");
+            }
+            System.out.println("\n");
+        }
+        System.out.println();
+    }
+
 
     public void displayChat(Chat chat, String username) {
         System.out.println();
@@ -455,12 +549,15 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
     @Override
     public void lastTurn() {
-        //todo
+        System.out.println("Last turn, play carefully!\n");
     }
 
     @Override
-    public void endGame() {
-        //todo
+    public void endGame(List<Pair<String, Integer>> data) {
+        System.out.println("Game over!\nResults:\n");
+        for (int i = 1; i < data.size()+1; i++) {
+            System.out.println("#" + i + " " +data.get(i-1).getKey() + " Points: " + data.get(i-1).getValue());
+        }
     }
 
     public void showNotYourTurn() {
@@ -705,12 +802,20 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
         // card where to attach the selected card
         Card targetCard = gameClient.getModelView().getMyCodex().stream().filter(c -> c.getId() == cardToAttachId).findFirst().orElse(null);
-
         place(gameClient.getModelView().getMyPlayingCard(), targetCard, Integer.parseInt(splitCardToPlay[1]));
+        gameClient.getModelView().addCardToCodex(gameClient.getModelView().getMyPlayingCard());
 
         displayBoard();
 
-        gameClient.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(input)));
+        gameClient.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(input, gameClient.getModelView().getMyCodex())));
+    }
+
+    public void displayPersonalResources(Map<Resource, Integer> resources) {
+        System.out.println("Your resources:\n");
+        for (Map.Entry<Resource, Integer> entry : resources.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+        System.out.println();
     }
 
     @Override

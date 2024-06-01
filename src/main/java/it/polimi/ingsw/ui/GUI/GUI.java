@@ -1,6 +1,7 @@
 package it.polimi.ingsw.ui.GUI;
 
 import it.polimi.ingsw.core.model.chat.Chat;
+import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
 import it.polimi.ingsw.ui.GUI.boardstate.TurnStateEnum;
@@ -20,9 +21,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class GUI extends Application implements UserInterfaceStrategy {
 
@@ -91,6 +94,18 @@ public class GUI extends Application implements UserInterfaceStrategy {
      */
     public static void main(String[] args) {
         Application.launch(args);
+    }
+
+    //TODO
+    public void displayScoreboard(Map<String, Integer> data) {
+    }
+
+    //TODO
+    public void displayPersonalResources(Map<Resource, Integer> data) {
+    }
+
+    public void getBoardString(String asker) {
+        //only for cli
     }
 
     public void initializeScenes() {
@@ -697,7 +712,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     }
 
     @Override
-    public void endGame() {
+    public void endGame(List<Pair<String, Integer>> rank) {
     //todo capire cosa inviano come event.data
         Platform.runLater(() -> {
             this.getBoardViewController().message("The game has ended");
@@ -820,7 +835,10 @@ public class GUI extends Application implements UserInterfaceStrategy {
         return 0;
     }
 
+    @Override
+    public void displayPawn(it.polimi.ingsw.core.model.enums.Color pawn) {
 
+    }
 
 
     private CardGame getStarterCard() {

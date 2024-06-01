@@ -13,5 +13,6 @@ public class BeforeTurnMessage extends MessageServer2Client {
     @Override
     public void doAction(ClientAbstract client) {
         client.getModelView().setMyResources((Map<Resource, Integer>) getData());
+        client.getUIStrategy().displayPersonalResources((Map<Resource, Integer>) getData());
     }
 }

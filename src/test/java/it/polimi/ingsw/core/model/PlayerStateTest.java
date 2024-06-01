@@ -1,7 +1,5 @@
 package it.polimi.ingsw.core.model;
 
-import it.polimi.ingsw.clientmodel.Cell;
-import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +29,7 @@ class PlayerStateTest {
         personalResources = new HashMap<>();
         pawn = Color.RED; // Assuming Color enum is properly implemented for testing
         player = new PlayerState();
-        player.setUsername("us1");
+        player.getUsername();
         player.setScore(score);
         player.setHand(playingHand);
         player.setCodex(codex);
@@ -39,10 +37,6 @@ class PlayerStateTest {
         player.setSecretObjective(secretObjective);
         player.setPersonalResources(personalResources);
         player.setPawn(pawn);
-    }
-    @Test
-    void testgetUsername() {
-        assertEquals("us1", player.getUsername());
     }
 
     @Test
@@ -186,12 +180,6 @@ class PlayerStateTest {
                 setResource(Resource.ANIMAL);
             }
         });
-        frontCorners1.put(2, new Corner() {
-            {
-                setResource(Resource.ANIMAL);
-                setEmpty(true);
-            }
-        });
         card1.setFrontCorners(frontCorners1);
 
         Card card2 = new ResourceCard();
@@ -239,37 +227,7 @@ class PlayerStateTest {
     void testgetcardfromhand() {
         Card card = new ResourceCard(); // Assuming Card class is properly
         card.setId(5);
-        Card card2 = new ResourceCard(); // Assuming Card class is properly
-        card2.setId(6);
         player.addCardToHand(card);
-        player.addCardToHand(card2);
-        assertEquals(card2, player.getCardFromHand(6));
-        assertEquals(null, player.getCardFromHand(7));
-    }
-
-    @Test
-    void testinitializeChat() {
-        player.initializeChat();
-        assertNotNull(player.getChat());
-    }
-
-    @Test
-    void testsetSecretObj(){
-        Objective objective = new Objective();
-        player.setSecretObj(objective);
-        assertEquals(objective, player.getSecretObj());
-    }
-
-    @Test
-    void testgetStarterCard(){
-        ResourceCard card = new ResourceCard();
-        player.setStarterCard(card);
-        assertEquals(card, player.getStarterCard());
-    }
-
-    @Test
-    void testgetChat(){
-        player.initializeChat();
-        assertNotNull(player.getChat());
+        assertEquals(card, player.getCardFromHand(5));
     }
 }

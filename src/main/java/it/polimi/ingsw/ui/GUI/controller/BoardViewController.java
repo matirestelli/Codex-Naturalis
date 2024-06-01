@@ -880,7 +880,7 @@ public class BoardViewController extends GUI {
                 if(!cardPlaced){
                      cardPlaced = true;
                      angleChosen = placeHere.getText();
-                     client.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(angleChosen)));
+                     client.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(angleChosen, client.getModelView().getMyCodex())));
                     this.matrixUpdated(tempButtons, (Integer[]) placeHere.getUserData());
                 }
                 else{

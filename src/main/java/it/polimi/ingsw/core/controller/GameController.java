@@ -1,11 +1,15 @@
 package it.polimi.ingsw.core.controller;
 
 import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.model.chat.Message;
+import it.polimi.ingsw.core.model.chat.MessagePrivate;
+import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.request.*;
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
 import it.polimi.ingsw.core.utils.PlayerMove;
 import it.polimi.ingsw.observers.GameObserver;
+import javafx.util.Pair;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -24,6 +28,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     private int matrixDimension;
 
     private List<String> playersReadyToPlayer = new ArrayList<>();
+    private Map<String, Color> playerPawns;
 
     private Map<Integer, Map<Integer, List<Coordinate>>> test;
     private Card cardToPlace;
@@ -34,9 +39,9 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         this.observers = new LinkedHashMap<>();
         this.moveQueue = new LinkedBlockingQueue<>();
         this.moveProcessor = new Thread(this::processMoves);
+        this.playerPawns = new HashMap<>();
         this.moveProcessor.start();
         this.currentPlayerIndex = 0;
-
         this.matrixDimension = 10;
     }
 
@@ -71,15 +76,14 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         updatedDecks.add(gameState.getGoldDeck().getCards().getFirst());
         //notify observers of the updated decks
         for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new UpdatedDecksMessage("updateDecks", updatedDecks)) ;
-
+            orderedObserversMap.get(us).update(new UpdatedDecksMessage("updateDecks", updatedDecks));
 
         gameState.intializePawn();
 
         // assign the starter card to each player
         gameState.assignStarterCardToPlayers();
 
-        //todo then cancel it, now I need it to put username in viewModel beacause now it's a parameter of the main
+        //todo then cancel it, now I need it to put username in viewModel because now it's a parameter of the main
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new LoadedUsernameMessage("loadedUsername", us));
 
@@ -92,9 +96,12 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             orderedObserversMap.get(us).update(new StarterCardLoadedMessage("starterCardLoaded", gameState.getPlayerState(us).getStarterCard()));
         }
 
-        // TODO: fix
-        /* for (String us : orderedObserversMap.keySet())
-            orderedObserversMap.get(us).update(new GameEvent("loadedPawn", gameState.getPlayerState(us).getPawn())); */
+        for (String us : orderedObserversMap.keySet()){
+            playerPawns.put(us, gameState.getPlayerState(us).getPawn());
+            }
+
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new LoadedPawnsMessage("loadedPawns", playerPawns));
 
         // assign the first hand of cards to each player
         gameState.assignFirstHandToPlayers();
@@ -155,6 +162,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         playersReadyToPlayer.add(username);
 
         if (playersReadyToPlayer.size() == gameState.getPlayerOrder().size()) {
+            //send to all the players the players pawn
             System.out.println("Turn order: " + gameState.getPlayerOrder());
             notifyCurrentPlayerTurn();
         }
@@ -261,12 +269,22 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
     @Override
     public void advanceTurn() throws RemoteException {
-        currentPlayerIndex = (currentPlayerIndex + 1) % orderedObserversMap.size();
-        notifyCurrentPlayerTurn();
+        if (gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore() >= 20 || last == true) {
+            lastTurn(gameState.getPlayerOrder().get(currentPlayerIndex));
+        } else {
+            System.out.println("User: " + gameState.getPlayerOrder().get(currentPlayerIndex) + " Score: " + gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore());
+            currentPlayerIndex = (currentPlayerIndex + 1) % orderedObserversMap.size();
+            notifyCurrentPlayerTurn();
+        }
+    }
+
+    public void updateCodex(String username, List<Card> codex) throws RemoteException {
+        gameState.getPlayerState(username).setCodex(codex);
     }
 
     public void angleChosen(String username, CardToAttachSelected cardToAttach) throws RemoteException {
         PlayerState player = gameState.getPlayerState(username);
+        player.setCodex(cardToAttach.getCodex());
         String[] splitCardToPlay = cardToAttach.getString().split("\\.");
         int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
         int cornerSelected = Integer.parseInt(splitCardToPlay[1]);
@@ -384,18 +402,66 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new UpdatedPlayerStateMessage("updatePlayerState", updatedPlayer ));
 
-        // check if last turn
-        // TODO: fix
-        // lastTurn(username);
-
         // advance turn
         advanceTurn();
     }
 
-    /* public void lastTurn(String username) throws RemoteException {
+    public void receivedMessageBroadcast(Message message){
+        for (String us : orderedObserversMap.keySet()) {
+            try {
+                orderedObserversMap.get(us).update(new newChatMessage("newMessage", message));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            notYourTurn(message.getSender());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void receivedMessagePrivate(MessagePrivate message) {
+        try {
+            orderedObserversMap.get(message.whoIsReceiver()).update(new newChatMessage("newMessage", message));
+            orderedObserversMap.get(message.getSender()).update(new newChatMessage("newMessage", message));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            notYourTurn(message.getSender());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void notYourTurn(String username) throws RemoteException {
+        orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", username));
+    }
+
+    public void scoreboard(String username) throws RemoteException {
+        Map<String, Integer> scoreboard = new HashMap<>();
+        for (String player : orderedObserversMap.keySet()) {
+            int newScore = gameState.getPlayerState(player).getScore();
+            scoreboard.put(player, newScore);
+        }
+        orderedObserversMap.get(username).update(new DisplayScoreboard("displayScoreboard", scoreboard));
+    }
+
+    public void printCodex(List<String> username) throws RemoteException {
+        String usernameRequested = username.get(0);
+        String asker = username.get(1);
+        orderedObserversMap.get(usernameRequested).update(new DisplayCodex("displayCodex", asker));
+    }
+
+    public void printBoard(List<String> data) throws RemoteException {
+        orderedObserversMap.get(data.get(1)).update(new DisplayBoard("displayBoard", data.get(0)));
+    }
+
+    public void lastTurn(String username) throws RemoteException {
         PlayerState player = gameState.getPlayerState(username);
-        // System.out.println("User: " + username + " Score: " + player.getScore());
-        if (player.getScore() >= 2 || last == true) {
+        //System.out.println("User: " + username + " Score: " + player.getScore());
+        if (player.getScore() >= 20 || last == true) {  // also if checked in advanceTurn
             last = true;
             if(username == orderedObserversMap.keySet().toArray()[orderedObserversMap.size() - 1]){
                 // calculate points
@@ -403,12 +469,9 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                 Map<String, Integer> scoresWOobj = new HashMap<>();
                 // TODO: check if this is correct
                 for (String us : orderedObserversMap.keySet()) {
-
                     PlayerState ps = gameState.getPlayerState(us);
                     int preScore = ps.getScore();
                     System.out.println("Pre score: " + preScore);
-                    // orderedObserversMap.get(username).update(new GameEvent("notYourTurn", us));
-
                     Objective card = null;
                     for (int j = 0; j < 3; j++) {
                         if (j == 0) {
@@ -420,30 +483,41 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                         if (j == 2) {
                             card = gameState.getCommonObjective(1);
                         }
-                        if (card instanceof SxDiagonalObjective) {
-                            SxDiagonalObjective c = (SxDiagonalObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof DxDiagonalObjective) {
-                            DxDiagonalObjective c = (DxDiagonalObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof LObjective) {
-                            LObjective c = (LObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof ReverseLObjective) {
-                            ReverseLObjective c = (ReverseLObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof DownLObjective) {
-                            DownLObjective c = (DownLObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof DownReverseLObjective) {
-                            DownReverseLObjective c = (DownReverseLObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else if (card instanceof ResourceObjective) {
-                            ResourceObjective c = (ResourceObjective) player.getSecretObj();
-                            c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
-                        } else {
-                            System.out.println("INVALID CARD TYPE");
-                            //throw new IllegalArgumentException("Invalid card type");
+                        String type = card.getType();
+                        System.out.println("Objective: " + card);
+                        System.out.println("Type objective: " + type);
+                        switch (type) {
+                            case "L" -> {
+                                LObjective c = (LObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "ReverseL" -> {
+                                ReverseLObjective c = (ReverseLObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "DownL" -> {
+                                DownLObjective c = (DownLObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "DownReverseL" -> {
+                                DownReverseLObjective c = (DownReverseLObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "SxDiagonal" -> {
+                                SxDiagonalObjective c = (SxDiagonalObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "DxDiagonal" -> {
+                                DxDiagonalObjective c = (DxDiagonalObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            case "Resource" -> {
+                                ResourceObjective c = (ResourceObjective) card;
+                                c.CalculatePoints(gameState.getPlayerState(currentPlayerIndex));
+                            }
+                            default -> {
+                                System.out.println("Error in type of objective");
+                            }
                         }
                     }
                     int scoreObj = gameState.getPlayerState(us).getScore() - preScore;
@@ -461,11 +535,15 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                     }
                 });
                 for (String us : orderedObserversMap.keySet()) {
-                    orderedObserversMap.get(us).update(new GameEvent("endGame", rank));
+                    orderedObserversMap.get(us).update(new EndGameMessage("endGame", rank));
+                    notYourTurn(us);
                 }
             } else {
-                orderedObserversMap.get(username).update(new GameEvent("reachedPoints", gameState.getPlayerState(currentPlayerIndex)));
+                currentPlayerIndex = (currentPlayerIndex + 1) % orderedObserversMap.size();
+                String us = gameState.getPlayerOrder().get(currentPlayerIndex);
+                orderedObserversMap.get(us).update(new LastTurnMessage("lastTurn", null));
+                notifyCurrentPlayerTurn();
             }
         }
-    } */
+    }
 }

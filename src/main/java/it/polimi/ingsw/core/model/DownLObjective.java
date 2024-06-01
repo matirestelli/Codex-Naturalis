@@ -20,6 +20,10 @@ public class DownLObjective extends PositionObjective{
         this.color2 = color;
     }
 
+    public String getType() {
+        return "DownL";
+    }
+
     public void CalculatePoints(PlayerState p) {
         int rows = p.getMatrix().length;
         int cols = p.getMatrix()[0].length;

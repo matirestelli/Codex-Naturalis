@@ -9,6 +9,10 @@ public class LObjective extends PositionObjective {
     private Color color1;
     private Color color2;
 
+    public String getType() {
+        return "L";
+    }
+
     public void setColor1(Color color) {
         this.color1 = color;
     }
