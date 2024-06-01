@@ -56,8 +56,16 @@ public class ModelView {
         return playingCard;
     }
 
+    public void setChat(Chat chat) {
+        this.chat = chat;
+    }
+
     public Chat getChat() {
         return chat;
+    }
+
+    public void setMyUnreadedMessages(int myUnreadedMessages) {
+        this.myUnreadedMessages = myUnreadedMessages;
     }
 
     public int getMyUnreadedMessages() {
@@ -79,6 +87,7 @@ public class ModelView {
     public int[][] getMyMatrix() {
         return myMatrix;
     }
+
     public void setSecretObj(Objective privateObj) {
         this.secretObj = privateObj;
     }
@@ -161,6 +170,7 @@ public class ModelView {
     public void setPlayerStates(Map<String, ViewModelPlayerState> playerStates) {
         this.playerStates = playerStates;
     }
+
     public void createPlayerStates(List<String> usernames){
         for(String username : usernames){
             playerStates.put(username, new ViewModelPlayerState());

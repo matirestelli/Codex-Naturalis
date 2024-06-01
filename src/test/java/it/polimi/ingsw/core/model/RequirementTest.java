@@ -43,4 +43,10 @@ class RequirementTest {
         requirement.setResource(newResource);
         assertEquals(newResource, requirement.getResource());
     }
+
+    @Test
+    void testIncrementQta() {
+        requirement.incrementQta();
+        assertEquals(qta + 1, requirement.getQta());
+    }
 }

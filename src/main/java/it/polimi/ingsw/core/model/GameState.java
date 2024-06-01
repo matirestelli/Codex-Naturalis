@@ -49,8 +49,12 @@ public class GameState implements java.io.Serializable {
         this.starterDeck = new Deck("starter", new TypeToken<List<ResourceCard>>() {}.getType());
         this.resourceDeck = new Deck("resource", new TypeToken<List<ResourceCard>>() {}.getType());
         this.goldDeck = new Deck("gold", new TypeToken<List<GoldCard>>() {}.getType());
-        //this.objectiveDeck = new Deck("objective", new TypeToken<List<Objective>>() {}.getType());
+        this.objectiveDeck = new Deck("objective", new TypeToken<List<Objective>>() {}.getType());
         playerStates = new HashMap<>();
+    }
+
+    public Map<Player, PlayerState> getPlayerStates() {
+        return playerStates;
     }
 
     public void intializePawn(){

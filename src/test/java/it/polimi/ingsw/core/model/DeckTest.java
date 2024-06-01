@@ -81,6 +81,8 @@ public class DeckTest {
         CardGame extractedCard = deck.drawCard();
         assertFalse(deck.getCards().contains(extractedCard));
         assertEquals(originalCards.size() - 1, deck.getCards().size());
+        Deck deck2 = new Deck("src/main/resources/it/polimi/ingsw/", typeOfCard);
+        assertEquals(null, deck2.drawCard());
     }
 
 

@@ -31,6 +31,7 @@ class ResourceObjectiveTest {
         Requirement requirement1 = new Requirement(Resource.ANIMAL, 1);
         Requirement requirement2 = new Requirement(Resource.INSECT, 3);
         Requirement requirement3 = new Requirement(Resource.PLANT, 2);
+        Requirement requirementFalse = new Requirement(Resource.ANIMAL, 1);
 
         resourcelist.add(Resource.PLANT);
         resourcelist.add(Resource.ANIMAL);
@@ -47,9 +48,13 @@ class ResourceObjectiveTest {
         requirement3.setResource(Resource.INSECT);
         requirement3.setQta(1);
 
+        requirementFalse.setResource(Resource.FUNGI);
+        requirementFalse.setQta(1);
+
         resourceObjective1.requirements.add(requirement1);
         resourceObjective2.requirements.add(requirement2);
         resourceObjective2.requirements.add(requirement3);
+        resourceObjectiveFalse.requirements.add(requirementFalse);
 
 
         List<Card> codex = new ArrayList<>();
@@ -79,6 +84,7 @@ class ResourceObjectiveTest {
     void testCalculatePoints() {
         resourceObjective1.CalculatePoints(player);
         resourceObjective2.CalculatePoints(player);
+        resourceObjectiveFalse.CalculatePoints(player);
         assertEquals(7, player.getScore());
     }
 

@@ -1,11 +1,14 @@
 package it.polimi.ingsw.core.model;
 
 
+import it.polimi.ingsw.core.model.enums.Color;
+import it.polimi.ingsw.ui.AnsiColor;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Objective extends CardGame implements Serializable {
+public class Objective extends Card implements Serializable {
     // private int id;
     // private boolean frontSide;
     // private String frontCover; // front side of the objective
@@ -86,5 +89,6 @@ public class Objective extends CardGame implements Serializable {
     }
 
     //metodo per verificare se l'obiettivo è completato, verrà poi implementato nelle classi figlie in modo diverso
+
 }
 

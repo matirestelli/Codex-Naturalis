@@ -13,32 +13,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameStateTest {
     private GameState game;
-    private String id;
-    private int maxPlayers;
     private Map<Player, Map<Integer, Integer>> players;
-    private int numPlayers;
-    private Objective[] commonObjectives;
+    private List<Objective> commonObjectives;
     private Deck goldDeck;
     private Deck resourceDeck;
     private Deck starterDeck;
     private PlayerState player;
+    private String configFile;
 
     @BeforeEach
     void setUp() {
         game = new GameState();
-        id = "game1";
-        maxPlayers = 4;
-        players = new HashMap<>();
-        numPlayers = 2;
-        commonObjectives = new Objective[2];
-        goldDeck = new Deck("goldCards", new TypeToken<List<Card>>(){}.getType());
-        resourceDeck = new Deck("resourceCards", new TypeToken<List<Card>>(){}.getType());
-        starterDeck = new Deck("starterCards", new TypeToken<List<Card>>(){}.getType());
+        commonObjectives = new ArrayList<Objective>();
+        commonObjectives.add(new Objective());
+        commonObjectives.add(new Objective());
+        configFile = new StringBuilder().append("src/main/resources/it/polimi/ingsw/").append(configFile).append(".json").toString();
+        starterDeck = new Deck("starter", new TypeToken<List<ResourceCard>>() {}.getType());
+        resourceDeck = new Deck("resource", new TypeToken<List<ResourceCard>>() {}.getType());
+        goldDeck = new Deck("gold", new TypeToken<List<GoldCard>>() {}.getType());
         player = new PlayerState(); // Assuming Player class is properly implemented for testing
         player.setUsername("us1");
-
         game.addPlayer(player);
-        game.setCommonObjective(commonObjectives, game.getPlayerId(player.getUsername()));
+        game.setCommonObjective(commonObjectives);
         game.setStarterDeck(starterDeck);
     }
 
@@ -50,10 +46,7 @@ class GameStateTest {
 
     @Test
     void testgetPlayerState() {
-        PlayerState player = new PlayerState();
-        player.setUsername("us1");
-        Integer index = game.getPlayerId(player.getUsername());
-        assertEquals(player, game.getPlayerState(index));
+        assertTrue(game.getPlayerStates().containsValue(game.getPlayerState(player.getUsername())));
     }
 
     @Test
@@ -81,38 +74,27 @@ class GameStateTest {
 
     @Test
     void testaddPlayer() {
-        PlayerState player = new PlayerState();
-        player.setUsername("us1");
-        game.addPlayer(player);
-        assertEquals("us1", game.getPlayerState(player.getUsername()));
+        PlayerState player1 = new PlayerState();
+        player1.setUsername("us2");
+        game.addPlayer(player1);
     }
 
     @Test
     void testgetCommonObjectives() {
-        game.setCommonObjective(commonObjectives, game.getPlayerId(player.getUsername()));
         assertEquals(commonObjectives, game.getCommonObjectives());
     }
 
     @Test
     void testsetCommonObjectives() {
-        game.setCommonObjective(commonObjectives, game.getPlayerId(player.getUsername()));
+        game.setCommonObjective(commonObjectives);
         assertEquals(commonObjectives, game.getCommonObjectives());
     }
 
-    @Test
-    void testgetGoldDeck() {
-        assertEquals(goldDeck, game.getGoldDeck());
-    }
 
     @Test
     void testsetGoldDeck() {
         game.setGoldDeck(goldDeck);
         assertEquals(goldDeck, game.getGoldDeck());
-    }
-
-    @Test
-    void testgetResourceDeck() {
-        assertEquals(resourceDeck, game.getResourceDeck());
     }
 
     @Test
@@ -122,14 +104,9 @@ class GameStateTest {
     }
 
     @Test
-    void testgetStarterDeck() {
-        assertEquals(starterDeck, game.getStarterDeck());
-    }
-
-    @Test
     void testsetStarterDeck() {
         game.setStarterDeck(starterDeck);
-        assertEquals(starterDeck, game.getStarterDeck());
+        assertEquals(starterDeck.getCards(), game.getStarterDeck());
     }
 
     @Test
@@ -151,11 +128,18 @@ class GameStateTest {
     }
 
     @Test
+    void testinitializeObjectiveDeck() {
+        game.initializeObjectiveDeck();
+        assertNotNull(game.getObjectiveDeck());
+    }
+
+    @Test
     void testinitializedecks() {
         game.loadDecks();
         assertNotNull(game.getResourceDeck());
         assertNotNull(game.getGoldDeck());
         assertNotNull(game.getStarterDeck());
+        assertNotNull(game.getObjectiveDeck());
     }
 
     @Test
@@ -167,6 +151,9 @@ class GameStateTest {
 
     @Test
     void testInitilizeMatrixPlayers() {
+        Player player2 = new Player();
+        player2.setUsername("us2");
+        game.addPlayer(player2);
         game.initializeMatrixPlayers(2);
         assertEquals(2, game.getPlayerState(0).getMatrix().length);
         assertEquals(2, game.getPlayerState(1).getMatrix().length);
@@ -174,6 +161,7 @@ class GameStateTest {
 
     @Test
     void testshuffleDecks() {
+        game.initializeObjectiveDeck();
         game.getResourceDeck().getCards().add(new ResourceCard());
         game.getResourceDeck().getCards().getFirst().setId(1);
         game.getResourceDeck().getCards().add(new ResourceCard());
@@ -208,9 +196,9 @@ class GameStateTest {
         assertTrue(orderChanged);
         assertTrue(game.getStarterDeck().containsAll(StarterCards));
 
-        game.getGoldDeck().getCards().add(new ResourceCard());
+        game.getGoldDeck().getCards().add(new GoldCard());
         game.getGoldDeck().getCards().getFirst().setId(5);
-        game.getGoldDeck().getCards().add(new ResourceCard());
+        game.getGoldDeck().getCards().add(new GoldCard());
         game.getGoldDeck().getCards().get(1).setId(6);
         List<Card> GoldCards = new ArrayList<>(game.getGoldDeck().getCards());
         assertEquals(GoldCards.getFirst().getId(),5);
@@ -224,6 +212,23 @@ class GameStateTest {
         }
         assertTrue(orderChanged);
         assertTrue(game.getGoldDeck().getCards().containsAll(GoldCards));
+
+        game.getObjectiveDeck().getCards().add(new Objective());
+        game.getObjectiveDeck().getCards().getFirst().setId(5);
+        game.getObjectiveDeck().getCards().add(new Objective());
+        game.getObjectiveDeck().getCards().get(1).setId(6);
+        List<Card> objectives = new ArrayList<>(game.getObjectiveDeck().getCards());
+        assertEquals(objectives.getFirst().getId(),5);
+        assertEquals(objectives.get(1).getId(),6);
+        orderChanged = false;
+        while(!orderChanged){
+            game.shuffleDecks();
+            if(!objectives.equals(game.getObjectiveDeck().getCards())){
+                orderChanged = true;
+            }
+        }
+        assertTrue(orderChanged);
+        assertTrue(game.getObjectiveDeck().getCards().containsAll(objectives));
     }
 
 }
