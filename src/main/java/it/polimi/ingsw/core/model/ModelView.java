@@ -16,6 +16,7 @@ public class ModelView {
     private Map<String, Color> playerPawns;
     private Map<String, Cell[][]> playerBoards;
     private Card deckGBack;
+    private Map<String,String> boardToPrint;
     private Card deckRBack;
     private List<Card> resourceCardsVisible;
     private List<Card> goldCardsVisible;
@@ -25,21 +26,24 @@ public class ModelView {
     private List<Card> myHand;
     private List<Card> myCodex;
     private String myUsername;
+    private int cardWidth = 7;
+    private int cardHeight = 3;
+    private int matrixDimension = 10;
     private int myUnreadedMessages;
     private boolean myTurn;
-    //private Color myPawn;
     private int myScore;
     private int[][] myMatrix;
     private Map<Resource, Integer> myResources;
     private Chat chat;
     private Card playingCard;
 
+
     public ModelView() {
         this.myUnreadedMessages = 0;
         this.myTurn = false;
+        this.boardToPrint = new HashMap<>();
         this.playerStates = new HashMap<>();
         this.resourceCardsVisible = new ArrayList<>();
-        this.playerBoards = new HashMap<>();
         this.goldCardsVisible = new ArrayList<>();
         this.commonObj = new ArrayList<>();
         this.myHand = new ArrayList<>();
@@ -50,6 +54,7 @@ public class ModelView {
         this.playerOrder = new HashMap<>();
         this.chat = new Chat();
         this.myScore = 0;
+        this.playerBoards = new HashMap<>();
     }
 
     public void setMyPlayingCard(Card playingCard) {
@@ -74,6 +79,56 @@ public class ModelView {
 
     public void addUnreadedMessage() {
         this.myUnreadedMessages++;
+    }
+
+    public void setPlayerBoards(Map<String, Cell[][]> playerBoards) {
+        this.playerBoards = playerBoards;
+    }
+
+    public void setBoardToPrint(Map<String, String> boardToPrint) {
+        this.boardToPrint = boardToPrint;
+    }
+
+    public Map<String, String> getBoardToPrint() {
+        return boardToPrint;
+    }
+
+    public void setBoardToPrintByUsername(String username, String board) {
+        this.boardToPrint.put(username, board);
+    }
+
+    public void initializePlayerBoards(){
+        for(String player : players){
+            Cell[][] board = new Cell[matrixDimension * cardHeight][matrixDimension * cardWidth];
+            for(int i = 0; i < matrixDimension * cardHeight; i++){
+                for(int j = 0; j < matrixDimension * cardWidth; j++){
+                    board[i][j] = new Cell();
+                    board[i][j].setCharacter(' ');
+                }
+            }
+            playerBoards.put(player, board);
+        }
+    }
+
+    public Map<String, Cell[][]> getPlayerBoards() {
+        if(playerBoards == null){
+            playerBoards = new HashMap<>();
+            for(String player : players){
+                Cell[][] board = new Cell[matrixDimension * cardHeight][matrixDimension * cardWidth];
+                for(int i = 0; i < matrixDimension * cardHeight; i++){
+                    for(int j = 0; j < matrixDimension * cardWidth; j++){
+                        board[i][j] = new Cell();
+                        board[i][j].setCharacter(' ');
+                    }
+                }
+                playerBoards.put(player, board);
+            }
+        }
+        return playerBoards;
+    }
+
+    private Cell getCell(int x, int y){
+        return playerBoards.get(myUsername)[x][y];
     }
 
     public void setMyTurn(boolean myTurn) {
@@ -229,7 +284,6 @@ public class ModelView {
     }
 
     public void setPlayers(List<String> players) {
-
         this.players = players;
         for(int i = 0; i < players.size(); i++){
             playerOrder.put(players.get(i), i);
