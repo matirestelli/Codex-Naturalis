@@ -72,6 +72,7 @@ public class ClientHandler implements Runnable, GameObserver {
                 gameId = (String) inputStream.readObject();
                 // wait for number of players
                 int numPlayers = Integer.parseInt((String) inputStream.readObject());
+                //int numPlayers = (int) inputStream.readObject();
                 // create new game session
                 gc = server.createNewSession(gameId, username, numPlayers, this);
             }

@@ -58,22 +58,25 @@ public class Client extends ClientAbstract {
         //outputStream.writeObject(joinCreate);
 
         // TODO: remove later, for testing
-        //message = (String) inputStream.readObject();
-        //System.out.println(message);
-        //String gameId = uiStrategy.askGameId(joinCreate, message);
-        //outputStream.writeObject(gameId);
+
         String in = args[1];
         if (in.equals("join")) {
             // get list of available game sessions
             message = (String) inputStream.readObject();
             System.out.println(message);
             System.out.print("Enter game id to join: ");
+            System.out.println(args[2]);
             outputStream.writeObject(args[2]);
+
+            //String gameId = uiStrategy.askGameId(joinCreate, message);
+            //outputStream.writeObject(gameId);
         } else if (in.equals("create")) {
             // create new game session
             System.out.print("Enter the game id: ");
             System.out.println(args[2]);
             outputStream.writeObject(args[2]);
+            //String gameId = uiStrategy.askGameId(joinCreate, message);
+            //outputStream.writeObject(gameId);
 
             System.out.print("Insert number of players: ");
             System.out.println(args[3]);

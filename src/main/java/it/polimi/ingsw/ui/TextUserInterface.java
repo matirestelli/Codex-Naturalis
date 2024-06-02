@@ -761,8 +761,8 @@ public class TextUserInterface implements UserInterfaceStrategy {
     public String askGameId(String joinCreate, String gameIds) {
         String gameId = "";
         if( joinCreate.equals("join")) {
-            System.out.println("Game available: " + gameIds);
-            System.out.println("Insert the game id to join: ");
+            //System.out.println("Game available: " + gameIds);
+            //System.out.println("Insert the game id to join: ");
             gameId = scanner.nextLine().trim();
             while(!gameIds.contains(gameId)) {
                 System.out.println("Invalid Input! Retry: ");
