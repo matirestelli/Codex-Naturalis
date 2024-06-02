@@ -20,7 +20,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
     private Scanner scanner = new Scanner(System.in);
     private int cardWidth = 7;
     private int cardHeight = 3;
-    private int matrixDimension = 10;
+    private int matrixDimension = 81;
     private ClientAbstract gameClient;
 
     public TextUserInterface(ClientAbstract gameClient) {
@@ -289,6 +289,8 @@ public class TextUserInterface implements UserInterfaceStrategy {
     }
 
     public void displayBoard() {
+        String ANSI_BACKGROUND_BROWN_DARK = "\u001B[48;5;94m";  // Marrone scuro
+        String ANSI_BACKGROUND_BROWN_LIGHT = "\u001B[48;5;101m"; // Marrone chiaro
         Card card;
         StringBuilder toprint = new StringBuilder();
         toprint.append("+");
@@ -299,11 +301,12 @@ public class TextUserInterface implements UserInterfaceStrategy {
         for (int i = 0; i <  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()).length; i++) {
             toprint.append("|");
             for (int j = 0; j <  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i].length; j++) {
-                card =  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCard();
+                card = gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCard();
                 if (card != null)
-                    toprint.append( gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getColor() +  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter() + AnsiColor.RESET);
+                    toprint.append(gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getColor() + gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter() + AnsiColor.RESET);
                 else
-                    toprint.append( gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter());
+                    //toprint.append(gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter());
+                    toprint.append(ANSI_BACKGROUND_BROWN_LIGHT + gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter());
             }
             toprint.append("|\n");
             toprint.append(AnsiColor.RESET);

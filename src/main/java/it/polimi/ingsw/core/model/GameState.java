@@ -194,7 +194,7 @@ public class GameState implements java.io.Serializable {
                 CardGame card = starterDeck.drawCard();
                 ResourceCard rc = (ResourceCard) card;
                 // TODO: change 10 to matrix dimension
-                rc.setXYCord(10/2, 10/2);
+                rc.setXYCord(81/2, 81/2);
                 ps.setStarterCard(rc);
                 ps.addCardToCodex((Card) card);
             }

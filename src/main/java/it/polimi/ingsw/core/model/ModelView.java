@@ -28,7 +28,7 @@ public class ModelView {
     private String myUsername;
     private int cardWidth = 7;
     private int cardHeight = 3;
-    private int matrixDimension = 10;
+    private int matrixDimension = 81;
     private int myUnreadedMessages;
     private boolean myTurn;
     private int myScore;

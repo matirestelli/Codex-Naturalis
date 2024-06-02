@@ -40,7 +40,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         this.moveProcessor = new Thread(this::processMoves);
         this.moveProcessor.start();
         this.currentPlayerIndex = 0;
-        this.matrixDimension = 10;
+        this.matrixDimension = 81;
     }
 
     @Override
