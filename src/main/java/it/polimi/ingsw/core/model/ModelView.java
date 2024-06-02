@@ -14,6 +14,7 @@ public class ModelView {
     private Map<String, Integer> playerOrder;
     private Map<String, ViewModelPlayerState> playerStates ;
     private Map<String, Color> playerPawns;
+    private Map<String, Cell[][]> playerBoards;
     private Card deckGBack;
     private Card deckRBack;
     private List<Card> resourceCardsVisible;
@@ -38,6 +39,7 @@ public class ModelView {
         this.myTurn = false;
         this.playerStates = new HashMap<>();
         this.resourceCardsVisible = new ArrayList<>();
+        this.playerBoards = new HashMap<>();
         this.goldCardsVisible = new ArrayList<>();
         this.commonObj = new ArrayList<>();
         this.myHand = new ArrayList<>();

@@ -43,44 +43,43 @@ public class Client extends ClientAbstract {
     public void start(String[] args) throws IOException, ClassNotFoundException {
         username = args[0];
         System.out.print("Enter your username: ");
-        // String in = scanner.nextLine();
-        // outputStream.writeObject(in);
         System.out.println(args[0]);
         outputStream.writeObject(args[0]);
+        //String usernameAsk = uiStrategy.askUsername();
+        //outputStream.writeObject(usernameAsk);
 
-        // wait for server response (join/create)
+        // wait for server asking (join/create)
         String message = (String) inputStream.readObject();
         System.out.print(message);
 
-        // in = scanner.nextLine();
         System.out.println(args[1]);
         outputStream.writeObject(args[1]);
-        // outputStream.writeObject(in);
+        //String joinCreate = uiStrategy.askJoinCreate();
+        //outputStream.writeObject(joinCreate);
 
         // TODO: remove later, for testing
+        //message = (String) inputStream.readObject();
+        //System.out.println(message);
+        //String gameId = uiStrategy.askGameId(joinCreate, message);
+        //outputStream.writeObject(gameId);
         String in = args[1];
         if (in.equals("join")) {
             // get list of available game sessions
             message = (String) inputStream.readObject();
             System.out.println(message);
             System.out.print("Enter game id to join: ");
-            // send gameId to server
-            // in = scanner.nextLine();
             outputStream.writeObject(args[2]);
-            // outputStream.writeObject(in);
         } else if (in.equals("create")) {
             // create new game session
             System.out.print("Enter the game id: ");
-            // in = scanner.nextLine();
-            // outputStream.writeObject(in);
             System.out.println(args[2]);
             outputStream.writeObject(args[2]);
 
             System.out.print("Insert number of players: ");
-            // int id = scanner.nextInt();
-            // outputStream.writeObject(id);
             System.out.println(args[3]);
             outputStream.writeObject(args[3]);
+            //int numberOfPlayers = uiStrategy.askNumberOfPlayers();
+            //outputStream.writeObject(numberOfPlayers);
         }
 
         System.out.println("\nWaiting for server updates...\n\n");

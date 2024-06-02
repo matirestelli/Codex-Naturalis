@@ -774,7 +774,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                 System.out.println("Invalid Input! Retry: ");
                 gameId = scanner.nextLine().trim();
             }
-        } else {
+        } else if(joinCreate.equals("create")) {
             System.out.println("Insert the game id: ");
             gameId = scanner.nextLine().trim();
         }
