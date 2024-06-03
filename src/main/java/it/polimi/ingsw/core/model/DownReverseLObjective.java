@@ -17,6 +17,13 @@ public class DownReverseLObjective extends PositionObjective {
         this.color2 = color;
     }
 
+    public Color getColor1() {
+        return color1;
+    }
+    public Color getColor2() {
+        return color2;
+    }
+
     public void CalculatePoints(PlayerState p) {
         int rows = p.getMatrix().length;
         int cols = p.getMatrix()[0].length;
