@@ -658,7 +658,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                             AnsiColor color = getAnsiFromColor( ((LObjective) objective).getColor2() );
                             System.out.print(color + " " + ANSIColor.RESET);
                         } else if (i==0 && j==6){
-                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((LObjective) objective).getPoints()  + AnsiColor.RESET);
                         }else {
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -676,7 +676,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                             AnsiColor color = getAnsiFromColor( ((ReverseLObjective) objective).getColor2() );
                             System.out.print(color + " " + ANSIColor.RESET);
                         } else if (i==0 && j==6){
-                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((ReverseLObjective) objective).getPoints() + AnsiColor.RESET);
                         }else {
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -691,10 +691,10 @@ public class TextUserInterface implements UserInterfaceStrategy {
                         if (i == 1 && j == 3 || i == 2 && j == 3 ) {
                             System.out.print(ANSIColor + " " + ANSIColor.RESET);
                         } else if ( i == 0 && j == 4){
-                            AnsiColor color = getAnsiFromColor( ((LObjective) objective).getColor2() );
+                            AnsiColor color = getAnsiFromColor( ((DownLObjective) objective).getColor2() );
                             System.out.print(color + " " + ANSIColor.RESET);
                         } else if (i==0 && j==6){
-                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((DownLObjective) objective).getPoints() + AnsiColor.RESET);
                         }else {
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -712,7 +712,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                             AnsiColor color = getAnsiFromColor( ((DownReverseLObjective) objective).getColor2() );
                             System.out.print(color + " " + ANSIColor.RESET);
                         } else if (i==0 && j==6){
-                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((DownReverseLObjective) objective).getPoints() + AnsiColor.RESET);
                         }else {
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -726,7 +726,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                         if (i == 0 && j == 2 || i == 1 && j == 3 || i == 2 && j == 4) {
                             System.out.print(ANSIColor + " " + ANSIColor.RESET);
                         } else if (i==0 && j==6){
-                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((SxDiagonalObjective) objective).getPoints() + AnsiColor.RESET);
                         }else {
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -740,7 +740,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                         if (i == 0 && j == 4 || i == 1 && j == 3 || i == 2 && j == 2) {
                             System.out.print(ANSIColor + " " + ANSIColor.RESET);
                         }else if (i==0 && j==6){
-                        System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                        System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((DxDiagonalObjective) objective).getPoints() + AnsiColor.RESET);
                         }else{
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -750,11 +750,31 @@ public class TextUserInterface implements UserInterfaceStrategy {
             }
             case "Resource" -> {
                 objective = (ResourceObjective) objective;
+                for(int i= 0; i< cardHeight; i++){
+                    for( int j= 0; j< cardWidth; j++) {
+                        if (i == 2 && j == 1){
+                            String resource;
+                            j--;
+                            for (Requirement r : ((ResourceObjective) objective).getRequirements()) {
+                                resource = Integer.toString(r.getQta()) + r.getResource().toString().charAt(0);
+                                System.out.print(ANSIColor + WHITE_TEXT + resource + AnsiColor.RESET);
+                                j++;
+                                j++;
+                            }
+                        }else if (i==0 && j==6){
+                            System.out.print(ANSIColor + WHITE_TEXT + ((ResourceObjective) objective).getPoints() + AnsiColor.RESET);
+                        }else{
+                            System.out.print(ANSIColor + " " + ANSIColor.RESET);
+                        }
+                    }
+                    System.out.println();
+                }
             }
             default -> {
                 System.out.println("Error in type of objective");
             }
         }
+        System.out.println("\n");
     }
 
     public AnsiColor getANSIColorForObjective(Objective card1) {
@@ -792,11 +812,8 @@ public class TextUserInterface implements UserInterfaceStrategy {
     public void displayCommonObjective(List<Objective> objectives) {
         System.out.println("Game's Common objectives:\n");
         for (Objective objective : objectives) {
-            // TODO: Fix and implement displayObjective method
-            System.out.println(objective.getId());
             displayObjectiveCard(objective);
         }
-        System.out.println("\n");
     }
 
     public void chooseObjective(List<Objective> objectives) {
