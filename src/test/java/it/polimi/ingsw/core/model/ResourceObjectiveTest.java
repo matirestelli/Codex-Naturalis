@@ -79,6 +79,11 @@ class ResourceObjectiveTest {
         player.setCodex(codex);
         // Card3 (back INSECT)
     }
+    @Test
+    void testGetRequirements() {
+        assertEquals(1, resourceObjective1.getRequirements().size());
+        assertEquals(2, resourceObjective2.getRequirements().size());
+    }
 
     @Test
     void testgetType() {

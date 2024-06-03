@@ -1,6 +1,7 @@
 package it.polimi.ingsw.core.model;
 
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.core.model.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -348,15 +349,20 @@ class GameStateTest {
         assertTrue(game.getPlayerState("us1").getStarterCard().isFrontSide());
     }
 
-   /* @Test
+   @Test
     void testPlaceStarter(){
-        game.initializeStarterDeck();
+        game.getPlayerStates().clear();
         PlayerState player = new PlayerState();
         player.setUsername("us1");
         game.addPlayer(player);
-        game.placeStarter("us1");
-        assertNotNull(game.getPlayerState("us1").getStarterCard());
-    }*/
+        game.initializeStarterDeck();
+        ResourceCard starter = new ResourceCard();
+        starter.setId(1);
+        game.getPlayerState("us1").initializeMatrix(50);
+        game.getPlayerState("us1").setStarterCard(starter);
+        game.placeStarter(7, 3, 50);
+        assertEquals(1, game.getPlayerState("us1").getMatrix()[25][25]);
+    }
 
     @Test
     void testPlaceStarterInMatrix(){
@@ -369,5 +375,110 @@ class GameStateTest {
         game.getPlayerState("us1").initializeMatrix(10);
         game.placeStarterInMatrix("us1", 10);
         assertEquals(1, game.getPlayerState("us1").getMatrix()[5][5]);
+    }
+
+    @Test
+    void testIsOver(){
+        assertFalse(game.isOver());
+        PlayerState player = new PlayerState();
+        player.setUsername("us1");
+        game.addPlayer(player);
+        game.getPlayerState("us1").setScore(25);
+        assertTrue(game.isOver());
+    }
+
+    @Test
+    void testGetPlayableCardIdsFromHand(){
+        PlayerState player = new PlayerState();
+        player.setUsername("us1");
+        game.addPlayer(player);
+        Card card1 = new ResourceCard();
+        card1.setId(1);
+        Card card2 = new ResourceCard();
+        card2.setId(2);
+        GoldCard card3 = new GoldCard();
+        card3.setId(3);
+        ArrayList<Requirement> requirements = new ArrayList<>();
+        Requirement requirement1 = new Requirement(Resource.PLANT, 1);
+        requirements.add(requirement1);
+        Requirement requirement2 = new Requirement(Resource.ANIMAL, 5);
+        requirements.add(requirement2);
+        card3.setRequirements(requirements);
+        game.getPlayerState("us1").setPersonalResources(new HashMap<Resource, Integer>(){{
+            put(Resource.PLANT, 1);
+            put(Resource.ANIMAL, 3);
+            put(Resource.FUNGI, 0);
+            put(Resource.INSECT, 0);
+            put(Resource.QUILL, 0);
+            put(Resource.NOUN, 0);
+            put(Resource.INKWELL, 0);
+            put(Resource.MANUSCRIPT, 0);
+            put(Resource.ANGLE_COVERED, 0);
+            put(Resource.NO_RESOURCE, 0);
+        }});
+        game.getPlayerState("us1").addCardToHand(card1);
+        game.getPlayerState("us1").addCardToHand(card2);
+        game.getPlayerState("us1").addCardToHand(card3);
+        List<Integer> expected = new ArrayList<>();
+        expected.add(1);
+        expected.add(2);
+        assertEquals(expected, game.getPlayableCardIdsFromHand("us1").getPlayingHandIds());
+    }
+
+    @Test
+    void testCalculateResource(){
+        PlayerState player = new PlayerState();
+        player.setUsername("us1");
+        game.addPlayer(player);
+
+        Card card1 = new ResourceCard();
+        card1.setSide(true);
+        Map<Integer, Corner> frontCorners1 = new HashMap<>();
+        frontCorners1.put(0, new Corner() {{
+            setResource(Resource.PLANT);
+        }});
+        frontCorners1.put(1, new Corner() {
+            {
+                setResource(Resource.ANIMAL);
+            }
+        });
+        frontCorners1.put(2, new Corner() {
+            {
+                setResource(Resource.ANIMAL);
+                setEmpty(true);
+            }
+        });
+        card1.setFrontCorners(frontCorners1);
+
+        Map<Resource, Integer> expectedResources = new HashMap<>();
+        expectedResources.put(Resource.PLANT, 1);
+        expectedResources.put(Resource.ANIMAL, 1);
+        expectedResources.put(Resource.FUNGI, 0);
+        expectedResources.put(Resource.INSECT, 0);
+        expectedResources.put(Resource.QUILL, 0);
+        expectedResources.put(Resource.NOUN, 0);
+        expectedResources.put(Resource.INKWELL, 0);
+        expectedResources.put(Resource.MANUSCRIPT, 0);
+        expectedResources.put(Resource.ANGLE_COVERED, 0);
+        expectedResources.put(Resource.NO_RESOURCE, 0);
+
+        game.getPlayerState("us1").setCodex(new ArrayList<Card>(){{add(card1);}});;
+        assertEquals(expectedResources, game.calculateResource("us1"));
+    }
+
+    @Test
+    void testRemoveResourceCardVisible(){
+        ResourceCard card = new ResourceCard();
+        game.addCardToResourceCardsVisible(card);
+        game.removeResourceCardVisible(card);
+        assertFalse(game.getResourceCardsVisible().contains(card));
+    }
+
+    @Test
+    void testRemoveGoldCardVisible(){
+        GoldCard card = new GoldCard();
+        game.addCardToGoldCardsVisible(card);
+        game.removeGoldCardVisible(card);
+        assertFalse(game.getGoldCardsVisible().contains(card));
     }
 }
