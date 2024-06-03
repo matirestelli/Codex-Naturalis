@@ -136,8 +136,6 @@ public class GameState implements java.io.Serializable {
             //caricare i colori giusti alle carte obiettivo
         }
         System.out.println("Objective deck loaded");
-
-
     }
 
     public void addCommonObjective(Objective objective) {
