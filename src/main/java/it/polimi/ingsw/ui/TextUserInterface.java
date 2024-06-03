@@ -20,18 +20,11 @@ public class TextUserInterface implements UserInterfaceStrategy {
     private Scanner scanner = new Scanner(System.in);
     private int cardWidth = 7;
     private int cardHeight = 3;
-    private int matrixDimension = 10;
-    private Cell[][] gameBoard;
+    private int matrixDimension = 81;
     private ClientAbstract gameClient;
 
     public TextUserInterface(ClientAbstract gameClient) {
         this.gameClient = gameClient;
-        this.gameBoard = new Cell[matrixDimension * cardHeight][matrixDimension * cardWidth];
-        for (int i = 0; i < matrixDimension * cardHeight; i++)
-            for (int j = 0; j < matrixDimension * cardWidth; j++) {
-                gameBoard[i][j] = new Cell();
-                this.gameBoard[i][j].setCharacter(' ');
-            }
     }
 
     @Override
@@ -191,64 +184,63 @@ public class TextUserInterface implements UserInterfaceStrategy {
         }
 
         String ANSIColor = getANSIColorForCard(c).toString();
-
         for (int i = 0; i < 7; i++) {
-            gameBoard[y][x + i].setCard(c);
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + i].setCard(c);
             if (c.isFrontSide())
-                gameBoard[y][x + i].setCharacter(displayResourcesNoColor(card, 1, 2).charAt(i));
-            gameBoard[y][x + i].setColor(ANSIColor);
+                gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + i].setCharacter(displayResourcesNoColor(card, 1, 2).charAt(i));
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + i].setColor(ANSIColor);
 
-            gameBoard[y + 1][x + i].setCard(c);
-            gameBoard[y + 1][x + i].setColor(ANSIColor + AnsiColor.BOLD);
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y + 1][x + i].setCard(c);
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y + 1][x + i].setColor(ANSIColor + AnsiColor.BOLD);
 
-            gameBoard[y + 2][x + i].setCard(c);
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y + 2][x + i].setCard(c);
             if (c.isFrontSide())
-                gameBoard[y + 2][x + i].setCharacter(displayResourcesNoColor(card, 0, 3).charAt(i));
-            gameBoard[y + 2][x + i].setColor(ANSIColor);
+                gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y + 2][x + i].setCharacter(displayResourcesNoColor(card, 0, 3).charAt(i));
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y + 2][x + i].setColor(ANSIColor);
         }
 
         if (!whichCard) {
             ResourceCard resc = (ResourceCard) card;
             if (c.isFrontSide() && resc.getPoint() > 0)
-                gameBoard[y][x + 3].setColor(AnsiColor.YELLOW + ANSIColor);
+                gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + 3].setColor(AnsiColor.YELLOW + ANSIColor);
         } else {
             GoldCard gold = (GoldCard) card;
             if (gold.getPoint().getResource() != Resource.NO_RESOURCE)
-                gameBoard[y][x + 3].setColor(AnsiColor.YELLOW + ANSIColor);
+                gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + 3].setColor(AnsiColor.YELLOW + ANSIColor);
         }
 
         if (!c.isFrontSide() || (c.getFrontCorners().containsKey(0) && c.getFrontCorners().get(0).isEmpty()))
-            gameBoard[y + 2][x].setColor(AnsiColor.WHITE_BACKGROUND.toString());
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y + 2][x].setColor(AnsiColor.WHITE_BACKGROUND.toString());
 
         if (!c.isFrontSide() || (c.getFrontCorners().containsKey(1) && c.getFrontCorners().get(1).isEmpty()))
-            gameBoard[y][x].setColor(AnsiColor.WHITE_BACKGROUND.toString());
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x].setColor(AnsiColor.WHITE_BACKGROUND.toString());
 
         if (!c.isFrontSide() || (c.getFrontCorners().containsKey(2) && c.getFrontCorners().get(2).isEmpty()))
-            gameBoard[y][x + 6].setColor(AnsiColor.WHITE_BACKGROUND.toString());
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + 6].setColor(AnsiColor.WHITE_BACKGROUND.toString());
 
         if (!c.isFrontSide() || (c.getFrontCorners().containsKey(3) && c.getFrontCorners().get(3).isEmpty()))
-            gameBoard[y + 2][x + 6].setColor(AnsiColor.WHITE_BACKGROUND.toString());
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y + 2][x + 6].setColor(AnsiColor.WHITE_BACKGROUND.toString());
 
         if (!c.isFrontSide()) {
             if (c.getBackResources().size() == 1)
-                gameBoard[y][x + 3].setCharacter(c.getBackResources().get(0).toString().charAt(0));
+                gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + 3].setCharacter(c.getBackResources().get(0).toString().charAt(0));
             else if (c.getBackResources().size() == 2) {
-                gameBoard[y][x + 2].setCharacter(c.getBackResources().get(0).toString().charAt(0));
-                gameBoard[y][x + 3].setCharacter(c.getBackResources().get(1).toString().charAt(0));
+                gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + 2].setCharacter(c.getBackResources().get(0).toString().charAt(0));
+                gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + 3].setCharacter(c.getBackResources().get(1).toString().charAt(0));
             } else {
-                gameBoard[y][x + 2].setCharacter(c.getBackResources().get(0).toString().charAt(0));
-                gameBoard[y][x + 3].setCharacter(c.getBackResources().get(1).toString().charAt(0));
-                gameBoard[y][x + 4].setCharacter(c.getBackResources().get(2).toString().charAt(0));
+                gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + 2].setCharacter(c.getBackResources().get(0).toString().charAt(0));
+                gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + 3].setCharacter(c.getBackResources().get(1).toString().charAt(0));
+                gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y][x + 4].setCharacter(c.getBackResources().get(2).toString().charAt(0));
             }
         }
 
         // fix with card ids with multiple digits
         if (c.getId() > 9) {
             String idString = String.valueOf(c.getId());
-            gameBoard[y + 1][x + 2].setCharacter(idString.charAt(0));
-            gameBoard[y + 1][x + 3].setCharacter(idString.charAt(1));
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y + 1][x + 2].setCharacter(idString.charAt(0));
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y + 1][x + 3].setCharacter(idString.charAt(1));
         } else
-            gameBoard[y + 1][x + 3].setCharacter((char) (c.getId() + '0'));
+            gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y + 1][x + 3].setCharacter((char) (c.getId() + '0'));
     }
 
     public String displayResourcesNoColor(Card card1, int index1, int index2) {
@@ -297,61 +289,65 @@ public class TextUserInterface implements UserInterfaceStrategy {
     }
 
     public void displayBoard() {
-        Card card;
-
-        System.out.print("+");
-        for (int i = 0; i < gameBoard[0].length; i++)
-            System.out.print("-");
-        System.out.println("+");
-
-        for (int i = 0; i < gameBoard.length; i++) {
-            System.out.print("|");
-            for (int j = 0; j < gameBoard[i].length; j++) {
-                card = gameBoard[i][j].getCard();
-                if (card != null)
-                    System.out.print(gameBoard[i][j].getColor() + gameBoard[i][j].getCharacter() + AnsiColor.RESET);
-                else
-                    System.out.print(gameBoard[i][j].getCharacter());
-            }
-            System.out.print("|");
-            System.out.println(AnsiColor.RESET);
-        }
-
-        System.out.print("+");
-        for (int i = 0; i < gameBoard[0].length; i++)
-            System.out.print("-");
-        System.out.println("+");
-    }
-
-    public void getBoardString(String asker) {
+        String ANSI_BACKGROUND_BROWN_DARK = "\u001B[48;5;94m";  // Marrone scuro
+        String ANSI_BACKGROUND_BROWN_LIGHT = "\u001B[48;5;101m"; // Marrone chiaro
         Card card;
         StringBuilder toprint = new StringBuilder();
         toprint.append("+");
-        for (int i = 0; i < gameBoard[0].length; i++)
+        for (int i = 0; i <  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[0].length; i++)
             toprint.append("-");
         toprint.append("+\n");
 
-        for (int i = 0; i < gameBoard.length; i++) {
+        for (int i = 0; i <  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()).length; i++) {
             toprint.append("|");
-            for (int j = 0; j < gameBoard[i].length; j++) {
-                card = gameBoard[i][j].getCard();
+            for (int j = 0; j <  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i].length; j++) {
+                card = gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCard();
                 if (card != null)
-                    toprint.append(gameBoard[i][j].getColor() + gameBoard[i][j].getCharacter() + AnsiColor.RESET);
+                    toprint.append(gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getColor() + gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter() + AnsiColor.RESET);
                 else
-                    toprint.append(gameBoard[i][j].getCharacter());
+                    //toprint.append(gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter());
+                    toprint.append(ANSI_BACKGROUND_BROWN_LIGHT + gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter());
             }
             toprint.append("|\n");
             toprint.append(AnsiColor.RESET);
         }
 
         toprint.append("+");
-        for (int i = 0; i < gameBoard[0].length; i++)
+        for (int i = 0; i <  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[0].length; i++)
             toprint.append("-");
         toprint.append("+");
-        List<String> strings = new ArrayList<>();
-        strings.add(toprint.toString());
-        strings.add(asker);
-        gameClient.sendMessage(new sendBoard("displayBoard", strings));
+        System.out.println(toprint.toString());
+        gameClient.sendMessage(new updateBoards("updateBoard", toprint.toString()));
+    }
+
+
+
+    public void getBoardString(String requested) {
+        Card card;
+        StringBuilder toprint = new StringBuilder();
+        toprint.append("+");
+        for (int i = 0; i < gameClient.getModelView().getPlayerBoards().get(requested)[0].length; i++)
+            toprint.append("-");
+        toprint.append("+\n");
+
+        for (int i = 0; i < gameClient.getModelView().getPlayerBoards().get(requested).length; i++) {
+            toprint.append("|");
+            for (int j = 0; j < gameClient.getModelView().getPlayerBoards().get(requested)[i].length; j++) {
+                card = gameClient.getModelView().getPlayerBoards().get(requested)[i][j].getCard();
+                if (card != null)
+                    toprint.append(gameClient.getModelView().getPlayerBoards().get(requested)[i][j].getColor() + gameClient.getModelView().getPlayerBoards().get(requested)[i][j].getCharacter() + AnsiColor.RESET);
+                else
+                    toprint.append(gameClient.getModelView().getPlayerBoards().get(requested)[i][j].getCharacter());
+            }
+            toprint.append("|\n");
+            toprint.append(AnsiColor.RESET);
+        }
+
+        toprint.append("+");
+        for (int i = 0; i < gameClient.getModelView().getPlayerBoards().get(requested)[0].length; i++)
+            toprint.append("-");
+        toprint.append("+");
+        System.out.println(toprint.toString());
     }
 
     public CardSelection askCardSelection(PlayableCardIds ids, List<Card> hand) {
@@ -481,10 +477,11 @@ public class TextUserInterface implements UserInterfaceStrategy {
                     input = scanner.nextLine();
                 }
                 List<String> usernames = new ArrayList<>();
-                usernames.add(input);
-                usernames.add(gameClient.getModelView().getMyUsername());
-                gameClient.sendMessage(new DisplayCodex("displayCodex", usernames));
-                //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                System.out.println(gameClient.getModelView().getBoardToPrint().get(input));
+                //usernames.add(input);
+                //usernames.add(gameClient.getModelView().getMyUsername());
+                //gameClient.sendMessage(new DisplayCodex("displayCodex", usernames));
+                gameClient.sendMessage(new DisplayMenu("displayMenu", null));
             }
             case "6" -> {
 
@@ -767,14 +764,14 @@ public class TextUserInterface implements UserInterfaceStrategy {
     public String askGameId(String joinCreate, String gameIds) {
         String gameId = "";
         if( joinCreate.equals("join")) {
-            System.out.println("Game available: " + gameIds);
-            System.out.println("Insert the game id to join: ");
+            //System.out.println("Game available: " + gameIds);
+            //System.out.println("Insert the game id to join: ");
             gameId = scanner.nextLine().trim();
             while(!gameIds.contains(gameId)) {
                 System.out.println("Invalid Input! Retry: ");
                 gameId = scanner.nextLine().trim();
             }
-        } else {
+        } else if(joinCreate.equals("create")) {
             System.out.println("Insert the game id: ");
             gameId = scanner.nextLine().trim();
         }

@@ -13,7 +13,7 @@ public class StarterCardLoadedMessage extends MessageServer2Client {
     public void doAction(ClientAbstract client) {
         ResourceCard starterCard = (ResourceCard) this.getData();
         // TODO: fix this hardcoded value
-        starterCard.setCentre(new Coordinate(10 / 2 * 7 - 5,10 / 2 * 3 - 5));
+        starterCard.setCentre(new Coordinate(81 / 2 * 7 - 5,81 / 2 * 3 - 5));
         client.getModelView().setMyStarterCard((ResourceCard) this.getData());
         client.getModelView().addCardToCodex((Card) this.getData());
         client.getUIStrategy().visualiseStarterCardLoaded((Card) this.getData());

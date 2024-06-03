@@ -28,7 +28,6 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     private int matrixDimension;
 
     private List<String> playersReadyToPlayer = new ArrayList<>();
-    private Map<String, Color> playerPawns;
 
     private Map<Integer, Map<Integer, List<Coordinate>>> test;
     private Card cardToPlace;
@@ -39,10 +38,9 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         this.observers = new LinkedHashMap<>();
         this.moveQueue = new LinkedBlockingQueue<>();
         this.moveProcessor = new Thread(this::processMoves);
-        this.playerPawns = new HashMap<>();
         this.moveProcessor.start();
         this.currentPlayerIndex = 0;
-        this.matrixDimension = 10;
+        this.matrixDimension = 81;
     }
 
     @Override
@@ -96,6 +94,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             orderedObserversMap.get(us).update(new StarterCardLoadedMessage("starterCardLoaded", gameState.getPlayerState(us).getStarterCard()));
         }
 
+        Map<String, Color> playerPawns = new HashMap<>();
         for (String us : orderedObserversMap.keySet()){
             playerPawns.put(us, gameState.getPlayerState(us).getPawn());
             }
@@ -448,14 +447,16 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         orderedObserversMap.get(username).update(new DisplayScoreboard("displayScoreboard", scoreboard));
     }
 
-    public void printCodex(List<String> username) throws RemoteException {
-        String usernameRequested = username.get(0);
-        String asker = username.get(1);
-        orderedObserversMap.get(usernameRequested).update(new DisplayCodex("displayCodex", asker));
-    }
 
-    public void printBoard(List<String> data) throws RemoteException {
-        orderedObserversMap.get(data.get(1)).update(new DisplayBoard("displayBoard", data.get(0)));
+
+    public void updateBoards(List<String> data){
+        for (String us : orderedObserversMap.keySet()) {
+            try {
+                orderedObserversMap.get(us).update(new updateBoards("Boards", data));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void lastTurn(String username) throws RemoteException {

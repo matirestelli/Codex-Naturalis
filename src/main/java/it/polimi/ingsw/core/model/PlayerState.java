@@ -18,6 +18,10 @@ public class PlayerState extends Player implements Serializable {
     private List<Card> hand;
     private Chat chat;
     private Color pawn;
+    private Cell[][] board;
+    private int cardWidth = 7;
+    private int cardHeight = 3;
+    private int matrixDimension = 81;
 
     private List<Card> codex;
     private int[][] matrix;
@@ -30,6 +34,12 @@ public class PlayerState extends Player implements Serializable {
         this.codex = new ArrayList<>();
         this.personalResources = new HashMap<>();
         this.chat = new Chat();
+        this.board = new Cell[matrixDimension * cardHeight][matrixDimension * cardWidth];
+        for (int i = 0; i < matrixDimension * cardHeight; i++)
+            for (int j = 0; j < matrixDimension * cardWidth; j++) {
+                board[i][j] = new Cell();
+                this.board[i][j].setCharacter(' ');
+            }
     }
 
     public void setPawn(Color pawn) {
@@ -38,6 +48,14 @@ public class PlayerState extends Player implements Serializable {
 
     public Color getPawn() {
         return pawn;
+    }
+
+    public void setBoard(Cell[][] board) {
+        this.board = board;
+    }
+
+    public Cell[][] getBoard() {
+        return board;
     }
 
     public Chat getChat(){

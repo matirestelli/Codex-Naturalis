@@ -12,5 +12,6 @@ public class LoadedPlayersMessage extends MessageServer2Client{
     @Override
     public void doAction(ClientAbstract client) {
         client.getModelView().setPlayers((List<String>) getData());
+        client.getModelView().initializePlayerBoards();
     }
 }
