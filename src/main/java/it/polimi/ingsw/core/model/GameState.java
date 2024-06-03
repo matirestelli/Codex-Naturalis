@@ -53,7 +53,7 @@ public class GameState implements java.io.Serializable {
         playerStates = new HashMap<>();
     }
 
-    public void intializePawn(){
+    public void initializePawn(){
         for (Player player : playerStates.keySet()) {
             //extract a random color from the colors list and assign it to the player
             playerStates.get(player).setPawn(colors.remove(new Random().nextInt(colors.size())));
@@ -194,7 +194,7 @@ public class GameState implements java.io.Serializable {
     public void assignStarterCardToPlayers() {
         for (Player player : playerStates.keySet()) {
             PlayerState ps = playerStates.get(player);
-            if (!starterDeck.isEmpty()) {
+            if (!starterDeck.getCards().isEmpty()) {
                 CardGame card = starterDeck.drawCard();
                 ResourceCard rc = (ResourceCard) card;
                 // TODO: change 10 to matrix dimension
@@ -219,12 +219,12 @@ public class GameState implements java.io.Serializable {
             PlayerState ps = playerStates.get(player);
             // TODO: implement for loop to draw n cards. Define n as class variable
             for (int i = 0; i < 2; i++) {
-                if (!resourceDeck.isEmpty()) {
+                if (!resourceDeck.getCards().isEmpty()) {
                     Card card = (Card) resourceDeck.drawCard();
                     ps.addCardToHand(card);
                 }
             }
-            if (!goldDeck.isEmpty()) {
+            if (!goldDeck.getCards().isEmpty()) {
                 Card card = (Card) goldDeck.drawCard();
                 ps.addCardToHand(card);
             }
@@ -245,13 +245,21 @@ public class GameState implements java.io.Serializable {
 
     public void setCommonObjective(List<Objective> commonObj) {
         this.commonObj.clear();
-        this.commonObj.add(commonObj.get(0));
-        this.commonObj.add(commonObj.get(1));
+        try{
+            this.commonObj.add(commonObj.get(0));
+            this.commonObj.add(commonObj.get(1));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Error: common objectives not set");
+        }
     }
 
 
     public Objective getCommonObjective(int index) {
-        return commonObj.get(index);
+        try {
+            return commonObj.get(index);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     public Deck getObjectiveDeck() {

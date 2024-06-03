@@ -76,7 +76,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new UpdatedDecksMessage("updateDecks", updatedDecks));
 
-        gameState.intializePawn();
+        gameState.initializePawn();
 
         // assign the starter card to each player
         gameState.assignStarterCardToPlayers();

@@ -65,6 +65,18 @@ class DownReverseLObjectiveTest {
     }
 
     @Test
+    void testSetAndGetColor1() {
+        downReverselObjective.setColor1(Color.RED);
+        assertEquals(Color.RED, downReverselObjective.getColor1());
+    }
+
+    @Test
+    void testSetAndGetColor2() {
+        downReverselObjective.setColor2(Color.RED);
+        assertEquals(Color.RED, downReverselObjective.getColor2());
+    }
+
+    @Test
     void testCalculatePoints() {
         player.setMatrix(new int[][] {
                 { -1, -1, -1, -1, -1, -1, -1},

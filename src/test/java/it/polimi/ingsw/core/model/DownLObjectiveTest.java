@@ -61,6 +61,16 @@ class DownLObjectiveTest {
     }
 
     @Test
+    void testGetColor1() {
+        assertEquals(Color.BLUE, downlObjective.getColor1());
+    }
+
+    @Test
+    void testGetColor2() {
+        assertEquals(Color.GREEN, downlObjective.getColor2());
+    }
+
+    @Test
     void testCalculatePoints() {
         player.setMatrix(new int[][] {
                 { -1, -1, -1, -1, -1, -1, -1},

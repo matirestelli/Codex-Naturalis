@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,6 +39,28 @@ class GameStateTest {
     }
 
     @Test
+    void testAddCardToResourceCardsVisible() {
+        ResourceCard c = new ResourceCard();
+        game.addCardToResourceCardsVisible(c);
+        assertNotNull(game.getResourceCardsVisible().contains(c));
+    }
+
+    @Test
+    void testAddCardToGoldCardsVisible() {
+        GoldCard c = new GoldCard();
+        game.addCardToGoldCardsVisible(c);
+        assertNotNull(game.getGoldCardsVisible().contains(c));
+    }
+
+    @Test
+    void testInitializePawn() {
+        game.initializePawn();
+        for(PlayerState player : game.getPlayerStates().values()){
+            assertNotNull(player.getPawn());
+        }
+    }
+
+    @Test
     void testGameState() {
         GameState game = new GameState();
         assertNotNull(game);
@@ -45,6 +69,9 @@ class GameStateTest {
     @Test
     void testgetPlayerState() {
         assertTrue(game.getPlayerStates().containsValue(game.getPlayerState(player.getUsername())));
+        assertEquals(null, game.getPlayerState("us2"));
+        game.getPlayerStates().clear();
+        assertEquals(null, game.getPlayerState(player.getUsername()));
     }
 
     @Test
@@ -68,6 +95,9 @@ class GameStateTest {
         player.setUsername("us1");
         game.addPlayer(player);
         assertEquals(0, game.getPlayerId(player.getUsername()));
+        assertEquals(-1, game.getPlayerId("us2"));
+        game.getPlayerStates().clear();
+        assertEquals(-1, game.getPlayerId(player.getUsername()));
     }
 
     @Test
@@ -224,4 +254,120 @@ class GameStateTest {
         assertTrue(game.getObjectiveDeck().getCards().containsAll(objectives));
     }
 
+    @Test
+    void testInitializeChat() {
+        PlayerState player = new PlayerState();
+        player.setUsername("us1");
+        game.addPlayer(player);
+        game.initializeChat();
+        assertNotNull(game.getPlayerState("us1").getChat());
+        game.getPlayerStates().clear();
+        game.initializeChat();
+    }
+
+    @Test
+    void testgetObjectiveDeckCopy() {
+        game.initializeObjectiveDeck();
+        List<CardGame> objectiveDeckCopy = game.getObjectiveDeckCopy();
+        assertEquals(game.getObjectiveDeckCopy(), objectiveDeckCopy);
+    }
+
+    @Test
+    void testAssignStarterCardToPlayers() {
+        PlayerState player1 = new PlayerState();
+        player1.setUsername("us1");
+        game.addPlayer(player1);
+        game.initializeStarterDeck();
+        game.assignStarterCardToPlayers();
+        for(PlayerState player : game.getPlayerStates().values()){
+            assertNotNull(player.getStarterCard());
+        }
+        game.getStarterDeck().clear();
+        game.assignStarterCardToPlayers();
+
+    }
+
+    @Test
+    void testGetPlayerHand() {
+        PlayerState player = new PlayerState();
+        player.setUsername("us1");
+        game.addPlayer(player);
+        assertNotNull(game.getPlayerHand("us1"));
+        ArrayList<Card> hand = new ArrayList<>();
+        game.setPlayerHand("us3", hand);
+        game.setPlayerHand("us1", hand);
+        assertEquals(null, game.getPlayerHand("us2"));
+        assertEquals(hand, game.getPlayerHand("us1"));
+        game.getPlayerStates().clear();
+        game.setPlayerHand("us1", hand);
+        assertEquals(null, game.getPlayerHand("us1"));
+    }
+
+    @Test
+    void testAssignFirstHandToPlayers() {
+        game.initializeResourceDeck();
+        game.initializeGoldDeck();
+        game.assignFirstHandToPlayers();
+        for(PlayerState player : game.getPlayerStates().values()){
+            assertNotNull(player.getHand());
+        }
+        game.getResourceDeck().getCards().clear();
+        game.getGoldDeck().getCards().clear();
+        game.assignFirstHandToPlayers();
+
+    }
+
+    @Test
+    void testGetCommonObjective() {
+        List<Objective> objectives = new ArrayList<>();
+        Objective test = new Objective();
+        objectives.add(test);
+        game.setCommonObjective(objectives);
+        assertEquals(test, game.getCommonObjective(0));
+        assertNull(game.getCommonObjective(2));
+    }
+
+    @Test
+    void testsetsecretObjective() {
+        PlayerState player = new PlayerState();
+        player.setUsername("us1");
+        game.addPlayer(player);
+        Objective objective = new Objective();
+        game.setSecretObjective("us1", objective);
+        assertEquals(objective, game.getPlayerState("us1").getSecretObj());
+    }
+
+    @Test
+    void testAssignStarterSide(){
+        game.initializeStarterDeck();
+        PlayerState player = new PlayerState();
+        player.setUsername("us1");
+        game.addPlayer(player);
+        game.assignStarterCardToPlayers();
+        game.assignStarterSide("us1", true);
+        assertTrue(game.getPlayerState("us1").getStarterCard().isFrontSide());
+    }
+
+   /* @Test
+    void testPlaceStarter(){
+        game.initializeStarterDeck();
+        PlayerState player = new PlayerState();
+        player.setUsername("us1");
+        game.addPlayer(player);
+        game.placeStarter("us1");
+        assertNotNull(game.getPlayerState("us1").getStarterCard());
+    }*/
+
+    @Test
+    void testPlaceStarterInMatrix(){
+        PlayerState player = new PlayerState();
+        ResourceCard starter = new ResourceCard();
+        starter.setId(1);
+        game.addPlayer(player);
+        player.setUsername("us1");
+        game.getPlayerState("us1").setStarterCard(starter);
+        game.getPlayerState("us1").initializeMatrix(10);
+        game.placeStarterInMatrix("us1", 10);
+        assertEquals(1, game.getPlayerState("us1").getMatrix()[5][5]);
+    }
 }

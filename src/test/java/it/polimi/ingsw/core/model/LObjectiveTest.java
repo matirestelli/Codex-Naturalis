@@ -62,6 +62,18 @@ class LObjectiveTest {
     }
 
     @Test
+    void testSetColor1() {
+        lObjective.setColor1(Color.RED);
+        assertEquals(Color.RED, lObjective.getColor1());
+    }
+
+    @Test
+    void testSetColor2() {
+        lObjective.setColor2(Color.RED);
+        assertEquals(Color.RED, lObjective.getColor2());
+    }
+
+    @Test
     void testCalculatePoints() {
         player.setMatrix(new int[][] {
                 {  2, -1, -1, -1, -1, -1, -1},
