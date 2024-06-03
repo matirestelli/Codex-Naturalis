@@ -134,9 +134,10 @@ public class GameState implements java.io.Serializable {
         this.objectiveDeckCopy.addAll(this.objectiveDeck.getCards());
         for (CardGame card : this.objectiveDeck.getCards()) {
             //caricare i colori giusti alle carte obiettivo
-
         }
         System.out.println("Objective deck loaded");
+
+
     }
 
     public void addCommonObjective(Objective objective) {

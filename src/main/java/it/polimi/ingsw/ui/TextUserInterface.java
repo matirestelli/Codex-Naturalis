@@ -709,7 +709,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                         if (i == 2 && j == 3 || i == 1 && j == 3 ) {
                             System.out.print(ANSIColor + " " + ANSIColor.RESET);
                         } else if ( i == 0 && j == 2){
-                            AnsiColor color = getAnsiFromColor( ((LObjective) objective).getColor2() );
+                            AnsiColor color = getAnsiFromColor( ((DownReverseLObjective) objective).getColor2() );
                             System.out.print(color + " " + ANSIColor.RESET);
                         } else if (i==0 && j==6){
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
