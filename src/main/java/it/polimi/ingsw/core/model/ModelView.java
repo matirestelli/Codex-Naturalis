@@ -127,7 +127,7 @@ public class ModelView {
         return playerBoards;
     }
 
-    private Cell getCell(int x, int y){
+    Cell getCell(int x, int y){
         return playerBoards.get(myUsername)[x][y];
     }
 

@@ -33,6 +33,10 @@ public class Objective extends Card implements Serializable {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public void resetCompleted() { //resetta il numero di volte che l'obiettivo è stato completato
         completed = 0;
     }

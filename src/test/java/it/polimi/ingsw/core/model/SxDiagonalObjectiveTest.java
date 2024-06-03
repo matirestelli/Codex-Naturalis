@@ -49,6 +49,10 @@ class SxDiagonalObjectiveTest {
         card6.setColor(Color.RED);
         sxDiagonalObjective.setColor(Color.RED);
     }
+    @Test
+    void testGetType() {
+        assertEquals("SxDiagonal", sxDiagonalObjective.getType());
+    }
 
     @Test
     void testCalculatePoints() {

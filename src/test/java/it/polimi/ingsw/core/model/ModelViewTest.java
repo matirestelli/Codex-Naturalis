@@ -27,12 +27,6 @@ class ModelViewTest {
         assertEquals(card, modelView.getMyPlayingCard());
     }
 
-    @Test
-    void testSetAndGetChat() {
-        Chat chat = new Chat();
-        modelView.setChat(chat);
-        assertEquals(chat, modelView.getChat());
-    }
 
     @Test
     void testSetAndGetUnreadedMessages() {
@@ -87,12 +81,6 @@ class ModelViewTest {
     void testSetAndGetMyUsername() {
         modelView.setMyUsername("username");
         assertEquals("username", modelView.getMyUsername());
-    }
-
-    @Test
-    void testSetAndGetMyColor() {
-        modelView.setMyColor(Color.BLUE);
-        assertEquals(Color.BLUE, modelView.getMyColor());
     }
 
     @Test
@@ -203,5 +191,75 @@ class ModelViewTest {
         modelView.setPlayers(players);
         assertTrue(players.containsAll(modelView.getPlayerOrder().keySet()));
     }
+
+    @Test
+    void testGetChat() {
+        assertNotNull(modelView.getChat());
+    }
+
+    @Test
+    void testAddUnreadedMessage() {
+        modelView.addUnreadedMessage();
+        assertEquals(1, modelView.getMyUnreadedMessages());
+    }
+
+    @Test
+    void testSetAndGetPlayerBoards() {
+        HashMap<String, Cell[][]> playerBoards = new HashMap<>();
+        playerBoards.put("username", new Cell[5][5]);
+        modelView.setPlayerBoards(playerBoards);
+        assertEquals(playerBoards, modelView.getPlayerBoards());
+        ArrayList players = new ArrayList();
+        players.add("username");
+        modelView.setPlayers(players);
+        modelView.setPlayerBoards(null);
+        assertNotNull(modelView.getPlayerBoards());
+    }
+
+    @Test
+    void testSetAndGetBoardToPrint() {
+        String board = "board";
+        String username = "username";
+        HashMap <String, String> playerBoard = new HashMap<>();
+        playerBoard.put(username, board);
+        modelView.setBoardToPrint(playerBoard);
+        assertEquals(playerBoard, modelView.getBoardToPrint());
+    }
+
+    @Test
+    void testSetAndGetBoardToPrintByUsername() {
+        String board = "board";
+        String username = "username";
+        modelView.setBoardToPrintByUsername(username, board);
+        assertEquals(board, modelView.getBoardToPrint().get(username));
+    }
+
+    @Test
+    void testInitializePlayerBoards() {
+        List<String> players = new ArrayList<>();
+        players.add("username");
+        modelView.setPlayers(players);
+        modelView.initializePlayerBoards();
+        assertTrue(modelView.getPlayerBoards().containsKey("username"));
+    }
+
+    @Test
+    void testGetCell() {
+        Cell cell = new Cell();
+        cell.setCharacter('c');
+        modelView.setPlayerBoards(new HashMap<>());
+        modelView.setMyUsername("username");
+        modelView.getPlayerBoards().put("username", new Cell[5][5]);
+        modelView.getPlayerBoards().get("username")[0][0] = cell;
+        assertEquals(cell, modelView.getCell( 0, 0));
+    }
+
+    @Test
+    void testGetAndSetPlayerPawns() {
+        HashMap<String, Color> playerPawns = new HashMap<>();
+        modelView.setPlayerPawns(playerPawns);
+        assertEquals(playerPawns, modelView.getPlayerPawns());
+    }
+
 
 }

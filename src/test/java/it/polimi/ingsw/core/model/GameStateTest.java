@@ -4,10 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +21,7 @@ class GameStateTest {
     @BeforeEach
     void setUp() {
         game = new GameState();
-        commonObjectives = new ArrayList<Objective>();
+        commonObjectives = new ArrayList<>();
         commonObjectives.add(new Objective());
         commonObjectives.add(new Objective());
         configFile = new StringBuilder().append("src/main/resources/it/polimi/ingsw/").append(configFile).append(".json").toString();
@@ -34,7 +31,8 @@ class GameStateTest {
         player = new PlayerState(); // Assuming Player class is properly implemented for testing
         player.setUsername("us1");
         game.addPlayer(player);
-        game.setCommonObjective(commonObjectives);
+        game.addCommonObjective(new Objective());
+        game.addCommonObjective(new Objective());
         game.setStarterDeck(starterDeck);
     }
 
@@ -80,12 +78,7 @@ class GameStateTest {
     }
 
     @Test
-    void testgetCommonObjectives() {
-        assertEquals(commonObjectives, game.getCommonObjectives());
-    }
-
-    @Test
-    void testsetCommonObjectives() {
+    void testSetAndGetCommonObjectives() {
         game.setCommonObjective(commonObjectives);
         assertEquals(commonObjectives, game.getCommonObjectives());
     }

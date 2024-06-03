@@ -40,6 +40,11 @@ class ObjectiveTest {
         // objective.setCompleted(isCompleted); // This method is commented out in your Objective class
     }
 
+    @Test
+    void testgetAndsetType() {
+        objective.setType("type");
+        assertEquals("type", objective.getType());
+    }
 
     @Test
     void testgetId() {

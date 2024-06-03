@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import com.google.gson.Gson;
@@ -69,8 +71,11 @@ public class DeckTest {
 
     @Test
     public void testLoadCardsFromJSON() {
+        Deck deck1 = new Deck(null, typeOfCard);
         Type typeOfCard = new TypeToken<List<Card>>(){}.getType();
         deck.loadCardsFromJSON();
+        deck1.loadCardsFromJSON(gson);
+        assertTrue(deck1.getCards().isEmpty());
         assertNotNull(deck.getCards());
     }
 

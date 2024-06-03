@@ -69,6 +69,10 @@ public class GameState implements java.io.Serializable {
         return null;
     }
 
+    public Map<Player, PlayerState> getPlayerStates() {
+        return playerStates;
+    }
+
     public List<String> getPlayerOrder() {
         return playerOrder;
     }
@@ -239,9 +243,12 @@ public class GameState implements java.io.Serializable {
         return this.commonObj;
     }
 
-    public void setCommonObjective(Objective[] commonObj, int index) {
-        this.commonObj.set(index, commonObj[index]);
+    public void setCommonObjective(List<Objective> commonObj) {
+        this.commonObj.clear();
+        this.commonObj.add(commonObj.get(0));
+        this.commonObj.add(commonObj.get(1));
     }
+
 
     public Objective getCommonObjective(int index) {
         return commonObj.get(index);
@@ -252,7 +259,7 @@ public class GameState implements java.io.Serializable {
     }
 
     public void setSecretObjective(String username, Objective cardSelected) {
-        getPlayerState(username).setSecretObjective(cardSelected);
+        getPlayerState(username).setSecretObj(cardSelected);
     }
 
     public void assignStarterSide(String username, boolean cardSelected) {

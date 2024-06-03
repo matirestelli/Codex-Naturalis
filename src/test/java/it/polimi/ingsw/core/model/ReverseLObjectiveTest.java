@@ -56,6 +56,11 @@ class ReverseLObjectiveTest {
     }
 
     @Test
+    void testgetType(){
+        assertEquals("ReverseL", reverselObjective.getType());
+    }
+
+    @Test
     void testCalculatePoints() {
         player.setMatrix(new int[][] {
                 { -1, -1,  2, -1, -1, -1, -1},

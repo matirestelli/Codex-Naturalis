@@ -81,6 +81,11 @@ class ResourceObjectiveTest {
     }
 
     @Test
+    void testgetType() {
+        assertEquals("Resource", resourceObjective1.getType());
+    }
+
+    @Test
     void testCalculatePoints() {
         resourceObjective1.CalculatePoints(player);
         resourceObjective2.CalculatePoints(player);

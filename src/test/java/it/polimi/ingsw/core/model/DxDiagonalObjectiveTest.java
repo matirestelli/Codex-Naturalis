@@ -63,6 +63,11 @@ class DxDiagonalObjectiveTest {
     }
 
     @Test
+    void testgetType() {
+        assertEquals("DxDiagonal", dxDiagonalObjective.getType());
+    }
+
+    @Test
     void testCalculatePoints() {
         player.setMatrix(new int[][] {
                 { -1, -1, -1, -1 , -1, 12},

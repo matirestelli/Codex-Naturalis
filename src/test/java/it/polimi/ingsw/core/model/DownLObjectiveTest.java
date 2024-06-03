@@ -56,6 +56,11 @@ class DownLObjectiveTest {
     }
 
     @Test
+    void testgetType() {
+        assertEquals("DownL", downlObjective.getType());
+    }
+
+    @Test
     void testCalculatePoints() {
         player.setMatrix(new int[][] {
                 { -1, -1, -1, -1, -1, -1, -1},

@@ -34,7 +34,7 @@ class PlayerStateTest {
         player.setHand(playingHand);
         player.setCodex(codex);
         player.setMatrix(matrix);
-        player.setSecretObjective(secretObjective);
+        player.setSecretObj(secretObjective);
         player.setPersonalResources(personalResources);
         player.setPawn(pawn);
     }
@@ -95,14 +95,9 @@ class PlayerStateTest {
     }
 
     @Test
-    void testgetSecretObj() {
-        assertEquals(secretObjective, player.getSecretObj());
-    }
-
-    @Test
-    void testsetSecretObjective() {
+    void testsetAndgetSecretObjective() {
         Objective newSecretObjective = new Objective(); // Assuming Card class is properly implemented for testing
-        player.setSecretObjective(newSecretObjective);
+        player.setSecretObj(newSecretObjective);
         assertEquals(newSecretObjective, player.getSecretObj());
     }
 
@@ -180,6 +175,12 @@ class PlayerStateTest {
                 setResource(Resource.ANIMAL);
             }
         });
+        frontCorners1.put(2, new Corner() {
+            {
+                setResource(Resource.ANIMAL);
+                setEmpty(true);
+            }
+        });
         card1.setFrontCorners(frontCorners1);
 
         Card card2 = new ResourceCard();
@@ -229,5 +230,31 @@ class PlayerStateTest {
         card.setId(5);
         player.addCardToHand(card);
         assertEquals(card, player.getCardFromHand(5));
+        assertEquals(null, player.getCardFromHand(6));
+    }
+
+    @Test
+    void testSetAndGetBoard() {
+        Cell[][] board = new Cell[5][5];
+        player.setBoard(board);
+        assertEquals(board, player.getBoard());
+    }
+
+    @Test
+    void testGetChat() {
+        assertNotNull(player.getChat());
+    }
+
+    @Test
+    void testSetAndGetStarterCard() {
+        ResourceCard starterCard = new ResourceCard();
+        player.setStarterCard(starterCard);
+        assertEquals(starterCard, player.getStarterCard());
+    }
+
+    @Test
+    void testInitializeChat() {
+        player.initializeChat();
+        assertNotNull(player.getChat());
     }
 }

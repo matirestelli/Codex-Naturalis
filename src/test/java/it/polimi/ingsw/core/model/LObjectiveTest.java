@@ -57,6 +57,11 @@ class LObjectiveTest {
     }
 
     @Test
+    void testgetType() {
+        assertEquals("L", lObjective.getType());
+    }
+
+    @Test
     void testCalculatePoints() {
         player.setMatrix(new int[][] {
                 {  2, -1, -1, -1, -1, -1, -1},

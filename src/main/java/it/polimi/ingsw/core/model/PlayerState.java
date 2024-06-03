@@ -119,11 +119,6 @@ public class PlayerState extends Player implements Serializable {
         chat=new Chat();
     }
 
-    public void setSecretObjective(Objective secretObjective) {
-        this.secretObj= secretObjective;
-    }
-
-
     public void setPersonalResources(Map<Resource, Integer> personalResources) {
         this.personalResources = personalResources;
     }
