@@ -131,6 +131,12 @@
       "FUNGI",
       "FUNGI"
     ],
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "FUNGI"
+      }
+    ],
     "pattern": "resource"
   },
   {
