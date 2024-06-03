@@ -17,6 +17,10 @@ public class ResourceObjective extends Objective {
         requirements = new ArrayList<>();
     }
 
+    public List<Requirement> getRequirements() {
+        return requirements;
+    }
+
     public void CalculatePoints(PlayerState p) {
         Map<Resource, Integer> playerResources = p.calculateResources();
         List<Integer> cardinality = new ArrayList<>();

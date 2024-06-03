@@ -4,6 +4,7 @@ import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.chat.MessagePrivate;
+import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.response.*;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
 
 public class TextUserInterface implements UserInterfaceStrategy {
     private Scanner scanner = new Scanner(System.in);
@@ -370,13 +373,13 @@ public class TextUserInterface implements UserInterfaceStrategy {
             try {
                 // Verifica se l'input termina con ".b" e controlla la validità
                 if (input.endsWith(".b")) {
-                    int id = Integer.parseInt(input.substring(0, input.length() - 2)); // Rimuove ".b" e prova a convertire in int
+                    int id = parseInt(input.substring(0, input.length() - 2)); // Rimuove ".b" e prova a convertire in int
                     if (ids.getPlayingHandIdsBack().contains(id) || ids.getPlayingHandIds().contains(id)) {
                         validInput = true; // L'ID è valido e nell'elenco idsBack
                     }
                 } else if (input.endsWith(".f")) {
                     // Controlla se l'input è un ID valido in ids (senza ".b")
-                    int id = Integer.parseInt(input.endsWith(".f") ? input.substring(0, input.length() - 2) : input); // Rimuove ".f" se presente e prova a convertire in int
+                    int id = parseInt(input.endsWith(".f") ? input.substring(0, input.length() - 2) : input); // Rimuove ".f" se presente e prova a convertire in int
                     if (ids.getPlayingHandIds().contains(id)) {
                         validInput = true; // L'ID è valido e nell'elenco ids
                     }
@@ -394,7 +397,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
         String[] splitInput = input.split("\\.");
 
-        return new CardSelection(Integer.parseInt(splitInput[0]), splitInput[1].equals("f"));
+        return new CardSelection(parseInt(splitInput[0]), splitInput[1].equals("f"));
     }
 
     public void selectFromMenu() {
@@ -563,7 +566,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
         // continue to ask for input until the input is valid and the angle is in the list
         String input = scanner.nextLine();
-        while (!input.matches("\\d+\\.\\d+") || !angles.contains(new Coordinate(Integer.parseInt(input.split("\\.")[0]), Integer.parseInt(input.split("\\.")[1])))) {
+        while (!input.matches("\\d+\\.\\d+") || !angles.contains(new Coordinate(parseInt(input.split("\\.")[0]), parseInt(input.split("\\.")[1])))) {
             System.out.print("Input non valido, riprova: ");
             input = scanner.nextLine();
         }
@@ -658,7 +661,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                             AnsiColor color = getAnsiFromColor( ((LObjective) objective).getColor2() );
                             System.out.print(color + " " + ANSIColor.RESET);
                         } else if (i==0 && j==6){
-                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((LObjective) objective).getPoints()  + AnsiColor.RESET);
                         }else {
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -676,7 +679,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                             AnsiColor color = getAnsiFromColor( ((ReverseLObjective) objective).getColor2() );
                             System.out.print(color + " " + ANSIColor.RESET);
                         } else if (i==0 && j==6){
-                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((ReverseLObjective) objective).getPoints() + AnsiColor.RESET);
                         }else {
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -691,10 +694,10 @@ public class TextUserInterface implements UserInterfaceStrategy {
                         if (i == 1 && j == 3 || i == 2 && j == 3 ) {
                             System.out.print(ANSIColor + " " + ANSIColor.RESET);
                         } else if ( i == 0 && j == 4){
-                            AnsiColor color = getAnsiFromColor( ((LObjective) objective).getColor2() );
+                            AnsiColor color = getAnsiFromColor( ((DownLObjective) objective).getColor2() );
                             System.out.print(color + " " + ANSIColor.RESET);
                         } else if (i==0 && j==6){
-                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((DownLObjective) objective).getPoints() + AnsiColor.RESET);
                         }else {
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -712,7 +715,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                             AnsiColor color = getAnsiFromColor( ((DownReverseLObjective) objective).getColor2() );
                             System.out.print(color + " " + ANSIColor.RESET);
                         } else if (i==0 && j==6){
-                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((DownReverseLObjective) objective).getPoints() + AnsiColor.RESET);
                         }else {
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -726,7 +729,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                         if (i == 0 && j == 2 || i == 1 && j == 3 || i == 2 && j == 4) {
                             System.out.print(ANSIColor + " " + ANSIColor.RESET);
                         } else if (i==0 && j==6){
-                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((SxDiagonalObjective) objective).getPoints() + AnsiColor.RESET);
                         }else {
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -740,7 +743,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                         if (i == 0 && j == 4 || i == 1 && j == 3 || i == 2 && j == 2) {
                             System.out.print(ANSIColor + " " + ANSIColor.RESET);
                         }else if (i==0 && j==6){
-                        System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                        System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + ((DxDiagonalObjective) objective).getPoints() + AnsiColor.RESET);
                         }else{
                             System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
                         }
@@ -750,11 +753,31 @@ public class TextUserInterface implements UserInterfaceStrategy {
             }
             case "Resource" -> {
                 objective = (ResourceObjective) objective;
+                for(int i= 0; i< cardHeight; i++){
+                    for( int j= 0; j< cardWidth; j++) {
+                        if (i == 2 && j == 1){
+                            String resource;
+                            j--;
+                            for (Requirement r : ((ResourceObjective) objective).getRequirements()) {
+                                resource = Integer.toString(r.getQta()) + r.getResource().toString().charAt(0);
+                                System.out.print(ANSIColor + WHITE_TEXT + resource + AnsiColor.RESET);
+                                j++;
+                                j++;
+                            }
+                        }else if (i==0 && j==6){
+                            System.out.print(ANSIColor + WHITE_TEXT + ((ResourceObjective) objective).getPoints() + AnsiColor.RESET);
+                        }else{
+                            System.out.print(ANSIColor + " " + ANSIColor.RESET);
+                        }
+                    }
+                    System.out.println();
+                }
             }
             default -> {
                 System.out.println("Error in type of objective");
             }
         }
+        System.out.println("\n");
     }
 
     public AnsiColor getANSIColorForObjective(Objective card1) {
@@ -792,11 +815,8 @@ public class TextUserInterface implements UserInterfaceStrategy {
     public void displayCommonObjective(List<Objective> objectives) {
         System.out.println("Game's Common objectives:\n");
         for (Objective objective : objectives) {
-            // TODO: Fix and implement displayObjective method
-            System.out.println(objective.getId());
             displayObjectiveCard(objective);
         }
-        System.out.println("\n");
     }
 
     public void chooseObjective(List<Objective> objectives) {
@@ -808,19 +828,18 @@ public class TextUserInterface implements UserInterfaceStrategy {
             displayObjectiveCard(objective);
         }
         System.out.println("Choose an objective card to keep: ");
-        List<Integer> ids = new ArrayList<>();
+        List<String> ids = new ArrayList<>();
         for (Objective objective : objectives) {
-            ids.add(objective.getId());
+            ids.add(Integer.toString(objective.getId()));
         }
 
-        int cardId = scanner.nextInt();
+        String cardId = scanner.nextLine();
         while (!ids.contains(cardId)) {
             System.out.println("Invalid Input! Retry: ");
-            cardId = scanner.nextInt();
+            cardId = scanner.nextLine();
         }
-        scanner.nextLine();
         // get card from objective list given the id
-        int finalCardId = cardId;
+        int finalCardId = parseInt(cardId);
 
         gameClient.sendMessage(new SelectedObjMessage("chooseSecretObjective", objectives.stream().filter(o -> o.getId() == finalCardId).findFirst().orElse(null)));
         // return objectives.stream().filter(o -> o.getId() == finalCardId).findFirst().orElse(null);
@@ -862,7 +881,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
         String input = scanner.nextLine();
 
         try {
-            while (!input.equals("A") && !input.equals("B") && !ids.contains(Integer.parseInt(input))) {
+            while (!input.equals("A") && !input.equals("B") && !ids.contains(parseInt(input))) {
                 System.out.print("Input non valido, riprova: ");
                 input = scanner.nextLine();
             }
@@ -943,11 +962,11 @@ public class TextUserInterface implements UserInterfaceStrategy {
         // get card from player's hand by id
         // TODO: create object for handling card selection
         String[] splitCardToPlay = input.split("\\.");
-        int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
+        int cardToAttachId = parseInt(splitCardToPlay[0]);
 
         // card where to attach the selected card
         Card targetCard = gameClient.getModelView().getMyCodex().stream().filter(c -> c.getId() == cardToAttachId).findFirst().orElse(null);
-        place(gameClient.getModelView().getMyPlayingCard(), targetCard, Integer.parseInt(splitCardToPlay[1]));
+        place(gameClient.getModelView().getMyPlayingCard(), targetCard, parseInt(splitCardToPlay[1]));
         gameClient.getModelView().addCardToCodex(gameClient.getModelView().getMyPlayingCard());
 
         displayBoard();

@@ -93,8 +93,8 @@
     "frontCover": "/it/polimi/ingsw/images/front/objective/6.png",
     "backCover": "/it/polimi/ingsw/images/back/obj.png",
     "color": "BLUE",
-    "color1": "RED",
-    "color2": "BLUE",
+    "color1": "BLUE",
+    "color2": "RED",
     "points": 3,
     "colors": [
       "RED",
@@ -109,8 +109,8 @@
     "frontCover": "/it/polimi/ingsw/images/front/objective/7.png",
     "backCover": "/it/polimi/ingsw/images/back/obj.png",
     "color": "PURPLE",
-    "color1": "BLUE",
-    "color2": "PURPLE",
+    "color1": "PURPLE",
+    "color2": "BLUE",
     "points": 3,
     "colors": [
       "BLUE",
@@ -131,6 +131,12 @@
       "FUNGI",
       "FUNGI"
     ],
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "FUNGI"
+      }
+    ],
     "pattern": "resource"
   },
   {
@@ -144,6 +150,12 @@
       "PLANT",
       "PLANT",
       "PLANT"
+    ],
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "PLANT"
+      }
     ],
     "pattern": "resource"
   },
@@ -159,6 +171,12 @@
       "ANIMAL",
       "ANIMAL"
     ],
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "ANIMAL"
+      }
+    ],
     "pattern": "resource"
   },
   {
@@ -172,6 +190,12 @@
       "INSECT",
       "INSECT",
       "INSECT"
+    ],
+    "requirements": [
+      {
+        "qta": 3,
+        "resource": "INSECT"
+      }
     ],
     "pattern": "resource"
   },
@@ -187,6 +211,20 @@
       "NOUN",
       "MANUSCRIPT"
     ],
+    "requirements": [
+      {
+        "qta": 1,
+        "resource": "QUILL"
+      },
+      {
+        "qta": 1,
+        "resource": "INSECT"
+      },
+      {
+        "qta": 1,
+        "resource": "MANUSCRIPT"
+      }
+    ],
     "pattern": "resource"
   },
   {
@@ -199,6 +237,12 @@
     "resources": [
       "MANUSCRIPT",
       "MANUSCRIPT"
+    ],
+    "requirements": [
+      {
+        "qta": 2,
+        "resource": "MANUSCRIPT"
+      }
     ],
     "pattern": "resource"
   },
@@ -213,6 +257,12 @@
       "NOUN",
       "NOUN"
     ],
+    "requirements": [
+      {
+        "qta": 2,
+        "resource": "NOUN"
+      }
+    ],
     "pattern": "resource"
   },
   {
@@ -225,6 +275,12 @@
     "resources": [
       "QUILL",
       "QUILL"
+    ],
+    "requirements": [
+      {
+        "qta": 2,
+        "resource": "QUILL"
+      }
     ],
     "pattern": "resource"
   }
