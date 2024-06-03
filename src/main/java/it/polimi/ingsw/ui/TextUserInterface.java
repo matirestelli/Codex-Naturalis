@@ -34,21 +34,6 @@ public class TextUserInterface implements UserInterfaceStrategy {
     }
 
     @Override
-    public void displayCard(Card card) {
-        Card c = card instanceof ResourceCard ? (ResourceCard) card : (GoldCard) card;
-        AnsiColor ANSIColor = getANSIColorForCard(c);
-
-        System.out.println(displayResources(c, 1, 2, ANSIColor));
-        if (c.getId() > 9)
-            System.out.println(ANSIColor + "  " + AnsiColor.BOLD + c.getId() + "   " + AnsiColor.RESET);
-        else
-            System.out.println(ANSIColor + "   " + AnsiColor.BOLD + c.getId() + "   " + AnsiColor.RESET);
-        System.out.println(displayResources(c, 0, 3, ANSIColor));
-
-        System.out.println();
-    }
-
-    @Override
     public void displayCardBack(Card card1) {
         Card card = card1 instanceof ResourceCard ? (ResourceCard) card1 : (GoldCard) card1;
         AnsiColor ANSIColor = getANSIColorForCard(card1);
@@ -642,12 +627,174 @@ public class TextUserInterface implements UserInterfaceStrategy {
         gameClient.sendMessage(new StarterSideSelectedMessage("starterSideSelected", input.equals("f")));
     }
 
+    @Override
+    public void displayCard(Card card) {
+        Card c = card instanceof ResourceCard ? (ResourceCard) card : (GoldCard) card;
+        AnsiColor ANSIColor = getANSIColorForCard(c);
+
+        System.out.println(displayResources(c, 1, 2, ANSIColor));
+        if (c.getId() > 9)
+            System.out.println(ANSIColor + "  " + AnsiColor.BOLD + c.getId() + "   " + AnsiColor.RESET);
+        else
+            System.out.println(ANSIColor + "   " + AnsiColor.BOLD + c.getId() + "   " + AnsiColor.RESET);
+        System.out.println(displayResources(c, 0, 3, ANSIColor));
+
+        System.out.println();
+    }
+
+    public void displayObjectiveCard(Objective objective ){
+
+        String WHITE_TEXT = "\u001B[37m";
+        AnsiColor ANSIColor = getANSIColorForObjective(objective);
+        String type = objective.getType();
+        switch (type) {
+            case "L" -> {
+                objective = (LObjective) objective;
+                for(int i= 0; i< cardHeight; i++){
+                    for( int j= 0; j< cardWidth; j++) {
+                        if (i == 0 && j == 3 || i == 1 && j == 3 ) {
+                            System.out.print(ANSIColor + " " + ANSIColor.RESET);
+                        } else if ( i == 2 && j == 4){
+                            AnsiColor color = getAnsiFromColor( ((LObjective) objective).getColor2() );
+                            System.out.print(color + " " + ANSIColor.RESET);
+                        } else if (i==0 && j==6){
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                        }else {
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+            }
+            case "ReverseL" -> {
+                objective = (ReverseLObjective) objective;
+                for(int i= 0; i< cardHeight; i++){
+                    for( int j= 0; j< cardWidth; j++) {
+                        if (i == 0 && j == 3 || i == 1 && j == 3 ) {
+                            System.out.print(ANSIColor + " " + ANSIColor.RESET);
+                        } else if ( i == 2 && j == 2){
+                            AnsiColor color = getAnsiFromColor( ((ReverseLObjective) objective).getColor2() );
+                            System.out.print(color + " " + ANSIColor.RESET);
+                        } else if (i==0 && j==6){
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                        }else {
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+            }
+            case "DownL" -> {
+                objective = (DownLObjective) objective;
+                for(int i= 0; i< cardHeight; i++){
+                    for( int j= 0; j< cardWidth; j++) {
+                        if (i == 1 && j == 3 || i == 2 && j == 3 ) {
+                            System.out.print(ANSIColor + " " + ANSIColor.RESET);
+                        } else if ( i == 0 && j == 4){
+                            AnsiColor color = getAnsiFromColor( ((LObjective) objective).getColor2() );
+                            System.out.print(color + " " + ANSIColor.RESET);
+                        } else if (i==0 && j==6){
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                        }else {
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+            }
+            case "DownReverseL" -> {
+                objective = (DownReverseLObjective) objective;
+                for(int i= 0; i< cardHeight; i++){
+                    for( int j= 0; j< cardWidth; j++) {
+                        if (i == 2 && j == 3 || i == 1 && j == 3 ) {
+                            System.out.print(ANSIColor + " " + ANSIColor.RESET);
+                        } else if ( i == 0 && j == 2){
+                            AnsiColor color = getAnsiFromColor( ((DownReverseLObjective) objective).getColor2() );
+                            System.out.print(color + " " + ANSIColor.RESET);
+                        } else if (i==0 && j==6){
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                        }else {
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+            }
+            case "SxDiagonal" -> {
+                for(int i= 0; i< cardHeight; i++){
+                    for( int j= 0; j< cardWidth; j++) {
+                        if (i == 0 && j == 2 || i == 1 && j == 3 || i == 2 && j == 4) {
+                            System.out.print(ANSIColor + " " + ANSIColor.RESET);
+                        } else if (i==0 && j==6){
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                        }else {
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+            }
+            case "DxDiagonal" -> {
+                for(int i= 0; i< cardHeight; i++){
+                    for( int j= 0; j< cardWidth; j++) {
+                        if (i == 0 && j == 4 || i == 1 && j == 3 || i == 2 && j == 2) {
+                            System.out.print(ANSIColor + " " + ANSIColor.RESET);
+                        }else if (i==0 && j==6){
+                        System.out.print(AnsiColor.YELLOW_BACKGROUND + WHITE_TEXT + 2 + AnsiColor.RESET);
+                        }else{
+                            System.out.print(AnsiColor.YELLOW_BACKGROUND + " " + ANSIColor.RESET);
+                        }
+                    }
+                    System.out.println();
+                }
+            }
+            case "Resource" -> {
+                objective = (ResourceObjective) objective;
+            }
+            default -> {
+                System.out.println("Error in type of objective");
+            }
+        }
+    }
+
+    public AnsiColor getANSIColorForObjective(Objective card1) {
+        AnsiColor ANSIColor;
+
+        if (card1.getColor() == Color.RED)
+            ANSIColor = AnsiColor.RED_BACKGROUND;
+        else if (card1.getColor() == Color.BLUE)
+            ANSIColor =  AnsiColor.BLUE_BACKGROUND;
+        else if (card1.getColor() == Color.PURPLE)
+            ANSIColor = AnsiColor.PURPLE_BACKGROUND;
+        else if (card1.getColor() == Color.GREEN)
+            ANSIColor = AnsiColor.GREEN_BACKGROUND;
+        else
+            ANSIColor = AnsiColor.YELLOW_BACKGROUND;
+
+        return ANSIColor;
+    }
+
+    public AnsiColor getAnsiFromColor(Color color) {
+        AnsiColor ANSIColor;
+        if (color == Color.RED)
+            ANSIColor = AnsiColor.RED_BACKGROUND;
+        else if (color == Color.BLUE)
+            ANSIColor =  AnsiColor.BLUE_BACKGROUND;
+        else if (color == Color.PURPLE)
+            ANSIColor = AnsiColor.PURPLE_BACKGROUND;
+        else if (color == Color.GREEN)
+            ANSIColor = AnsiColor.GREEN_BACKGROUND;
+        else
+            ANSIColor = AnsiColor.YELLOW_BACKGROUND;
+        return ANSIColor;
+    }
+
     public void displayCommonObjective(List<Objective> objectives) {
         System.out.println("Game's Common objectives:\n");
         for (Objective objective : objectives) {
-            // objective.displayCard();
             // TODO: Fix and implement displayObjective method
             System.out.println(objective.getId());
+            displayObjectiveCard(objective);
         }
         System.out.println("\n");
     }
@@ -658,6 +805,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
         for (Objective objective : objectives) {
             // TODO: Fix and implement displayObjective method
             System.out.println(objective.getId());
+            displayObjectiveCard(objective);
         }
         System.out.println("Choose an objective card to keep: ");
         List<Integer> ids = new ArrayList<>();

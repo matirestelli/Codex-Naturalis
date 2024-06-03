@@ -6,7 +6,7 @@ import it.polimi.ingsw.core.model.enums.Color;
 //import java.util.Map;
 public class ReverseLObjective extends PositionObjective {
     private Color color1;
-    private Color color2;;
+    private Color color2;
 
     public String getType() {
         return "ReverseL";
@@ -17,6 +17,13 @@ public class ReverseLObjective extends PositionObjective {
     }
     public void setColor2(Color color) {
         this.color2 = color;
+    }
+
+    public Color getColor1() {
+        return color1;
+    }
+    public Color getColor2() {
+        return color2;
     }
 
 

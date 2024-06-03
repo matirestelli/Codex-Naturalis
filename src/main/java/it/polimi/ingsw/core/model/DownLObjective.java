@@ -20,6 +20,13 @@ public class DownLObjective extends PositionObjective{
         this.color2 = color;
     }
 
+    public Color getColor1() {
+        return color1;
+    }
+    public Color getColor2() {
+        return color2;
+    }
+
     public String getType() {
         return "DownL";
     }
