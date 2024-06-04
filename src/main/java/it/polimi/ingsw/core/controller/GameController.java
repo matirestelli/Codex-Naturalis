@@ -170,27 +170,27 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     public void handleCardSelected(String username, CardSelection cardSelection) throws RemoteException {
         // get card from player hand by id
         Card cardToPlay = gameState.getPlayerState(username).getCardFromHand(cardSelection.getId());
-        // remove selected card from player hand
-        gameState.getPlayerState(username).removeCardFromHand(cardToPlay);
-        // set side of selected card
-        cardToPlay.setSide(cardSelection.getSide());
-
         // get list of possible angles to place the card
-        List<Coordinate> angoliDisponibili = new ArrayList<>();
+        List<Coordinate> freeAngles = new ArrayList<>();
         // TODO: make test as attribute of GameState class
         test = new HashMap<>();
         PlayerState ps = gameState.getPlayerState(username);
         for (Card c : ps.getCodex())
-            angoliDisponibili.addAll(c.findFreeAngles(ps.getMatrix(), ps.getCodex(), cardToPlay.getId(), test));
-
-        // add card to player codex
-        gameState.getPlayerState(username).addCardToCodex(cardToPlay);
-
-        // TODO: set card to place as attribute of PlayerState class
-        cardToPlace = cardToPlay;
-
-        // notify player of free angles
-        orderedObserversMap.get(username).update(new AvailableAnglesMessage("askAngle", angoliDisponibili));
+            freeAngles.addAll(c.findFreeAngles(ps.getMatrix(), ps.getCodex(), cardToPlay.getId(), test));
+        if(freeAngles.isEmpty()){
+            orderedObserversMap.get(username).update(new AvailableAnglesMessage("askAngleNull", null));
+            advanceTurn();
+        } else {
+            // remove selected card from player hand
+            gameState.getPlayerState(username).removeCardFromHand(cardToPlay);
+            // set side of selected card
+            cardToPlay.setSide(cardSelection.getSide());
+            // add card to player codex
+            gameState.getPlayerState(username).addCardToCodex(cardToPlay);
+            // TODO: set card to place as attribute of PlayerState class
+            cardToPlace = cardToPlay;
+            orderedObserversMap.get(username).update(new AvailableAnglesMessage("askAngle", freeAngles));
+        }
     }
 
     public void processMove(String username, MessageClient2Server message) throws RemoteException {
@@ -262,7 +262,6 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         /* if (last) {
             orderedObserversMap.get(us).update(new GameEvent("lastTurn", gameState.getPlayerState(currentPlayerIndex)));
         } */
-
         orderedObserversMap.get(us).update(new YourTurnMessage("currentPlayerTurn", gameState.getPlayableCardIdsFromHand(us)));
     }
 

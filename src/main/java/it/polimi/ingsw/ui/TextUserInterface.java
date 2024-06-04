@@ -512,7 +512,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
         CardSelection cs = askCardSelection(ids, gameClient.getModelView().getMyHand());
 
         gameClient.getModelView().setMyPlayingCard(gameClient.getModelView().getMyHand().stream().filter(c -> c.getId() == cs.getId()).findFirst().orElse(null));
-        gameClient.getModelView().getMyHand().remove(gameClient.getModelView().getMyPlayingCard());
+        //gameClient.getModelView().getMyHand().remove(gameClient.getModelView().getMyPlayingCard());
 
         gameClient.sendMessage(new CardSelectedMessage("cardSelection", cs));
     }
@@ -957,8 +957,13 @@ public class TextUserInterface implements UserInterfaceStrategy {
         return numPlayers;
     }
 
+    public void noFreeAngles(){
+        System.out.println("No free angles available, you can't play");
+    }
+
     public void showAvailableAngles(List<Coordinate> angles) {
         String input = displayAngle(angles);
+        gameClient.getModelView().getMyHand().remove(gameClient.getModelView().getMyPlayingCard());
 
         // get card from player's hand by id
         // TODO: create object for handling card selection

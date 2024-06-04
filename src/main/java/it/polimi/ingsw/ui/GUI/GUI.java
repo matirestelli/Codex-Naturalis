@@ -104,6 +104,10 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void displayPersonalResources(Map<Resource, Integer> data) {
     }
 
+    public void noFreeAngles() {
+        //gui does nothing for now
+    }
+
     public void getBoardString(String board) {
         //only for cli
     }

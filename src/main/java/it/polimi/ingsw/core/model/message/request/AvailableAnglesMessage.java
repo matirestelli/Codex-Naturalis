@@ -12,6 +12,10 @@ public class AvailableAnglesMessage extends MessageServer2Client {
 
     @Override
     public void doAction(ClientAbstract client) {
-        client.getUIStrategy().showAvailableAngles((List<Coordinate>) this.getData());
+        if( this.getData() == null ) {
+            client.getUIStrategy().noFreeAngles();
+        }else {
+            client.getUIStrategy().showAvailableAngles((List<Coordinate>) this.getData());
+        }
     }
 }

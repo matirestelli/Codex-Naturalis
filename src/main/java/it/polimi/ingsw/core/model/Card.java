@@ -78,7 +78,7 @@ public abstract class Card extends CardGame implements Serializable {
     public List<Coordinate> findFreeAngles(int[][] matrix, List<Card> codex, int cardToPlayId, Map<Integer, Map<Integer, List<Coordinate>>> test) {
         AtomicReference<Boolean> pos = new AtomicReference<>(true);
         List<Coordinate> testCorners = new ArrayList<>();
-        List<Coordinate> angoliDisponibili = new ArrayList<>();
+        List<Coordinate> freeAngles = new ArrayList<>();
         Map<Integer, List<Coordinate>> testCornersMap = new HashMap<>();
         int targetId;
 
@@ -142,7 +142,7 @@ public abstract class Card extends CardGame implements Serializable {
 
             if (pos.get()) {
                 testCornersMap.put(0, new ArrayList<>(testCorners));
-                angoliDisponibili.add(new Coordinate(this.getId(), 0));
+                freeAngles.add(new Coordinate(this.getId(), 0));
             }
         }
 
@@ -203,7 +203,7 @@ public abstract class Card extends CardGame implements Serializable {
 
             if (pos.get()) {
                 testCornersMap.put(1, new ArrayList<>(testCorners));
-                angoliDisponibili.add(new Coordinate(this.getId(), 1));
+                freeAngles.add(new Coordinate(this.getId(), 1));
             }
         }
 
@@ -264,7 +264,7 @@ public abstract class Card extends CardGame implements Serializable {
 
             if (pos.get()) {
                 testCornersMap.put(2, new ArrayList<>(testCorners));
-                angoliDisponibili.add(new Coordinate(this.getId(), 2));
+                freeAngles.add(new Coordinate(this.getId(), 2));
             }
         }
 
@@ -325,12 +325,12 @@ public abstract class Card extends CardGame implements Serializable {
 
             if (pos.get()) {
                 testCornersMap.put(3, new ArrayList<>(testCorners));
-                angoliDisponibili.add(new Coordinate(this.getId(), 3));
+                freeAngles.add(new Coordinate(this.getId(), 3));
             }
         }
 
         test.put(this.getId(), testCornersMap);
 
-        return angoliDisponibili;
+        return freeAngles;
     }
 }
