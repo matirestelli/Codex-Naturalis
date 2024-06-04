@@ -146,6 +146,10 @@ public class ModelView {
     public int[][] getMyMatrix() {
         return myMatrix;
     }
+
+    public void putInMyMatrix(int x, int y, int card){
+        myMatrix[x][y] = card;
+    }
     public void setSecretObj(Objective privateObj) {
         this.secretObj = privateObj;
     }

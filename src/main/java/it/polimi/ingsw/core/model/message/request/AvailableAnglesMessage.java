@@ -16,6 +16,7 @@ public class AvailableAnglesMessage extends MessageServer2Client {
             client.getUIStrategy().noFreeAngles();
         }else {
             client.getUIStrategy().showAvailableAngles((List<Coordinate>) this.getData());
+            System.out.printf("AvailableAnglesMessage: %s\n", this.getData());
         }
     }
 }

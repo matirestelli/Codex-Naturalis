@@ -290,6 +290,7 @@ public class GameState implements java.io.Serializable {
         Card extractedStarterCard = playerState.getStarterCard();
         int x = matrixDimension / 2;
         int y = matrixDimension / 2;
+        extractedStarterCard.setXYCord(x, y);
         playerState.addCardToMatrix(x, y, extractedStarterCard.getId());
     }
 

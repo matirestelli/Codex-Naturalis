@@ -657,7 +657,8 @@ public class BoardViewController extends GUI {
                 }
                 else{
                     CardSelection cs = new CardSelection((int)buttonCard1.getUserData(), this.side);
-                    cardToPlay = this.viewModel.getMyHand().get(0);
+                    cardToPlay = client.getModelView().getMyHand().get(0);
+                    client.getModelView().setMyPlayingCard((Card)cardToPlay);
                     buttonCardSelectedId = buttonCard1.getId();
                     client.sendMessage(new CardSelectedMessage("cardSelection", cs));
                     cardSelected = true;
@@ -691,7 +692,8 @@ public class BoardViewController extends GUI {
                 }
                 else{
                     CardSelection cs = new CardSelection((int)buttonCard2.getUserData(),this.side );
-                    cardToPlay = this.viewModel.getMyHand().get(1);
+                    cardToPlay = client.getModelView().getMyHand().get(1);
+                    client.getModelView().setMyPlayingCard((Card)cardToPlay);
                     buttonCardSelectedId = buttonCard2.getId();
                     client.sendMessage(new CardSelectedMessage("cardSelection", cs));
                     cardSelected = true;
@@ -724,7 +726,8 @@ public class BoardViewController extends GUI {
                     buttonCard3.setStyle("-fx-border-color: #52e51f;\n" +
                             "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
                     CardSelection cs = new CardSelection((int)buttonCard3.getUserData(), this.side);
-                    cardToPlay = this.viewModel.getMyHand().get(2);
+                    cardToPlay = client.getModelView().getMyHand().get(2);
+                    client.getModelView().setMyPlayingCard((Card)cardToPlay);
                     buttonCardSelectedId = buttonCard3.getId();
                     client.sendMessage(new CardSelectedMessage("cardSelection", cs));
                     cardSelected = true;
@@ -880,6 +883,7 @@ public class BoardViewController extends GUI {
                 if(!cardPlaced){
                      cardPlaced = true;
                      angleChosen = placeHere.getText();
+                     client.getModelView().addCardToCodex(client.getModelView().getMyPlayingCard());
                      client.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(angleChosen, client.getModelView().getMyCodex())));
                     this.matrixUpdated(tempButtons, (Integer[]) placeHere.getUserData());
                 }
@@ -899,7 +903,8 @@ public class BoardViewController extends GUI {
         System.out.printf("Card id to place: %d", cardToPlay.getId());
         placeCard(cardToPlay, positionToPlaceCard);
         //TODO ask if its okay here
-        this.viewModel.getMyMatrix()[positionToPlaceCard[0]][positionToPlaceCard[1]] = cardToPlay.getId();
+        this.viewModel.putInMyMatrix(positionToPlaceCard[0], positionToPlaceCard[1],cardToPlay.getId());
+       // this.viewModel.getMyMatrix()[positionToPlaceCard[0]][positionToPlaceCard[1]] = cardToPlay.getId();
 
         if(buttonCard1.getId().equals(buttonCardSelectedId)){
             card1ImageView.setImage(null);
