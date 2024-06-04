@@ -175,6 +175,8 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         // TODO: make test as attribute of GameState class
         test = new HashMap<>();
         PlayerState ps = gameState.getPlayerState(username);
+        // set side of selected card
+        cardToPlay.setSide(cardSelection.getSide());
         for (Card c : ps.getCodex())
             freeAngles.addAll(c.findFreeAngles(ps.getMatrix(), ps.getCodex(), cardToPlay.getId(), test));
         if(freeAngles.isEmpty()){
@@ -183,8 +185,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         } else {
             // remove selected card from player hand
             gameState.getPlayerState(username).removeCardFromHand(cardToPlay);
-            // set side of selected card
-            cardToPlay.setSide(cardSelection.getSide());
+
             // add card to player codex
             gameState.getPlayerState(username).addCardToCodex(cardToPlay);
             // TODO: set card to place as attribute of PlayerState class
