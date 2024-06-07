@@ -511,7 +511,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("It's your turn!\n");
         CardSelection cs = askCardSelection(ids, gameClient.getModelView().getMyHand());
 
-        gameClient.getModelView().setMyPlayingCard(gameClient.getModelView().getMyHand().stream().filter(c -> c.getId() == cs.getId()).findFirst().orElse(null));
+        gameClient.getModelView().setMyPlayingCard(gameClient.getModelView().getMyHand().stream().filter(c -> c.getId() == cs.getId()).findFirst().orElse(null), cs.getSide());
         //gameClient.getModelView().getMyHand().remove(gameClient.getModelView().getMyPlayingCard());
 
         gameClient.sendMessage(new CardSelectedMessage("cardSelection", cs));

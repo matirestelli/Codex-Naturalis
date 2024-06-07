@@ -658,7 +658,7 @@ public class BoardViewController extends GUI {
                 else{
                     CardSelection cs = new CardSelection((int)buttonCard1.getUserData(), this.side);
                     cardToPlay = client.getModelView().getMyHand().get(0);
-                    client.getModelView().setMyPlayingCard((Card)cardToPlay);
+                    client.getModelView().setMyPlayingCard((Card)cardToPlay, this.side);
                     buttonCardSelectedId = buttonCard1.getId();
                     client.sendMessage(new CardSelectedMessage("cardSelection", cs));
                     cardSelected = true;
@@ -693,7 +693,7 @@ public class BoardViewController extends GUI {
                 else{
                     CardSelection cs = new CardSelection((int)buttonCard2.getUserData(),this.side );
                     cardToPlay = client.getModelView().getMyHand().get(1);
-                    client.getModelView().setMyPlayingCard((Card)cardToPlay);
+                    client.getModelView().setMyPlayingCard((Card)cardToPlay, this.side);
                     buttonCardSelectedId = buttonCard2.getId();
                     client.sendMessage(new CardSelectedMessage("cardSelection", cs));
                     cardSelected = true;
@@ -727,7 +727,7 @@ public class BoardViewController extends GUI {
                             "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
                     CardSelection cs = new CardSelection((int)buttonCard3.getUserData(), this.side);
                     cardToPlay = client.getModelView().getMyHand().get(2);
-                    client.getModelView().setMyPlayingCard((Card)cardToPlay);
+                    client.getModelView().setMyPlayingCard((Card)cardToPlay, this.side);
                     buttonCardSelectedId = buttonCard3.getId();
                     client.sendMessage(new CardSelectedMessage("cardSelection", cs));
                     cardSelected = true;

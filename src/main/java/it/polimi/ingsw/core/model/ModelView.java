@@ -57,8 +57,10 @@ public class ModelView {
         this.playerBoards = new HashMap<>();
     }
 
-    public void setMyPlayingCard(Card playingCard) {
+    public void setMyPlayingCard(Card playingCard, Boolean side) {
         this.playingCard = playingCard;
+        this.playingCard.setSide(side);
+
     }
 
     public Card getMyPlayingCard() {
