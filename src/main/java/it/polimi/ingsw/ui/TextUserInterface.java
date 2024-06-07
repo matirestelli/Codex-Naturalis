@@ -25,6 +25,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
     private int cardHeight = 3;
     private int matrixDimension = 81;
     private ClientAbstract gameClient;
+    private int numberOfCardPlaced = 1;
 
     public TextUserInterface(ClientAbstract gameClient) {
         this.gameClient = gameClient;
@@ -157,6 +158,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
     }
 
     public void placeCard(Card card, Coordinate leftUpCorner) {
+        numberOfCardPlaced++;
         if (leftUpCorner == null)
             leftUpCorner = new Coordinate(matrixDimension / 2 * cardWidth - 5, matrixDimension / 2 * cardHeight - 5);
         int x = leftUpCorner.getX();
@@ -282,26 +284,26 @@ public class TextUserInterface implements UserInterfaceStrategy {
         Card card;
         StringBuilder toprint = new StringBuilder();
         toprint.append("+");
-        for (int i = 0; i <  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[0].length; i++)
+        for (int i = 0; i < 2*numberOfCardPlaced*cardWidth; i++)
             toprint.append("-");
         toprint.append("+\n");
 
-        for (int i = 0; i <  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()).length; i++) {
+        for (int i = (matrixDimension/2-numberOfCardPlaced-1)*cardHeight; i <  (matrixDimension/2+numberOfCardPlaced)*cardHeight; i++) {
             toprint.append("|");
-            for (int j = 0; j <  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i].length; j++) {
+            for (int j = (matrixDimension/2-numberOfCardPlaced)*cardWidth; j <  (matrixDimension/2+numberOfCardPlaced)*cardWidth; j++) {
                 card = gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCard();
                 if (card != null)
                     toprint.append(gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getColor() + gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter() + AnsiColor.RESET);
                 else
-                    //toprint.append(gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter());
-                    toprint.append(ANSI_BACKGROUND_BROWN_LIGHT + gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter());
+                    toprint.append(gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter());
+                    //toprint.append(ANSI_BACKGROUND_BROWN_LIGHT + gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[i][j].getCharacter());
             }
             toprint.append("|\n");
             toprint.append(AnsiColor.RESET);
         }
 
         toprint.append("+");
-        for (int i = 0; i <  gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername())[0].length; i++)
+        for (int i = 0; i <  2*numberOfCardPlaced*cardWidth; i++)
             toprint.append("-");
         toprint.append("+");
         System.out.println(toprint.toString());
