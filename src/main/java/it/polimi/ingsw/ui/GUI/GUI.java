@@ -1,6 +1,7 @@
 package it.polimi.ingsw.ui.GUI;
 
 import it.polimi.ingsw.core.model.chat.Chat;
+import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
@@ -66,6 +67,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     private static Parent startingScene;
 
     private static Boolean notYetBoardScene = true;
+    protected static Boolean chatOpen = false;
 
     //todo se funziona l'idea di cambiare scena io di deafault eliminarli
     private static PlayableCardIds firstTurn;
@@ -434,37 +436,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     }
 
     //per ora con il main ma vediamo
-    public void viewChat( Stage chatStage) throws IOException {
-        double x = chatStage.getX();
-        double y = chatStage.getY();
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/Chat.fxml"));
-            Parent root = loader.load();
-            chatController = loader.getController();
-            ScaleTransition st = new ScaleTransition(javafx.util.Duration.millis(50), root);
-            st.setInterpolator(Interpolator.EASE_BOTH);
-            st.setFromX(0);
-            st.setFromY(0);
-            st.setToX(1);
-            st.setToY(1);
 
-            Stage stage1 = new Stage();
-            stage1.setTitle("Chat");
-            Scene scene = new Scene(root);
-            scene.setFill(Color.TRANSPARENT);
-            stage1.initModality(Modality.APPLICATION_MODAL);
-            stage1.initStyle(StageStyle.TRANSPARENT);
-            stage1.setResizable(false);
-            stage1.setScene(scene);
-            stage1.show();
-            stage1.setX(x + 150);
-            stage1.setY(y + 150);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     public void showErrorPopUpNoStage(String message) {
         try{
@@ -724,6 +696,13 @@ public class GUI extends Application implements UserInterfaceStrategy {
             }
             this.getBoardViewController().message("It's not your turn");
             client.getModelView().setMyTurn(false);
+        });
+    }
+
+    @Override
+    public void newChatMessage(Message message){
+        Platform.runLater(() -> {
+            this.getBoardViewController().updateChat(message);
         });
     }
 

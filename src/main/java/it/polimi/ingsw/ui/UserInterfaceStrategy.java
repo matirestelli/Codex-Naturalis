@@ -2,6 +2,7 @@ package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.core.model.*;
 import it.polimi.ingsw.core.model.chat.Chat;
+import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
@@ -64,4 +65,6 @@ public interface UserInterfaceStrategy {
 
     void getBoardString(String requested);
     void noFreeAngles();
+
+    void newChatMessage(Message message);
 }

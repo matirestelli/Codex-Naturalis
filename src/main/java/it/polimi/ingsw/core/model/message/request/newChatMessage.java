@@ -17,5 +17,7 @@ public class newChatMessage extends MessageServer2Client  {
             } else {
                 client.getModelView().getChat().addMsg(message);
             }
+
+        client.getUIStrategy().newChatMessage(message);
     }
 }

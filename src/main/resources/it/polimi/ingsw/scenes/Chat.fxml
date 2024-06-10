@@ -45,33 +45,7 @@
                      <children>
                         <TabPane fx:id="directTabPane" layoutY="12.0" prefHeight="441.0" prefWidth="360.0" tabClosingPolicy="UNAVAILABLE">
                           <tabs>
-                            <Tab fx:id="chatPlayer1" text="Player1">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="358.0" style="-fx-border-radius: 18 18 18 18 ; -fx-background-radius: 18 18 18 18 ;-fx-alignment: center">
-                                       <children>
-                                          <TextArea fx:id="messageArea1" editable="false" layoutX="20.0" layoutY="8.0" prefHeight="380.0" prefWidth="320.0" />
-                                       </children>
-                                    </AnchorPane>
-                              </content>
-                            </Tab>
-                              <Tab fx:id="chatPlayer2" text="Player2">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="280.0" prefWidth="200.0" style="-fx-border-radius: 18 18 18 18 ; -fx-background-radius: 18 18 18 18 ;-fx-alignment: center">
-                                       <children>
-                                          <TextArea fx:id="messageArea2" editable="false" layoutX="20.0" layoutY="8.0" prefHeight="380.0" prefWidth="320.0" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                              <Tab fx:id="chatPlayer3" text="Player3">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="280.0" prefWidth="200.0" style="-fx-border-radius: 18 18 18 18; -fx-background-radius: 18 18 18 18 ;-fx-alignment: center ">
-                                       <children>
-                                          <TextArea fx:id="messageArea3" editable="false" layoutX="20.0" layoutY="8.0" prefHeight="380.0" prefWidth="320.0" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
+
                           </tabs>
                         </TabPane>
                      </children>

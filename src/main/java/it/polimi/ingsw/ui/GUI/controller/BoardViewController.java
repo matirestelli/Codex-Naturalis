@@ -1,15 +1,19 @@
 package it.polimi.ingsw.ui.GUI.controller;
 
 import it.polimi.ingsw.core.model.*;
+import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.response.AngleSelectedMessage;
 import it.polimi.ingsw.core.model.message.response.CardSelectedMessage;
 import it.polimi.ingsw.core.model.message.response.SelectedDrewCard;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.ui.GUI.GUI;
+import javafx.animation.Interpolator;
 import javafx.animation.PauseTransition;
+import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -23,8 +27,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import javafx.util.Duration;
 
@@ -142,6 +149,9 @@ public class BoardViewController extends GUI {
     private String cardFront;
     //usefull to save the image of the card that the player whant to play, is back or front side because I take it from its button selected
     private static CardGame cardToPlay;
+
+    private static ChatController chatController;
+
 
     public void setUpBoard() {
         VBox container = new VBox();
@@ -538,6 +548,7 @@ public class BoardViewController extends GUI {
     }
 
     public void visualizeChat(ActionEvent actionEvent) throws IOException {
+        chatOpen = true;
         Stage popUpStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         this.viewChat(popUpStage);
     }
@@ -1109,6 +1120,45 @@ public class BoardViewController extends GUI {
     }
 
 
+    public void viewChat( Stage chatStage) throws IOException {
+        double x = chatStage.getX();
+        double y = chatStage.getY();
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/Chat.fxml"));
+            Parent root = loader.load();
+            chatController = loader.getController();
+            ScaleTransition st = new ScaleTransition(javafx.util.Duration.millis(50), root);
+            st.setInterpolator(Interpolator.EASE_BOTH);
+            st.setFromX(0);
+            st.setFromY(0);
+            st.setToX(1);
+            st.setToY(1);
+
+            Stage stage1 = new Stage();
+            stage1.setTitle("Chat");
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            stage1.initModality(Modality.APPLICATION_MODAL);
+            stage1.initStyle(StageStyle.TRANSPARENT);
+            stage1.setResizable(false);
+            stage1.setScene(scene);
+            stage1.show();
+            stage1.setX(x + 150);
+            stage1.setY(y + 150);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void updateChat(Message message) {
+        if(chatOpen){
+            chatController.updateChat(message);
+        }
+
+        //todo guarda se riesci a fare pallino notifica
+    }
 }
 
 

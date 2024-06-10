@@ -983,6 +983,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("No free angles available, you can't play");
     }
 
+
     public void showAvailableAngles(List<Coordinate> angles) {
         String input = displayAngle(angles);
         gameClient.getModelView().getMyHand().remove(gameClient.getModelView().getMyPlayingCard());
@@ -1018,5 +1019,9 @@ public class TextUserInterface implements UserInterfaceStrategy {
     @Override
     public void setViewModel(ModelView modelView) {
 
+    }
+
+    @Override
+    public void newChatMessage(Message message) {
     }
 }
