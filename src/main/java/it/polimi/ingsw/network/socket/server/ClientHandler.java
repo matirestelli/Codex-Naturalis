@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientHandler implements Runnable, GameObserver {
     private GameServer server;
@@ -17,6 +19,7 @@ public class ClientHandler implements Runnable, GameObserver {
     private ObjectOutputStream outputStream;
     private String username;
     private String gameId;
+    private List<String> players = new ArrayList<>();
     private GameControllerRemote gc;
 
     public ClientHandler(Socket clientSocket, GameServer server) {
@@ -39,10 +42,10 @@ public class ClientHandler implements Runnable, GameObserver {
             username = (String) inputStream.readObject();
 
             // check is username is already taken
-            /* if (server.isUsernameTaken(username)) {
+            while (players.contains(username)) {
                 outputStream.writeObject("Username already taken. Please choose another one: ");
                 username = (String) inputStream.readObject();
-            } */
+            }
             System.out.println("New client '" + username + "' connected on socket from " + clientSocket.getInetAddress().getHostAddress());
 
             // ask client if they want to join an existing game session or create a new one
