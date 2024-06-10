@@ -413,6 +413,15 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("> ");
         String input;
         input = scanner.nextLine();
+        Boolean validInput = false;
+        while (!validInput) {
+            if (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("5") || input.equals("6"))
+                validInput = true;
+            else {
+                System.out.println("Invalid input! Retry: ");
+                input = scanner.nextLine();
+            }
+        }
         switch (input) {
             case "1" -> {
                 gameClient.getModelView().setMyUnreadedMessages(0);
