@@ -883,14 +883,25 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
         String input = scanner.nextLine();
 
-        try {
-            while (!input.equals("A") && !input.equals("B") && !ids.contains(parseInt(input))) {
-                System.out.print("Input non valido, riprova: ");
+        Boolean validInput= false;
+
+        while (!validInput) {
+            if (input.equals("A") || input.equals("B")) {
+                validInput = true;
+            } else {
+                try {
+                    if (ids.contains(parseInt(input))) {
+                        validInput = true;
+                    }
+                } catch (NumberFormatException e) {
+                    validInput = false;
+                }
+            }
+
+            if (!validInput) {
+                System.out.println("Input non valido. Riprova.");
                 input = scanner.nextLine();
             }
-        } catch (NumberFormatException e) {
-            System.out.print("Input non valido, riprova: ");
-            input = scanner.nextLine();
         }
 
         gameClient.sendMessage(new SelectedDrewCard("drawCard", input));
