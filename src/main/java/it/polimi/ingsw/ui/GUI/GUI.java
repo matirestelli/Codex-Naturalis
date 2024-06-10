@@ -65,6 +65,12 @@ public class GUI extends Application implements UserInterfaceStrategy {
     private static Parent joinAGameScene, waitingForPlayersScene, lobbyGamesScene, settingUsernameScene, creatingNewGameScene, settingViewScene, boardScene, choosingObjectiveScene, choosingStarterScene;
     private static Parent startingScene;
 
+    private static Boolean notYetBoardScene = true;
+
+    //todo se funziona l'idea di cambiare scena io di deafault eliminarli
+    private static PlayableCardIds firstTurn;
+    private static Boolean firstTurnBool = false;
+
 
 
     @Override
@@ -311,8 +317,9 @@ public class GUI extends Application implements UserInterfaceStrategy {
                  try {
                      //FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
                      //root = loader.load();
-                   //  boardViewController = loader.getController();
+                     //  boardViewController = loader.getController();
                      root = this.getBoardScene();
+                     notYetBoardScene = false;
                      this.getBoardViewController().setUpBoard();
                      currStage.setScene(new Scene(root));
                      currStage.show();
@@ -651,7 +658,9 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void updateDecks(List<Card> updatedDecks) {
         Platform.runLater(() -> {
             //TODO ora da errore perchè non ho ancora caricato il controller, in teoria quando fa queste cose poi prima aspetta username
-            this.getBoardViewController().updateDecks(updatedDecks);
+            if(!notYetBoardScene) {
+                this.getBoardViewController().updateDecks(updatedDecks);
+            }
         });
     }
 
@@ -659,6 +668,11 @@ public class GUI extends Application implements UserInterfaceStrategy {
     @Override
     public void currentTurn(PlayableCardIds data) {
         Platform.runLater(() -> {
+            client.getModelView().setMyTurn(true);
+            if(notYetBoardScene){
+                //todo controllare se funziona
+                changeScene("/it/polimi/ingsw/scenes/BoardScene.fxml", currStage);
+            }
             this.getBoardViewController().selectCardToPlay(data);
         });
     }
@@ -694,15 +708,22 @@ public class GUI extends Application implements UserInterfaceStrategy {
     @Override
     public void displayHand(List<Card> hand) {
         Platform.runLater(() -> {
-            System.out.println("update hand arrived to view");
-            this.getBoardViewController().updateHand(hand);
+            if(!notYetBoardScene){
+                System.out.println("update hand arrived to view");
+                this.getBoardViewController().updateHand(hand);
+            }
         });
     }
 
     @Override
     public void showNotYourTurn() {
         Platform.runLater(() -> {
+            if(notYetBoardScene){
+                //todo controllare se funziona
+                changeScene("/it/polimi/ingsw/scenes/BoardScene.fxml", currStage);
+            }
             this.getBoardViewController().message("It's not your turn");
+            client.getModelView().setMyTurn(false);
         });
     }
 
@@ -710,7 +731,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void lastTurn() {
         //todo capire cosa inviano come event.data
         Platform.runLater(() -> {
-            this.getBoardViewController().message("This is your Last Turn \n Make it count!");
+            this.getBoardViewController().message("This is your Last Turn \n Play carefully!");
             //in teoria nessun dato, solo messaggio diverso
         });
     }
