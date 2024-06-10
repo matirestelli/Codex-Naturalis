@@ -60,7 +60,6 @@ public class ModelView {
     public void setMyPlayingCard(Card playingCard, Boolean side) {
         this.playingCard = playingCard;
         this.playingCard.setSide(side);
-
     }
 
     public Card getMyPlayingCard() {
@@ -294,6 +293,7 @@ public class ModelView {
         for(int i = 0; i < players.size(); i++){
             playerOrder.put(players.get(i), i);
         }
+        this.createPlayerStates(players);
     }
 
     public Map<String, Integer> getPlayerOrder() {

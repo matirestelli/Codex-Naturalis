@@ -186,6 +186,11 @@ public class BoardViewController extends GUI {
         initialDecks.add(this.viewModel.getDeckRBack());
         initialDecks.add(this.viewModel.getDeckGBack());
         this.updateDecks(initialDecks);
+
+        if(client.getModelView().isMyTurn()){
+
+        }
+
     }
 
 
@@ -221,8 +226,13 @@ public class BoardViewController extends GUI {
             playersRow1[i].setPrefHeight(43);
             playersRow1[i].setPrefWidth(200);
             String text = "Player: " + viewModel.getPlayers().get(i);
+            String color = client.getModelView().getPlayerPawns().get(client.getModelView().getPlayers().get(i)).toString();
+            ImageView imageView = new ImageView("/it/polimi/ingsw/images/pawn/" + color + ".png");
+            imageView.setFitHeight(25);
+            imageView.setFitWidth(25);
             playersRow1[i].getChildren().add(new Label(text));
             playersRow1[i].getChildren().add(playersPoints[i]);
+            playersRow1[i].getChildren().add(imageView);
 
             playersRow2[i] = (new HBox() );
             playersRow2[i].alignmentProperty().set(Pos.CENTER);
@@ -230,7 +240,7 @@ public class BoardViewController extends GUI {
             playersRow2[i].setPrefWidth(200);
 
             hBoxesAnimals[i] = ( new HBox());
-            ImageView imageView = new ImageView("/it/polimi/ingsw/images/resources/animal.png");
+            imageView = new ImageView("/it/polimi/ingsw/images/resources/animal.png");
             imageView.setFitHeight(30);
             imageView.setFitWidth(25);
             hBoxesAnimals[i].getChildren().add(imageView);

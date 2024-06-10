@@ -13,7 +13,7 @@ public class ViewModelPlayerState implements Serializable {
     private int score;
     private List<Card> codex;
     private Map<Resource, Integer> personalResources;
-    private Color color;
+
 
     public ViewModelPlayerState() {
         this.score = 0;
@@ -45,11 +45,4 @@ public class ViewModelPlayerState implements Serializable {
         this.personalResources = personalResources;
     }
 
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
 }

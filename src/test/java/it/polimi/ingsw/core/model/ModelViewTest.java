@@ -23,7 +23,8 @@ class ModelViewTest {
     @Test
     void testSetAndGetMyPlayingCard() {
         Card card = new ResourceCard();
-        modelView.setMyPlayingCard(card);
+        //todo dirlo ad alessio di settare anche la side
+        //modelView.setMyPlayingCard(card);
         assertEquals(card, modelView.getMyPlayingCard());
     }
 
