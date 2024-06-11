@@ -131,6 +131,8 @@ public class BoardViewController extends GUI {
     private ImageView[] handImages = {card1ImageView, card2ImageView, card3ImageView};
     @FXML
     private Label labelTurn;
+    @FXML
+    private ImageView iconChat;
 
     private static Boolean cardSelected = false;
     private static Boolean cardDrawn = false;
@@ -151,6 +153,7 @@ public class BoardViewController extends GUI {
     private static CardGame cardToPlay;
 
     private static ChatController chatController;
+    private static OpponentsCodexController opponentsCodexController;
 
 
     public void setUpBoard() {
@@ -235,14 +238,22 @@ public class BoardViewController extends GUI {
             playersRow1[i].alignmentProperty().set(Pos.CENTER);
             playersRow1[i].setPrefHeight(43);
             playersRow1[i].setPrefWidth(200);
-            String text = "Player: " + viewModel.getPlayers().get(i);
+            String text = "Player: " + client.getModelView().getPlayers().get(i);
             String color = client.getModelView().getPlayerPawns().get(client.getModelView().getPlayers().get(i)).toString();
             ImageView imageView = new ImageView("/it/polimi/ingsw/images/pawn/" + color + ".png");
             imageView.setFitHeight(25);
             imageView.setFitWidth(25);
+            Button pawnButton = new Button();
+            pawnButton.setGraphic(imageView);
+            pawnButton.getStyleClass().add("icon_button");
+            pawnButton.setUserData(client.getModelView().getPlayers().get(i));
+            pawnButton.setMaxHeight(28);
+            pawnButton.setMaxWidth(28);
+
+
             playersRow1[i].getChildren().add(new Label(text));
             playersRow1[i].getChildren().add(playersPoints[i]);
-            playersRow1[i].getChildren().add(imageView);
+            playersRow1[i].getChildren().add(pawnButton);
 
             playersRow2[i] = (new HBox() );
             playersRow2[i].alignmentProperty().set(Pos.CENTER);
@@ -322,10 +333,12 @@ public class BoardViewController extends GUI {
             }
 
             else if(! viewModel.getPlayers().get(i).equals(viewModel.getMyUsername() )){
+                pawnButton.setOnAction(this::viewOpponentsCodex);
                 playersVBoxesRecap[i].getChildren().add(playersRow1[i]);
                 playersVBoxesRecap[i].getChildren().add(playersRow2[i]);
                 playersVBoxesRecap[i].getChildren().add(playersRow3[i]);
                 playersRecapVbox.getChildren().add(playersVBoxesRecap[i]);
+
             }
 
 
@@ -1133,7 +1146,7 @@ public class BoardViewController extends GUI {
             st.setFromY(0);
             st.setToX(1);
             st.setToY(1);
-
+            chatController.setImageChat(iconChat);
             Stage stage1 = new Stage();
             stage1.setTitle("Chat");
             Scene scene = new Scene(root);
@@ -1158,6 +1171,42 @@ public class BoardViewController extends GUI {
         }
 
         //todo guarda se riesci a fare pallino notifica
+        else{
+            iconChat.setImage((new Image("/it/polimi/ingsw/icons/iconNotificationChat.png")));
+        }
+    }
+
+    public void viewOpponentsCodex(ActionEvent actionEvent) {
+        Stage popUpStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Button buttonCodex = (Button) actionEvent.getSource();
+        double x = popUpStage.getX();
+        double y = popUpStage.getY();
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/OpponentsCodex.fxml"));
+            Parent root = loader.load();
+            opponentsCodexController = loader.getController();
+            ScaleTransition st = new ScaleTransition(javafx.util.Duration.millis(50), root);
+            st.setInterpolator(Interpolator.EASE_BOTH);
+            st.setFromX(0);
+            st.setFromY(0);
+            st.setToX(1);
+            st.setToY(1);
+            Stage stage1 = new Stage();
+            stage1.setTitle("Other players' codex");
+            opponentsCodexController.initialize((String) buttonCodex.getUserData());
+
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            stage1.initModality(Modality.APPLICATION_MODAL);
+            stage1.initStyle(StageStyle.TRANSPARENT);
+            stage1.setResizable(false);
+            stage1.setScene(scene);
+            stage1.show();
+            stage1.setX(x + 150);
+            stage1.setY(y + 150);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

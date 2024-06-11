@@ -203,3 +203,20 @@
     -fx-border-radius: 18 18 0 0;
     -fx-border-color: #3c2414;
 }
+
+.pop_up_pane {
+    -fx-background-color: #ece4ba;
+    -fx-background-radius: 18 18 18 18;
+    -fx-alignment: center;
+    -fx-border-color: #4b4401;
+    -fx-border-radius: 18 18 18 18;
+
+}
+
+.top-bar{
+    -fx-background-color: rgba(176, 162, 26, 0.65);
+    -fx-background-radius: 18 18 0 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-radius: 18 18 0 0;
+    -fx-border-color: #3c2414;
+}

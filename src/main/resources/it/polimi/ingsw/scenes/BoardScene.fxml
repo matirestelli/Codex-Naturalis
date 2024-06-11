@@ -372,9 +372,9 @@
                         <HBox alignment="CENTER" prefWidth="200.0"  prefHeight="50">
                             <children>
                                 <Label text="Chat" prefWidth="100"/>
-                                <Button styleClass="icon_button" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#visualizeChat">
+                                <Button  styleClass="icon_button" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#visualizeChat">
                                     <graphic>
-                                        <ImageView  fitHeight="28.0" fitWidth="28.0">
+                                        <ImageView  fx:id="iconChat" fitHeight="28.0" fitWidth="28.0">
                                             <image>
                                                 <Image url="@../icons/iconChat.png" />
                                             </image>

@@ -13,6 +13,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -46,6 +48,7 @@ public class ChatController extends GUI{
     private Tab privateTab;
     private TextArea privateTextArea;
     private AnchorPane privateAnchorPane;
+    private ImageView imageChat;
 
     public void initialize() {
         //inizializza la chat inserendo i nomi dei giocatori della partita e recupera i vecchi messaggi se ci sono quando hai chiudo
@@ -144,13 +147,15 @@ public class ChatController extends GUI{
             }
 
             inputBox.setText(""); // remove text from input box
-
+            messageJustSent=true;
 
         }
     }
 
     public void closePopUp(ActionEvent actionEvent) {
         chatOpen = false;
+        imageChat.setImage(new Image("/it/polimi/ingsw/icons/iconChat.png"));
+        messageJustSent = false;
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
     }
@@ -191,6 +196,10 @@ public class ChatController extends GUI{
                 messageAreaBroadcast.setText(messageAreaBroadcast.getText() + "(" + message.getTime().getHour() + ":" + message.getTime().getMinute() + ")" + " " + message.getSender() + ": " + message.getText() + "\n");
         }
 
+    }
+
+    public void setImageChat(ImageView imageChat) {
+        this.imageChat = imageChat;
     }
 }
 

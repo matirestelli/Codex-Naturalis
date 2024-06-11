@@ -68,6 +68,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     private static Boolean notYetBoardScene = true;
     protected static Boolean chatOpen = false;
+    protected static Boolean messageJustSent = false;
 
     //todo se funziona l'idea di cambiare scena io di deafault eliminarli
     private static PlayableCardIds firstTurn;
@@ -694,8 +695,10 @@ public class GUI extends Application implements UserInterfaceStrategy {
                 //todo controllare se funziona
                 changeScene("/it/polimi/ingsw/scenes/BoardScene.fxml", currStage);
             }
-            this.getBoardViewController().message("It's not your turn");
-            client.getModelView().setMyTurn(false);
+            if(!messageJustSent) {
+                this.getBoardViewController().message("It's not your turn");
+                client.getModelView().setMyTurn(false);
+            }
         });
     }
 

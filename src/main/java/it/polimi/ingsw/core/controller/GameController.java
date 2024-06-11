@@ -284,6 +284,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     public void angleChosen(String username, CardToAttachSelected cardToAttach) throws RemoteException {
         PlayerState player = gameState.getPlayerState(username);
         player.setCodex(cardToAttach.getCodex());
+        cardToPlace = player.getCodex().getLast();
         String[] splitCardToPlay = cardToAttach.getString().split("\\.");
         int cardToAttachId = Integer.parseInt(splitCardToPlay[0]);
         int cornerSelected = Integer.parseInt(splitCardToPlay[1]);
@@ -323,10 +324,14 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             cardToPlace.setXYCord(targetCard.getyMatrixCord() + 1, targetCard.getxMatrixCord() + 1);
         }
 
+        //todo vedere se ha senso
+        //player.getCodex().getLast().setXYCord(cardToPlace.getyMatrixCord(), cardToPlace.getxMatrixCord());
+
         // notify observers of the updated codex
         orderedObserversMap.get(username).update(new UpdateCodexMessage("updateCodex", player.getCodex()));
 
         player.getMatrix()[cardToPlace.getyMatrixCord()][cardToPlace.getxMatrixCord()] = cardToPlace.getId();
+
 
         List<Card> visibileCards = new ArrayList<>();
         visibileCards.addAll(gameState.getResourceCardsVisible());
