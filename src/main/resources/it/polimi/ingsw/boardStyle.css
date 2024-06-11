@@ -98,6 +98,7 @@
 }
 .icon_button:hover{
     -fx-cursor: hand;
+    -fx-opacity: 0.8;
 }
 
 
@@ -108,8 +109,9 @@
     -fx-text-fill: #4b4401;
 }
 
-.game_butto:hover{
+.game_button:hover{
     -fx-cursor: hand;
+    -fx-opacity: 0.8;
 }
 
 .scoreboard{
@@ -179,12 +181,14 @@
 
 .icon_button_close{
     -fx-background-color: transparent;
-    -fx-background-radius: 50%;
-    -fx-border-radius: 50%;
+    -fx-background-radius: 70%;
+    -fx-border-radius: 70%;
+    -fx-effect: dropshadow(three-pass-box, #3c2414, 10, 0, 4, 4);
    /* -fx-effect: dropshadow(one-pass-box, #4b4401, 10, 0.8, 0, 0);*/
 }
 .icon_button_close:hover{
     -fx-cursor: hand;
+    -fx-opacity: 0.8;
 }
 
 .pop_up_pane {

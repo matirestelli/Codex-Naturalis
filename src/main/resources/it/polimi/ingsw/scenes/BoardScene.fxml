@@ -389,9 +389,10 @@
                 <VBox fx:id="containerVBoxRight" maxWidth="200" maxHeight="130" styleClass="containerPoints" > </VBox>
 
 
-                <VBox alignment="CENTER" layoutX="1050.0" prefHeight="100.0" prefWidth="150.0" styleClass="containerPoints" spacing="20">
+                <VBox fx:id="rightVBox" alignment="CENTER" layoutX="1050.0" prefHeight="100.0" prefWidth="150.0" styleClass="containerPoints" spacing="20">
                     <children>
                         <Label fx:id="labelTurn" />
+                        <ImageView fx:id="icon_loading" fitWidth="30" fitHeight="30"/>
                         <Button fx:id="buttonSide" text="view back side" styleClass="game_button" onAction="#setSide"/>
                     </children>
                 </VBox>

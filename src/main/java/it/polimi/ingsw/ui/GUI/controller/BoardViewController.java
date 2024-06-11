@@ -8,9 +8,7 @@ import it.polimi.ingsw.core.model.message.response.CardSelectedMessage;
 import it.polimi.ingsw.core.model.message.response.SelectedDrewCard;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.ui.GUI.GUI;
-import javafx.animation.Interpolator;
-import javafx.animation.PauseTransition;
-import javafx.animation.ScaleTransition;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -133,6 +131,10 @@ public class BoardViewController extends GUI {
     private Label labelTurn;
     @FXML
     private ImageView iconChat;
+    @FXML
+    private ImageView icon_loading;
+    @FXML
+    private VBox rightVBox;
 
     private static Boolean cardSelected = false;
     private static Boolean cardDrawn = false;
@@ -151,9 +153,12 @@ public class BoardViewController extends GUI {
     private String cardFront;
     //usefull to save the image of the card that the player whant to play, is back or front side because I take it from its button selected
     private static CardGame cardToPlay;
+    private static int numTurns = 0;
 
     private static ChatController chatController;
     private static OpponentsCodexController opponentsCodexController;
+
+
 
 
     public void setUpBoard() {
@@ -200,9 +205,8 @@ public class BoardViewController extends GUI {
         initialDecks.add(this.viewModel.getDeckGBack());
         this.updateDecks(initialDecks);
 
-        if(client.getModelView().isMyTurn()){
-
-        }
+        message("Waiting for the other players...");
+        loadingIcon();
 
     }
 
@@ -245,10 +249,10 @@ public class BoardViewController extends GUI {
             imageView.setFitWidth(25);
             Button pawnButton = new Button();
             pawnButton.setGraphic(imageView);
-            pawnButton.getStyleClass().add("icon_button");
+            pawnButton.getStyleClass().add("icon_button_close");
             pawnButton.setUserData(client.getModelView().getPlayers().get(i));
-            pawnButton.setMaxHeight(28);
-            pawnButton.setMaxWidth(28);
+            pawnButton.setMaxHeight(25);
+            pawnButton.setMaxWidth(25);
 
 
             playersRow1[i].getChildren().add(new Label(text));
@@ -555,10 +559,6 @@ public class BoardViewController extends GUI {
         this.showScoreboardPopUp(popUpStage);
     }
 
-
-    public void setTurn(String messageTurn){
-
-    }
 
     public void visualizeChat(ActionEvent actionEvent) throws IOException {
         chatOpen = true;
@@ -1098,7 +1098,11 @@ public class BoardViewController extends GUI {
 
 
     public void message(String message){
-       labelTurn.setText(message);
+        numTurns++;
+        if(numTurns==2){
+            rightVBox.getChildren().remove(icon_loading);
+        }
+        labelTurn.setText(message);
     }
 
 
@@ -1208,6 +1212,23 @@ public class BoardViewController extends GUI {
             e.printStackTrace();
         }
     }
+
+
+    private void loadingIcon() {
+        icon_loading.setImage(new Image("/it/polimi/ingsw/icons/icons8-loading-80.png"));
+        icon_loading.setFitHeight(30);
+        icon_loading.setFitWidth(30);
+        RotateTransition translate = new RotateTransition();
+        translate.setNode(icon_loading);
+        translate.setDuration(javafx.util.Duration.seconds(2));
+        translate.setCycleCount(TranslateTransition.INDEFINITE);
+        translate.setInterpolator(javafx.animation.Interpolator.LINEAR);
+        translate.setByAngle(360);
+        translate.play();
+    }
+
+
+
 }
 
 
