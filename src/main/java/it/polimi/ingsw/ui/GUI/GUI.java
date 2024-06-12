@@ -44,13 +44,11 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     //lista dei controller delle varie scene
     private static StartingSceneController startingSceneController;
-    private static JoinAGameController joinAGameController;
+
+
     private static  WaitingForPlayersController waitingForPlayersController;
-    private static LobbyGamesController lobbyGamesController;
     private static BoardViewController boardViewController;
-    private static SettingUsernameController settingUsernameController;
-    private static CreatingNewGameController creatingNewGameController;
-    private static SettingViewController settingViewController;
+
     private static ErrorPopUpController errorPopUpController;
     private static ScoreboardController scoreboardController;
     private static TurnStateEnum turnState; //lo stato del turno in cui si trova ora il client
@@ -63,7 +61,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     private static List<Objective> secretObjs;
 
 
-    private static Parent joinAGameScene, waitingForPlayersScene, lobbyGamesScene, settingUsernameScene, creatingNewGameScene, settingViewScene, boardScene, choosingObjectiveScene, choosingStarterScene;
+    private static Parent  waitingForPlayersScene, boardScene, choosingObjectiveScene, choosingStarterScene;
     private static Parent startingScene;
 
     private static Boolean notYetBoardScene = true;
@@ -132,10 +130,11 @@ public class GUI extends Application implements UserInterfaceStrategy {
             e.printStackTrace();
         }
 
+
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/JoinAGame.fxml"));
-            this.setJoinAGameScene(loader.load());
-            this.setJoinAGameController(loader.getController());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/BoardScene.fxml"));
+            this.setBoardScene(loader.load());
+            this.setBoardViewController(loader.getController());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,51 +144,6 @@ public class GUI extends Application implements UserInterfaceStrategy {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/WaitingForPlayers.fxml"));
             this.setWaitingForPlayersScene(loader.load());
             this.setWaitingForPlayersController(loader.getController());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/LobbyGames.fxml"));
-            this.setLobbyGamesScene(loader.load());
-            this.setLobbyGamesController(loader.getController());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/SettingUsername.fxml"));
-            this.setSettingUsernameScene(loader.load());
-            this.setSettingUsernameController(loader.getController());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/CreatingNewGame.fxml"));
-            this.setCreatingNewGameScene(loader.load());
-            this.setCreatingNewGameController(loader.getController());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/SettingView.fxml"));
-            this.setSettingViewScene(loader.load());
-            this.setSettingViewController(loader.getController());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/BoardScene.fxml"));
-            this.setBoardScene(loader.load());
-            this.setBoardViewController(loader.getController());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -237,19 +191,6 @@ public class GUI extends Application implements UserInterfaceStrategy {
                 }
                 break;
 
-            case "/it/polimi/ingsw/scenes/JoinAGame.fxml":
-                try {
-                   // FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
-                   // root = loader.load();
-                   // joinAGameController = loader.getController();
-                    root = this.getJoinAGameScene();
-                    currStage.setScene(new Scene(root));
-                    currStage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
             case "/it/polimi/ingsw/scenes/WaitingForPlayers.fxml":
                 try {
                    // FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
@@ -263,57 +204,6 @@ public class GUI extends Application implements UserInterfaceStrategy {
                 }
                 break;
 
-            case "/it/polimi/ingsw/scenes/LobbyGames.fxml":
-                try {
-                    //FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
-                    //root = loader.load();
-                    //lobbyGamesController = loader.getController();
-                    root = this.getLobbyGamesScene();
-                    currStage.setScene(new Scene(root));
-                    currStage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case "/it/polimi/ingsw/scenes/SettingUsername.fxml":
-                try {
-                   // FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
-                   // root = loader.load();
-                   // settingUsernameController = loader.getController();
-                    root = this.getSettingUsernameScene();
-                    currStage.setScene(new Scene(root));
-                    currStage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case "/it/polimi/ingsw/scenes/CreatingNewGame.fxml":
-                try {
-                    //FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
-                   // root = loader.load();
-                    //creatingNewGameController = loader.getController();
-                    root = this.getCreatingNewGameScene();
-                    currStage.setScene(new Scene(root));
-                    currStage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case "/it/polimi/ingsw/scenes/SettingView.fxml":
-                try {
-                    //FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
-                   // root = loader.load();
-                    //settingViewController = loader.getController();
-                    root = this.getSettingViewScene();
-                    currStage.setScene(new Scene(root));
-                    currStage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
 
             case "/it/polimi/ingsw/scenes/BoardScene.fxml":
 
@@ -468,128 +358,6 @@ public class GUI extends Application implements UserInterfaceStrategy {
             e.printStackTrace();
         }
     }
-
-
-    /*
-    @Override
-    public void updateUI(GameEvent event) {
-        switch(event.getType()){
-            case "notYourTurn" -> {
-                //TODO fix the fact that it is shown when i go to the board scene -> maybe not show not your turn
-                //only not your turn if i try to do something
-                Platform.runLater(() -> {
-                    this.setTurnState(TurnStateEnum.NOT_YOUR_TURN);
-                   // this.showErrorPopUp("It's not your turn", currStage);
-                    this.getBoardViewController().message("It's not your turn");
-                });
-            }
-
-            case "loadedStarter" ->{
-                //initializeScenes();
-                //TODO file fxml e controller
-                // choosingStarterController.setStarterCard(event.getData());
-                System.out.println("Starter card loaded");
-                Platform.runLater(() -> {
-                    this.setStarterCard((CardGame)event.getData());
-                    System.out.printf("Starter card loaded: %d", this.getStarterCard().getId());
-                    System.out.printf("Starter card loaded: %s", this.getStarterCard().getFrontCover());
-
-                    //TODO: sarà così solo che ora il messaggio arriva troppo presto e non ho ancora l'istanza del controller
-                    //perchè il messaggio arriva ancora prima di aver caricato il main dell'applicazione
-                    //this.getChoosingStarterController().setStarterCard((CardGame)event.getData());
-                });
-
-
-            }
-            case "starterSide" -> {
-                Platform.runLater(() -> {
-                    this.test= true;
-                    System.out.println("ask for choice arrived");
-                    //this.getChoosingStarterController().setStarterSide();
-                });
-            }
-
-            case "chooseObjective" -> {
-                System.out.println("ask for objective arrived to view");
-                Platform.runLater(() -> {
-                    //in questo momento non ho ancora fatto load dei controller e quidni gestisco la cosa così:
-                    //this.getChoosingObjectiveController().setObjective((List<Objective>)event.getData());
-                    // this.getChoosingObjectiveController().chooseObjective();
-                    secretObjs = (List<Objective>)event.getData();
-                    System.out.println("ask for objective arrived");
-                    //this.getChoosingObjectiveController().chooseObjective();
-                });
-            }
-
-            case "updateHand" -> {
-                Platform.runLater(() -> {
-                    System.out.println("update hand arrived to view");
-                    this.getBoardViewController().updateHand((List<Card>)event.getData());
-                });
-            }
-
-            case "updateDecks" -> {
-                Platform.runLater(() -> {
-                    //TODO ora da errore perchè non ho ancora caricato il controller, in teoria quando fa queste cose poi prima aspetta username
-                    this.getBoardViewController().updateDecks((List<Card>)event.getData());
-                });
-            }
-
-            case "currentPlayerTurn" -> {
-                Platform.runLater(() -> {
-                    System.out.println("current player turn arrived to view");
-                    this.setTurnState(TurnStateEnum.SELECT_CARD);
-                    this.getBoardViewController().selectCardToPlay((PlayableCardIds)event.getData());
-                });
-            }
-
-            case "askAngle" -> {
-                Platform.runLater(() -> {
-                    System.out.println("ask for angle arrived to view");
-                    this.getBoardViewController().askForAngle((List<Coordinate>)event.getData());
-                });
-            }
-
-            case "askWhereToDraw" -> {
-                System.out.println("ask for where to draw arrived to client");
-                Platform.runLater(() -> {
-                    System.out.println("ask for where to draw arrived to view");
-                    this.getBoardViewController().drawFromDecks();
-                });
-            }
-
-            case "updateMyPlayerstate" -> {
-                Platform.runLater(() -> {
-                    this.getBoardViewController().updateMyPlayerstate();
-                });
-            }
-
-            case "updatePlayerstate" -> {
-                Platform.runLater(() -> {
-                    this.getBoardViewController().updatePlayerstate((String) event.getData());
-                });
-
-            }
-
-            case "lastTurn" -> {
-                //todo capire cosa inviano come event.data
-                Platform.runLater(() -> {
-                    this.getBoardViewController().message("This is your Last Turn \n Make it count!");
-                    this.getBoardViewController().selectCardToPlay((PlayableCardIds)event.getData());
-                });
-            }
-
-            case "endGame" -> {
-                //todo capire cosa inviano come event.data
-                Platform.runLater(() -> {
-                    this.getBoardViewController().message("The game has ended");
-                });
-            }
-
-        }
-    }
-
-     */
 
     //metodi chiamati dai message.execute, comuni con tui grazie a uiStrategy
     @Override
@@ -890,48 +658,14 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public StartingSceneController getStartingSceneController() {
         return startingSceneController;
     }
-    public void setJoinAGameController(JoinAGameController joinAGameController) {
-        this.joinAGameController = joinAGameController;
-    }
-    public JoinAGameController getJoinAGameController() {
-        return joinAGameController;
-    }
-    public void setWaitingForPlayersController(WaitingForPlayersController waitingForPlayersController) {
-        this.waitingForPlayersController = waitingForPlayersController;
-    }
-    public WaitingForPlayersController getWaitingForPlayersController() {
-        return waitingForPlayersController;
-    }
-    public void setLobbyGamesController(LobbyGamesController lobbyGamesController) {
-        this.lobbyGamesController = lobbyGamesController;
-    }
-    public LobbyGamesController getLobbyGamesController() {
-        return lobbyGamesController;
-    }
+
     public void setBoardViewController(BoardViewController boardViewController) {
         this.boardViewController = boardViewController;
     }
     public BoardViewController getBoardViewController() {
         return boardViewController;
     }
-    public void setSettingUsernameController(SettingUsernameController settingUsernameController) {
-        this.settingUsernameController = settingUsernameController;
-    }
-    public SettingUsernameController getSettingUsernameController() {
-        return settingUsernameController;
-    }
-    public void setCreatingNewGameController(CreatingNewGameController creatingNewGameController) {
-        this.creatingNewGameController = creatingNewGameController;
-    }
-    public CreatingNewGameController getCreatingNewGameController() {
-        return creatingNewGameController;
-    }
-    public void setSettingViewController(SettingViewController settingViewController) {
-        this.settingViewController = settingViewController;
-    }
-    public SettingViewController getSettingViewController() {
-        return settingViewController;
-    }
+
     public void setErrorPopUpController(ErrorPopUpController errorPopUpController) {
         this.errorPopUpController = errorPopUpController;
     }
@@ -957,37 +691,13 @@ public class GUI extends Application implements UserInterfaceStrategy {
         return choosingObjectiveController;
     }
 
-    public void setJoinAGameScene(Parent joinAGameScene) {
-        this.joinAGameScene = joinAGameScene;
-    }
-
-    public Parent getJoinAGameScene() {
-        return joinAGameScene;
-    }
     public Parent getWaitingForPlayersScene() {
         return waitingForPlayersScene;
     }
     public void setWaitingForPlayersScene(Parent waitingForPlayersScene) {
         this.waitingForPlayersScene = waitingForPlayersScene;
     }
-    public Parent getLobbyGamesScene() {
-        return lobbyGamesScene;
-    }
-    public void setLobbyGamesScene(Parent lobbyGamesScene) {
-        this.lobbyGamesScene = lobbyGamesScene;
-    }
-    public Parent getSettingUsernameScene() {
-        return settingUsernameScene;
-    }
-    public void setSettingUsernameScene(Parent settingUsernameScene) {
-        this.settingUsernameScene = settingUsernameScene;
-    }
-    public Parent getCreatingNewGameScene() {
-        return creatingNewGameScene;
-    }
-    public void setCreatingNewGameScene(Parent creatingNewGameScene) {
-        this.creatingNewGameScene = creatingNewGameScene;
-    }
+
     public Parent getBoardScene() {
         return boardScene;
     }
@@ -1006,12 +716,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void setStartingScene(Parent startingScene) {
         this.startingScene = startingScene;
     }
-    public Parent getSettingViewScene() {
-        return settingViewScene;
-    }
-    public void setSettingViewScene(Parent settingViewScene) {
-        this.settingViewScene = settingViewScene;
-    }
+
 
     public void setChoosingStarterScene(Parent choosingStarterScene) {
         this.choosingStarterScene = choosingStarterScene;
@@ -1019,6 +724,11 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public Parent getChoosingStarterScene() {
         return choosingStarterScene;
     }
+
+    public static void setWaitingForPlayersController(WaitingForPlayersController waitingForPlayersController) {
+        GUI.waitingForPlayersController = waitingForPlayersController;
+    }
+
 
 
 }

@@ -5,6 +5,13 @@
     -fx-font-size: 25;
 }
 
+.textBold {
+    -fx-font-family: "Poor Richard";
+    -fx-font-size: 35;
+    -fx-font-weight: bold;
+}
+
+
 .game_button{
     -fx-background-color: #b0a21a;
     -fx-background-radius: 10;

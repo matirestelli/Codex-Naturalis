@@ -19,17 +19,16 @@
         <VBox styleClass="choiceBox" AnchorPane.bottomAnchor="140" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="140.0">
             <children>
                 <HBox prefWidth="300" prefHeight="100" alignment="CENTER">
-                    <Label text="Waiting for other players to join..." />
+                    <Label fx:id="welcomeLabel" styleClass="textBold" />
                 </HBox>
 
 
-                <HBox prefWidth="300" prefHeight="100" alignment="CENTER">
-                    <ImageView fx:id="icon_loading" >
-                        <image>
-                            <Image url="@../icons/icons8-loading-80.png" />
-                        </image>
+                <VBox prefWidth="300" prefHeight="100" alignment="CENTER">
+                    <Label text="This is your pawn: " />
+                    <ImageView fx:id="icon_pawn" fitHeight="100" fitWidth="100" >
+
                     </ImageView>
-                </HBox>
+                </VBox>
 
                 <HBox prefWidth="300" prefHeight="100" alignment="CENTER">
                     <Button fx:id="buttonStartGame" text="Start Game" onAction="#startGame" styleClass="game_button"/>

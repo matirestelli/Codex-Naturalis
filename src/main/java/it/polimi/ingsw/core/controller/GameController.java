@@ -67,7 +67,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
         //todo put in a message:
 
-        List<Card> updatedDecks = new ArrayList<>();
+       /* List<Card> updatedDecks = new ArrayList<>();
         updatedDecks.addAll(gameState.getResourceCardsVisible());
         updatedDecks.addAll(gameState.getGoldCardsVisible());
         updatedDecks.add(gameState.getResourceDeck().getCards().getFirst());
@@ -75,6 +75,8 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         //notify observers of the updated decks
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new UpdatedDecksMessage("updateDecks", updatedDecks));
+
+        */
 
         gameState.initializePawn();
 
@@ -106,6 +108,17 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         gameState.assignFirstHandToPlayers();
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new UpdatedHandMessage("updateHand", gameState.getPlayerState(us).getHand()));
+
+
+
+        List<Card> updatedDecks = new ArrayList<>();
+        updatedDecks.addAll(gameState.getResourceCardsVisible());
+        updatedDecks.addAll(gameState.getGoldCardsVisible());
+        updatedDecks.add(gameState.getResourceDeck().getCards().getFirst());
+        updatedDecks.add(gameState.getGoldDeck().getCards().getFirst());
+        //notify observers of the updated decks
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new UpdatedDecksMessage("updateDecks", updatedDecks));
 
 
         // assign common objectives of the game
@@ -345,6 +358,8 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         PlayerState player = gameState.getPlayerState(username);
 
         Card extractedCard;
+        Card backGDeck;
+        Card backRDeck;
         if (choose.equals("A")) {
             extractedCard = (Card) gameState.getResourceDeck().drawCard();
         } else if (choose.equals("B")) {
@@ -390,8 +405,8 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         List<Card> updatedDecks = new ArrayList<>();
         updatedDecks.addAll(gameState.getResourceCardsVisible());
         updatedDecks.addAll(gameState.getGoldCardsVisible());
-        updatedDecks.add(gameState.getResourceDeck().getCards().getFirst());
-        updatedDecks.add(gameState.getGoldDeck().getCards().getFirst());
+        updatedDecks.add(gameState.getResourceDeck().getCards().get(0));
+        updatedDecks.add(gameState.getGoldDeck().getCards().get(0));
         //notify observers of the updated decks
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new UpdatedDecksMessage("updateDecks", updatedDecks)) ;

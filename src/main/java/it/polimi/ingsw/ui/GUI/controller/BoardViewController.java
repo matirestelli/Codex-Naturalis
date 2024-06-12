@@ -373,6 +373,10 @@ public class BoardViewController extends GUI {
     //quando chiamo questo metodo modifico la carta del mazzo (resource r oppure gold g)
     //in posizione: 0 -> girata (il back), 1 -> esposta 1, 2 -> esposta 2)
     public void updateDecks (List<Card> updatedDecks){
+
+        for(Card c : updatedDecks){
+            System.out.println(c.getId() + "\n");
+        }
         //TODO CAPIRE COME PARAMETRIZZARE MEGLIO LA COSA
         String imageCardRBack = updatedDecks.get(5).getBackCover();
         deckGBackImageView.setImage(new Image(imageCardRBack));
@@ -567,32 +571,12 @@ public class BoardViewController extends GUI {
     }
 
     public void updateHand(List<Card> hand) {
-        //todo ask perchè mi da problemi l'array
-       /* for(int i=0; i<3; i++){
-            String imageCard = hand.get(i).getFrontCover();
-            handImages[i].setImage(new Image(imageCard));
-            handButtons[i].setUserData(hand.get(i).getId());
-        }
-        for(Button b: handButtons){
-            b.setOnAction(e -> {
-                this.showErrorPopUp("You can't draw a card now", (Stage) b.getScene().getWindow());
-            });
-            b.setOnMouseEntered(e -> {
-                b.setStyle("-fx-border-color: #e51f1f;\n" +
-                        "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
-            });
-            b.setOnMouseExited(e -> {
-                b.setStyle("-fx-border-color: none;\n" +
-                        "-fx-effect: none;");
-            });
-        }
-
-        */
 
         String imageCard1 = hand.get(0).getFrontCover();
         card1ImageView.setImage(new Image(imageCard1));
         //I set in the button the id con the card it is referred to
         buttonCard1.setUserData(hand.get(0).getId());
+        buttonCard1.getStyleClass().clear();
         buttonCard1.getStyleClass().add("buttonCard");
         buttonCard1.setOnAction(e -> {
             this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard1.getScene().getWindow());
@@ -609,6 +593,7 @@ public class BoardViewController extends GUI {
         String imageCard2 = hand.get(1).getFrontCover();
         card2ImageView.setImage(new Image(imageCard2));
         buttonCard2.setUserData(hand.get(1).getId());
+        buttonCard2.getStyleClass().clear();
         buttonCard2.getStyleClass().add("buttonCard");
         buttonCard2.setOnAction(e -> {
             this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard2.getScene().getWindow());
@@ -625,6 +610,7 @@ public class BoardViewController extends GUI {
         String imageCard3 = hand.get(2).getFrontCover();
         card3ImageView.setImage(new Image(imageCard3));
         buttonCard3.setUserData(hand.get(2).getId());
+        buttonCard3.getStyleClass().clear();
         buttonCard3.getStyleClass().add("buttonCard");
         buttonCard3.setOnAction(e -> {
             this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard3.getScene().getWindow());
@@ -648,35 +634,6 @@ public class BoardViewController extends GUI {
         this.cardSelected = false;
         this.message("IT'S YOUR TURN!\nSelect the card you want to play");
         //quando clicco il bottone mando update al client della scelta adottata
-        //TODO ask perchè non funziona
-        /*
-        for(Button b: handButtons){
-            b.setOnAction(e -> {
-                if(!cardSelected){
-                    b.setStyle("-fx-border-color: #52e51f;\n" +
-                            "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
-                    CardSelection cs = new CardSelection((int)b.getUserData(), this.side);
-                    buttonCardSelectedId = b.getId();
-                    this.observerClient.updateUI(new GameEvent("cardToPlaySelected", cs));
-                    cardSelected = true;
-                }
-                else {
-                    this.showErrorPopUp("You have already chosen the card to play", (Stage) b.getScene().getWindow());
-                }
-
-            });
-        }
-        if(buttonCard1.getId().equals(buttonCardSelectedId)){
-            cardToPlay = this.viewModel.getMyHand().get(0);
-        }
-        else if(buttonCard2.getId().equals(buttonCardSelectedId)){
-            cardToPlay = this.viewModel.getMyHand().get(1);
-        }
-        else if(buttonCard3.getId().equals(buttonCardSelectedId)){
-            cardToPlay = this.viewModel.getMyHand().get(2);
-        }
-
-         */
 
         buttonCard1.setOnAction(e -> {
             Boolean playableFront = true;
@@ -790,38 +747,18 @@ public class BoardViewController extends GUI {
         this.cardPlaced = false;
         this.message("Select where you want \n to play the card");
 
-        /*TODO ask perchè non va
-        for(Button b: handButtons){
-            if(b.getId().equals(buttonCardSelectedId)){
-                b.setStyle("-fx-border-color: #52e51f;\n" +
-                        "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
-            }
-            b.setOnAction(e -> {
-                this.showErrorPopUp("You have already chosen the card to play", (Stage) b.getScene().getWindow());
-            });
-            b.setOnMouseEntered(e -> {
-                b.setStyle("-fx-border-color: #e51f1f;\n" +
-                        "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
-            });
-            b.setOnMouseExited(e -> {
-                b.setStyle("-fx-border-color: none;\n" +
-                        "-fx-effect: none;");
-            });
-        }
-
-         */
         //TODO ASK WHY IT DOESN'T WORK
         if(buttonCard1.getId().equals(buttonCardSelectedId)){
-            buttonCard1.setStyle("-fx-border-color: #52e51f;\n" +
-                    "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+            buttonCard1.getStyleClass().clear();
+            buttonCard1.getStyleClass().add("buttonCardSelected");
         }
         else if(buttonCard2.getId().equals(buttonCardSelectedId)){
-            buttonCard2.setStyle("-fx-border-color: #52e51f;\n" +
-                    "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+            buttonCard2.getStyleClass().clear();
+            buttonCard2.getStyleClass().add("buttonCardSelected");
         }
         else if(buttonCard3.getId().equals(buttonCardSelectedId)){
-            buttonCard3.setStyle("-fx-border-color: #52e51f;\n" +
-                    "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
+            buttonCard3.getStyleClass().clear();
+            buttonCard3.getStyleClass().add("buttonCardSelected");
         }
         buttonCard1.setOnAction(e -> {
             this.showErrorPopUp("You already selected a card to play", (Stage) buttonCard1.getScene().getWindow());

@@ -23,7 +23,7 @@ public class StartingSceneController extends GUI {
 
     public void startGame(ActionEvent actionEvent) throws IOException {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-         this.changeScene("/it/polimi/ingsw/scenes/SettingView.fxml", stage);
+         this.changeScene("/it/polimi/ingsw/scenes/WaitingForPlayers.fxml", stage);
     }
 
     public void setFullScreen(ActionEvent actionEvent) {

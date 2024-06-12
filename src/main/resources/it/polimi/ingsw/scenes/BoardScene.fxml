@@ -38,7 +38,7 @@
                     <children>
                         <VBox alignment="TOP_CENTER" prefWidth="243" >
                             <children>
-                                <Label fx:id="labelDeckR" prefHeight="20" text="mazzo R coperto:">
+                                <Label fx:id="labelDeckR" prefHeight="20" text="Deck Resources:">
                                     <VBox.margin>
                                         <Insets top="6.0" />
                                     </VBox.margin>
@@ -61,7 +61,7 @@
 
                         <VBox alignment="TOP_CENTER" prefWidth="243">
                             <children>
-                                <Label fx:id="labelCard1DeckR" prefHeight="20" text="Card 1 mazzo 1:">
+                                <Label fx:id="labelCard1DeckR" prefHeight="20" text="Card 1 Resources:">
                                     <VBox.margin>
                                         <Insets top="6.0" />
                                     </VBox.margin>
@@ -77,7 +77,7 @@
 
                         <VBox alignment="TOP_CENTER" prefWidth="243">
                             <children>
-                                <Label fx:id="labelCard2DeckR" prefHeight="20" text="Card 2 mazzo R:">
+                                <Label fx:id="labelCard2DeckR" prefHeight="20" text="Card 2 Resources:">
                                     <font>
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
@@ -96,7 +96,7 @@
 
                         <VBox alignment="TOP_CENTER" prefWidth="243">
                             <children>
-                                <Label fx:id="labelDeckG" prefHeight="20" text="mazzo G coperto:">
+                                <Label fx:id="labelDeckG" prefHeight="20" text="Deck Gold:">
                                     <font>
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
@@ -121,7 +121,7 @@
 
                         <VBox alignment="TOP_CENTER" prefWidth="243">
                             <children>
-                                <Label fx:id="labelCard1DeckG" prefHeight="20" text="Card 1 deck G:">
+                                <Label fx:id="labelCard1DeckG" prefHeight="20" text="Card 1 Gold:">
                                     <font>
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
@@ -140,7 +140,7 @@
 
                         <VBox alignment="TOP_CENTER" prefWidth="243">
                             <children>
-                                <Label fx:id="labelCard2DeckG" prefHeight="20" text="Card 2 deck G:">
+                                <Label fx:id="labelCard2DeckG" prefHeight="20" text="Card 2 Gold:">
                                     <font>
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
@@ -408,7 +408,7 @@
 
                         <VBox alignment="CENTER" prefWidth="243" >
                             <children>
-                                <Label fx:id="labelCard1" prefHeight="20" text="Card 1 mano:">
+                                <Label fx:id="labelCard1" prefHeight="20" text="Your card 1 :">
                                     <font>
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
@@ -425,7 +425,7 @@
 
                         <VBox alignment="CENTER" prefWidth="243">
                             <children>
-                                <Label fx:id="labelCard2" prefHeight="20" text="Card 2 mano:">
+                                <Label fx:id="labelCard2" prefHeight="20" text="Your card 2 :">
                                     <font>
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
@@ -441,7 +441,7 @@
 
                         <VBox alignment="CENTER" prefWidth="243">
                             <children>
-                                <Label fx:id="labelCard3" prefHeight="20" text="Card 3 mano:">
+                                <Label fx:id="labelCard3" prefHeight="20" text="Your card 3:">
                                     <font>
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
@@ -457,7 +457,7 @@
 
                         <VBox alignment="CENTER" prefWidth="243">
                             <children>
-                                <Label fx:id="labelObjSecret" prefHeight="20" text="Obiettivo Segreto:">
+                                <Label fx:id="labelObjSecret" prefHeight="20" text="Secret Objective:">
                                     <font>
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
@@ -469,7 +469,7 @@
 
                         <VBox alignment="CENTER" prefWidth="243">
                             <children>
-                                <Label fx:id="labelObj1" prefHeight="20" text="Obiettivo comune 1:">
+                                <Label fx:id="labelObj1" prefHeight="20" text="Common Objective 1:">
                                     <font>
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
@@ -481,7 +481,7 @@
 
                         <VBox alignment="CENTER" prefWidth="243">
                             <children>
-                                <Label fx:id="labelObj2" prefHeight="20" text="Obiettivo comune 2:">
+                                <Label fx:id="labelObj2" prefHeight="20" text="Common Objective 2:">
                                     <font>
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
