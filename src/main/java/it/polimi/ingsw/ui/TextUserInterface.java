@@ -424,33 +424,37 @@ public class TextUserInterface implements UserInterfaceStrategy {
         }
         switch (input) {
             case "1" -> {
-                gameClient.getModelView().setMyUnreadedMessages(0);
-                displayChat(gameClient.getModelView().getChat(), gameClient.getModelView().getMyUsername());
-                //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
-                selectFromMenu();
+                    gameClient.getModelView().setMyUnreadedMessages(0);
+                    displayChat(gameClient.getModelView().getChat(), gameClient.getModelView().getMyUsername());
+                    //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                if(gameClient.getModelView().isMyTurn() != true) {
+                    selectFromMenu();
+                }
             }
             case "2" -> {
-                System.out.print("Receiver ( All");
-                for (String user : gameClient.getModelView().getPlayers())
-                    System.out.print(" / " + user);
-                System.out.print(" ): ");
-                input = "";
-                input = scanner.nextLine().trim();
-                while (!input.equals("All") && !gameClient.getModelView().getPlayers().contains(input)) {
-                    System.out.print("Invalid Input! Retry: ");
-                    input = scanner.nextLine();
-                }
-                if(input.equals("All")) {
-                    System.out.print("Write a message to all: ");
+                if(gameClient.getModelView().isMyTurn() != true) {
+                    System.out.print("Receiver ( All");
+                    for (String user : gameClient.getModelView().getPlayers())
+                        System.out.print(" / " + user);
+                    System.out.print(" ): ");
                     input = "";
-                    input = scanner.nextLine();
-                    Message m = new Message(input, gameClient.getModelView().getMyUsername());
-                    gameClient.sendMessage(new messageBroadcast("messageToAll", m));
-                }else {
-                    System.out.print("Message to " + input + ": ");
-                    String text = scanner.nextLine();
-                    MessagePrivate m = new MessagePrivate(text, gameClient.getModelView().getMyUsername(), input);
-                    gameClient.sendMessage(new messagePrivate("messageToUser", m));
+                    input = scanner.nextLine().trim();
+                    while (!input.equals("All") && !gameClient.getModelView().getPlayers().contains(input)) {
+                        System.out.print("Invalid Input! Retry: ");
+                        input = scanner.nextLine();
+                    }
+                    if (input.equals("All")) {
+                        System.out.print("Write a message to all: ");
+                        input = "";
+                        input = scanner.nextLine();
+                        Message m = new Message(input, gameClient.getModelView().getMyUsername());
+                        gameClient.sendMessage(new messageBroadcast("messageToAll", m));
+                    } else {
+                        System.out.print("Message to " + input + ": ");
+                        String text = scanner.nextLine();
+                        MessagePrivate m = new MessagePrivate(text, gameClient.getModelView().getMyUsername(), input);
+                        gameClient.sendMessage(new messagePrivate("messageToUser", m));
+                    }
                 }
             }
             case "3" -> {
