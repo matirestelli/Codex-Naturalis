@@ -59,7 +59,7 @@ public interface UserInterfaceStrategy {
     void setClient(ClientAbstract client);
     void setViewModel(ModelView modelView);
 
-    void displayScoreboard(Map<String, Integer> data);
+    void displayScoreboard();
 
     void displayPersonalResources(Map<Resource, Integer> data);
 

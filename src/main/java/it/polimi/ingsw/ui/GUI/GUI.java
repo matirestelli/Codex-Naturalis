@@ -104,7 +104,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     }
 
     //TODO
-    public void displayScoreboard(Map<String, Integer> data) {
+    public void displayScoreboard() {
     }
 
     //TODO

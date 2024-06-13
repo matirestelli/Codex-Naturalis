@@ -13,6 +13,6 @@ public class DisplayScoreboard extends MessageServer2Client{
 
     @Override
     public void doAction(ClientAbstract client) {
-        client.getUIStrategy().displayScoreboard((Map<String,Integer>) getData());
+        //client.getUIStrategy().displayScoreboard((Map<String,Integer>) getData());
     }
 }

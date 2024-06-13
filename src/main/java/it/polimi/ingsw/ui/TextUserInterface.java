@@ -461,7 +461,8 @@ public class TextUserInterface implements UserInterfaceStrategy {
                     System.out.println("Wait for your turn...\n");
             }
             case "4" -> {
-                gameClient.sendMessage(new DisplayScoreboard("displayScoreboard", null));
+                //gameClient.sendMessage(new DisplayScoreboard("displayScoreboard", null));
+                displayScoreboard();
                 //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
                 selectFromMenu();
             }
@@ -477,7 +478,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                     System.out.print("Invalid Input! Retry: ");
                     input = scanner.nextLine();
                 }
-                List<String> usernames = new ArrayList<>();
+                //List<String> usernames = new ArrayList<>();
                 System.out.println(gameClient.getModelView().getBoardToPrint().get(input));
                 //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
                 selectFromMenu();
@@ -488,10 +489,14 @@ public class TextUserInterface implements UserInterfaceStrategy {
         }
     }
 
-    public void displayScoreboard(Map<String, Integer> scoreboard) {
+    public void displayScoreboard() {
         System.out.println("Scoreboard:\n");
         for (String player : gameClient.getModelView().getPlayers()) {
-            int score = scoreboard.get(player);
+            int score;
+            if(player.equals(gameClient.getModelView().getMyUsername()))
+                score = gameClient.getModelView().getMyScore();
+            else
+                score = gameClient.getModelView().getPlayerStates().get(player).getScore();
             System.out.print(player + ": " +score + " ");
             for (int i = 0; i < score; i++) {
                 System.out.print("■");
