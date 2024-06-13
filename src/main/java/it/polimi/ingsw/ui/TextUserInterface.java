@@ -410,7 +410,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("\t4. Visualize scoreboard\n");
         System.out.println("\t5. Visualize other players codex\n");
         System.out.println("\t6. Exit\n");
-        System.out.println("> ");
+        System.out.print("> ");
         String input;
         input = scanner.nextLine();
         Boolean validInput = false;
@@ -426,7 +426,8 @@ public class TextUserInterface implements UserInterfaceStrategy {
             case "1" -> {
                 gameClient.getModelView().setMyUnreadedMessages(0);
                 displayChat(gameClient.getModelView().getChat(), gameClient.getModelView().getMyUsername());
-                gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                selectFromMenu();
             }
             case "2" -> {
                 System.out.print("Receiver ( All");
@@ -461,7 +462,8 @@ public class TextUserInterface implements UserInterfaceStrategy {
             }
             case "4" -> {
                 gameClient.sendMessage(new DisplayScoreboard("displayScoreboard", null));
-                gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                selectFromMenu();
             }
             case "5" -> {
                 System.out.println("Choose the player: ");
@@ -477,10 +479,8 @@ public class TextUserInterface implements UserInterfaceStrategy {
                 }
                 List<String> usernames = new ArrayList<>();
                 System.out.println(gameClient.getModelView().getBoardToPrint().get(input));
-                //usernames.add(input);
-                //usernames.add(gameClient.getModelView().getMyUsername());
-                //gameClient.sendMessage(new DisplayCodex("displayCodex", usernames));
-                gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                selectFromMenu();
             }
             case "6" -> {
 
