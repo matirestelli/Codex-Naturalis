@@ -53,6 +53,7 @@ public interface UserInterfaceStrategy {
     public String askUsername();
     public String askJoinCreate();
     public String askGameId(String joinCreate, String gameIds);
+    public String askUI();
     public int askNumberOfPlayers();
     public void displayPawn(Color pawn);
 

@@ -729,6 +729,10 @@ public class GUI extends Application implements UserInterfaceStrategy {
         GUI.waitingForPlayersController = waitingForPlayersController;
     }
 
+    public String askUI(){
+        return null;
+    }
+
 
 
 }

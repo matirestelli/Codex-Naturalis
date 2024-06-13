@@ -960,6 +960,16 @@ public class TextUserInterface implements UserInterfaceStrategy {
         return input;
     }
 
+    public String askUI(){
+        System.out.println("Choose the interface (cli/gui):");
+        String input = scanner.nextLine();
+        while (!input.equals("cli") && !input.equals("gui")) {
+            System.out.println("Invalid Input! Retry: ");
+            input = scanner.nextLine();
+        }
+        return input;
+    }
+
     public String askGameId(String joinCreate, String gameIds) {
         String gameId = "";
         if( joinCreate.equals("join")) {

@@ -18,13 +18,87 @@ public class Client extends ClientAbstract {
     private ObjectInputStream inputStream;
     private String username;
 
-    public Client(ModelView modelView, String host, int port, String opt) throws IOException {
+    public Client(ModelView modelView, String host, int port) throws IOException {
         super(modelView);
 
         this.socket = new Socket(host, port);
         this.outputStream = new ObjectOutputStream(socket.getOutputStream());
         this.inputStream = new ObjectInputStream(socket.getInputStream());
 
+       /* if (opt.equals("cli")) {
+            this.uiStrategy = new TextUserInterface(this);
+        } else {
+            this.uiStrategy = new GUI();
+            this.uiStrategy.setClient(this);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        javafx.application.Application.launch(GUI.class);
+                    }
+                }.start();
+                this.uiStrategy.setViewModel(modelView);
+            }
+
+        */
+        this.uiStrategy = new TextUserInterface(this);
+        }
+
+    public void start(String[] args) throws IOException, ClassNotFoundException {
+        //username = args[0];
+        System.out.print("Enter your username: ");
+        //System.out.println(args[0]);
+        //outputStream.writeObject(args[0]);
+        String usernameAsk = uiStrategy.askUsername();
+        outputStream.writeObject(usernameAsk);
+
+        // wait for server asking (join/create)
+        String message = (String) inputStream.readObject();
+        System.out.print(message);
+
+        while (!message.contains("join/create")) {
+            usernameAsk = uiStrategy.askUsername();
+            outputStream.writeObject(usernameAsk);
+            message = (String) inputStream.readObject();
+            System.out.print(message);
+        }
+
+
+       // System.out.println(args[1]);
+        //outputStream.writeObject(args[1]);
+        String joinCreate = uiStrategy.askJoinCreate();
+        outputStream.writeObject(joinCreate);
+
+        // TODO: remove later, for testing
+
+       // String in = args[1];
+        String in = joinCreate;
+        if (in.equals("join")) {
+            // get list of available game sessions
+            message = (String) inputStream.readObject();
+            System.out.println(message);
+            System.out.print("Enter game id to join: ");
+            //System.out.println(args[2]);
+            //outputStream.writeObject(args[2]);
+
+            String gameId = uiStrategy.askGameId(joinCreate, message);
+            outputStream.writeObject(gameId);
+        } else if (in.equals("create")) {
+            // create new game session
+            System.out.print("Enter the game id: ");
+            //System.out.println(args[2]);
+            //outputStream.writeObject(args[2]);
+            String gameId = uiStrategy.askGameId(joinCreate, message);
+            outputStream.writeObject(gameId);
+
+            System.out.print("Insert number of players: ");
+            //System.out.println(args[3]);
+            //outputStream.writeObject(args[3]);
+            int numberOfPlayers = uiStrategy.askNumberOfPlayers();
+            outputStream.writeObject(numberOfPlayers);
+        }
+
+        //todo ask cli or gui
+        String opt = uiStrategy.askUI();
         if (opt.equals("cli")) {
             this.uiStrategy = new TextUserInterface(this);
         } else {
@@ -38,60 +112,6 @@ public class Client extends ClientAbstract {
                 }.start();
                 this.uiStrategy.setViewModel(modelView);
             }
-        }
-
-    public void start(String[] args) throws IOException, ClassNotFoundException {
-        username = args[0];
-        System.out.print("Enter your username: ");
-        System.out.println(args[0]);
-        outputStream.writeObject(args[0]);
-        //String usernameAsk = uiStrategy.askUsername();
-        //outputStream.writeObject(usernameAsk);
-
-        // wait for server asking (join/create)
-        String message = (String) inputStream.readObject();
-        System.out.print(message);
-        /*
-        while (!message.contains("join/create")) {
-            usernameAsk = uiStrategy.askUsername();
-            outputStream.writeObject(usernameAsk);
-            message = (String) inputStream.readObject();
-            System.out.print(message);
-        }
-         */
-
-        System.out.println(args[1]);
-        outputStream.writeObject(args[1]);
-        //String joinCreate = uiStrategy.askJoinCreate();
-        //outputStream.writeObject(joinCreate);
-
-        // TODO: remove later, for testing
-
-        String in = args[1];
-        if (in.equals("join")) {
-            // get list of available game sessions
-            message = (String) inputStream.readObject();
-            System.out.println(message);
-            System.out.print("Enter game id to join: ");
-            System.out.println(args[2]);
-            outputStream.writeObject(args[2]);
-
-            //String gameId = uiStrategy.askGameId(joinCreate, message);
-            //outputStream.writeObject(gameId);
-        } else if (in.equals("create")) {
-            // create new game session
-            System.out.print("Enter the game id: ");
-            System.out.println(args[2]);
-            outputStream.writeObject(args[2]);
-            //String gameId = uiStrategy.askGameId(joinCreate, message);
-            //outputStream.writeObject(gameId);
-
-            System.out.print("Insert number of players: ");
-            System.out.println(args[3]);
-            outputStream.writeObject(args[3]);
-            //int numberOfPlayers = uiStrategy.askNumberOfPlayers();
-            //outputStream.writeObject(numberOfPlayers);
-        }
 
         System.out.println("\nWaiting for server updates...\n\n");
         listenForUpdates();
@@ -165,7 +185,7 @@ public class Client extends ClientAbstract {
     public static void main(String[] args) {
         ModelView modelView = new ModelView();
         try {
-            Client client = new Client(modelView, "localhost", 12345, args[args.length - 1]);
+            Client client = new Client(modelView, "localhost", 12345);
             client.start(args);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

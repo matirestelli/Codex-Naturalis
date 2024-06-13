@@ -9,7 +9,6 @@ public class NotYourTurnMessage extends MessageServer2Client {
 
     @Override
     public void doAction(ClientAbstract client) {
-        client.getModelView().setMyTurn(false);
         client.getUIStrategy().showNotYourTurn();
     }
 }
