@@ -85,6 +85,8 @@ public class ScoreboardController extends GUI{
             players.put(username, playersStates.get(username).getScore());
         }
 
+        players.put(client.getModelView().getMyUsername(), client.getModelView().getMyScore());
+
 
         for(String username : players.keySet()){
             switch(players.get(username)){
