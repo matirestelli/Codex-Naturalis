@@ -28,4 +28,6 @@ public interface GameServer extends Remote {
     boolean allPlayersConnected(String gameId) throws RemoteException;
 
     boolean isUsernameTaken(String username) throws RemoteException;
+
+    void addUsername(String username) throws RemoteException;
 }

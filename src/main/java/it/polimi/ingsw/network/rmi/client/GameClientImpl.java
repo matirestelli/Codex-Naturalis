@@ -77,12 +77,12 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             System.out.println("Username already taken. ");
             username = uiStrategy.askUsername();
         }
+        server.addUsername(username);
 
         // join/create game
         System.out.print("Do you want to join an existing game session or create a new one? (join/create): ");
         //System.out.println(args[1]);
         String in = uiStrategy.askJoinCreate();
-        // String choice = scanner.nextLine();
         if (in.equals("join")) {
             // get list of available game sessions
             String listGameSessions = server.listGameSessions();

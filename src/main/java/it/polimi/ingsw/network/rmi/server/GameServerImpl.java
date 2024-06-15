@@ -29,6 +29,10 @@ public class GameServerImpl extends UnicastRemoteObject implements it.polimi.ing
         return players.contains(username);
     }
 
+    public void addUsername(String username) {
+        players.add(username);
+    }
+
     @Override
     public GameControllerRemote createNewSession(String gameId, String username, int desiredPlayers, GameObserver observer) throws RemoteException {
         GameControllerRemote gc = gameSessionManager.createNewSession(gameId, username, desiredPlayers);
