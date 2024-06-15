@@ -7,8 +7,12 @@ import it.polimi.ingsw.observers.GameObserver;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface GameServer extends Remote {
+
+    public List<String> players = new ArrayList<>();
     // Metodo per creare una nuova sessione di gioco
     GameControllerRemote createNewSession(String gameId, String username, int desiredPlayers, GameObserver observer) throws RemoteException;
 

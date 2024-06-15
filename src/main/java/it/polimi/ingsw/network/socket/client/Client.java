@@ -45,7 +45,7 @@ public class Client extends ClientAbstract {
 
     public void start(String[] args) throws IOException, ClassNotFoundException {
         //username = args[0];
-        System.out.print("Enter your username: ");
+        //System.out.print("Enter your username: ");
         //System.out.println(args[0]);
         //outputStream.writeObject(args[0]);
         String usernameAsk = uiStrategy.askUsername();
@@ -90,7 +90,7 @@ public class Client extends ClientAbstract {
             String gameId = uiStrategy.askGameId(joinCreate, message);
             outputStream.writeObject(gameId);
 
-            System.out.print("Insert number of players: ");
+            System.out.print("Insert number of players (2-4): ");
             //System.out.println(args[3]);
             //outputStream.writeObject(args[3]);
             int numberOfPlayers = uiStrategy.askNumberOfPlayers();

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import it.polimi.ingsw.core.model.chat.Chat;
+import it.polimi.ingsw.core.model.chat.Message;
+import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 
