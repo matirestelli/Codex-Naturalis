@@ -162,8 +162,8 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     public static void main(String[] args) {
         ModelView modelView = new ModelView();
         try {
-            GameClientImpl client = new GameClientImpl(modelView, "localhost", 1099, args[args.length - 1]);
-            client.login(args);
+            GameClientImpl client = new GameClientImpl(modelView, "localhost", 1099, "cli");
+            client.login(null);
         } catch (RemoteException e) {
             System.out.println("Error creating the client: " + e.getMessage());
         }

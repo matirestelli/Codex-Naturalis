@@ -186,7 +186,7 @@ public class Client extends ClientAbstract {
         ModelView modelView = new ModelView();
         try {
             Client client = new Client(modelView, "localhost", 12345);
-            client.start(args);
+            client.start(null);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
