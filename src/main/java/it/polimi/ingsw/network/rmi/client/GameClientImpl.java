@@ -137,6 +137,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
                 }.start();
                 this.uiStrategy.setViewModel(modelView);
             }
+            System.out.println("\nWaiting for server updates...\n\n");
             try {
                 gc = server.createNewSession(gameId, username, numPlayers, clientProxy);
             } catch (RemoteException e) {
