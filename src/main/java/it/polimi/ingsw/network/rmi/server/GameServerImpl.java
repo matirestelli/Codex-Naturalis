@@ -25,6 +25,10 @@ public class GameServerImpl extends UnicastRemoteObject implements it.polimi.ing
         System.out.println("\nNew client registered on RMI server: " + client + "...");
     }
 
+    public boolean isUsernameTaken(String username) {
+        return players.contains(username);
+    }
+
     @Override
     public GameControllerRemote createNewSession(String gameId, String username, int desiredPlayers, GameObserver observer) throws RemoteException {
         GameControllerRemote gc = gameSessionManager.createNewSession(gameId, username, desiredPlayers);

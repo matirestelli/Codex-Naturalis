@@ -69,23 +69,41 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     }
 
     public void login(String args[]) throws RemoteException {
-        System.out.print("Enter your username: ");
+        //System.out.print("Enter your username: ");
         // String nickname = scanner.nextLine();
-        System.out.println(args[0]);
-        username = args[0];
+        //System.out.println(args[0]);
+        String username = uiStrategy.askUsername();
+        while (server.isUsernameTaken(username)) {
+            System.out.println("Username already taken. ");
+            username = uiStrategy.askUsername();
+        }
 
         // join/create game
         System.out.print("Do you want to join an existing game session or create a new one? (join/create): ");
-        System.out.println(args[1]);
-        String in = args[1];
+        //System.out.println(args[1]);
+        String in = uiStrategy.askJoinCreate();
         // String choice = scanner.nextLine();
         if (in.equals("join")) {
             // get list of available game sessions
-            System.out.println(server.listGameSessions());
+            String listGameSessions = server.listGameSessions();
+            System.out.println(listGameSessions);
             System.out.print("Enter the game id to join: ");
-            // String gameId = scanner.nextLine();
-            gameId = args[2];
-            System.out.println(args[2]);
+            gameId =  uiStrategy.askGameId(in, listGameSessions);
+            //System.out.println(args[2]);
+            String opt = uiStrategy.askUI();
+            if (opt.equals("cli")) {
+                this.uiStrategy = new TextUserInterface(this);
+            } else {
+                this.uiStrategy = new GUI();
+                this.uiStrategy.setClient(this);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        javafx.application.Application.launch(GUI.class);
+                    }
+                }.start();
+                this.uiStrategy.setViewModel(modelView);
+            }
             try {
                 gc = server.joinSession(gameId, username, clientProxy);
                 if (server.allPlayersConnected(gameId)) {
@@ -99,13 +117,26 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             }
         } else if (in.equals("create")) {
             System.out.print("Enter the game id: ");
-            gameId = args[2];
-            System.out.println(args[2]);
-            // gameId = scanner.nextLine();
-            System.out.print("Insert number of players: ");
-            System.out.println(args[3]);
-            int numPlayers = Integer.parseInt(args[3]);
+            gameId = uiStrategy.askGameId(in, null);
+            //System.out.println(args[2]);
+            System.out.print("Insert number of players (2-4): ");
+            //System.out.println(args[3]);
+            int numPlayers = uiStrategy.askNumberOfPlayers();
             // int number = scanner.nextInt();
+            String opt = uiStrategy.askUI();
+            if (opt.equals("cli")) {
+                this.uiStrategy = new TextUserInterface(this);
+            } else {
+                this.uiStrategy = new GUI();
+                this.uiStrategy.setClient(this);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        javafx.application.Application.launch(GUI.class);
+                    }
+                }.start();
+                this.uiStrategy.setViewModel(modelView);
+            }
             try {
                 gc = server.createNewSession(gameId, username, numPlayers, clientProxy);
             } catch (RemoteException e) {
@@ -113,8 +144,6 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             } catch (NullPointerException e) {
                 System.out.println("Error creating the game session: " + e.getMessage());
             }
-
-            System.out.println("Waiting for server updates...");
         }
     }
 

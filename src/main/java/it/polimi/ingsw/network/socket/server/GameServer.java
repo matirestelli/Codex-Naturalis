@@ -80,7 +80,7 @@ public class GameServer implements it.polimi.ingsw.network.GameServer {
         return session.allPlayersConnected();
     }
 
-    public Boolean isUsernameTaken(String username) {
+    public boolean isUsernameTaken(String username) {
         return players.contains(username);
     }
 
