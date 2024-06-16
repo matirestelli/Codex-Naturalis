@@ -1,6 +1,7 @@
 package it.polimi.ingsw.core.model;
 
 import it.polimi.ingsw.core.controller.GameController;
+import it.polimi.ingsw.network.ConnectionChecker;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

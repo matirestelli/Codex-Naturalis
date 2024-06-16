@@ -9,6 +9,7 @@ import it.polimi.ingsw.core.model.message.request.*;
 import it.polimi.ingsw.core.model.message.response.DisplayMenu;
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
 import it.polimi.ingsw.core.utils.PlayerMove;
+import it.polimi.ingsw.network.ConnectionChecker;
 import it.polimi.ingsw.observers.GameObserver;
 import javafx.util.Pair;
 
@@ -27,6 +28,9 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     private int currentPlayerIndex; // index of the current player
     private boolean last = false;
     private int matrixDimension;
+    ConnectionChecker checker;
+
+
 
     private List<String> playersReadyToPlayer = new ArrayList<>();
 
@@ -42,12 +46,14 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         this.moveProcessor.start();
         this.currentPlayerIndex = 0;
         this.matrixDimension = 81;
+        this.checker = new ConnectionChecker(gameState, 5000, 10000);
     }
 
     @Override
     public void startGame() throws RemoteException {
         // TODO: remove this or implement new logger system
         System.out.println("Game started");
+
 
         // define the order of players they will play
         gameState.orderPlayers();
@@ -57,6 +63,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         for (int i = 0; i < observers.size(); i++) {
             orderedObserversMap.put(gameState.getPlayerOrder().get(i), observers.get(gameState.getPlayerOrder().get(i)));
         }
+
 
         // initialize matrix for each player
         gameState.initializeMatrixPlayers(this.matrixDimension);
@@ -91,6 +98,11 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         //notify observers of the order of players and username of all the players
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new LoadedPlayersMessage("loadedPlayers", gameState.getPlayerOrder()));
+
+        /*for (String us : orderedObserversMap.keySet())
+           // orderedObserversMap.get(us).update(new playerStates("playerStates", gameState.getPlayerState(us)));
+        checker.start();
+         */
 
         // notify observers of the starter card assigned to each player
         for (String us : orderedObserversMap.keySet()) {

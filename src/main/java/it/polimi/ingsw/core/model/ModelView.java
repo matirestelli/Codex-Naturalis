@@ -16,6 +16,7 @@ public class ModelView {
     private Map<String, Integer> playerOrder;
     private Map<String, ViewModelPlayerState> playerStates ;
     private Map<String, Color> playerPawns;
+    private PlayerState myPlayerState;
     private Map<String, Cell[][]> playerBoards;
     private Card deckGBack;
     private Map<String,String> boardToPrint;
@@ -70,6 +71,14 @@ public class ModelView {
 
     public Chat getChat() {
         return chat;
+    }
+
+    public void setMyPlayerState(PlayerState myPlayerState) {
+        this.myPlayerState = myPlayerState;
+    }
+
+    public PlayerState getMyPlayerState() {
+        return myPlayerState;
     }
 
     public int getMyUnreadedMessages() {

@@ -193,9 +193,25 @@ public class Client extends ClientAbstract {
         try {
             Client client = new Client(modelView, "localhost", 12345);
             client.start(null);
+            client.startPinging();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public void startPinging() {
+        Thread pingThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(2000);
+                    PlayerState player = modelView.getMyPlayerState();
+                    player.ping();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        pingThread.start();
     }
 
     /*
