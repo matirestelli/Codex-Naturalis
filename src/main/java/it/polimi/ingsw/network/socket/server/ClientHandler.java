@@ -19,7 +19,6 @@ public class ClientHandler implements Runnable, GameObserver {
     private ObjectOutputStream outputStream;
     private String username;
     private String gameId;
-    private List<String> players = new ArrayList<>();
     private GameControllerRemote gc;
 
     public ClientHandler(Socket clientSocket, GameServer server) {
@@ -42,10 +41,11 @@ public class ClientHandler implements Runnable, GameObserver {
             username = (String) inputStream.readObject();
 
             // check is username is already taken
-            while (players.contains(username)) {
-                outputStream.writeObject("Username already taken. Please choose another one: ");
+            while (server.isUsernameTaken(username)) {
+                outputStream.writeObject("Username already taken. ");
                 username = (String) inputStream.readObject();
             }
+            server.addUsername(username);
             System.out.println("New client '" + username + "' connected on socket from " + clientSocket.getInetAddress().getHostAddress());
 
             // ask client if they want to join an existing game session or create a new one

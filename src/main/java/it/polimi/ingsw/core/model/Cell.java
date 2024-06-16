@@ -1,6 +1,6 @@
 package it.polimi.ingsw.core.model;
 
-public class Cell {
+public class Cell implements java.io.Serializable{
     private char character;
     private Card card;
     private String color;

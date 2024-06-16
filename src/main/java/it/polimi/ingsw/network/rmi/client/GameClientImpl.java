@@ -55,6 +55,21 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         connectToServer(host, port);
     }
 
+    public void startPinging() {
+        Thread pingThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(2000);
+                    PlayerState player = modelView.getMyPlayerState();
+                    player.ping();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        pingThread.start();
+    }
+
     private void connectToServer(String host, int port) throws RemoteException {
         try {
             Registry registry = LocateRegistry.getRegistry(host, port);
@@ -69,23 +84,48 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     }
 
     public void login(String args[]) throws RemoteException {
-        System.out.print("Enter your username: ");
+        //System.out.print("Enter your username: ");
         // String nickname = scanner.nextLine();
-        System.out.println(args[0]);
-        username = args[0];
+        //System.out.println(args[0]);
+        username = uiStrategy.askUsername();
+        while (server.isUsernameTaken(username)) {
+            System.out.println("Username already taken. ");
+            username = uiStrategy.askUsername();
+        }
+        server.addUsername(username);
 
         // join/create game
         System.out.print("Do you want to join an existing game session or create a new one? (join/create): ");
-        System.out.println(args[1]);
-        String in = args[1];
-        // String choice = scanner.nextLine();
+        //System.out.println(args[1]);
+        String listGameSessions = "";
+        String in = uiStrategy.askJoinCreate();
+        if(in.equals("join")) {
+            listGameSessions = server.listGameSessions();
+            if (!listGameSessions.contains("ID")) {
+                System.out.println("No game sessions available, creating a new one...");
+                in = "create";
+            }
+        }
         if (in.equals("join")) {
             // get list of available game sessions
-            System.out.println(server.listGameSessions());
+            System.out.println(listGameSessions);
             System.out.print("Enter the game id to join: ");
-            // String gameId = scanner.nextLine();
-            gameId = args[2];
-            System.out.println(args[2]);
+            gameId =  uiStrategy.askGameId(in, listGameSessions);
+            //System.out.println(args[2]);
+            String opt = uiStrategy.askUI();
+            if (opt.equals("cli")) {
+                this.uiStrategy = new TextUserInterface(this);
+            } else {
+                this.uiStrategy = new GUI();
+                this.uiStrategy.setClient(this);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        javafx.application.Application.launch(GUI.class);
+                    }
+                }.start();
+                this.uiStrategy.setViewModel(modelView);
+            }
             try {
                 gc = server.joinSession(gameId, username, clientProxy);
                 if (server.allPlayersConnected(gameId)) {
@@ -99,13 +139,27 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             }
         } else if (in.equals("create")) {
             System.out.print("Enter the game id: ");
-            gameId = args[2];
-            System.out.println(args[2]);
-            // gameId = scanner.nextLine();
-            System.out.print("Insert number of players: ");
-            System.out.println(args[3]);
-            int numPlayers = Integer.parseInt(args[3]);
+            gameId = uiStrategy.askGameId(in, null);
+            //System.out.println(args[2]);
+            System.out.print("Insert number of players (2-4): ");
+            //System.out.println(args[3]);
+            int numPlayers = uiStrategy.askNumberOfPlayers();
             // int number = scanner.nextInt();
+            String opt = uiStrategy.askUI();
+            if (opt.equals("cli")) {
+                this.uiStrategy = new TextUserInterface(this);
+            } else {
+                this.uiStrategy = new GUI();
+                this.uiStrategy.setClient(this);
+                new Thread() {
+                    @Override
+                    public void run() {
+                        javafx.application.Application.launch(GUI.class);
+                    }
+                }.start();
+                this.uiStrategy.setViewModel(modelView);
+            }
+            System.out.println("\nWaiting for server updates...\n\n");
             try {
                 gc = server.createNewSession(gameId, username, numPlayers, clientProxy);
             } catch (RemoteException e) {
@@ -113,8 +167,6 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             } catch (NullPointerException e) {
                 System.out.println("Error creating the game session: " + e.getMessage());
             }
-
-            System.out.println("Waiting for server updates...");
         }
     }
 
@@ -132,8 +184,8 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     public static void main(String[] args) {
         ModelView modelView = new ModelView();
         try {
-            GameClientImpl client = new GameClientImpl(modelView, "localhost", 1099, args[args.length - 1]);
-            client.login(args);
+            GameClientImpl client = new GameClientImpl(modelView, "localhost", 1099, "cli");
+            client.login(null);
         } catch (RemoteException e) {
             System.out.println("Error creating the client: " + e.getMessage());
         }

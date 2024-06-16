@@ -12,6 +12,6 @@ public class DisplayMenu extends MessageClient2Server{
     }
 
     public void doAction(String username, GameController gc) throws RemoteException {
-        gc.notYourTurn(username);
+        gc.displayMenu(username);
     }
 }

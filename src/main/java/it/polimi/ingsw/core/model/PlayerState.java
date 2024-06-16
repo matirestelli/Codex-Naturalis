@@ -27,9 +27,13 @@ public class PlayerState extends Player implements Serializable {
     private int[][] matrix;
     private Objective secretObj;
     private Map<Resource, Integer> personalResources;
+    private boolean connected;
+    private long lastPingTime;
 
     public PlayerState() {
         this.score = 0;
+        this.connected = true;
+        this.lastPingTime = System.currentTimeMillis();
         this.hand = new ArrayList<>();
         this.codex = new ArrayList<>();
         this.personalResources = new HashMap<>();
@@ -60,6 +64,14 @@ public class PlayerState extends Player implements Serializable {
 
     public Chat getChat(){
         return chat;
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
     }
 
     public String getUsername() {
@@ -105,6 +117,17 @@ public class PlayerState extends Player implements Serializable {
             }
         }
         return null;
+    }
+
+    public void ping() {
+        this.lastPingTime = System.currentTimeMillis();
+        this.connected = true;
+    }
+
+    public void checkConnection(long timeout) {
+        if (System.currentTimeMillis() - lastPingTime > timeout) {
+            this.connected = false;
+        }
     }
 
     public void initializeMatrix(int matrixDimension) {

@@ -19,6 +19,7 @@ public class GameServer implements it.polimi.ingsw.network.GameServer {
     private ServerSocket serverSocket;
     private GameSessionManager gameSessionManager;
 
+
     public GameServer(GameSessionManager gameSessionManager) {
         this.gameSessionManager = gameSessionManager;
     }
@@ -77,6 +78,14 @@ public class GameServer implements it.polimi.ingsw.network.GameServer {
     public boolean allPlayersConnected(String gameId) {
         GameSession session = gameSessionManager.getSession(gameId);
         return session.allPlayersConnected();
+    }
+
+    public boolean isUsernameTaken(String username) {
+        return players.contains(username);
+    }
+
+    public void addUsername(String username) {
+        players.add(username);
     }
 
     /* public void playerSelectsCard(String gameId, String username, CardSelection card) throws RemoteException {

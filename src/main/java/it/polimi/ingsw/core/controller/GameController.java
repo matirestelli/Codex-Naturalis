@@ -6,8 +6,10 @@ import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.request.*;
+import it.polimi.ingsw.core.model.message.response.DisplayMenu;
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
 import it.polimi.ingsw.core.utils.PlayerMove;
+import it.polimi.ingsw.network.ConnectionChecker;
 import it.polimi.ingsw.observers.GameObserver;
 import javafx.util.Pair;
 
@@ -26,6 +28,9 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     private int currentPlayerIndex; // index of the current player
     private boolean last = false;
     private int matrixDimension;
+    ConnectionChecker checker;
+
+
 
     private List<String> playersReadyToPlayer = new ArrayList<>();
 
@@ -48,6 +53,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         // TODO: remove this or implement new logger system
         System.out.println("Game started");
 
+
         // define the order of players they will play
         gameState.orderPlayers();
 
@@ -56,6 +62,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         for (int i = 0; i < observers.size(); i++) {
             orderedObserversMap.put(gameState.getPlayerOrder().get(i), observers.get(gameState.getPlayerOrder().get(i)));
         }
+
 
         // initialize matrix for each player
         gameState.initializeMatrixPlayers(this.matrixDimension);
@@ -90,6 +97,17 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         //notify observers of the order of players and username of all the players
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new LoadedPlayersMessage("loadedPlayers", gameState.getPlayerOrder()));
+
+        /*this.checker = new ConnectionChecker(gameState, 5000, 10000);
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new playerStates("playerStates", gameState.getPlayerState(us)));
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new startPinging("startPinging", us));
+        checker.start();
+
+         */
+
+
 
         // notify observers of the starter card assigned to each player
         for (String us : orderedObserversMap.keySet()) {
@@ -266,8 +284,9 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     public void notifyCurrentPlayerTurn() throws RemoteException {
         String us = gameState.getPlayerOrder().get(currentPlayerIndex);
         for (String username : orderedObserversMap.keySet()) {
-            if (!username.equals(us))
+            if (!username.equals(us)) {
                 orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", us));
+            }
         }
 
         orderedObserversMap.get(us).update(new BeforeTurnMessage("beforeTurnEvent", gameState.calculateResource(us)));
@@ -428,27 +447,18 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     public void receivedMessageBroadcast(Message message){
         for (String us : orderedObserversMap.keySet()) {
             try {
-                orderedObserversMap.get(us).update(new newChatMessage("newMessage", message));
+                //if(!us.equals(message.getSender()))
+                    orderedObserversMap.get(us).update(new newChatMessage("newMessage", message));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-        }
-        try {
-            notYourTurn(message.getSender());
-        } catch (RemoteException e) {
-            e.printStackTrace();
         }
     }
 
     public void receivedMessagePrivate(MessagePrivate message) {
         try {
-            orderedObserversMap.get(message.whoIsReceiver()).update(new newChatMessage("newMessage", message));
             orderedObserversMap.get(message.getSender()).update(new newChatMessage("newMessage", message));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        try {
-            notYourTurn(message.getSender());
+            orderedObserversMap.get(message.whoIsReceiver()).update(new newChatMessage("newMessage", message));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -456,6 +466,10 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
     public void notYourTurn(String username) throws RemoteException {
         orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", username));
+    }
+
+    public void displayMenu(String username) throws RemoteException {
+        orderedObserversMap.get(username).update(new displayMenu("displayMenu", username));
     }
 
     public void scoreboard(String username) throws RemoteException {

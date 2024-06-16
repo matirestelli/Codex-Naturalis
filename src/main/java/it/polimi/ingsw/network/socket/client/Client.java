@@ -45,19 +45,19 @@ public class Client extends ClientAbstract {
 
     public void start(String[] args) throws IOException, ClassNotFoundException {
         //username = args[0];
-        System.out.print("Enter your username: ");
+        //System.out.print("Enter your username: ");
         //System.out.println(args[0]);
         //outputStream.writeObject(args[0]);
-        String usernameAsk = uiStrategy.askUsername();
-        outputStream.writeObject(usernameAsk);
+        username = uiStrategy.askUsername();
+        outputStream.writeObject(username);
 
         // wait for server asking (join/create)
         String message = (String) inputStream.readObject();
         System.out.print(message);
 
         while (!message.contains("join/create")) {
-            usernameAsk = uiStrategy.askUsername();
-            outputStream.writeObject(usernameAsk);
+            username = uiStrategy.askUsername();
+            outputStream.writeObject(username);
             message = (String) inputStream.readObject();
             System.out.print(message);
         }
@@ -72,25 +72,31 @@ public class Client extends ClientAbstract {
 
        // String in = args[1];
         String in = joinCreate;
+        if(in.equals("join")) {
+            message = (String) inputStream.readObject();
+            if (!message.contains("ID")) {
+                System.out.println("No game sessions available, creating a new one...");
+                in = "create";
+            }
+        }
         if (in.equals("join")) {
             // get list of available game sessions
-            message = (String) inputStream.readObject();
             System.out.println(message);
             System.out.print("Enter game id to join: ");
             //System.out.println(args[2]);
             //outputStream.writeObject(args[2]);
 
-            String gameId = uiStrategy.askGameId(joinCreate, message);
+            String gameId = uiStrategy.askGameId(in, message);
             outputStream.writeObject(gameId);
         } else if (in.equals("create")) {
             // create new game session
             System.out.print("Enter the game id: ");
             //System.out.println(args[2]);
             //outputStream.writeObject(args[2]);
-            String gameId = uiStrategy.askGameId(joinCreate, message);
+            String gameId = uiStrategy.askGameId(in, null);
             outputStream.writeObject(gameId);
 
-            System.out.print("Insert number of players: ");
+            System.out.print("Insert number of players (2-4): ");
             //System.out.println(args[3]);
             //outputStream.writeObject(args[3]);
             int numberOfPlayers = uiStrategy.askNumberOfPlayers();
@@ -186,10 +192,26 @@ public class Client extends ClientAbstract {
         ModelView modelView = new ModelView();
         try {
             Client client = new Client(modelView, "localhost", 12345);
-            client.start(args);
+            client.start(null);
+            client.startPinging();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public void startPinging() {
+        Thread pingThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(2000);
+                    PlayerState player = modelView.getMyPlayerState();
+                    player.ping();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        pingThread.start();
     }
 
     /*

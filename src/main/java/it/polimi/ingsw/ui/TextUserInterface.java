@@ -403,39 +403,39 @@ public class TextUserInterface implements UserInterfaceStrategy {
     }
 
     public void selectFromMenu() {
-        System.out.println("Select an option: \n");
-        System.out.println("\t1. Visualize messages\n");
-        System.out.println("\t2. Send message\n");
-        System.out.println("\t3. Continue with the game\n");
-        System.out.println("\t4. Visualize scoreboard\n");
-        System.out.println("\t5. Visualize other players codex\n");
-        System.out.println("\t6. Exit\n");
-        System.out.print("> ");
-        String input;
-        input = scanner.nextLine();
-        Boolean validInput = false;
-        while (!validInput) {
-            if (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("5") || input.equals("6"))
-                validInput = true;
-            else {
-                System.out.println("Invalid input! Retry: ");
-                input = scanner.nextLine();
-            }
-        }
-        switch (input) {
-            case "1" -> {
-                    gameClient.getModelView().setMyUnreadedMessages(0);
-                    displayChat(gameClient.getModelView().getChat(), gameClient.getModelView().getMyUsername());
-                    //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
-                if(gameClient.getModelView().isMyTurn() != true) {
-                    selectFromMenu();
+        if (gameClient.getModelView().isMyTurn() != true) {
+            System.out.println("Select an option: \n");
+            System.out.println("\t1. Visualize messages\n");
+            System.out.println("\t2. Send message\n");
+            System.out.println("\t3. Continue with the game\n");
+            System.out.println("\t4. Visualize scoreboard\n");
+            System.out.println("\t5. Visualize other players codex\n");
+            System.out.println("\t6. Exit\n");
+            System.out.print("> ");
+            String input;
+            input = scanner.nextLine();
+            Boolean validInput = false;
+            while (!validInput) {
+                if (input.equals("1") || input.equals("2") || input.equals("3") || input.equals("4") || input.equals("5") || input.equals("6"))
+                    validInput = true;
+                else {
+                    System.out.println("Invalid input! Retry: ");
+                    input = scanner.nextLine();
                 }
             }
-            case "2" -> {
-                if(gameClient.getModelView().isMyTurn() != true) {
+            switch (input) {
+                case "1" -> {
+                    gameClient.getModelView().setMyUnreadedMessages(0);
+                    displayChat(gameClient.getModelView().getChat(), gameClient.getModelView().getMyUsername());
+                    gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                    //selectFromMenu();
+                }
+                case "2" -> {
                     System.out.print("Receiver ( All");
-                    for (String user : gameClient.getModelView().getPlayers())
-                        System.out.print(" / " + user);
+                    for (String user : gameClient.getModelView().getPlayers()) {
+                        if (user != gameClient.getModelView().getMyUsername())
+                            System.out.print(" / " + user);
+                    }
                     System.out.print(" ): ");
                     input = "";
                     input = scanner.nextLine().trim();
@@ -448,47 +448,51 @@ public class TextUserInterface implements UserInterfaceStrategy {
                         input = "";
                         input = scanner.nextLine();
                         Message m = new Message(input, gameClient.getModelView().getMyUsername());
+                        //gameClient.getModelView().getChat().addMsg(m);
                         gameClient.sendMessage(new messageBroadcast("messageToAll", m));
                     } else {
                         System.out.print("Message to " + input + ": ");
                         String text = scanner.nextLine();
                         MessagePrivate m = new MessagePrivate(text, gameClient.getModelView().getMyUsername(), input);
+                        //gameClient.getModelView().getChat().addMsg(m);
                         gameClient.sendMessage(new messagePrivate("messageToUser", m));
                     }
+                    gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                    //selectFromMenu();
                 }
-            }
-            case "3" -> {
-                if (gameClient.getModelView().getMyUnreadedMessages() > 0)
-                    System.out.println("New message received! You have not read it yet\n");
+                case "3" -> {
+                    if (gameClient.getModelView().getMyUnreadedMessages() > 0)
+                        System.out.println("New message received! You have not read it yet\n");
 
-                if (!gameClient.getModelView().isMyTurn())
-                    System.out.println("Wait for your turn...\n");
-            }
-            case "4" -> {
-                //gameClient.sendMessage(new DisplayScoreboard("displayScoreboard", null));
-                displayScoreboard();
-                //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
-                selectFromMenu();
-            }
-            case "5" -> {
-                System.out.println("Choose the player: ");
-                for (String player : gameClient.getModelView().getPlayers()) {
-                    if (!player.equals(gameClient.getModelView().getMyUsername()))
-                        System.out.println(player + ", ");
+                    if (!gameClient.getModelView().isMyTurn())
+                        System.out.println("Wait for your turn...\n");
                 }
-                input = "";
-                input= scanner.nextLine();
-                while (!gameClient.getModelView().getPlayers().contains(input) || input.equals(gameClient.getModelView().getMyUsername())) {
-                    System.out.print("Invalid Input! Retry: ");
+                case "4" -> {
+                    //gameClient.sendMessage(new DisplayScoreboard("displayScoreboard", null));
+                    displayScoreboard();
+                    gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                    //selectFromMenu();
+                }
+                case "5" -> {
+                    System.out.println("Choose the player: ");
+                    for (String player : gameClient.getModelView().getPlayers()) {
+                        if (!player.equals(gameClient.getModelView().getMyUsername()))
+                            System.out.println(player + ", ");
+                    }
+                    input = "";
                     input = scanner.nextLine();
+                    while (!gameClient.getModelView().getPlayers().contains(input) || input.equals(gameClient.getModelView().getMyUsername())) {
+                        System.out.print("Invalid Input! Retry: ");
+                        input = scanner.nextLine();
+                    }
+                    //List<String> usernames = new ArrayList<>();
+                    System.out.println(gameClient.getModelView().getBoardToPrint().get(input));
+                    gameClient.sendMessage(new DisplayMenu("displayMenu", null));
+                    //selectFromMenu();
                 }
-                //List<String> usernames = new ArrayList<>();
-                System.out.println(gameClient.getModelView().getBoardToPrint().get(input));
-                //gameClient.sendMessage(new DisplayMenu("displayMenu", null));
-                selectFromMenu();
-            }
-            case "6" -> {
-
+                case "6" -> {
+                    //disconnect player from the game
+                }
             }
         }
     }
@@ -517,11 +521,14 @@ public class TextUserInterface implements UserInterfaceStrategy {
             if (m instanceof MessagePrivate) {
                 MessagePrivate mPrivate = (MessagePrivate) m;
                 if (mPrivate.getSender().equals(username))
-                    System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " " + " [private] you: " + m.getText());
+                    System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " " + " [private with "+ ((MessagePrivate)m).whoIsReceiver()  +"] you: " + m.getText());
                 else
                     System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " " + " [private] " + m.getSender() + ": " + m.getText());
             } else {
-                System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " " + m.getSender() + ": " + m.getText());
+                if (m.getSender().equals(username))
+                    System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " you: " + m.getText());
+                else
+                    System.out.println(m.getTime().getHour() + ":" + m.getTime().getMinute() + " " + m.getSender() + ": " + m.getText());
             }
         }
         System.out.println();
@@ -973,22 +980,18 @@ public class TextUserInterface implements UserInterfaceStrategy {
     public String askGameId(String joinCreate, String gameIds) {
         String gameId = "";
         if( joinCreate.equals("join")) {
-            //System.out.println("Game available: " + gameIds);
-            //System.out.println("Insert the game id to join: ");
             gameId = scanner.nextLine().trim();
-            while(!gameIds.contains(gameId)) {
+            while(!gameIds.contains("ID: "+gameId)) {
                 System.out.println("Invalid Input! Retry: ");
                 gameId = scanner.nextLine().trim();
             }
         } else if(joinCreate.equals("create")) {
-            System.out.println("Insert the game id: ");
             gameId = scanner.nextLine().trim();
         }
         return gameId;
     }
 
     public int askNumberOfPlayers() {
-        System.out.println("Insert the number of players (2-4): ");
         int numPlayers = scanner.nextInt();
         while (numPlayers < 2 || numPlayers > 4) {
             System.out.println("Invalid Input! Retry: ");
