@@ -72,9 +72,13 @@ public class Client extends ClientAbstract {
 
        // String in = args[1];
         String in = joinCreate;
+        message = (String) inputStream.readObject();
+        if(!message.contains("ID")){
+            System.out.println("No game sessions available, creating a new one...");
+            in = "create";
+        }
         if (in.equals("join")) {
             // get list of available game sessions
-            message = (String) inputStream.readObject();
             System.out.println(message);
             System.out.print("Enter game id to join: ");
             //System.out.println(args[2]);
@@ -87,7 +91,7 @@ public class Client extends ClientAbstract {
             System.out.print("Enter the game id: ");
             //System.out.println(args[2]);
             //outputStream.writeObject(args[2]);
-            String gameId = uiStrategy.askGameId(joinCreate, message);
+            String gameId = uiStrategy.askGameId(joinCreate, null);
             outputStream.writeObject(gameId);
 
             System.out.print("Insert number of players (2-4): ");
