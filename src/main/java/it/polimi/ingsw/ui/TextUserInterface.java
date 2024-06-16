@@ -448,13 +448,13 @@ public class TextUserInterface implements UserInterfaceStrategy {
                         input = "";
                         input = scanner.nextLine();
                         Message m = new Message(input, gameClient.getModelView().getMyUsername());
-                        gameClient.getModelView().getChat().addMsg(m);
+                        //gameClient.getModelView().getChat().addMsg(m);
                         gameClient.sendMessage(new messageBroadcast("messageToAll", m));
                     } else {
                         System.out.print("Message to " + input + ": ");
                         String text = scanner.nextLine();
                         MessagePrivate m = new MessagePrivate(text, gameClient.getModelView().getMyUsername(), input);
-                        gameClient.getModelView().getChat().addMsg(m);
+                        //gameClient.getModelView().getChat().addMsg(m);
                         gameClient.sendMessage(new messagePrivate("messageToUser", m));
                     }
                     gameClient.sendMessage(new DisplayMenu("displayMenu", null));

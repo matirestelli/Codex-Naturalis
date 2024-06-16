@@ -430,7 +430,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     public void receivedMessageBroadcast(Message message){
         for (String us : orderedObserversMap.keySet()) {
             try {
-                if(!us.equals(message.getSender()))
+                //if(!us.equals(message.getSender()))
                     orderedObserversMap.get(us).update(new newChatMessage("newMessage", message));
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -440,6 +440,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
     public void receivedMessagePrivate(MessagePrivate message) {
         try {
+            orderedObserversMap.get(message.getSender()).update(new newChatMessage("newMessage", message));
             orderedObserversMap.get(message.whoIsReceiver()).update(new newChatMessage("newMessage", message));
         } catch (RemoteException e) {
             e.printStackTrace();
