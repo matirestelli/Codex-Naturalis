@@ -55,6 +55,21 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         connectToServer(host, port);
     }
 
+    public void startPinging() {
+        Thread pingThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(2000);
+                    PlayerState player = modelView.getMyPlayerState();
+                    player.ping();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        pingThread.start();
+    }
+
     private void connectToServer(String host, int port) throws RemoteException {
         try {
             Registry registry = LocateRegistry.getRegistry(host, port);
@@ -72,7 +87,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         //System.out.print("Enter your username: ");
         // String nickname = scanner.nextLine();
         //System.out.println(args[0]);
-        String username = uiStrategy.askUsername();
+        username = uiStrategy.askUsername();
         while (server.isUsernameTaken(username)) {
             System.out.println("Username already taken. ");
             username = uiStrategy.askUsername();

@@ -48,16 +48,16 @@ public class Client extends ClientAbstract {
         //System.out.print("Enter your username: ");
         //System.out.println(args[0]);
         //outputStream.writeObject(args[0]);
-        String usernameAsk = uiStrategy.askUsername();
-        outputStream.writeObject(usernameAsk);
+        username = uiStrategy.askUsername();
+        outputStream.writeObject(username);
 
         // wait for server asking (join/create)
         String message = (String) inputStream.readObject();
         System.out.print(message);
 
         while (!message.contains("join/create")) {
-            usernameAsk = uiStrategy.askUsername();
-            outputStream.writeObject(usernameAsk);
+            username = uiStrategy.askUsername();
+            outputStream.writeObject(username);
             message = (String) inputStream.readObject();
             System.out.print(message);
         }

@@ -46,7 +46,6 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         this.moveProcessor.start();
         this.currentPlayerIndex = 0;
         this.matrixDimension = 81;
-        this.checker = new ConnectionChecker(gameState, 5000, 10000);
     }
 
     @Override
@@ -99,10 +98,16 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         for (String us : orderedObserversMap.keySet())
             orderedObserversMap.get(us).update(new LoadedPlayersMessage("loadedPlayers", gameState.getPlayerOrder()));
 
-        /*for (String us : orderedObserversMap.keySet())
-           // orderedObserversMap.get(us).update(new playerStates("playerStates", gameState.getPlayerState(us)));
+        /*this.checker = new ConnectionChecker(gameState, 5000, 10000);
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new playerStates("playerStates", gameState.getPlayerState(us)));
+        for (String us : orderedObserversMap.keySet())
+            orderedObserversMap.get(us).update(new startPinging("startPinging", us));
         checker.start();
+
          */
+
+
 
         // notify observers of the starter card assigned to each player
         for (String us : orderedObserversMap.keySet()) {
