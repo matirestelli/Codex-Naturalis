@@ -11,7 +11,12 @@ public class newChatMessage extends MessageServer2Client  {
     public void doAction(ClientAbstract client){
         Message message = ((Message) getData());
         client.getModelView().addUnreadedMessage();
-        client.getModelView().getChat().addMsg(message);
+        if (message.getSender().equals(client.getModelView().getMyUsername())) {
+            message.setSender("You");
+            client.getModelView().getChat().addMsg(message);
+        } else {
+            client.getModelView().getChat().addMsg(message);
+        }
         client.getUIStrategy().newChatMessage(message);
     }
 }
