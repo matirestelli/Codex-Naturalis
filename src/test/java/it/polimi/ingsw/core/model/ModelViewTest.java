@@ -23,8 +23,9 @@ class ModelViewTest {
     @Test
     void testSetAndGetMyPlayingCard() {
         Card card = new ResourceCard();
+        Boolean side = true;
         //todo dirlo ad alessio di settare anche la side
-        //modelView.setMyPlayingCard(card);
+        modelView.setMyPlayingCard(card, side);
         assertEquals(card, modelView.getMyPlayingCard());
     }
 
@@ -262,5 +263,10 @@ class ModelViewTest {
         assertEquals(playerPawns, modelView.getPlayerPawns());
     }
 
-
+    @Test
+    void testPutInMyMatrix() {
+        modelView.setMyMatrix(new int[5][5]);
+        modelView.putInMyMatrix(0, 0, 1);
+        assertEquals(1, modelView.getMyMatrix()[0][0]);
+    }
 }

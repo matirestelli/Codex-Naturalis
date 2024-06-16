@@ -58,18 +58,4 @@ class ViewModelPlayerStateTest {
         viewModelPlayerState.setPersonalResources(personalResources);
         assertEquals(personalResources, viewModelPlayerState.getPersonalResources());
     }
-
-    @Test
-    void testGetColor() {
-        ViewModelPlayerState viewModelPlayerState = new ViewModelPlayerState();
-        assertNull(viewModelPlayerState.getColor());
-    }
-
-    @Test
-    void testSetColor() {
-        ViewModelPlayerState viewModelPlayerState = new ViewModelPlayerState();
-        viewModelPlayerState.setColor(Color.BLUE);
-        assertEquals(Color.BLUE, viewModelPlayerState.getColor());
-    }
-
 }

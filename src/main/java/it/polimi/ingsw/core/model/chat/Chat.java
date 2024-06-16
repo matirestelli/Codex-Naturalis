@@ -43,7 +43,7 @@ public class Chat implements Serializable, ChatIC {
     }
 
     public String getLast() {
-        return msgs.get(msgs.size() - 1).toString();
+        return msgs.get(msgs.size() - 1).getText();
     }
 
     public Message getLastMessage() {
