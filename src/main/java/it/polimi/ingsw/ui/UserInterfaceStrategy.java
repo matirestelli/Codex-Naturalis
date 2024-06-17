@@ -68,4 +68,6 @@ public interface UserInterfaceStrategy {
     void noFreeAngles();
 
     void newChatMessage(Message message);
+
+    void gameStarted();
 }

@@ -44,11 +44,9 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     //lista dei controller delle varie scene
     private static StartingSceneController startingSceneController;
-
-
-    private static  WaitingForPlayersController waitingForPlayersController;
+    private static WaitingForPlayersController waitingPlayersController;
+    private static WaitingForPlayersController waitingForPlayersController;
     private static BoardViewController boardViewController;
-
     private static ErrorPopUpController errorPopUpController;
     private static ScoreboardController scoreboardController;
     private static TurnStateEnum turnState; //lo stato del turno in cui si trova ora il client
@@ -67,6 +65,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     private static Boolean notYetBoardScene = true;
     protected static Boolean chatOpen = false;
     protected static Boolean messageJustSent = false;
+    protected static Boolean wasWaitingForPlayers = false;
 
     //todo se funziona l'idea di cambiare scena io di deafault eliminarli
     private static PlayableCardIds firstTurn;
@@ -80,6 +79,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/StartingScene.fxml"));
             root = loader.load();
             startingSceneController = loader.getController();
+            startingSceneController.ifGameNotStarted();
         } catch (Exception e) {
             System.out.println("Error loading StartingScene.fxml");
             e.printStackTrace();
@@ -193,10 +193,12 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
             case "/it/polimi/ingsw/scenes/WaitingForPlayers.fxml":
                 try {
-                   // FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
-                   // root = loader.load();
-                  //  waitingForPlayersController = loader.getController();
-                    root = this.getWaitingForPlayersScene();
+                   FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
+                   root = loader.load();
+                   waitingForPlayersController = loader.getController();
+                    //root = this.getWaitingForPlayersScene();
+                   // this.getWaitingForPlayersController().initializeMessage();
+                    waitingForPlayersController.initializeMessage();
                     currStage.setScene(new Scene(root));
                     currStage.show();
                 } catch (Exception e) {
@@ -360,6 +362,14 @@ public class GUI extends Application implements UserInterfaceStrategy {
     }
 
     //metodi chiamati dai message.execute, comuni con tui grazie a uiStrategy
+
+    public void gameStarted() {
+        if(wasWaitingForPlayers) {
+            Platform.runLater(() -> {
+                changeScene("/it/polimi/ingsw/scenes/WaitingForPlayers.fxml", currStage);
+            });
+        }
+    }
     @Override
     public void chooseObjective(List<Objective> obj) {
         System.out.println("ask for objective arrived to view");
@@ -725,8 +735,12 @@ public class GUI extends Application implements UserInterfaceStrategy {
         return choosingStarterScene;
     }
 
-    public static void setWaitingForPlayersController(WaitingForPlayersController waitingForPlayersController) {
-        GUI.waitingForPlayersController = waitingForPlayersController;
+    public void setWaitingForPlayersController(WaitingForPlayersController waitingForPlayersController) {
+        this.waitingPlayersController = waitingForPlayersController;
+    }
+
+    public WaitingForPlayersController getWaitingForPlayersController() {
+        return waitingPlayersController;
     }
 
     public String askUI(){

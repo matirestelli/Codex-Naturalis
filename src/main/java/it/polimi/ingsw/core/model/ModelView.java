@@ -43,6 +43,7 @@ public class ModelView {
     private Map<Resource, Integer> myResources;
     private Chat chat;
     private Card playingCard;
+    private Boolean gameStarted = false;
 
 
     public ModelView() {
@@ -328,4 +329,12 @@ public class ModelView {
     public void setPlayerPawns(Map<String, Color> playerPawns) {
         this.playerPawns = playerPawns;
     }
+
+    public void setGameStarted(Boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
+    public Boolean getGameStarted() {
+        return gameStarted;
+    }
+
 }

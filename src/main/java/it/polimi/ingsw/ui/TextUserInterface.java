@@ -1056,4 +1056,8 @@ public class TextUserInterface implements UserInterfaceStrategy {
     @Override
     public void newChatMessage(Message message) {
     }
+
+    public void gameStarted(){
+
+    }
 }

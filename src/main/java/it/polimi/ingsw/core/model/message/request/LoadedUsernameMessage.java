@@ -11,5 +11,6 @@ public class LoadedUsernameMessage extends MessageServer2Client{
     public void doAction(ClientAbstract client) {
 
         client.getModelView().setMyUsername((String) getData());
+        client.getModelView().setGameStarted(true);
     }
 }

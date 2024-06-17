@@ -14,5 +14,6 @@ public class LoadedPawnsMessage extends MessageServer2Client{
         Map<String, Color> playerPawns = (Map<String, Color>)this.getData();
         client.getModelView().setPlayerPawns(playerPawns);
         client.getUIStrategy().displayPawn(playerPawns.get(client.getModelView().getMyUsername()));
+        client.getUIStrategy().gameStarted();
     }
 }
