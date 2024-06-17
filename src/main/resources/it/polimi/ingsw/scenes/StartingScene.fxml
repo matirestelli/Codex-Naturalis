@@ -46,7 +46,7 @@
          </graphic>
       </Button>
 
-      <HBox alignment="CENTER" maxHeight="130.0" maxWidth="1200" prefHeight="130.0" prefWidth="1200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="620">
+      <HBox fx:id="hboxPlay" alignment="CENTER" maxHeight="130.0" maxWidth="1200" prefHeight="130.0" prefWidth="1200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="620">
          <children>
             <Button fx:id="buttonPlay" layoutX="261.0" layoutY="323.0" mnemonicParsing="false" onAction="#startGame" prefHeight="43.0" prefWidth="215.0" style="-fx-background-color: #b0a21a;" text="Play" styleClass="game_button">
 

@@ -27,7 +27,7 @@ public class WaitingForPlayersController extends GUI  {
 
 
 
-    public void initialize() {
+    public void initializeMessage() {
        welcomeLabel.setText("Welcome " + client.getModelView().getMyUsername());
         String color = client.getModelView().getPlayerPawns().get(client.getModelView().getMyUsername()).toString();
         icon_pawn.setImage(new Image("/it/polimi/ingsw/images/pawn/" + color + ".png"));

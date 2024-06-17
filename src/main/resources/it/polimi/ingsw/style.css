@@ -101,3 +101,17 @@
     -fx-border-radius: 18 18 0 0;
     -fx-border-color: #3c2414;
 }
+
+.buttonCard{
+    -fx-border-color:#4b4401 ;
+    -fx-border-radius: 0 0 0 0;
+    -fx-border-width: 2;
+    -fx-border-opacity: 0.8;
+    -fx-border-style: solid solid solid solid;
+
+}
+
+.buttonCard:hover{
+    -fx-opacity: 0.8;
+    -fx-cursor: hand;
+}

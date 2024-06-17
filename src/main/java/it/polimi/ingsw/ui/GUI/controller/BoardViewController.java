@@ -29,6 +29,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -583,6 +584,7 @@ public class BoardViewController extends GUI {
         buttonCard1.setUserData(hand.get(0).getId());
         buttonCard1.getStyleClass().clear();
         buttonCard1.getStyleClass().add("buttonCard");
+        buttonCard1.setStyle("-fx-effect: none;");
         buttonCard1.setOnAction(e -> {
             this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard1.getScene().getWindow());
         });
@@ -600,6 +602,7 @@ public class BoardViewController extends GUI {
         buttonCard2.setUserData(hand.get(1).getId());
         buttonCard2.getStyleClass().clear();
         buttonCard2.getStyleClass().add("buttonCard");
+        buttonCard2.setStyle("-fx-effect: none;");
         buttonCard2.setOnAction(e -> {
             this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard2.getScene().getWindow());
         });
@@ -617,6 +620,7 @@ public class BoardViewController extends GUI {
         buttonCard3.setUserData(hand.get(2).getId());
         buttonCard3.getStyleClass().clear();
         buttonCard3.getStyleClass().add("buttonCard");
+        buttonCard3.setStyle("-fx-effect: none;");
         buttonCard3.setOnAction(e -> {
             this.showErrorPopUp("You can't play the card now, it's not your turn", (Stage) buttonCard3.getScene().getWindow());
         });
@@ -780,7 +784,7 @@ public class BoardViewController extends GUI {
         });
 
         buttonCard1.setOnMouseExited(e -> {
-            if(!buttonCard1.getId().equals(buttonCardSelectedId)){
+            if(buttonCard1.getId().equals(buttonCardSelectedId)){
                 buttonCard1.setStyle(
                         "    -fx-effect: dropshadow(one-pass-box,  #52e51f, 10, 0.4, 0, 0);");
             }
@@ -802,7 +806,7 @@ public class BoardViewController extends GUI {
         });
 
         buttonCard2.setOnMouseExited(e -> {
-           if(!buttonCard2.getId().equals(buttonCardSelectedId)){
+           if(buttonCard2.getId().equals(buttonCardSelectedId)){
                buttonCard2.setStyle(
                        "    -fx-effect: dropshadow(one-pass-box,  #52e51f, 10, 0.4, 0, 0);");
            }
@@ -824,7 +828,7 @@ public class BoardViewController extends GUI {
         });
 
         buttonCard3.setOnMouseExited(e -> {
-            if(!buttonCard3.getId().equals(buttonCardSelectedId)){
+            if(buttonCard3.getId().equals(buttonCardSelectedId)){
                 buttonCard3.setStyle(
                         "    -fx-effect: dropshadow(one-pass-box,  #52e51f, 10, 0.4, 0, 0);");
             }
@@ -1203,20 +1207,36 @@ public class BoardViewController extends GUI {
       VBox endGame = new VBox();
         endGame.setAlignment(Pos.CENTER);
         endGame.setSpacing(20);
-        endGame.setPadding(new Insets(20,20,20,20));
+        endGame.setPadding(new Insets(40,20,40,20));
         endGame.getStyleClass().add("containerPoints");
+        endGame.setMaxHeight(300);
         Label endGameLabel = new Label("Game over!\nResults:\n");
-        TextArea results = new TextArea();
-        results.setEditable(false);
-        results.setWrapText(true);
-        results.getStyleClass().add("textArea");
+        endGameLabel.getStyleClass().add("rankLabel");
+        endGameLabel.setAlignment(Pos.CENTER);
+        endGameLabel.setFont(Font.font("Poor Richard", FontWeight.BOLD, 20));
+        endGame.getChildren().add(endGameLabel);
         for(int i = 1; i < ranking.size()+1; i++){
-            results.appendText("#" + i + " " + ranking.get(i-1).getKey() + " Points: " + ranking.get(i-1).getValue() +"\n");
+            Label position = new Label();
+            position.setWrapText(true);
+            position.getStyleClass().add("rankTextArea");
+            position.setText("#" + i + " " + ranking.get(i-1).getKey() + " Points: " + ranking.get(i-1).getValue());
+            endGame.getChildren().add(position);
         }
-        endGame.getChildren().addAll(endGameLabel, results);
         centerBoardContainer.getChildren().add(endGame);
 
+
+
+        // Create a PauseTransition, after 15 seconds the gui closes so that the player can decide to play another game and if so also he can decide to play it in cli mode
+        PauseTransition pause = new PauseTransition(Duration.seconds(15)); // 5-second delay
+        pause.setOnFinished(event -> closeGui()); // Method to be called after the delay
+        pause.play(); // Start the PauseTransition
+
     }
+
+    public void closeGui(){
+        javafx.application.Platform.exit();
+    }
+
 
 
 
