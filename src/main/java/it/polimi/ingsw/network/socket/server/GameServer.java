@@ -56,9 +56,11 @@ public class GameServer implements it.polimi.ingsw.network.GameServer {
         Map<String, GameSession> sessions = gameSessionManager.getAllSessions();
         StringBuilder sb = new StringBuilder("Available game sessions:\n");
         for (GameSession session : sessions.values()) {
-            sb.append("\tID: ").append(session.getGameId())
-                    .append("\t|\tAvailable places: ").append(session.availableSlots())
-                    .append("\n");
+            if(session.availableSlots()!=0) {
+                sb.append("\tID: ").append(session.getGameId())
+                        .append("\t|\tAvailable places: ").append(session.availableSlots())
+                        .append("\n");
+            }
         }
         return sb.toString();
     }

@@ -17,6 +17,7 @@ public class Client extends ClientAbstract {
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
     private String username;
+    private Thread pingThread;
 
     public Client(ModelView modelView, String host, int port) throws IOException {
         super(modelView);
@@ -43,25 +44,31 @@ public class Client extends ClientAbstract {
         this.uiStrategy = new TextUserInterface(this);
         }
 
-    public void start(String[] args) throws IOException, ClassNotFoundException {
+    public void start(String args, String usernameask) throws IOException, ClassNotFoundException {
         //username = args[0];
         //System.out.print("Enter your username: ");
         //System.out.println(args[0]);
         //outputStream.writeObject(args[0]);
-        username = uiStrategy.askUsername();
-        outputStream.writeObject(username);
 
-        // wait for server asking (join/create)
-        String message = (String) inputStream.readObject();
-        System.out.print(message);
-
-        while (!message.contains("join/create")) {
+        if(args == "true") {
+            outputStream.writeObject(usernameask+"reconnect");
+            username = usernameask;
+        }
+        else {
             username = uiStrategy.askUsername();
             outputStream.writeObject(username);
-            message = (String) inputStream.readObject();
-            System.out.print(message);
         }
 
+            // wait for server asking (join/create)
+            String message = (String) inputStream.readObject();
+            System.out.print(message);
+
+            while (!message.contains("join/create")) {
+                username = uiStrategy.askUsername();
+                outputStream.writeObject(username);
+                message = (String) inputStream.readObject();
+                System.out.print(message);
+            }
 
        // System.out.println(args[1]);
         //outputStream.writeObject(args[1]);
@@ -192,15 +199,27 @@ public class Client extends ClientAbstract {
         ModelView modelView = new ModelView();
         try {
             Client client = new Client(modelView, "localhost", 12345);
-            client.start(null);
-            client.startPinging();
+            String bool= "false";
+            client.start(bool, "null");
+            //client.startPinging();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void restart(String bool, String usernameask){
+        ModelView modelView = new ModelView();
+        try {
+            Client client = new Client(modelView, "localhost", 12345);
+            client.start(bool, usernameask);
+            //client.startPinging();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public void startPinging() {
-        Thread pingThread = new Thread(() -> {
+            pingThread = new Thread(() -> {
             while (true) {
                 try {
                     Thread.sleep(2000);
@@ -212,6 +231,16 @@ public class Client extends ClientAbstract {
             }
         });
         pingThread.start();
+    }
+
+    public void disconnect() {
+        String usernameask = this.username;
+        System.out.println("actual username: "+usernameask);
+        closeConnection();
+        //pingThread.interrupt();
+        System.out.println("Disconnected from the server.");
+        String bool = "true";
+        restart(bool,usernameask);
     }
 
     /*

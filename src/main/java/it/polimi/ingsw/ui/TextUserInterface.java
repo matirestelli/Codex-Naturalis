@@ -410,7 +410,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
             System.out.println("\t3. Continue with the game\n");
             System.out.println("\t4. Visualize scoreboard\n");
             System.out.println("\t5. Visualize other players codex\n");
-            System.out.println("\t6. Exit\n");
+            System.out.println("\t6. Exit the game\n");
             System.out.print("> ");
             String input;
             input = scanner.nextLine();
@@ -492,6 +492,8 @@ public class TextUserInterface implements UserInterfaceStrategy {
                 }
                 case "6" -> {
                     //disconnect player from the game
+                    gameClient.sendMessage(new ExitGame("exitGame", null));
+                    System.out.println("You have been disconnected from game");
                 }
             }
         }
@@ -566,9 +568,13 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
     @Override
     public void endGame(List<Pair<String, Integer>> data) {
-        System.out.println("Game over!\nResults:\n");
-        for (int i = 1; i < data.size()+1; i++) {
-            System.out.println("#" + i + " " +data.get(i-1).getKey() + " Points: " + data.get(i-1).getValue());
+        if(data!=null) {
+            System.out.println("Game over!\nResults:\n");
+            for (int i = 1; i < data.size() + 1; i++) {
+                System.out.println("#" + i + " " + data.get(i - 1).getKey() + " Points: " + data.get(i - 1).getValue());
+            }
+        }else{
+            System.out.println("Game over! A player left the game\n");
         }
     }
 
@@ -955,6 +961,10 @@ public class TextUserInterface implements UserInterfaceStrategy {
     public String askUsername() {
         System.out.println("Insert your username: ");
         String username = scanner.nextLine().trim();
+        while (username == null || username.isEmpty()) {
+            System.out.println("Invalid Input! Retry: ");
+            username = scanner.nextLine().trim();
+        }
         return username;
     }
 

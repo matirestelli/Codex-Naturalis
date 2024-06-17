@@ -23,5 +23,7 @@ public abstract class ClientAbstract {
 
     public abstract void startPinging();
 
+    public abstract void disconnect();
+
     public abstract void sendMessage(MessageClient2Server message);
 }

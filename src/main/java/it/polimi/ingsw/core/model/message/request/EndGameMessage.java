@@ -14,5 +14,6 @@ public class EndGameMessage extends MessageServer2Client{
 
     public void doAction(ClientAbstract client) {
         client.getUIStrategy().endGame((List<Pair<String, Integer>>) getData());
+        client.disconnect();
     }
 }

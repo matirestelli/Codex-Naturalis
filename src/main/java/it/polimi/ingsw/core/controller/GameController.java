@@ -580,4 +580,10 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             }
         }
     }
+
+    public void exitGame(String username) throws RemoteException {
+        for(String us : orderedObserversMap.keySet()){
+            orderedObserversMap.get(us).update(new EndGameMessage("endGame", null));
+        }
+    }
 }

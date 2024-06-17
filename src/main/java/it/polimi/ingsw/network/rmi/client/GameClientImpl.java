@@ -55,6 +55,20 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         connectToServer(host, port);
     }
 
+    public void disconnect(){
+            String usernameask = this.username;
+            // Shutdown the notification executor
+            if (notificationExecutor != null && !notificationExecutor.isShutdown()) {
+                notificationExecutor.shutdownNow();
+            }
+            // Annulla il riferimento al server e al GameControllerRemote
+            server = null;
+            gc = null;
+            System.out.println("Disconnected from the server.");
+            String bool = "true";
+            restart(bool,usernameask);
+    }
+
     public void startPinging() {
         Thread pingThread = new Thread(() -> {
             while (true) {
@@ -83,16 +97,26 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         }
     }
 
-    public void login(String args[]) throws RemoteException {
+    public void login(String args, String usernameask) throws RemoteException {
         //System.out.print("Enter your username: ");
         // String nickname = scanner.nextLine();
         //System.out.println(args[0]);
-        username = uiStrategy.askUsername();
-        while (server.isUsernameTaken(username)) {
-            System.out.println("Username already taken. ");
+        if(args == "true") {
+            username = usernameask+"reconnected";
+        }
+        else {
             username = uiStrategy.askUsername();
         }
-        server.addUsername(username);
+        if(!username.endsWith("reconnected")) {
+            while (server.isUsernameTaken(username)) {
+                System.out.println("Username already taken. ");
+                username = uiStrategy.askUsername();
+            }
+            server.addUsername(username);
+        }
+        else{
+            username = username.substring(0, username.length()-11);
+        }
 
         // join/create game
         System.out.print("Do you want to join an existing game session or create a new one? (join/create): ");
@@ -185,7 +209,17 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         ModelView modelView = new ModelView();
         try {
             GameClientImpl client = new GameClientImpl(modelView, "localhost", 1099, "cli");
-            client.login(null);
+            client.login("false", "null");
+        } catch (RemoteException e) {
+            System.out.println("Error creating the client: " + e.getMessage());
+        }
+    }
+
+    public static void restart(String bool, String usernameask) {
+        ModelView modelView = new ModelView();
+        try {
+            GameClientImpl client = new GameClientImpl(modelView, "localhost", 1099, "cli");
+            client.login(bool, usernameask);
         } catch (RemoteException e) {
             System.out.println("Error creating the client: " + e.getMessage());
         }

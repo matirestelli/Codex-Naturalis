@@ -41,11 +41,16 @@ public class ClientHandler implements Runnable, GameObserver {
             username = (String) inputStream.readObject();
 
             // check is username is already taken
-            while (server.isUsernameTaken(username)) {
-                outputStream.writeObject("Username already taken. ");
-                username = (String) inputStream.readObject();
+            if(!username.endsWith("reconnected")) {
+                while (server.isUsernameTaken(username)) {
+                    outputStream.writeObject("Username already taken. ");
+                    username = (String) inputStream.readObject();
+                }
+                server.addUsername(username);
             }
-            server.addUsername(username);
+            else{
+                username = username.substring(0, username.length()-11);
+            }
             System.out.println("New client '" + username + "' connected on socket from " + clientSocket.getInetAddress().getHostAddress());
 
             // ask client if they want to join an existing game session or create a new one
