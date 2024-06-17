@@ -3,30 +3,26 @@ package it.polimi.ingsw.core.model.chat;
 import java.util.List;
 
 /**
- * This interface is implemented by Chat class
+ * The ChatIC interface represents a chat in the application.
+ * It provides methods to retrieve messages and the last message from the chat.
  */
 public interface ChatIC {
 
     /**
-     * This method adds a message to the chat
-     * @return the message added {@link Message}
+     * Retrieves the list of messages in the chat.
+     * @return A list of messages {@link Message} in the chat.
      */
     List<Message> getMsgs();
 
     /**
-     * This method returns the last message
-     * @return the last message
+     * Retrieves the text of the last message in the chat.
+     * @return The text of the last message in the chat.
      */
     String getLast();
 
     /**
-     * This method returns the last message
-     * @return the last message {@link Message}
+     * Retrieves the last message in the chat.
+     * @return The last message {@link Message} in the chat.
      */
     Message getLastMessage();
-
-    /**
-     * This method returns a string representation
-     * @return the string representation
-     */
 }

@@ -2,32 +2,59 @@ package it.polimi.ingsw.core.model;
 
 import it.polimi.ingsw.core.model.enums.Color;
 
-//import java.util.List;
-//import java.util.Map;
+/**
+ * This class represents a ReverseLObjective in the game.
+ * It extends the PositionObjective class.
+ * It maintains the color1 and color2 of the reverse L objective.
+ */
 public class ReverseLObjective extends PositionObjective {
     private Color color1;
     private Color color2;
 
+    /**
+     * Returns the type of the objective.
+     * @return The type of the objective.
+     */
     public String getType() {
         return "ReverseL";
     }
 
+    /**
+     * Sets the color1 of the reverse L objective.
+     * @param color The color to set.
+     */
     public void setColor1(Color color) {
         this.color1 = color;
     }
+
+    /**
+     * Sets the color2 of the reverse L objective.
+     * @param color The color to set.
+     */
     public void setColor2(Color color) {
         this.color2 = color;
     }
 
+    /**
+     * Returns the color1 of the reverse L objective.
+     * @return The color1 of the reverse L objective.
+     */
     public Color getColor1() {
         return color1;
     }
+
+    /**
+     * Returns the color2 of the reverse L objective.
+     * @return The color2 of the reverse L objective.
+     */
     public Color getColor2() {
         return color2;
     }
 
-
-
+    /**
+     * Calculates the points for the player state based on the reverse L objective.
+     * @param p The player state.
+     */
     public void CalculatePoints(PlayerState p) {
         int rows = p.getMatrix().length;
         int cols = p.getMatrix()[0].length;

@@ -12,6 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents a PlayerState in the game.
+ * It extends the Player class and implements Serializable interface.
+ * It maintains the score, starterCard, hand, chat, pawn, board, cardWidth, cardHeight, matrixDimension, codex, matrix, secretObj, personalResources, connected, lastPingTime and other related data.
+ */
 public class PlayerState extends Player implements Serializable {
     private int score;
     private ResourceCard starterCard;

@@ -6,21 +6,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents a ResourceObjective in the game.
+ * It extends the Objective class.
+ * It maintains a list of requirements and methods related to the calculation of points.
+ */
 public class ResourceObjective extends Objective {
     List<Requirement> requirements;
 
+    /**
+     * Returns the type of the objective.
+     * @return The type of the objective.
+     */
     public String getType() {
         return "Resource";
     }
 
+    /**
+     * Constructor for the ResourceObjective class.
+     */
     public ResourceObjective() {
         requirements = new ArrayList<>();
     }
 
+    /**
+     * Returns the list of requirements of the resource objective.
+     * @return The list of requirements of the resource objective.
+     */
     public List<Requirement> getRequirements() {
         return requirements;
     }
 
+    /**
+     * Calculates the points for the player state based on the requirements.
+     * @param p The player state.
+     */
     public void CalculatePoints(PlayerState p) {
         Map<Resource, Integer> playerResources = p.calculateResources();
         List<Integer> cardinality = new ArrayList<>();
@@ -34,7 +54,6 @@ public class ResourceObjective extends Objective {
         }
 
         // to calculate point, use minimum cardinality of resources
-       p.addScore(cardinality.stream().min(Integer::compare).get() * getPoints());
+        p.addScore(cardinality.stream().min(Integer::compare).get() * getPoints());
     }
 }
-

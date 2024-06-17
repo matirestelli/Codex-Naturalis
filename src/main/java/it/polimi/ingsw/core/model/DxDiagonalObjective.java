@@ -2,18 +2,34 @@ package it.polimi.ingsw.core.model;
 
 import it.polimi.ingsw.core.model.enums.Color;
 
+/**
+ * This class represents a DxDiagonalObjective in the game.
+ * It extends PositionObjective class.
+ * It maintains the color of the objective.
+ */
 public class DxDiagonalObjective extends PositionObjective{
-    private Color color1 ;
+    private Color color1;
 
+    /**
+     * Returns the type of the objective.
+     * @return The type of the objective.
+     */
     public String getType() {
         return "DxDiagonal";
     }
 
+    /**
+     * Sets the color of the objective.
+     * @param color The color to set.
+     */
     public void setColor(Color color) {
         this.color1  = color;
     }
 
-
+    /**
+     * Calculates the points for the given player state.
+     * @param p The player state to calculate points for.
+     */
     public void CalculatePoints(PlayerState p) {
         int rows = p.getMatrix().length;
         int cols = p.getMatrix()[0].length;

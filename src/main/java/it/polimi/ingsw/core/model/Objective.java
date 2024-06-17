@@ -1,6 +1,5 @@
 package it.polimi.ingsw.core.model;
 
-
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.ui.AnsiColor;
 
@@ -8,96 +7,96 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents an Objective in the game.
+ * It extends the Card class and implements Serializable interface.
+ * It maintains the points, type, completion status, and other related data.
+ */
 public class Objective extends Card implements Serializable {
-    // private int id;
-    // private boolean frontSide;
-    // private String frontCover; // front side of the objective
-    // private String backCover; // back side of the objective
     private int points;
     private String type;
     private boolean isCompleted;
-    private int completed; //numero di volte che l'obiettivo è stato completato
-    private List<Integer> IDusati = new ArrayList<>();  //lista di carte già usate per completare un obiettivo
+    private int completed; //number of times the objective has been completed
+    private List<Integer> IDusati = new ArrayList<>();  //list of cards already used to complete an objective
     private String pattern;
 
-//    public int getId() {
-//        return id;
-//    }
-
-    public int setCompleted() { //incrementa il numero di volte che l'obiettivo è stato completato
+    /**
+     * Increments the number of times the objective has been completed.
+     * @return The number of times the objective has been completed.
+     */
+    public int setCompleted() {
         completed++;
         return completed;
     }
 
+    /**
+     * Returns the type of the objective.
+     * @return The type of the objective.
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Sets the type of the objective.
+     * @param type The type to set.
+     */
     public void setType(String type) {
         this.type = type;
     }
 
-    public void resetCompleted() { //resetta il numero di volte che l'obiettivo è stato completato
+    /**
+     * Resets the number of times the objective has been completed.
+     */
+    public void resetCompleted() {
         completed = 0;
     }
 
+    /**
+     * Returns the list of cards already used to complete an objective.
+     * @return The list of cards already used to complete an objective.
+     */
     protected List<Integer> getIDusati() {
         return IDusati;
     }
 
+    /**
+     * Adds a card to the list of cards already used to complete an objective.
+     * @param id The id of the card to add.
+     */
     protected void addIDusato(Integer id) {
         IDusati.add(id);
     }
 
-    public int getCompleted() { //ritorna il numero di volte che l'obiettivo è stato completato
+    /**
+     * Returns the number of times the objective has been completed.
+     * @return The number of times the objective has been completed.
+     */
+    public int getCompleted() {
         return completed;
     }
 
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-
-//    public boolean isFrontSide() {
-//        return frontSide;
-//    }
-//
-//    //setSide è il metodo flip dell'uml
-//    public void setSide(boolean frontSide) {
-//        this.frontSide = frontSide;
-//    }
-//
-//    public String getFrontCover() {
-//        return frontCover;
-//    }
-//
-//    public void setFrontCover(String frontCover) {
-//        this.frontCover = frontCover;
-//    }
-//
-//    public String getBackCover() {
-//        return backCover;
-//    }
-
+    /**
+     * Returns the completion status of the objective.
+     * @return The completion status of the objective.
+     */
     public boolean isCompleted() {
         return isCompleted;
     }
 
-    // -- public void setCompleted(boolean isCompleted) {
-    //    this.isCompleted = isCompleted;
-    //}
-
-    //    public void setBackCover(String backCover) {
-//        this.backCover = backCover;
-//    }
+    /**
+     * Returns the points of the objective.
+     * @return The points of the objective.
+     */
     public int getPoints() {
         return points;
     }
 
+    /**
+     * Sets the points of the objective.
+     * @param points The points to set.
+     */
     public void setPoints(int points) {
         this.points = points;
     }
-
-    //metodo per verificare se l'obiettivo è completato, verrà poi implementato nelle classi figlie in modo diverso
-
 }
-

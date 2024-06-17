@@ -11,6 +11,10 @@ import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 
+/**
+ * This class represents a ModelView in the game.
+ * It maintains the game state, player states, and other game-related data.
+ */
 public class ModelView {
     private List<String> players;
     private Map<String, Integer> playerOrder;
@@ -60,6 +64,12 @@ public class ModelView {
         this.playerBoards = new HashMap<>();
     }
 
+    /**
+     * Sets the playing card for the current player and assigns its side.
+     *
+     * @param playingCard The card to be set as the playing card.
+     * @param side The side of the card to be set. True for front side, false for back side.
+     */
     public void setMyPlayingCard(Card playingCard, Boolean side) {
         this.playingCard = playingCard;
         this.playingCard.setSide(side);

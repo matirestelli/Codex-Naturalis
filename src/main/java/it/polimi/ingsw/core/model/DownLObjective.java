@@ -7,30 +7,59 @@ import it.polimi.ingsw.ui.UserInterfaceStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
-//import java.util.List;
-//import java.util.Map;
+/**
+ * This class represents a DownL objective in the game.
+ * It extends PositionObjective class.
+ * It maintains the color1 and color2 of the objective.
+ */
 public class DownLObjective extends PositionObjective{
     private Color color1;
     private Color color2;
 
+    /**
+     * Sets the first color of the objective.
+     * @param color The color to set.
+     */
     public void setColor1(Color color) {
         this.color1 = color;
     }
+
+    /**
+     * Sets the second color of the objective.
+     * @param color The color to set.
+     */
     public void setColor2(Color color) {
         this.color2 = color;
     }
 
+    /**
+     * Returns the first color of the objective.
+     * @return The first color of the objective.
+     */
     public Color getColor1() {
         return color1;
     }
+
+    /**
+     * Returns the second color of the objective.
+     * @return The second color of the objective.
+     */
     public Color getColor2() {
         return color2;
     }
 
+    /**
+     * Returns the type of the objective.
+     * @return The type of the objective.
+     */
     public String getType() {
         return "DownL";
     }
 
+    /**
+     * Calculates the points for the given player state.
+     * @param p The player state to calculate points for.
+     */
     public void CalculatePoints(PlayerState p) {
         int rows = p.getMatrix().length;
         int cols = p.getMatrix()[0].length;
@@ -58,26 +87,5 @@ public class DownLObjective extends PositionObjective{
         }
         p.addScore(getCompleted() * getPoints());
         this.resetCompleted();
-    }
-
-    public ArrayList<String> displayCard(AnsiColor AnsiColors) {
-        String ANSIColor = "";
-
-        if (getColor() == Color.RED) {
-            ANSIColor += AnsiColors.RED_BACKGROUND;
-        } else if (getColor() == Color.BLUE) {
-            ANSIColor += AnsiColors.BLUE_BACKGROUND;
-        } else if (getColor() == Color.PURPLE) {
-            ANSIColor += AnsiColors.PURPLE_BACKGROUND;
-        } else if (getColor() == Color.GREEN) {
-            ANSIColor += AnsiColors.GREEN_BACKGROUND;
-        }
-
-        ArrayList<String> result = new ArrayList<>();
-        result.add(ANSIColor + "  " + AnsiColors.BOLD + AnsiColors.GOLD + this.getPoints() + AnsiColors.RESET + ANSIColor + "  " + color1.toString().charAt(0) + " " + AnsiColors.RESET);
-        result.add(ANSIColor + "    " + color1.toString().charAt(0) + "  " + AnsiColors.RESET);
-        result.add(ANSIColor + "    " + color2.toString().charAt(0) + "  " + AnsiColors.RESET);
-
-        return result;
     }
 }

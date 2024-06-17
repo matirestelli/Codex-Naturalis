@@ -10,7 +10,10 @@ import it.polimi.ingsw.core.utils.PlayableCardIds;
 import java.lang.reflect.Type;
 import java.util.*;
 
-
+/**
+ * This class represents a GameState in the game.
+ * It maintains the player states, player order, decks, and other game-related data.
+ */
 public class GameState implements java.io.Serializable {
 
     private Map<Player, PlayerState> playerStates; // map of players and their states
@@ -97,6 +100,7 @@ public class GameState implements java.io.Serializable {
         }
         return true;
     }
+
 
     public void checkPlayersConnection(long timeout) {
         for (PlayerState player : playerStates.values()) {

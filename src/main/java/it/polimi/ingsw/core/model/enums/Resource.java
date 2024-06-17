@@ -1,5 +1,8 @@
 package it.polimi.ingsw.core.model.enums;
 
+/**
+ * This enum represents the possible resources in the application.
+ */
 public enum Resource {
     PLANT,
     ANIMAL,

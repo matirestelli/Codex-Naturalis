@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * This abstract class represents a card in the game.
+ * It extends CardGame and implements Serializable interface.
+ * It maintains the front and back corners, back resources, centre, and matrix coordinates of the card.
+ */
 public abstract class Card extends CardGame implements Serializable {
     private Map<Integer, Corner> frontCorners;
     private Map<Integer, Corner> backCorners;
@@ -17,6 +22,10 @@ public abstract class Card extends CardGame implements Serializable {
     private int xMatrixCord;
     private int yMatrixCord;
 
+    /**
+     * Returns the actual corners of the card.
+     * @return Map of actual corners of the card.
+     */
     public Map<Integer, Corner> getActualCorners() {
         if (frontSide) return frontCorners;
         else return backCorners;
@@ -75,6 +84,14 @@ public abstract class Card extends CardGame implements Serializable {
         this.centre = centre;
     }
 
+    /**
+     * Finds the free angles of the card.
+     * @param matrix The matrix representing the game board.
+     * @param codex The list of cards.
+     * @param cardToPlayId The id of the card to play.
+     * @param test The map to store the test corners.
+     * @return List of free angles.
+     */
     public List<Coordinate> findFreeAngles(int[][] matrix, List<Card> codex, int cardToPlayId, Map<Integer, Map<Integer, List<Coordinate>>> test) {
         AtomicReference<Boolean> pos = new AtomicReference<>(true);
         List<Coordinate> testCorners = new ArrayList<>();
