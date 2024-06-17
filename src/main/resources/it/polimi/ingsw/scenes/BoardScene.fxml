@@ -167,7 +167,7 @@
     <center>
         <VBox alignment="CENTER" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <children>
-                <HBox alignment="CENTER" prefWidth="800" prefHeight="500">
+                <HBox fx:id="centerBoardContainer" alignment="CENTER" prefWidth="800" prefHeight="500">
                     <children>
                         <ScrollPane fx:id="scrollPane" layoutX="247.0" layoutY="162.0" prefHeight="451.0" prefWidth="712.0" styleClass="edge-to-edge">
                             <content>

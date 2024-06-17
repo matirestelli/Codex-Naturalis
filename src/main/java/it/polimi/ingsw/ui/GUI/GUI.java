@@ -490,7 +490,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void endGame(List<Pair<String, Integer>> rank) {
     //todo capire cosa inviano come event.data
         Platform.runLater(() -> {
-            this.getBoardViewController().message("The game has ended");
+            this.getBoardViewController().endGameRanking(rank);
         });
     }
 

@@ -33,20 +33,6 @@
 }
 
 
-.buttonCardSelected{
-    -fx-max-height: 87;
-    -fx-max-width: 124;
-    -fx-min-height: 87;
-    -fx-min-width: 124;
-    -fx-border-color: #52e51f;
-    -fx-border-radius: 0 0 0 0;
-    -fx-border-width: 2;
-    -fx-border-opacity: 0.8;
-    -fx-border-style: solid solid solid solid;
-
-}
-
-
 
 .containerPoints{
     -fx-background-color: #E3DBB5;

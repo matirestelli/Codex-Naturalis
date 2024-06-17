@@ -420,7 +420,6 @@ public class GameController extends UnicastRemoteObject implements GameControlle
         orderedObserversMap.get(username).update(new UpdatedHandMessage("updateHand", new ArrayList<>(player.getHand())));
 
         //notify al players of new decks states
-        //todo capire perchè la prima del mazzo non corrisponde alla prima del mazzo il cli
         List<Card> updatedDecks = new ArrayList<>();
         updatedDecks.addAll(gameState.getResourceCardsVisible());
         updatedDecks.addAll(gameState.getGoldCardsVisible());

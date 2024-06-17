@@ -12,6 +12,7 @@ import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -19,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -32,6 +34,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.*;
@@ -135,6 +138,8 @@ public class BoardViewController extends GUI {
     private ImageView icon_loading;
     @FXML
     private VBox rightVBox;
+    @FXML
+    private HBox centerBoardContainer;
 
     private static Boolean cardSelected = false;
     private static Boolean cardDrawn = false;
@@ -434,11 +439,11 @@ public class BoardViewController extends GUI {
             this.showErrorPopUp("You can't draw a card now", (Stage) buttonDeckGBack.getScene().getWindow());
         });
         buttonDeckGBack.setOnMouseEntered(e -> {
-            buttonDeckGBack.setStyle("-fx-border-color: #e51f1f;\n" +
+            buttonDeckGBack.setStyle(
                     "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
         buttonDeckGBack.setOnMouseExited(e -> {
-            buttonDeckGBack.setStyle("-fx-border-color: none;\n" +
+            buttonDeckGBack.setStyle("-fx-border-color: #4b4401 ;\n" +
                     "-fx-effect: none;");
         });
         buttonDeckRBack.setOnAction(e -> {
@@ -449,7 +454,7 @@ public class BoardViewController extends GUI {
                     "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
         buttonDeckRBack.setOnMouseExited(e -> {
-            buttonDeckRBack.setStyle("-fx-border-color: none;\n" +
+            buttonDeckRBack.setStyle("-fx-border-color: #4b4401 ;\n" +
                     "-fx-effect: none;");
         });
         buttonDeckRFront1.setOnAction(e -> {
@@ -460,7 +465,7 @@ public class BoardViewController extends GUI {
                     "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
         buttonDeckRFront1.setOnMouseExited(e -> {
-            buttonDeckRFront1.setStyle("-fx-border-color: none;\n" +
+            buttonDeckRFront1.setStyle("-fx-border-color:#4b4401 ;\n" +
                     "-fx-effect: none;");
         });
         buttonDeckRFront2.setOnAction(e -> {
@@ -471,7 +476,7 @@ public class BoardViewController extends GUI {
                     "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
         buttonDeckRFront2.setOnMouseExited(e -> {
-            buttonDeckRFront2.setStyle("-fx-border-color: none;\n" +
+            buttonDeckRFront2.setStyle("-fx-border-color: #4b4401 ;\n" +
                     "-fx-effect: none;");
         });
         buttonDeckGFront1.setOnAction(e -> {
@@ -482,7 +487,7 @@ public class BoardViewController extends GUI {
                     "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
         buttonDeckGFront1.setOnMouseExited(e -> {
-            buttonDeckGFront1.setStyle("-fx-border-color: none;\n" +
+            buttonDeckGFront1.setStyle("-fx-border-color: #4b4401 ;\n" +
                     "-fx-effect: none;");
         });
         buttonDeckGFront2.setOnAction(e -> {
@@ -493,7 +498,7 @@ public class BoardViewController extends GUI {
                     "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
         buttonDeckGFront2.setOnMouseExited(e -> {
-            buttonDeckGFront2.setStyle("-fx-border-color: none;\n" +
+            buttonDeckGFront2.setStyle("-fx-border-color: #4b4401 ;\n" +
                     "-fx-effect: none;");
         });
 
@@ -586,7 +591,7 @@ public class BoardViewController extends GUI {
                         "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
         buttonCard1.setOnMouseExited(e -> {
-            buttonCard1.setStyle("-fx-border-color: none;\n" +
+            buttonCard1.setStyle("-fx-border-color: #4b4401 ;\n" +
                     "-fx-effect: none;");
         });
 
@@ -603,7 +608,7 @@ public class BoardViewController extends GUI {
                     "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
         buttonCard2.setOnMouseExited(e -> {
-            buttonCard2.setStyle("-fx-border-color: none;\n" +
+            buttonCard2.setStyle("-fx-border-color:#4b4401 ;\n" +
                     "-fx-effect: none;");
         });
 
@@ -620,7 +625,7 @@ public class BoardViewController extends GUI {
                     "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
         });
         buttonCard3.setOnMouseExited(e -> {
-            buttonCard3.setStyle("-fx-border-color: none;\n" +
+            buttonCard3.setStyle("-fx-border-color:#4b4401 ;\n" +
                     "-fx-effect: none;");
         });
     }
@@ -665,7 +670,7 @@ public class BoardViewController extends GUI {
                     "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
         });
         buttonCard1.setOnMouseExited(e -> {
-            buttonCard1.setStyle("-fx-border-color: none;\n" +
+            buttonCard1.setStyle("-fx-border-color: #4b4401 ;\n" +
                     "-fx-effect: none;");
         });
 
@@ -700,7 +705,7 @@ public class BoardViewController extends GUI {
                     "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
         });
         buttonCard2.setOnMouseExited(e -> {
-            buttonCard2.setStyle("-fx-border-color: none;\n" +
+            buttonCard2.setStyle("-fx-border-color: #4b4401 ;\n" +
                     "-fx-effect: none;");
         });
 
@@ -733,7 +738,7 @@ public class BoardViewController extends GUI {
                     "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
         });
         buttonCard3.setOnMouseExited(e -> {
-            buttonCard3.setStyle("-fx-border-color: none;\n" +
+            buttonCard3.setStyle("-fx-border-color: #4b4401 ;\n" +
                     "-fx-effect: none;");
         });
 
@@ -750,15 +755,18 @@ public class BoardViewController extends GUI {
         //TODO ASK WHY IT DOESN'T WORK
         if(buttonCard1.getId().equals(buttonCardSelectedId)){
             buttonCard1.getStyleClass().clear();
-            buttonCard1.getStyleClass().add("buttonCardSelected");
+            buttonCard1.setStyle(
+                    "    -fx-effect: dropshadow(one-pass-box,  #52e51f, 10, 0.4, 0, 0);");
         }
         else if(buttonCard2.getId().equals(buttonCardSelectedId)){
             buttonCard2.getStyleClass().clear();
-            buttonCard2.getStyleClass().add("buttonCardSelected");
+            buttonCard2.setStyle(
+                    "    -fx-effect: dropshadow(one-pass-box,  #52e51f, 10, 0.4, 0, 0);");
         }
         else if(buttonCard3.getId().equals(buttonCardSelectedId)){
             buttonCard3.getStyleClass().clear();
-            buttonCard3.getStyleClass().add("buttonCardSelected");
+            buttonCard3.setStyle(
+                    "    -fx-effect: dropshadow(one-pass-box,  #52e51f, 10, 0.4, 0, 0);");
         }
         buttonCard1.setOnAction(e -> {
             this.showErrorPopUp("You already selected a card to play", (Stage) buttonCard1.getScene().getWindow());
@@ -772,8 +780,14 @@ public class BoardViewController extends GUI {
         });
 
         buttonCard1.setOnMouseExited(e -> {
-            buttonCard1.setStyle("-fx-border-color: none;\n" +
-                    "-fx-effect: none;");
+            if(!buttonCard1.getId().equals(buttonCardSelectedId)){
+                buttonCard1.setStyle(
+                        "    -fx-effect: dropshadow(one-pass-box,  #52e51f, 10, 0.4, 0, 0);");
+            }
+            else{
+                buttonCard1.setStyle("-fx-border-color: #4b4401 ;\n" +
+                        "-fx-effect: none;");
+            }
         });
 
 
@@ -788,8 +802,14 @@ public class BoardViewController extends GUI {
         });
 
         buttonCard2.setOnMouseExited(e -> {
-            buttonCard2.setStyle("-fx-border-color: none;\n" +
-                    "-fx-effect: none;");
+           if(!buttonCard2.getId().equals(buttonCardSelectedId)){
+               buttonCard2.setStyle(
+                       "    -fx-effect: dropshadow(one-pass-box,  #52e51f, 10, 0.4, 0, 0);");
+           }
+           else{
+               buttonCard2.setStyle("-fx-border-color: #4b4401 ;\n" +
+                       "-fx-effect: none;");
+           }
         });
 
 
@@ -804,8 +824,14 @@ public class BoardViewController extends GUI {
         });
 
         buttonCard3.setOnMouseExited(e -> {
-            buttonCard3.setStyle("-fx-border-color: none;\n" +
-                    "-fx-effect: none;");
+            if(!buttonCard3.getId().equals(buttonCardSelectedId)){
+                buttonCard3.setStyle(
+                        "    -fx-effect: dropshadow(one-pass-box,  #52e51f, 10, 0.4, 0, 0);");
+            }
+            else{
+                buttonCard3.setStyle("-fx-border-color: #4b4401 ;\n" +
+                        "-fx-effect: none;");
+            }
         });
 
         List<Integer[]> tempButtons = new ArrayList<>();
@@ -824,7 +850,15 @@ public class BoardViewController extends GUI {
            Button placeHere = new Button();
            placeHere.getStyleClass().add("buttonCard");
            placeHere.setStyle("-fx-background-color: rgba(215,222,9,0.3);\n" +
-                   "-fx-opacity: 0.5;");
+                   "-fx-opacity: 0.8;");
+           placeHere.setOnMouseEntered(e -> {
+               placeHere.setStyle( "-fx-opacity: 0.5;");
+           });
+              placeHere.setOnMouseExited(e -> {
+                placeHere.setStyle("-fx-background-color: rgba(215,222,9,0.3);\n" +
+                          "-fx-opacity: 0.8;");
+              });
+
            placeHere.setText(cardToAttach+"."+angle);
            switch (angle){
                case 0:
@@ -1162,6 +1196,26 @@ public class BoardViewController extends GUI {
         translate.setInterpolator(javafx.animation.Interpolator.LINEAR);
         translate.setByAngle(360);
         translate.play();
+    }
+
+    public void endGameRanking(List<Pair<String, Integer>> ranking){
+      centerBoardContainer.getChildren().clear();
+      VBox endGame = new VBox();
+        endGame.setAlignment(Pos.CENTER);
+        endGame.setSpacing(20);
+        endGame.setPadding(new Insets(20,20,20,20));
+        endGame.getStyleClass().add("containerPoints");
+        Label endGameLabel = new Label("Game over!\nResults:\n");
+        TextArea results = new TextArea();
+        results.setEditable(false);
+        results.setWrapText(true);
+        results.getStyleClass().add("textArea");
+        for(int i = 1; i < ranking.size()+1; i++){
+            results.appendText("#" + i + " " + ranking.get(i-1).getKey() + " Points: " + ranking.get(i-1).getValue() +"\n");
+        }
+        endGame.getChildren().addAll(endGameLabel, results);
+        centerBoardContainer.getChildren().add(endGame);
+
     }
 
 
