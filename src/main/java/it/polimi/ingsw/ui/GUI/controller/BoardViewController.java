@@ -5,6 +5,7 @@ import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.response.AngleSelectedMessage;
 import it.polimi.ingsw.core.model.message.response.CardSelectedMessage;
+import it.polimi.ingsw.core.model.message.response.ExitGame;
 import it.polimi.ingsw.core.model.message.response.SelectedDrewCard;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.ui.GUI.GUI;
@@ -187,7 +188,6 @@ public class BoardViewController extends GUI {
         boardPane.setLeft(container);
 
         //I load the first hand of the player
-        //TODO ELIMINATE WHEN WAIT FOR THE USERNAME AT THE BEGINNING IMPLEMENTED
         this.updateHand(this.viewModel.getMyHand());
         cardToPlace = this.viewModel.getMyCodex().get(0);
 
@@ -203,7 +203,6 @@ public class BoardViewController extends GUI {
         obj2ImageView.setImage(new Image(obj2Cover));
 
         //loading the initial decks
-        //TODO ELIMINATE WHEN WAIT FOR THE USERNAME AT THE BEGINNING IMPLEMENTED
         List<Card> initialDecks = new ArrayList<>();
         initialDecks.addAll(this.viewModel.getResourceCardsVisible());
         initialDecks.addAll(this.viewModel.getGoldCardsVisible());
@@ -219,8 +218,6 @@ public class BoardViewController extends GUI {
 
     public void setPlayersRecapVbox(VBox playersRecapVbox){
         //NB: the order in the array of labels is the same of the order of the players in the game
-        //TODO : poi il for sarà fino a quanto numero max di giocatori della partita
-       // for(int i=0; i<4; i++){
         for (int i=0; i<viewModel.getPlayers().size(); i++){
             numAnimals[i] = (new Label("0 "));
             numAnimals[i].setFont(myFont);
@@ -383,7 +380,7 @@ public class BoardViewController extends GUI {
         for(Card c : updatedDecks){
             System.out.println(c.getId() + "\n");
         }
-        //TODO CAPIRE COME PARAMETRIZZARE MEGLIO LA COSA
+
         String imageCardRBack = updatedDecks.get(5).getBackCover();
         deckGBackImageView.setImage(new Image(imageCardRBack));
         deckGBackEco1.setImage(new Image(imageCardRBack));
@@ -419,23 +416,6 @@ public class BoardViewController extends GUI {
         buttonDeckGFront2.setUserData(updatedDecks.get(3).getId());
         buttonDeckGFront2.getStyleClass().add("buttonCard");
 
-        //TODO ASK perchè non funziona
-        /*
-        for(Button b: deckButtons){
-            b.setOnAction(e -> {
-                this.showErrorPopUp("You can't draw a card now", (Stage) b.getScene().getWindow());
-            });
-            b.setOnMouseEntered(e -> {
-                b.setStyle("-fx-border-color: #e51f1f;\n" +
-                        "    -fx-effect: dropshadow(one-pass-box,  #9d1717, 20, 0.8, 0, 0);");
-            });
-            b.setOnMouseExited(e -> {
-                b.setStyle("-fx-border-color: none;\n" +
-                        "-fx-effect: none;");
-            });
-        }
-
-         */
         buttonDeckGBack.setOnAction(e -> {
             this.showErrorPopUp("You can't draw a card now", (Stage) buttonDeckGBack.getScene().getWindow());
         });
@@ -541,17 +521,11 @@ public class BoardViewController extends GUI {
             buttonSide.setText("view front side");
         }
         else{
-            /*
-            for(int i=0; i<3; i++){
-                String imageCard = viewModel.getMyHand().get(i).getFrontCover();
-                viewModel.getMyHand().get(i).setSide(true);
-                handImages[i].setImage(new Image(imageCard));
-            }
-            */
+
             String imageCard1 = viewModel.getMyHand().get(0).getFrontCover();
             String imageCard2 = viewModel.getMyHand().get(1).getFrontCover();
             String imageCard3 = viewModel.getMyHand().get(2).getFrontCover();
-            //TODO ASK IF THIS ITS OKAY
+
             viewModel.getMyHand().get(0).setSide(true);
             viewModel.getMyHand().get(1).setSide(true);
             viewModel.getMyHand().get(2).setSide(true);
@@ -756,7 +730,6 @@ public class BoardViewController extends GUI {
         this.cardPlaced = false;
         this.message("Select where you want \n to play the card");
 
-        //TODO ASK WHY IT DOESN'T WORK
         if(buttonCard1.getId().equals(buttonCardSelectedId)){
             buttonCard1.getStyleClass().clear();
             buttonCard1.setStyle(
@@ -776,7 +749,6 @@ public class BoardViewController extends GUI {
             this.showErrorPopUp("You already selected a card to play", (Stage) buttonCard1.getScene().getWindow());
             });
 
-        //TODO guarda se è questo che non ti fa cambiare il colore
 
         buttonCard1.setOnMouseEntered(e -> {
             buttonCard1.setStyle("-fx-border-color: #e51f1f;\n" +
@@ -843,7 +815,6 @@ public class BoardViewController extends GUI {
            int cardToAttach = c.getX();
            int angle = c.getY();
            int[][] matrix = viewModel.getMyMatrix();
-          //TODO FIND A MORE EASY WAY TO SEARCH IN THE MATRIX
            for(int i=0; i< matrix.length; i++){
                for(int j=0; j<matrix.length; j++){
                    if(matrix[i][j] == cardToAttach){
@@ -911,9 +882,7 @@ public class BoardViewController extends GUI {
         System.out.printf("Card placed in position: %d, %d", positionToPlaceCard[0], positionToPlaceCard[1]);
         System.out.printf("Card id to place: %d", cardToPlay.getId());
         placeCard(cardToPlay, positionToPlaceCard);
-        //TODO ask if its okay here
-        this.viewModel.putInMyMatrix(positionToPlaceCard[0], positionToPlaceCard[1],cardToPlay.getId());
-       // this.viewModel.getMyMatrix()[positionToPlaceCard[0]][positionToPlaceCard[1]] = cardToPlay.getId();
+        client.getModelView().putInMyMatrix(positionToPlaceCard[0], positionToPlaceCard[1],cardToPlay.getId());
 
         if(buttonCard1.getId().equals(buttonCardSelectedId)){
             card1ImageView.setImage(null);
@@ -970,22 +939,6 @@ public class BoardViewController extends GUI {
                     "-fx-effect: none;");
         });
 
-        //TODO ask perchè non va
-        /*
-        for(Button b: deckVisibleButtons){
-            b.setOnAction(e -> {
-                if(!cardDrawn){
-                    b.setStyle("-fx-border-color: #52e51f;\n" +
-                            "    -fx-effect: dropshadow(one-pass-box,  #338f13, 20, 0.8, 0, 0);");
-                    this.observerClient.updateUI(new GameEvent("whereToDrawSelected", (String)b.getUserData()));
-                }
-                else {
-                    this.showErrorPopUp("You have already chosen the card to play", (Stage) b.getScene().getWindow());
-                }
-            });
-        }
-
-         */
         buttonDeckRFront1.setOnAction(e -> {
             if(!cardDrawn){
                 buttonDeckRFront1.setStyle("-fx-border-color: #52e51f;\n" +
@@ -1091,7 +1044,6 @@ public class BoardViewController extends GUI {
         numPlant[numberOrder].setText(resources.get(Resource.PLANT)+"");
         numQuill[numberOrder].setText(resources.get(Resource.QUILL)+"");
         numManuscript[numberOrder].setText(resources.get(Resource.MANUSCRIPT)+"");
-        //todo ask if noun or inkwell
         numInkwell[numberOrder].setText(resources.get(Resource.NOUN)+"");
         playersPoints[numberOrder].setText("pt:"+score);
     }
@@ -1106,7 +1058,6 @@ public class BoardViewController extends GUI {
         numPlant[numberOrder].setText(resources.get(Resource.PLANT)+"");
         numQuill[numberOrder].setText(resources.get(Resource.QUILL)+"");
         numManuscript[numberOrder].setText(resources.get(Resource.MANUSCRIPT)+"");
-        //todo ask if noun or inkwell
         numInkwell[numberOrder].setText(resources.get(Resource.NOUN)+"");
         playersPoints[numberOrder].setText("pt:"+myScore);
     }
@@ -1148,8 +1099,6 @@ public class BoardViewController extends GUI {
         if(chatOpen){
             chatController.updateChat(message);
         }
-
-        //todo guarda se riesci a fare pallino notifica
         else{
             iconChat.setImage((new Image("/it/polimi/ingsw/icons/iconNotificationChat.png")));
         }
@@ -1238,8 +1187,11 @@ public class BoardViewController extends GUI {
     }
 
 
-
-
+    public void exitFromGame(ActionEvent actionEvent) {
+        client.sendMessage(new ExitGame("exitGame", null));
+        System.out.println("You have been disconnected from game");
+        closeGui();
+    }
 }
 
 

@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.geometry.Insets?>
-<BorderPane fx:id="boardPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.ui.GUI.controller.BoardViewController" stylesheets="@../boardStyle.css" styleClass="background">
+<BorderPane fx:id="boardPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" styleClass="background" stylesheets="@../boardStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.ui.GUI.controller.BoardViewController">
 
     <top>
         <Button fx:id="fullScreen" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="571.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#setFullScreen" prefHeight="30.0" prefWidth="30.0" style="-fx-graphic: url(../icons/iconaFullScreen.png); -fx-background-color: #ffffff;" textFill="WHITE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -32,22 +19,22 @@
             </graphic>
         </Button>
 
-        <HBox alignment="TOP_CENTER" layoutY="0" prefHeight="101.0" prefWidth="1200.0" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="100" AnchorPane.leftAnchor="100" >
+        <HBox alignment="TOP_CENTER" layoutY="0" prefHeight="101.0" prefWidth="1200.0" AnchorPane.leftAnchor="100" AnchorPane.rightAnchor="100" AnchorPane.topAnchor="0">
             <children>
-                <HBox  alignment="TOP_CENTER" prefHeight="114.0" prefWidth="972.0"  AnchorPane.topAnchor="0" AnchorPane.leftAnchor="100" styleClass="containerCard">
+                <HBox alignment="TOP_CENTER" prefHeight="114.0" prefWidth="972.0" styleClass="containerCard" AnchorPane.leftAnchor="100" AnchorPane.topAnchor="0">
                     <children>
-                        <VBox alignment="TOP_CENTER" prefWidth="243" >
+                        <VBox alignment="TOP_CENTER" prefWidth="243">
                             <children>
                                 <Label fx:id="labelDeckR" prefHeight="20" text="Deck Resources:">
                                     <VBox.margin>
                                         <Insets top="6.0" />
                                     </VBox.margin>
                                 </Label>
-                                <Pane maxWidth="193" maxHeight="90" minHeight="90" minWidth="193" >
+                                <Pane maxHeight="90" maxWidth="193" minHeight="90" minWidth="193">
                                     <children>
                                         <ImageView fx:id="deckRBackEco1" fitHeight="83.0" fitWidth="120.0" layoutX="51.0" layoutY="19.0" opacity="0.67" />
-                                        <ImageView fx:id="deckRBackEco2" fitHeight="83.0" fitWidth="120.0" layoutX="54.0" layoutY="16.0" opacity="0.63"/>
-                                        <Button fx:id="buttonDeckRBack" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="61.0" layoutY="9.0" mnemonicParsing="false" styleClass="buttonCard" >
+                                        <ImageView fx:id="deckRBackEco2" fitHeight="83.0" fitWidth="120.0" layoutX="54.0" layoutY="16.0" opacity="0.63" />
+                                        <Button fx:id="buttonDeckRBack" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="61.0" layoutY="9.0" mnemonicParsing="false" styleClass="buttonCard">
                                             <graphic>
                                                 <ImageView fx:id="deckRBackImageView" fitHeight="83.0" fitWidth="120.0">
                                                 </ImageView>
@@ -66,7 +53,7 @@
                                         <Insets top="6.0" />
                                     </VBox.margin>
                                 </Label>
-                                <Button fx:id="buttonDeckRFront1" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
+                                <Button fx:id="buttonDeckRFront1" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" styleClass="buttonCard">
                                     <graphic>
                                         <ImageView fx:id="deckRFront1ImageView" fitHeight="83.0" fitWidth="120.0">
                                         </ImageView>
@@ -85,7 +72,7 @@
                                         <Insets top="6.0" />
                                     </VBox.margin>
                                 </Label>
-                                <Button fx:id="buttonDeckRFront2" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
+                                <Button fx:id="buttonDeckRFront2" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" styleClass="buttonCard">
                                     <graphic>
                                         <ImageView fx:id="deckRFront2ImageView" fitHeight="83.0" fitWidth="120.0">
                                         </ImageView>
@@ -104,11 +91,11 @@
                                         <Insets top="6.0" />
                                     </VBox.margin>
                                 </Label>
-                                <Pane maxWidth="193" maxHeight="90" minHeight="90" minWidth="193" >
+                                <Pane maxHeight="90" maxWidth="193" minHeight="90" minWidth="193">
                                     <children>
                                         <ImageView fx:id="deckGBackEco1" fitHeight="83.0" fitWidth="120.0" layoutX="51.0" layoutY="19.0" opacity="0.67" />
-                                        <ImageView fx:id="deckGBackEco2" fitHeight="83.0" fitWidth="120.0" layoutX="54.0" layoutY="16.0" opacity="0.63"/>
-                                        <Button fx:id="buttonDeckGBack" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="61.0" layoutY="9.0" mnemonicParsing="false" styleClass="buttonCard" >
+                                        <ImageView fx:id="deckGBackEco2" fitHeight="83.0" fitWidth="120.0" layoutX="54.0" layoutY="16.0" opacity="0.63" />
+                                        <Button fx:id="buttonDeckGBack" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="61.0" layoutY="9.0" mnemonicParsing="false" styleClass="buttonCard">
                                             <graphic>
                                                 <ImageView fx:id="deckGBackImageView" fitHeight="83.0" fitWidth="120.0">
                                                 </ImageView>
@@ -129,7 +116,7 @@
                                         <Insets top="6.0" />
                                     </VBox.margin>
                                 </Label>
-                                <Button fx:id="buttonDeckGFront1" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
+                                <Button fx:id="buttonDeckGFront1" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" styleClass="buttonCard">
                                     <graphic>
                                         <ImageView fx:id="deckGFront1ImageView" fitHeight="83.0" fitWidth="120.0">
                                         </ImageView>
@@ -148,7 +135,7 @@
                                         <Insets top="6.0" />
                                     </VBox.margin>
                                 </Label>
-                                <Button fx:id="buttonDeckGFront2" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" >
+                                <Button fx:id="buttonDeckGFront2" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" styleClass="buttonCard">
                                     <graphic>
                                         <ImageView fx:id="deckGFront2ImageView" fitHeight="83.0" fitWidth="120.0">
 
@@ -160,100 +147,106 @@
 
                     </children>
                 </HBox>
+
+            <Button fx:id="buttonExit" mnemonicParsing="false" onAction="#exitFromGame" text="Exit" styleClass="game_button">
+                <HBox.margin>
+                    <Insets top="10" left="80" />
+                </HBox.margin>
+            </Button>
             </children>
         </HBox>
     </top>
 
     <center>
-        <VBox alignment="CENTER" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <VBox alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
             <children>
-                <HBox fx:id="centerBoardContainer" alignment="CENTER" prefWidth="800" prefHeight="500">
+                <HBox fx:id="centerBoardContainer" alignment="CENTER" prefHeight="500" prefWidth="800">
                     <children>
                         <ScrollPane fx:id="scrollPane" layoutX="247.0" layoutY="162.0" prefHeight="451.0" prefWidth="712.0" styleClass="edge-to-edge">
                             <content>
                                 <GridPane fx:id="gridPane" styleClass="table-pane">
                                     <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="90.0" prefWidth="90.0" maxWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" />
                                     </columnConstraints>
                                     <rowConstraints>
                                         <RowConstraints minHeight="47.0" prefHeight="47.0" vgrow="SOMETIMES" />
@@ -350,16 +343,16 @@
     </center>
 
     <right>
-        <VBox alignment="CENTER" layoutX="1050.0" prefHeight="800.0" prefWidth="200.0" spacing="30" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0">
+        <VBox alignment="CENTER" layoutX="1050.0" prefHeight="800.0" prefWidth="200.0" spacing="30" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
             <children>
                 <VBox alignment="CENTER" layoutX="1050.0" prefHeight="100.0" prefWidth="200.0" styleClass="containerPoints">
                     <children>
-                        <HBox alignment="CENTER" prefWidth="200.0"  prefHeight="50">
+                        <HBox alignment="CENTER" prefHeight="50" prefWidth="200.0">
                             <children>
-                                <Label text="Scoreboard" prefWidth="100" />
-                                <Button styleClass="icon_button" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#viewScoreboard">
+                                <Label prefWidth="100" text="Scoreboard" />
+                                <Button contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#viewScoreboard" styleClass="icon_button">
                                     <graphic>
-                                        <ImageView  fitHeight="28.0" fitWidth="28.0">
+                                        <ImageView fitHeight="28.0" fitWidth="28.0">
                                             <image>
                                                 <Image url="@../icons/iconScoreboard.png" />
                                             </image>
@@ -369,12 +362,12 @@
                             </children>
                         </HBox>
 
-                        <HBox alignment="CENTER" prefWidth="200.0"  prefHeight="50">
+                        <HBox alignment="CENTER" prefHeight="50" prefWidth="200.0">
                             <children>
-                                <Label text="Chat" prefWidth="100"/>
-                                <Button  styleClass="icon_button" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#visualizeChat">
+                                <Label prefWidth="100" text="Chat" />
+                                <Button contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#visualizeChat" styleClass="icon_button">
                                     <graphic>
-                                        <ImageView  fx:id="iconChat" fitHeight="28.0" fitWidth="28.0">
+                                        <ImageView fx:id="iconChat" fitHeight="28.0" fitWidth="28.0">
                                             <image>
                                                 <Image url="@../icons/iconChat.png" />
                                             </image>
@@ -386,14 +379,14 @@
                     </children>
                 </VBox>
 
-                <VBox fx:id="containerVBoxRight" maxWidth="200" maxHeight="130" styleClass="containerPoints" > </VBox>
+                <VBox fx:id="containerVBoxRight" maxHeight="130" maxWidth="200" styleClass="containerPoints"> </VBox>
 
 
-                <VBox fx:id="rightVBox" alignment="CENTER" layoutX="1050.0" prefHeight="100.0" prefWidth="150.0" styleClass="containerPoints" spacing="20">
+                <VBox fx:id="rightVBox" alignment="CENTER" layoutX="1050.0" prefHeight="100.0" prefWidth="150.0" spacing="20" styleClass="containerPoints">
                     <children>
                         <Label fx:id="labelTurn" />
-                        <ImageView fx:id="icon_loading" fitWidth="30" fitHeight="30"/>
-                        <Button fx:id="buttonSide" text="view back side" styleClass="game_button" onAction="#setSide"/>
+                        <ImageView fx:id="icon_loading" fitHeight="30" fitWidth="30" />
+                        <Button fx:id="buttonSide" onAction="#setSide" styleClass="game_button" text="view back side" />
                     </children>
                 </VBox>
             </children>
@@ -401,21 +394,21 @@
     </right>
 
     <bottom>
-        <HBox alignment="CENTER" layoutY="701.0" prefHeight="114.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="100" AnchorPane.leftAnchor="100">
+        <HBox alignment="CENTER" layoutY="701.0" prefHeight="114.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="100" AnchorPane.rightAnchor="100">
             <children>
-                <HBox alignment="CENTER" layoutX="114.0" layoutY="701.0" prefHeight="101.0" prefWidth="972.0"  styleClass="containerCard">
+                <HBox alignment="CENTER" layoutX="114.0" layoutY="701.0" prefHeight="101.0" prefWidth="972.0" styleClass="containerCard">
                     <children>
 
-                        <VBox alignment="CENTER" prefWidth="243" >
+                        <VBox alignment="CENTER" prefWidth="243">
                             <children>
                                 <Label fx:id="labelCard1" prefHeight="20" text="Your card 1 :">
                                     <font>
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
                                 </Label>
-                                <Button fx:id="buttonCard1" styleClass="buttonCard" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0">
+                                <Button fx:id="buttonCard1" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" styleClass="buttonCard">
                                     <graphic>
-                                        <ImageView  fx:id="card1ImageView" fitHeight="83.0" fitWidth="120.0">
+                                        <ImageView fx:id="card1ImageView" fitHeight="83.0" fitWidth="120.0">
                                         </ImageView>
                                     </graphic>
                                 </Button>
@@ -430,9 +423,9 @@
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
                                 </Label>
-                                <Button styleClass="buttonCard"  fx:id="buttonCard2"  >
+                                <Button fx:id="buttonCard2" styleClass="buttonCard">
                                     <graphic>
-                                        <ImageView  fx:id="card2ImageView" fitHeight="83.0" fitWidth="120.0">
+                                        <ImageView fx:id="card2ImageView" fitHeight="83.0" fitWidth="120.0">
                                         </ImageView>
                                     </graphic>
                                 </Button>
@@ -446,9 +439,9 @@
                                         <Font name="Bookman Old Style Regular" size="10.0" />
                                     </font>
                                 </Label>
-                                <Button styleClass="buttonCard" fx:id="buttonCard3">
-                                    <graphic >
-                                        <ImageView  fx:id="card3ImageView" fitHeight="83.0" fitWidth="120.0" >
+                                <Button fx:id="buttonCard3" styleClass="buttonCard">
+                                    <graphic>
+                                        <ImageView fx:id="card3ImageView" fitHeight="83.0" fitWidth="120.0">
                                         </ImageView>
                                     </graphic>
                                 </Button>
