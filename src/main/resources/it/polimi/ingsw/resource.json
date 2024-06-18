@@ -691,7 +691,7 @@
     "color": "RED",
     "frontCover": "/it/polimi/ingsw/images/front/resource/red/4.png",
     "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
-    "point": 1,
+    "point": 0,
     "frontCorners": {
       "1": {
         "empty": false,
@@ -887,7 +887,7 @@
     "color": "RED",
     "frontCover": "/it/polimi/ingsw/images/front/resource/red/8.png",
     "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
-    "point": 1,
+    "point": 0,
     "frontCorners": {
       "1": {
         "empty": false,
@@ -936,7 +936,7 @@
     "color": "RED",
     "frontCover": "/it/polimi/ingsw/images/front/resource/red/9.png",
     "backCover": "/it/polimi/ingsw/images/back/resource/red.png",
-    "point": 1,
+    "point": 0,
     "frontCorners": {
       "0": {
         "empty": false,

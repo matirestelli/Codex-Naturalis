@@ -17,7 +17,7 @@ public class Chat implements Serializable, ChatIC {
     /**
      * Maximum number of messages shown in the chat.
      */
-    private final int max_messagesShown = 10;
+    private final int max_messagesShown = 100;
 
     /**
      * Default constructor. Initializes the list of messages.

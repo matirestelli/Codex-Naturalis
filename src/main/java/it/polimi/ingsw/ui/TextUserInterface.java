@@ -493,7 +493,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
                 case "6" -> {
                     //disconnect player from the game
                     gameClient.sendMessage(new ExitGame("exitGame", null));
-                    System.out.println("You have been disconnected from game");
+                    System.out.println("You have been disconnected from the game");
                 }
             }
         }
@@ -997,6 +997,10 @@ public class TextUserInterface implements UserInterfaceStrategy {
             }
         } else if(joinCreate.equals("create")) {
             gameId = scanner.nextLine().trim();
+            while(gameIds.contains("ID: "+gameId)) {
+                System.out.println("Invalid Input! Retry: ");
+                gameId = scanner.nextLine().trim();
+            }
         }
         return gameId;
     }

@@ -163,7 +163,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             }
         } else if (in.equals("create")) {
             System.out.print("Enter the game id: ");
-            gameId = uiStrategy.askGameId(in, null);
+            gameId = uiStrategy.askGameId(in, server.listGameSessionsComplete());
             //System.out.println(args[2]);
             System.out.print("Insert number of players (2-4): ");
             //System.out.println(args[3]);

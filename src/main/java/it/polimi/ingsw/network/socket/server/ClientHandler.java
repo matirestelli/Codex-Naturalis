@@ -59,22 +59,28 @@ public class ClientHandler implements Runnable, GameObserver {
             String response = (String) inputStream.readObject();
             if (response.equals("join")) {
                 // send list of available game sessions
-                outputStream.writeObject(server.listGameSessions());
+                outputStream.writeObject(server.listGameSessionsComplete());
                 // read gameId from client
                 gameId = (String) inputStream.readObject();
                 // add client as observer of the game session
-                try {
-                    gc = server.joinSession(gameId, username, this);
-                } catch (Exception e) {
-                    System.out.println("Error joining game session: " + e.getMessage());
+                if(server.listGameSessions().contains("ID: "+gameId)) {
+                    try {
+                        gc = server.joinSession(gameId, username, this);
+                    } catch (Exception e) {
+                        System.out.println("Error joining game session: " + e.getMessage());
+                    }
+                    if (server.allPlayersConnected(gameId)) {
+                        System.out.println("Game is full. Waiting for it to start...");
+                        // server.getGameController(gameId);
+                        gc.startGame();
+                    } else
+                        System.out.println("Waiting for more players to join...");
                 }
-                if (server.allPlayersConnected(gameId)) {
-                    System.out.println("Game is full. Waiting for it to start...");
-                    // server.getGameController(gameId);
-                    gc.startGame();
+                else{
+                    int numPlayers = (int) inputStream.readObject();
+                    // create new game session
+                    gc = server.createNewSession(gameId, username, numPlayers, this);
                 }
-                else
-                    System.out.println("Waiting for more players to join...");
             } else if (response.equals("create")) {
                 // wait for game id
                 gameId = (String) inputStream.readObject();

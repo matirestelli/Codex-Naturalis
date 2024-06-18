@@ -1045,7 +1045,7 @@ public class BoardViewController extends GUI {
         numQuill[numberOrder].setText(resources.get(Resource.QUILL)+"");
         numManuscript[numberOrder].setText(resources.get(Resource.MANUSCRIPT)+"");
         numInkwell[numberOrder].setText(resources.get(Resource.NOUN)+"");
-        playersPoints[numberOrder].setText("pt:"+score);
+        playersPoints[numberOrder].setText(" pt:"+score);
     }
 
     public void updateMyPlayerstate(){
@@ -1159,24 +1159,32 @@ public class BoardViewController extends GUI {
         endGame.setPadding(new Insets(40,20,40,20));
         endGame.getStyleClass().add("containerPoints");
         endGame.setMaxHeight(300);
-        Label endGameLabel = new Label("Game over!\nResults:\n");
+        Label endGameLabel;
+        if(ranking!= null) {
+            endGameLabel = new Label("Game over!\nResults:\n");
+        }
+        else{
+            endGameLabel = new Label("A player left the game, waiting to join another game...\n");
+        }
         endGameLabel.getStyleClass().add("rankLabel");
         endGameLabel.setAlignment(Pos.CENTER);
         endGameLabel.setFont(Font.font("Poor Richard", FontWeight.BOLD, 20));
         endGame.getChildren().add(endGameLabel);
-        for(int i = 1; i < ranking.size()+1; i++){
-            Label position = new Label();
-            position.setWrapText(true);
-            position.getStyleClass().add("rankTextArea");
-            position.setText("#" + i + " " + ranking.get(i-1).getKey() + " Points: " + ranking.get(i-1).getValue());
-            endGame.getChildren().add(position);
+        if(ranking!= null) {
+            for (int i = 1; i < ranking.size() + 1; i++) {
+                Label position = new Label();
+                position.setWrapText(true);
+                position.getStyleClass().add("rankTextArea");
+                position.setText("#" + i + " " + ranking.get(i - 1).getKey() + " Points: " + ranking.get(i - 1).getValue());
+                endGame.getChildren().add(position);
+            }
         }
         centerBoardContainer.getChildren().add(endGame);
 
 
 
         // Create a PauseTransition, after 15 seconds the gui closes so that the player can decide to play another game and if so also he can decide to play it in cli mode
-        PauseTransition pause = new PauseTransition(Duration.seconds(15)); // 5-second delay
+        PauseTransition pause = new PauseTransition(Duration.seconds(5)); // 5-second delay
         pause.setOnFinished(event -> closeGui()); // Method to be called after the delay
         pause.play(); // Start the PauseTransition
 
@@ -1189,7 +1197,7 @@ public class BoardViewController extends GUI {
 
     public void exitFromGame(ActionEvent actionEvent) {
         client.sendMessage(new ExitGame("exitGame", null));
-        System.out.println("You have been disconnected from game");
+        System.out.println("You have been disconnected from the game");
         closeGui();
     }
 }

@@ -81,7 +81,14 @@ public class Client extends ClientAbstract {
         String in = joinCreate;
         if(in.equals("join")) {
             message = (String) inputStream.readObject();
-            if (!message.contains("ID")) {
+            StringBuilder filteredResult = new StringBuilder();
+            String[] lines = message.split("\n");
+            for (String line : lines) {
+                if (!line.contains("Available places: 0")) {
+                    filteredResult.append(line).append("\n");
+                }
+            }
+            if (!filteredResult.toString().contains("ID")) {
                 System.out.println("No game sessions available, creating a new one...");
                 in = "create";
             }
@@ -100,7 +107,7 @@ public class Client extends ClientAbstract {
             System.out.print("Enter the game id: ");
             //System.out.println(args[2]);
             //outputStream.writeObject(args[2]);
-            String gameId = uiStrategy.askGameId(in, null);
+            String gameId = uiStrategy.askGameId(in, message);
             outputStream.writeObject(gameId);
 
             System.out.print("Insert number of players (2-4): ");
@@ -235,7 +242,6 @@ public class Client extends ClientAbstract {
 
     public void disconnect() {
         String usernameask = this.username;
-        System.out.println("actual username: "+usernameask);
         closeConnection();
         //pingThread.interrupt();
         System.out.println("Disconnected from the server.");
