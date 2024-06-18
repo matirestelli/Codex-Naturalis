@@ -53,6 +53,8 @@ public interface GameControllerRemote extends Remote {
      */
     void handleMove(String username, MessageClient2Server event) throws RemoteException;
 
+    void exitGame(String username) throws RemoteException;
+
     /**
      * Processes all the moves made by the players.
      * @throws RemoteException if there is a problem with the connection.

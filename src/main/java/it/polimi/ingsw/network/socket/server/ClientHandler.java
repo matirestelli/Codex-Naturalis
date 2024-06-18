@@ -140,6 +140,12 @@ public class ClientHandler implements Runnable, GameObserver {
             }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error communicating with client: " + e.getMessage());
+            System.out.println("Client disconnected: " + username);
+            try {
+                gc.exitGame(username);
+            } catch (Exception ex) {
+                System.out.println("Error exiting game: " + ex.getMessage());
+            }
         } finally {
             // closeConnection();
         }
