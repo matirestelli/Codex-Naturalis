@@ -25,6 +25,9 @@ public class GameServerImpl extends UnicastRemoteObject implements it.polimi.ing
         System.out.println("\nNew client registered on RMI server: " + client + "...");
     }
 
+    public void print(String message) {
+        System.out.println(message);
+    }
     public boolean isUsernameTaken(String username) {
         return players.contains(username);
     }

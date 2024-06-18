@@ -13,5 +13,6 @@ public interface GameServer extends Remote {
 
     void joinGameSession(String gameId, String username, GameObserver observer) throws RemoteException;
 
+    void print(String message) throws RemoteException;
     String listGameSessions() throws RemoteException;
 }

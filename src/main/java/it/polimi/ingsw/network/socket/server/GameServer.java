@@ -52,6 +52,10 @@ public class GameServer implements it.polimi.ingsw.network.GameServer {
         return gc;
     }
 
+    public void print(String message) {
+        System.out.println(message);
+    }
+
     public synchronized String listGameSessions() {
         Map<String, GameSession> sessions = gameSessionManager.getAllSessions();
         StringBuilder sb = new StringBuilder("Available game sessions:\n");

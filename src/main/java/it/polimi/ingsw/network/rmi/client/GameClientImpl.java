@@ -30,6 +30,11 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         try {
             gc.handleMove(username, message);
         } catch (RemoteException e) {
+            try {
+                server.print("Error sending message: " + e.getMessage());
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            }
             System.out.println("Error sending message: " + e.getMessage());
         }
     }
