@@ -16,6 +16,7 @@ public class RMIServerApp {
     public void startServer() throws RemoteException {
         Registry registry;
         try {
+            //System.setProperty("java.rmi.server.hostname", "192.168.1.2");
             registry = LocateRegistry.createRegistry(1099); // Crea o recupera il registro sulla porta 1099
             // System.out.println("RMI registry created at port 1099");
         } catch (RemoteException e) {
