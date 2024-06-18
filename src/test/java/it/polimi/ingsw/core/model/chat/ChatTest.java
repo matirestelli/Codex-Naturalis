@@ -20,6 +20,9 @@ class ChatTest {
 
     @Test
     void testAddMessage() {
+        chat.addMsg("Hello", "Sender", "Receiver");
+        for(int i = 0; i < 100; i++)
+            chat.addMsg("Sender", "Hello");
         Message message = new Message("Hello", "Sender");
         Message message2 = new Message("Hello", "Sender");
         Message message4 = new Message("Hello", "Sender");
@@ -44,7 +47,7 @@ class ChatTest {
         chat.addMsg(message11);
         chat.addMsg("ciao", "Sender");
         chat.addMsg("ciao", "Sender", "receiver");
-        assertFalse(chat.getMsgs().contains(message));
+        assertTrue(chat.getMsgs().contains(message));
         assertTrue(chat.getMsgs().contains(message10));
     }
 

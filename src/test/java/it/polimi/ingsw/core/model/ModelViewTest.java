@@ -269,4 +269,18 @@ class ModelViewTest {
         modelView.putInMyMatrix(0, 0, 1);
         assertEquals(1, modelView.getMyMatrix()[0][0]);
     }
+
+    @Test
+    void testSetAndGetMyPlayerState() {
+        PlayerState state = new PlayerState();
+        modelView.setMyPlayerState(state);
+        assertEquals(state, modelView.getMyPlayerState());
+    }
+
+    @Test
+    void testSetAndGetGameStarted() {
+        modelView.setGameStarted(true);
+        assertTrue(modelView.getGameStarted());
+    }
+
 }
