@@ -28,7 +28,7 @@ public class ModelView {
     private Card deckRBack;
     private List<Card> resourceCardsVisible;
     private List<Card> goldCardsVisible;
-    private boolean checkConnection;
+    private boolean checkConnection = false;
     private List<Objective> commonObj;
     private Objective secretObj;
     private ResourceCard myStarterCard;
