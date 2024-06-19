@@ -1,5 +1,6 @@
 package it.polimi.ingsw.core.model;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ public class ModelView {
     private Card deckRBack;
     private List<Card> resourceCardsVisible;
     private List<Card> goldCardsVisible;
+    private boolean checkConnection;
     private List<Objective> commonObj;
     private Objective secretObj;
     private ResourceCard myStarterCard;
@@ -337,4 +339,8 @@ public class ModelView {
         return gameStarted;
     }
 
+
+    public boolean isCheckConnection() throws RemoteException {
+        return checkConnection;
+    }
 }

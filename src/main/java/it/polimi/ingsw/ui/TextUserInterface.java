@@ -12,6 +12,7 @@ import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
 import javafx.util.Pair;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -403,6 +404,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
     }
 
     public void selectFromMenu() {
+        gameClient.sendMessage(new checkConnection("checkConnection", null));
         if (gameClient.getModelView().isMyTurn() != true) {
             System.out.println("Select an option: \n");
             System.out.println("\t1. Visualize messages\n");

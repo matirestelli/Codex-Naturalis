@@ -50,6 +50,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
     @Override
     public void startGame() throws RemoteException {
+        try{
         // TODO: remove this or implement new logger system
         System.out.println("Game started");
 
@@ -164,6 +165,14 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             // notify observers of the side of the starter card
             orderedObserversMap.get(us).update(new StarterSideSelectionMessage("starterSide", gameState.getPlayerState(us).getStarterCard()));
         }
+        } catch (RemoteException e) {
+            System.out.println("RemoteException caught: " + e.getMessage());
+            try {
+                exitGame("error");
+            } catch (RemoteException ex) {
+                System.out.println("Error while exiting the game: " + ex.getMessage());
+            }
+            }
     }
 
     // TODO: Fix this method, launching exception in case of false offer
@@ -183,6 +192,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     }
 
     public void handleStarterSideSelected(String username, boolean side) throws RemoteException {
+        try{
         System.out.println("Starter side selected: " + side);
         // assign side of starter card to player given by username
         gameState.assignStarterSide(username, side);
@@ -196,9 +206,18 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             System.out.println("Turn order: " + gameState.getPlayerOrder());
             notifyCurrentPlayerTurn();
         }
+    } catch (RemoteException e) {
+        System.out.println("RemoteException caught: " + e.getMessage());
+        try {
+            exitGame("error");
+        } catch (RemoteException ex) {
+            System.out.println("Error while exiting the game: " + ex.getMessage());
+        }
+    }
     }
 
     public void handleCardSelected(String username, CardSelection cardSelection) throws RemoteException {
+        try{
         // get card from player hand by id
         Card cardToPlay = gameState.getPlayerState(username).getCardFromHand(cardSelection.getId());
         // get list of possible angles to place the card
@@ -223,9 +242,18 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             cardToPlace = cardToPlay;
             orderedObserversMap.get(username).update(new AvailableAnglesMessage("askAngle", freeAngles));
         }
+    } catch (RemoteException e) {
+        System.out.println("RemoteException caught: " + e.getMessage());
+        try {
+            exitGame("error");
+        } catch (RemoteException ex) {
+            System.out.println("Error while exiting the game: " + ex.getMessage());
+        }
+    }
     }
 
     public void processMove(String username, MessageClient2Server message) throws RemoteException {
+        try{
         System.out.println("Processing move: " + message.getType());
         message.doAction(username, this);
 
@@ -249,6 +277,14 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                     orderedObserversMap.get(message.whoIsReceiver()).update(new GameEvent("mexIncoming", message));
                 }
             } */
+    } catch (RemoteException e) {
+        System.out.println("RemoteException caught: " + e.getMessage());
+        try {
+            exitGame("error");
+        } catch (RemoteException ex) {
+            System.out.println("Error while exiting the game: " + ex.getMessage());
+        }
+    }
     }
 
     public void processMoves() {
@@ -260,8 +296,13 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (RemoteException e) {
-                e.printStackTrace();
+            System.out.println("RemoteException caught: " + e.getMessage());
+            try {
+                exitGame("error");
+            } catch (RemoteException ex) {
+                System.out.println("Error while exiting the game: " + ex.getMessage());
             }
+        }
         }
     }
 
@@ -282,30 +323,48 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
     @Override
     public void notifyCurrentPlayerTurn() throws RemoteException {
-        String us = gameState.getPlayerOrder().get(currentPlayerIndex);
-        for (String username : orderedObserversMap.keySet()) {
-            if (!username.equals(us)) {
-                orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", us));
+        try {
+            String us = gameState.getPlayerOrder().get(currentPlayerIndex);
+            for (String username : orderedObserversMap.keySet()) {
+                if (!username.equals(us)) {
+                    orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", us));
+                }
             }
-        }
 
-        orderedObserversMap.get(us).update(new BeforeTurnMessage("beforeTurnEvent", gameState.calculateResource(us)));
+            orderedObserversMap.get(us).update(new BeforeTurnMessage("beforeTurnEvent", gameState.calculateResource(us)));
 
-        // send list of ids of playable cards from playing hand
+            // send list of ids of playable cards from playing hand
         /* if (last) {
             orderedObserversMap.get(us).update(new GameEvent("lastTurn", gameState.getPlayerState(currentPlayerIndex)));
         } */
-        orderedObserversMap.get(us).update(new YourTurnMessage("currentPlayerTurn", gameState.getPlayableCardIdsFromHand(us)));
+            orderedObserversMap.get(us).update(new YourTurnMessage("currentPlayerTurn", gameState.getPlayableCardIdsFromHand(us)));
+        }catch (RemoteException e) {
+                System.out.println("RemoteException caught: " + e.getMessage());
+                try {
+                    exitGame("error");
+                } catch (RemoteException ex) {
+                    System.out.println("Error while exiting the game: " + ex.getMessage());
+                }
+            }
     }
 
     @Override
     public void advanceTurn() throws RemoteException {
+        try{
         if (gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore() >= 20 || last == true) {
             lastTurn(gameState.getPlayerOrder().get(currentPlayerIndex));
         } else {
             System.out.println("User: " + gameState.getPlayerOrder().get(currentPlayerIndex) + " Score: " + gameState.getPlayerState(gameState.getPlayerOrder().get(currentPlayerIndex)).getScore());
             currentPlayerIndex = (currentPlayerIndex + 1) % orderedObserversMap.size();
             notifyCurrentPlayerTurn();
+        }
+        }catch (RemoteException e) {
+            System.out.println("RemoteException caught: " + e.getMessage());
+            try {
+                exitGame("error");
+            } catch (RemoteException ex) {
+                System.out.println("Error while exiting the game: " + ex.getMessage());
+            }
         }
     }
 
@@ -314,6 +373,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     }
 
     public void angleChosen(String username, CardToAttachSelected cardToAttach) throws RemoteException {
+        try{
         PlayerState player = gameState.getPlayerState(username);
         player.setCodex(cardToAttach.getCodex());
         cardToPlace = player.getCodex().getLast();
@@ -371,9 +431,18 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
         // TODO: fix this update method
         orderedObserversMap.get(username).update(new DrawNewCardMessage("askWhereToDraw", visibileCards));
+    }catch (RemoteException e) {
+        System.out.println("RemoteException caught: " + e.getMessage());
+        try {
+            exitGame("error");
+        } catch (RemoteException ex) {
+            System.out.println("Error while exiting the game: " + ex.getMessage());
+        }
+    }
     }
 
     public void drawCard(String username, String choose) throws RemoteException {
+        try{
         PlayerState player = gameState.getPlayerState(username);
 
         Card extractedCard;
@@ -441,58 +510,109 @@ public class GameController extends UnicastRemoteObject implements GameControlle
 
         // advance turn
         advanceTurn();
+    }catch (RemoteException e) {
+        System.out.println("RemoteException caught: " + e.getMessage());
+        try {
+            exitGame("error");
+        } catch (RemoteException ex) {
+            System.out.println("Error while exiting the game: " + ex.getMessage());
+        }
+    }
     }
 
-    public void receivedMessageBroadcast(Message message){
-        for (String us : orderedObserversMap.keySet()) {
-            try {
+    public void receivedMessageBroadcast(Message message) throws RemoteException{
+        try {
+            for (String us : orderedObserversMap.keySet()) {
                 //if(!us.equals(message.getSender()))
-                    orderedObserversMap.get(us).update(new newChatMessage("newMessage", message));
-            } catch (RemoteException e) {
-                e.printStackTrace();
+                orderedObserversMap.get(us).update(new newChatMessage("newMessage", message));
+            }
+        }catch (RemoteException e) {
+                System.out.println("RemoteException caught: " + e.getMessage());
+                try {
+                    exitGame("error");
+                } catch (RemoteException ex) {
+                    System.out.println("Error while exiting the game: " + ex.getMessage());
+                }
+        }
+    }
+
+    public void receivedMessagePrivate(MessagePrivate message) throws RemoteException{
+        try {
+            orderedObserversMap.get(message.getSender()).update(new newChatMessage("newMessage", message));
+            orderedObserversMap.get(message.whoIsReceiver()).update(new newChatMessage("newMessage", message));
+        }catch (RemoteException e) {
+            System.out.println("RemoteException caught: " + e.getMessage());
+            try {
+                exitGame("error");
+            } catch (RemoteException ex) {
+                System.out.println("Error while exiting the game: " + ex.getMessage());
             }
         }
     }
 
-    public void receivedMessagePrivate(MessagePrivate message) {
-        try {
-            orderedObserversMap.get(message.getSender()).update(new newChatMessage("newMessage", message));
-            orderedObserversMap.get(message.whoIsReceiver()).update(new newChatMessage("newMessage", message));
-        } catch (RemoteException e) {
-            e.printStackTrace();
+    public void notYourTurn(String username) throws RemoteException {
+        try{
+        orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", username));
+        }catch (RemoteException e) {
+            System.out.println("RemoteException caught: " + e.getMessage());
+            try {
+                exitGame("error");
+            } catch (RemoteException ex) {
+                System.out.println("Error while exiting the game: " + ex.getMessage());
+            }
         }
     }
 
-    public void notYourTurn(String username) throws RemoteException {
-        orderedObserversMap.get(username).update(new NotYourTurnMessage("notYourTurn", username));
-    }
-
     public void displayMenu(String username) throws RemoteException {
+        try{
         orderedObserversMap.get(username).update(new displayMenu("displayMenu", username));
+        }catch (RemoteException e) {
+            System.out.println("RemoteException caught: " + e.getMessage());
+            try {
+                exitGame("error");
+            } catch (RemoteException ex) {
+                System.out.println("Error while exiting the game: " + ex.getMessage());
+            }
+        }
     }
 
     public void scoreboard(String username) throws RemoteException {
+        try{
         Map<String, Integer> scoreboard = new HashMap<>();
         for (String player : orderedObserversMap.keySet()) {
             int newScore = gameState.getPlayerState(player).getScore();
             scoreboard.put(player, newScore);
         }
         orderedObserversMap.get(username).update(new DisplayScoreboard("displayScoreboard", scoreboard));
+        }catch (RemoteException e) {
+            System.out.println("RemoteException caught: " + e.getMessage());
+            try {
+                exitGame("error");
+            } catch (RemoteException ex) {
+                System.out.println("Error while exiting the game: " + ex.getMessage());
+            }
+        }
     }
 
 
 
-    public void updateBoards(List<String> data){
+    public void updateBoards(List<String> data) throws RemoteException{
         for (String us : orderedObserversMap.keySet()) {
             try {
                 orderedObserversMap.get(us).update(new updateBoards("Boards", data));
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            }catch (RemoteException e) {
+                System.out.println("RemoteException caught: " + e.getMessage());
+                try {
+                    exitGame("error");
+                } catch (RemoteException ex) {
+                    System.out.println("Error while exiting the game: " + ex.getMessage());
+                }
             }
         }
     }
 
     public void lastTurn(String username) throws RemoteException {
+        try{
         PlayerState player = gameState.getPlayerState(username);
         //System.out.println("User: " + username + " Score: " + player.getScore());
         if (player.getScore() >= 20 || last == true) {  // also if checked in advanceTurn
@@ -579,6 +699,14 @@ public class GameController extends UnicastRemoteObject implements GameControlle
                 notifyCurrentPlayerTurn();
             }
         }
+        }catch (RemoteException e) {
+            System.out.println("RemoteException caught: " + e.getMessage());
+            try {
+                exitGame("error");
+            } catch (RemoteException ex) {
+                System.out.println("Error while exiting the game: " + ex.getMessage());
+            }
+        }
     }
 
     public void exitGame(String username) throws RemoteException {
@@ -586,4 +714,19 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             orderedObserversMap.get(us).update(new EndGameMessage("endGame", null));
         }
     }
+
+    public void checkConnection() throws RemoteException {
+        try {
+            for (String us : orderedObserversMap.keySet()) {
+                orderedObserversMap.get(us).update(new checkConnection("checkConnection", null));
+            }
+        }catch (RemoteException e) {
+            System.out.println("RemoteException caught: " + e.getMessage());
+            try {
+                exitGame("error");
+            } catch (RemoteException ex) {
+                System.out.println("Error while exiting the game: " + ex.getMessage());
+            }
+        }
+        }
 }
