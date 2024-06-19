@@ -468,6 +468,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
                     if (!gameClient.getModelView().isMyTurn())
                         System.out.println("Wait for your turn...\n");
+
                 }
                 case "4" -> {
                     //gameClient.sendMessage(new DisplayScoreboard("displayScoreboard", null));
@@ -1000,7 +1001,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
         } else if(joinCreate.equals("create")) {
             gameId = scanner.nextLine().trim();
             while(gameIds.contains("ID: "+gameId)) {
-                System.out.println("Invalid Input! Retry: ");
+                System.out.println("Id unavailable! Retry: ");
                 gameId = scanner.nextLine().trim();
             }
         }

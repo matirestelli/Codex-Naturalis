@@ -79,9 +79,9 @@ public class Client extends ClientAbstract {
 
        // String in = args[1];
         String in = joinCreate;
+        StringBuilder filteredResult = new StringBuilder();
+        message = (String) inputStream.readObject();
         if(in.equals("join")) {
-            message = (String) inputStream.readObject();
-            StringBuilder filteredResult = new StringBuilder();
             String[] lines = message.split("\n");
             for (String line : lines) {
                 if (!line.contains("Available places: 0")) {
@@ -95,7 +95,7 @@ public class Client extends ClientAbstract {
         }
         if (in.equals("join")) {
             // get list of available game sessions
-            System.out.println(message);
+            System.out.println(filteredResult.toString());
             System.out.print("Enter game id to join: ");
             //System.out.println(args[2]);
             //outputStream.writeObject(args[2]);

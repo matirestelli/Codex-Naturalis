@@ -662,7 +662,6 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             }
         }catch (RemoteException e) {
             System.out.println("RemoteException caught: " + e.getMessage());
-            System.out.println("immm hereeeee");
             exitGame("error");
         }
         }
