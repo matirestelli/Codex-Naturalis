@@ -13,10 +13,7 @@ import it.polimi.ingsw.network.ClientAbstract;
 import javafx.util.Pair;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
@@ -468,7 +465,18 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
                     if (!gameClient.getModelView().isMyTurn())
                         System.out.println("Wait for your turn...\n");
-
+                    Timer timer = new Timer();
+                    TimerTask task = new TimerTask() {
+                            @Override
+                            public void run () {
+                                try {
+                                    gameClient.sendMessage(new checkConnection("checkConnection", null));
+                                }catch(Exception e){
+                                    timer.cancel();
+                            }
+                        }
+                    };
+                    timer.schedule(task, 0, 5000);
                 }
                 case "4" -> {
                     //gameClient.sendMessage(new DisplayScoreboard("displayScoreboard", null));

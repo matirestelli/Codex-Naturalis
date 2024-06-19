@@ -482,30 +482,5 @@ class GameStateTest {
         assertFalse(game.getGoldCardsVisible().contains(card));
     }
 
-    @Test
-    void testAllPlayersConnected(){
-        PlayerState player = new PlayerState();
-        player.setUsername("us1");
-        game.addPlayer(player);
-        game.getPlayerState("us1").setConnected(false);
-        assertFalse(game.allPlayersConnected());
-        game.getPlayerState("us1").setConnected(true);
-        PlayerState player2 = new PlayerState();
-        player2.setUsername("us2");
-        game.addPlayer(player2);
-        assertTrue(game.allPlayersConnected());
-    }
 
-    @Test
-    void testCheckPlayersConnection(){
-        game.checkPlayersConnection(1000);
-        PlayerState player = new PlayerState();
-        player.setUsername("us1");
-        game.addPlayer(player);
-        game.checkPlayersConnection(1000);
-        PlayerState player2 = new PlayerState();
-        player2.setUsername("us2");
-        game.addPlayer(player2);
-        game.checkPlayersConnection(1000);
-    }
 }

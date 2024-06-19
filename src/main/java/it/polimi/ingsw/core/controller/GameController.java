@@ -6,10 +6,8 @@ import it.polimi.ingsw.core.model.chat.MessagePrivate;
 import it.polimi.ingsw.core.model.enums.Color;
 import it.polimi.ingsw.core.model.enums.Resource;
 import it.polimi.ingsw.core.model.message.request.*;
-import it.polimi.ingsw.core.model.message.response.DisplayMenu;
 import it.polimi.ingsw.core.model.message.response.MessageClient2Server;
 import it.polimi.ingsw.core.utils.PlayerMove;
-import it.polimi.ingsw.network.ConnectionChecker;
 import it.polimi.ingsw.observers.GameObserver;
 import javafx.util.Pair;
 
@@ -28,7 +26,6 @@ public class GameController extends UnicastRemoteObject implements GameControlle
     private int currentPlayerIndex; // index of the current player
     private boolean last = false;
     private int matrixDimension;
-    ConnectionChecker checker;
 
 
 

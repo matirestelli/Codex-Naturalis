@@ -92,22 +92,6 @@ public class GameState implements java.io.Serializable {
         return -1;
     }
 
-    public boolean allPlayersConnected() {
-        for (PlayerState player : playerStates.values()) {
-            if (!player.isConnected()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    public void checkPlayersConnection(long timeout) {
-        for (PlayerState player : playerStates.values()) {
-            player.checkConnection(timeout);
-        }
-    }
-
     public List<Card> getStarterDeck() {
         return this.starterDeck.getCards();
     }

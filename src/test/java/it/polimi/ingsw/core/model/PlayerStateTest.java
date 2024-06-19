@@ -258,24 +258,5 @@ class PlayerStateTest {
         assertNotNull(player.getChat());
     }
 
-    @Test
-    void testSetConnected() {
-        player.setConnected(true);
-        assertTrue(player.isConnected());
-    }
 
-    @Test
-    void testPing() {
-        player.ping();
-        assertTrue(player.isConnected());
-    }
-
-    @Test
-    void testCheckConnection() {
-        player.ping();
-        player.checkConnection(1000);
-        assertTrue(player.isConnected());
-        player.checkConnection(-1);
-        assertFalse(player.isConnected());
-    }
 }

@@ -74,21 +74,6 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             restart(bool,usernameask);
     }
 
-    public void startPinging() {
-        Thread pingThread = new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(2000);
-                    PlayerState player = modelView.getMyPlayerState();
-                    player.ping();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        pingThread.start();
-    }
-
     private void connectToServer(String host, int port) throws RemoteException {
         try {
             Registry registry = LocateRegistry.getRegistry(host, port);

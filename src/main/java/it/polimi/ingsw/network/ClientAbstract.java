@@ -21,8 +21,6 @@ public abstract class ClientAbstract {
         return uiStrategy;
     }
 
-    public abstract void startPinging();
-
     public abstract void disconnect();
 
     public abstract void sendMessage(MessageClient2Server message);

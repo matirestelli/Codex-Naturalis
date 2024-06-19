@@ -225,21 +225,6 @@ public class Client extends ClientAbstract {
         }
     }
 
-    public void startPinging() {
-            pingThread = new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(2000);
-                    PlayerState player = modelView.getMyPlayerState();
-                    player.ping();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        pingThread.start();
-    }
-
     public void disconnect() {
         String usernameask = this.username;
         closeConnection();
