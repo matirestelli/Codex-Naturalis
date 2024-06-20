@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,6 +160,11 @@ public class ClientHandler implements Runnable, GameObserver {
             outputStream.flush();
         } catch (IOException e) {
             System.out.println("Error sending event to client: " + e.getMessage());
+            try {
+                gc.exitGame("error");
+            }catch (RemoteException ex){
+                System.out.println("Error exiting game: " + ex.getMessage());
+            }
             closeConnection();
         }
     }
