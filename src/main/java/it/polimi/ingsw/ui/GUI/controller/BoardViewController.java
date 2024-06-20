@@ -556,9 +556,14 @@ public class BoardViewController extends GUI {
 
 
     public void visualizeChat(ActionEvent actionEvent) throws IOException {
-        chatOpen = true;
-        Stage popUpStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        this.viewChat(popUpStage);
+        try{
+            chatOpen = true;
+            Stage popUpStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            this.viewChat(popUpStage);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateHand(List<Card> hand) {

@@ -224,7 +224,13 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             }
         });
         }catch (Exception e) {
-            System.out.println("RemoteException caught: " + e.getMessage());
+            String bug = "Task java.util.concurrent.FutureTask";
+            String notARealException = e.getMessage().substring(0,bug.length());
+            if(!( notARealException.equals(bug))) {
+                System.out.println( e.getMessage());
+            }
+            //System.out.println("RemoteException caught: \n" + e.getMessage());
+            //todo capire perchè eccezione se esco da gui in client rmi dice che c'è un task futuro che non viene eseguito
             try{
                 gc.exitGame("error");
             }catch (RemoteException ex) {
