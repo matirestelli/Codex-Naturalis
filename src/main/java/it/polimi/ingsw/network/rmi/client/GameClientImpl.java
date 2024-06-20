@@ -28,6 +28,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
 
     @Override
     public void sendMessage(MessageClient2Server message) {
+        try{
         message.appendToType(" from " + username);
         try {
             gc.handleMove(username, message);
@@ -38,6 +39,14 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
                 ex.printStackTrace();
             }
             System.out.println("Error sending message: " + e.getMessage());
+        }
+        }catch (Exception e) {
+            System.out.println("RemoteException caught: " + e.getMessage());
+            try{
+            gc.exitGame("error");
+            }catch (RemoteException ex) {
+                System.out.println("Error exiting the game");
+            }
         }
     }
 
@@ -132,14 +141,23 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             if (opt.equals("cli")) {
                 this.uiStrategy = new TextUserInterface(this);
             } else {
-                this.uiStrategy = new GUI();
+                if(firstGui) {
+                    this.uiStrategy = new GUI();
+                    playerGui = (GUI) this.uiStrategy;
+                    firstGui = false;
+                }
+                else {
+                    this.uiStrategy = playerGui;
+                }
                 this.uiStrategy.setClient(this);
                 new Thread() {
                     @Override
                     public void run() {
-                        javafx.application.Application.launch(GUI.class);
+                        //javafx.application.Application.launch(GUI.class);
+                        ((GUI) uiStrategy).myLaunch(GUI.class);
                     }
                 }.start();
+
                 this.uiStrategy.setViewModel(modelView);
             }
             try {
@@ -197,6 +215,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
 
     @Override
     public void update(MessageServer2Client message) {
+        try{
         notificationExecutor.submit(() -> {
             try {
                 message.doAction(this);
@@ -204,6 +223,14 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
                 throw new RuntimeException(e);
             }
         });
+        }catch (Exception e) {
+            System.out.println("RemoteException caught: " + e.getMessage());
+            try{
+                gc.exitGame("error");
+            }catch (RemoteException ex) {
+                System.out.println("Error exiting the game");
+            }
+        }
     }
 
     public static void main(String[] args) {

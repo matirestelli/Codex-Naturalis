@@ -1199,7 +1199,7 @@ public class BoardViewController extends GUI {
 
         if(timer!=null){
             timer.cancel();
-            System.out.println("Timer cancelled");
+            //System.out.println("Timer cancelled");
         }
         if(timers!=null){
             for(Timer t: timers){
@@ -1226,7 +1226,7 @@ public class BoardViewController extends GUI {
         System.out.println("You have been disconnected from the game");
         if(timer!=null){
             timer.cancel();
-            System.out.println("Timer cancelled");
+            //System.out.println("Timer cancelled");
         }
         if(timers!=null){
             for(Timer t: timers){
