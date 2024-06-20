@@ -23,6 +23,10 @@ public class ChoosingStarterController extends GUI {
 
     private static boolean settedSide = false;
 
+    public void initialize(){
+        settedSide = false;
+    }
+
     public void setStarterCard(CardGame starterCard){
         String imageFront = starterCard.getFrontCover();
         String imageBack = starterCard.getBackCover();

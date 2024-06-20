@@ -27,6 +27,10 @@ public class ChoosingObjectiveController extends GUI {
     private Objective obj1, obj2;
     public static boolean settedObjective = false;
 
+    public void initialize(){
+        settedObjective = false;
+    }
+
     public void setObjective(List<Objective> objectives){
         String imageObj1 = objectives.getFirst().getFrontCover();
         obj1 = objectives.getFirst();
@@ -78,7 +82,7 @@ public class ChoosingObjectiveController extends GUI {
             this.changeScene("/it/polimi/ingsw/scenes/ChoosingStarter.fxml", stage);
         }
         else {
-            this.showErrorPopUp("You have to choose the side of the card", (Stage) buttonObjective2.getScene().getWindow());
+            this.showErrorPopUp("You have to choose one objective", (Stage) buttonObjective2.getScene().getWindow());
         }
     }
 

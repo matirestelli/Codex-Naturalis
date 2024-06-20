@@ -3,6 +3,7 @@ package it.polimi.ingsw.ui.GUI;
 import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.model.message.response.checkConnection;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
 import it.polimi.ingsw.ui.GUI.boardstate.TurnStateEnum;
@@ -25,8 +26,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Pair;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GUI extends Application implements UserInterfaceStrategy {
 
@@ -67,11 +67,40 @@ public class GUI extends Application implements UserInterfaceStrategy {
     protected static Boolean messageJustSent = false;
     protected static Boolean wasWaitingForPlayers = false;
 
+    protected static Timer timer;
+
     //todo se funziona l'idea di cambiare scena io di deafault eliminarli
     private static PlayableCardIds firstTurn;
     private static Boolean firstTurnBool = false;
 
+    protected static ArrayList<Timer> timers = new ArrayList<>();
 
+
+    private static volatile boolean javaFxLaunched = false;
+
+    public static void myLaunch(Class<? extends Application> applicationClass) {
+        if (!javaFxLaunched) { // First time
+            Platform.setImplicitExit(false);
+            new Thread(()->Application.launch(applicationClass)).start();
+            javaFxLaunched = true;
+        } else { // Next times
+            Platform.runLater(()->{
+                try {
+                    Application application = applicationClass.newInstance();
+                    Stage primaryStage = new Stage();
+                    application.start(primaryStage);
+                    notYetBoardScene = true;
+                    chatOpen = false;
+                    messageJustSent = false;
+                    timers = new ArrayList<>();
+                    System.out.println("JavaFX application thread started");
+                } catch (Exception e) {
+                    System.out.println("Error starting JavaFX application thread");
+                    e.printStackTrace();
+                }
+            });
+        }
+    }
 
     @Override
     public void start (Stage primaryStage) throws Exception {
@@ -81,7 +110,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
             startingSceneController = loader.getController();
             startingSceneController.ifGameNotStarted();
         } catch (Exception e) {
-            System.out.println("Error loading StartingScene.fxml");
+          //  System.out.println("Error loading StartingScene.fxml");
             e.printStackTrace();
         }
         currStage = primaryStage;
@@ -163,7 +192,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/ChoosingObjective.fxml"));
             this.setChoosingObjectiveScene(loader.load());
             this.setChoosingObjectiveController(loader.getController());
-            System.out.println("ChoosingObjective.fxml loaded");
+          //  System.out.println("ChoosingObjective.fxml loaded");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -372,13 +401,13 @@ public class GUI extends Application implements UserInterfaceStrategy {
     }
     @Override
     public void chooseObjective(List<Objective> obj) {
-        System.out.println("ask for objective arrived to view");
+       // System.out.println("ask for objective arrived to view");
         Platform.runLater(() -> {
             //in questo momento non ho ancora fatto load dei controller e quidni gestisco la cosa così:
             //this.getChoosingObjectiveController().setObjective((List<Objective>)event.getData());
             // this.getChoosingObjectiveController().chooseObjective();
             secretObjs = obj;
-            System.out.println("ask for objective arrived");
+          //  System.out.println("ask for objective arrived");
             //this.getChoosingObjectiveController().chooseObjective();
         });
     }
@@ -395,8 +424,8 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void visualiseStarterCardLoaded(Card card) {
         Platform.runLater(() -> {
             this.setStarterCard( card);
-            System.out.printf("Starter card loaded: %d", this.getStarterCard().getId());
-            System.out.printf("Starter card loaded: %s", this.getStarterCard().getFrontCover());
+            //System.out.printf("Starter card loaded: %d", this.getStarterCard().getId());
+            //System.out.printf("Starter card loaded: %s", this.getStarterCard().getFrontCover());
 
             //TODO: sarà così solo che ora il messaggio arriva troppo presto e non ho ancora l'istanza del controller
             //perchè il messaggio arriva ancora prima di aver caricato il main dell'applicazione
@@ -460,7 +489,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void displayHand(List<Card> hand) {
         Platform.runLater(() -> {
             if(!notYetBoardScene){
-                System.out.println("update hand arrived to view");
+               // System.out.println("update hand arrived to view");
                 this.getBoardViewController().updateHand(hand);
             }
         });
@@ -476,6 +505,21 @@ public class GUI extends Application implements UserInterfaceStrategy {
             if(!messageJustSent) {
                 this.getBoardViewController().message("It's not your turn");
                 client.getModelView().setMyTurn(false);
+                if(timer!=null){
+                    timers.add(timer);
+                }
+                timer = new Timer();
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run () {
+                        try {
+                            client.sendMessage(new checkConnection("checkConnection", null));
+                        }catch(Exception e){
+                            timer.cancel();
+                        }
+                    }
+                };
+                timer.schedule(task, 0, 5000);
             }
         });
     }
@@ -648,7 +692,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     }
     public void setStarterCard(CardGame starterCard) {
         this.starterCard = starterCard;
-        System.out.printf("Starter card loaded: %d", this.starterCard.getId());
+      //  System.out.printf("Starter card loaded: %d", this.starterCard.getId());
     }
     public void setCurrStage(Stage currStage) {
         this.currStage = currStage;

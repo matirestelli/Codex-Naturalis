@@ -23,6 +23,8 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     private GameControllerRemote gc;
     private GameClientProxy clientProxy;
     private ExecutorService notificationExecutor;
+    private Boolean firstGui = true;
+    private GUI playerGui;
 
     @Override
     public void sendMessage(MessageClient2Server message) {
@@ -163,14 +165,23 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             if (opt.equals("cli")) {
                 this.uiStrategy = new TextUserInterface(this);
             } else {
-                this.uiStrategy = new GUI();
+                if(firstGui) {
+                    this.uiStrategy = new GUI();
+                    playerGui = (GUI) this.uiStrategy;
+                    firstGui = false;
+                }
+                else {
+                    this.uiStrategy = playerGui;
+                }
                 this.uiStrategy.setClient(this);
                 new Thread() {
                     @Override
                     public void run() {
-                        javafx.application.Application.launch(GUI.class);
+                        //javafx.application.Application.launch(GUI.class);
+                        ((GUI) uiStrategy).myLaunch(GUI.class);
                     }
                 }.start();
+
                 this.uiStrategy.setViewModel(modelView);
             }
             System.out.println("\nWaiting for server updates...\n\n");

@@ -166,6 +166,17 @@ public class BoardViewController extends GUI {
     private static OpponentsCodexController opponentsCodexController;
 
 
+    public void initialize() {
+        test = false;
+        cardSelected = false;
+        cardDrawn = false;
+        cardPlaced = false;
+        side = true;
+        buttonCardSelectedId = null;
+        angleChosen = null;
+        numTurns = 0;
+    }
+
 
 
     public void setUpBoard() {
@@ -378,7 +389,7 @@ public class BoardViewController extends GUI {
     public void updateDecks (List<Card> updatedDecks){
 
         for(Card c : updatedDecks){
-            System.out.println(c.getId() + "\n");
+           // System.out.println(c.getId() + "\n");
         }
 
         String imageCardRBack = updatedDecks.get(5).getBackCover();
@@ -551,6 +562,9 @@ public class BoardViewController extends GUI {
     }
 
     public void updateHand(List<Card> hand) {
+        this.side = true;
+        buttonSide.setText("view back side");
+
 
         String imageCard1 = hand.get(0).getFrontCover();
         card1ImageView.setImage(new Image(imageCard1));
@@ -724,9 +738,11 @@ public class BoardViewController extends GUI {
     }
 
     public void askForAngle(List<Coordinate> angles){
-        for(Coordinate c: angles){
-            System.out.printf("Card: %d, Angle: %d\n", c.getX(), c.getY());
+        /*for(Coordinate c: angles){
+           // System.out.printf("Card: %d, Angle: %d\n", c.getX(), c.getY());
         }
+
+         */
         this.cardPlaced = false;
         this.message("Select where you want \n to play the card");
 
@@ -876,11 +892,11 @@ public class BoardViewController extends GUI {
 
     public void matrixUpdated(List<Integer[]> tempButtons, Integer[] positionToPlaceCard){
         for(Integer[] i : tempButtons){
-            System.out.println("\nbutton removed from position: "+i[0]+", "+i[1]);
+            //System.out.println("\nbutton removed from position: "+i[0]+", "+i[1]);
             gridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node).equals(i[1]) && GridPane.getColumnIndex(node).equals(i[0]));
         }
-        System.out.printf("Card placed in position: %d, %d", positionToPlaceCard[0], positionToPlaceCard[1]);
-        System.out.printf("Card id to place: %d", cardToPlay.getId());
+        //System.out.printf("Card placed in position: %d, %d", positionToPlaceCard[0], positionToPlaceCard[1]);
+      //  System.out.printf("Card id to place: %d", cardToPlay.getId());
         placeCard(cardToPlay, positionToPlaceCard);
         client.getModelView().putInMyMatrix(positionToPlaceCard[0], positionToPlaceCard[1],cardToPlay.getId());
 
@@ -1181,9 +1197,17 @@ public class BoardViewController extends GUI {
         }
         centerBoardContainer.getChildren().add(endGame);
 
+        if(timer!=null){
+            timer.cancel();
+            System.out.println("Timer cancelled");
+        }
+        if(timers!=null){
+            for(Timer t: timers){
+                t.cancel();
+            }
+        }
 
-
-        // Create a PauseTransition, after 15 seconds the gui closes so that the player can decide to play another game and if so also he can decide to play it in cli mode
+        // Create a PauseTransition, after 5 seconds the gui closes so that the player can decide to play another game and if so also he can decide to play it in cli mode
         PauseTransition pause = new PauseTransition(Duration.seconds(5)); // 5-second delay
         pause.setOnFinished(event -> closeGui()); // Method to be called after the delay
         pause.play(); // Start the PauseTransition
@@ -1191,13 +1215,24 @@ public class BoardViewController extends GUI {
     }
 
     public void closeGui(){
-        javafx.application.Platform.exit();
+        //javafx.application.Platform.exit();
+        Stage stage = (Stage) buttonDeckGBack.getScene().getWindow();
+        stage.close();
     }
 
 
     public void exitFromGame(ActionEvent actionEvent) {
         client.sendMessage(new ExitGame("exitGame", null));
         System.out.println("You have been disconnected from the game");
+        if(timer!=null){
+            timer.cancel();
+            System.out.println("Timer cancelled");
+        }
+        if(timers!=null){
+            for(Timer t: timers){
+                t.cancel();
+            }
+        }
         closeGui();
     }
 }

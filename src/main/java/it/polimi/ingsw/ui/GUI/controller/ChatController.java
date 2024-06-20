@@ -64,7 +64,7 @@ public class ChatController extends GUI{
                 Tab tab = new Tab(username);
                 //id of the tab is the username of the player I'm chatting with
                 tab.setId(username);
-                System.out.println("tab id: " + tab.getId());
+               // System.out.println("tab id: " + tab.getId());
                 tab.setText(username);
                 TextArea textArea = new TextArea();
                 textArea.setEditable(false);
@@ -120,10 +120,10 @@ public class ChatController extends GUI{
     }
 
     private Tab getTabById(TabPane tabPane, String id) {
-        System.out.println("id: " + id);
+       // System.out.println("id: " + id);
         for (Tab tab : tabPane.getTabs()) {
             if (id.equals(tab.getId())) {
-                System.out.printf("tab returning\n");
+                //System.out.printf("tab returning\n");
                 return tab;
             }
         }

@@ -18,6 +18,8 @@ public class Client extends ClientAbstract {
     private ObjectInputStream inputStream;
     private String username;
     private Thread pingThread;
+    private Boolean firstGui = true;
+    private GUI playerGui;
 
     public Client(ModelView modelView, String host, int port) throws IOException {
         super(modelView);
@@ -121,15 +123,25 @@ public class Client extends ClientAbstract {
         String opt = uiStrategy.askUI();
         if (opt.equals("cli")) {
             this.uiStrategy = new TextUserInterface(this);
-        } else {
-            this.uiStrategy = new GUI();
+        }
+        else {
+            if(firstGui) {
+                this.uiStrategy = new GUI();
+                playerGui = (GUI) this.uiStrategy;
+                firstGui = false;
+            }
+            else {
+                this.uiStrategy = playerGui;
+            }
             this.uiStrategy.setClient(this);
                 new Thread() {
                     @Override
                     public void run() {
-                        javafx.application.Application.launch(GUI.class);
+                        //javafx.application.Application.launch(GUI.class);
+                        ((GUI) uiStrategy).myLaunch(GUI.class);
                     }
                 }.start();
+
                 this.uiStrategy.setViewModel(modelView);
             }
 

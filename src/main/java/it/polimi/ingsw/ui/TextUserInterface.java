@@ -465,6 +465,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
                     if (!gameClient.getModelView().isMyTurn())
                         System.out.println("Wait for your turn...\n");
+
                     Timer timer = new Timer();
                     TimerTask task = new TimerTask() {
                             @Override
