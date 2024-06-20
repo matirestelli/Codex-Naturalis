@@ -118,9 +118,6 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             }
             server.addUsername(username);
         }
-        else{
-            username = username.substring(0, username.length()-11);
-        }
 
         // join/create game
         System.out.print("Do you want to join an existing game session or create a new one? (join/create): ");
