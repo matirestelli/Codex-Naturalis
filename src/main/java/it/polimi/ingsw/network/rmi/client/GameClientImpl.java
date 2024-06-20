@@ -111,7 +111,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         else {
             username = uiStrategy.askUsername();
         }
-        if(!username.endsWith("reconnected")) {
+        if(!args.equals("true")) {
             while (server.isUsernameTaken(username)) {
                 System.out.println("Username already taken. ");
                 username = uiStrategy.askUsername();
