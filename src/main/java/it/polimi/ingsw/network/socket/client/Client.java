@@ -53,8 +53,11 @@ public class Client extends ClientAbstract {
         //outputStream.writeObject(args[0]);
 
         if(args == "true") {
-            outputStream.writeObject(usernameask+"reconnect");
+            if(usernameask.endsWith("reconnected")) {
+                usernameask = usernameask.substring(0, username.length()-11);
+            }
             username = usernameask;
+            outputStream.writeObject(usernameask+"reconnected");
         }
         else {
             username = uiStrategy.askUsername();

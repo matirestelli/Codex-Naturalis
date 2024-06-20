@@ -103,7 +103,10 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         // String nickname = scanner.nextLine();
         //System.out.println(args[0]);
         if(args == "true") {
-            username = usernameask+"reconnected";
+            if(usernameask.endsWith("reconnected")) {
+                usernameask = usernameask.substring(0, username.length()-11);
+            }
+            username = usernameask;
         }
         else {
             username = uiStrategy.askUsername();
