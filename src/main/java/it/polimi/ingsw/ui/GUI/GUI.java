@@ -3,6 +3,7 @@ package it.polimi.ingsw.ui.GUI;
 import it.polimi.ingsw.core.model.chat.Chat;
 import it.polimi.ingsw.core.model.chat.Message;
 import it.polimi.ingsw.core.model.enums.Resource;
+import it.polimi.ingsw.core.model.message.response.ExitGame;
 import it.polimi.ingsw.core.model.message.response.checkConnection;
 import it.polimi.ingsw.core.utils.PlayableCardIds;
 import it.polimi.ingsw.network.ClientAbstract;
@@ -93,9 +94,9 @@ public class GUI extends Application implements UserInterfaceStrategy {
                     chatOpen = false;
                     messageJustSent = false;
                     timers = new ArrayList<>();
-                    System.out.println("JavaFX application thread started");
+                    //System.out.println("JavaFX application thread started");
                 } catch (Exception e) {
-                    System.out.println("Error starting JavaFX application thread");
+                    //System.out.println("Error starting JavaFX application thread");
                     e.printStackTrace();
                 }
             });
@@ -122,6 +123,11 @@ public class GUI extends Application implements UserInterfaceStrategy {
         xStage = currStage.getX();
         yStage = currStage.getY();
         initializeScenes();
+        primaryStage.setOnCloseRequest(event -> {
+            // Handle the close request
+            //System.out.println("Window is closing");
+            this.closeError();
+        });
         //primaryStage.getScene().getStylesheets().add("it/polimi/ingsw/gc38/cssFiles/style.css");
         currStage.show();
     }
@@ -544,7 +550,46 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void endGame(List<Pair<String, Integer>> rank) {
     //todo capire cosa inviano come event.data
         Platform.runLater(() -> {
-            this.getBoardViewController().endGameRanking(rank);
+            if(notYetBoardScene){
+                this.gameEnded();
+            }
+            else{
+                this.getBoardViewController().endGameRanking(rank);
+            }
+        });
+    }
+
+
+
+    public void closeError() {
+        if(timer!=null){
+            timer.cancel();
+            //System.out.println("Timer cancelled");
+        }
+        if(timers!=null){
+            for(Timer t: timers){
+                t.cancel();
+            }
+        }
+
+        client.sendMessage(new ExitGame("exitGame", null));
+        System.out.println("You have been disconnected from the game");
+    }
+
+    public void gameEnded(){
+        Platform.runLater(() -> {
+            if(timer!=null){
+                timer.cancel();
+                //System.out.println("Timer cancelled");
+            }
+            if(timers!=null){
+                for(Timer t: timers){
+                    t.cancel();
+                }
+            }
+
+            currStage.close();
+
         });
     }
 
