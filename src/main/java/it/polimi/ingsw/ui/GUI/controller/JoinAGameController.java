@@ -34,10 +34,10 @@ public class JoinAGameController extends GUI{
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         if(stage.isFullScreen()){
             stage.setFullScreen(false);
-            iconaScreen.setImage(new javafx.scene.image.Image("/it/polimi/ingsw/gc38/icons/iconaFullScreen.png"));
+            iconaScreen.setImage(new javafx.scene.image.Image("icons/iconaFullScreen.png"));
         } else {
             stage.setFullScreen(true);
-            iconaScreen.setImage(new javafx.scene.image.Image("/it/polimi/ingsw/gc38/icons/iconaMinimizeScreen.png"));
+            iconaScreen.setImage(new javafx.scene.image.Image("icons/iconaMinimizeScreen.png"));
         }
     }
 
@@ -54,7 +54,7 @@ public class JoinAGameController extends GUI{
     public void login(ActionEvent actionEvent) {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
        /* try {
-            Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/gc38/scenes/LobbyGames.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/gc38/scenes/LobbyGames.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -63,6 +63,6 @@ public class JoinAGameController extends GUI{
         }
 
         */
-        this.changeScene("/it/polimi/ingsw/scenes/LobbyGames.fxml", stage);
+        this.changeScene("scenes/LobbyGames.fxml", stage);
     }
 }

@@ -1,10 +1,9 @@
 package it.polimi.ingsw.core.model;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Serializable;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +27,7 @@ public class Deck implements Serializable {
      */
     public Deck(String configFile, Type typeOfCard) {
         this.cards = new ArrayList<>();
-        this.configFile = new StringBuilder().append("src/main/resources/it/polimi/ingsw/").append(configFile).append(".json").toString();
+        this.configFile = new StringBuilder().append("cards/").append(configFile).append(".json").toString();
         this.typeOfCard = typeOfCard;
         this.empty = true;
     }
@@ -59,7 +58,7 @@ public class Deck implements Serializable {
     /**
      * Loads the cards from JSON.
      */
-    public void loadCardsFromJSON() {
+    /*public void loadCardsFromJSON() {
         List<Card> cards = new ArrayList<>();
         try {
             Gson gson = new Gson();
@@ -70,13 +69,29 @@ public class Deck implements Serializable {
 
         this.cards = cards;
         this.empty = cards.isEmpty();
+    }*/
+
+    public void loadCardsFromJSON() {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(configFile);
+             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+             JsonReader jsonReader = new JsonReader(inputStreamReader)) {
+
+            Gson gson = new Gson();
+            cards = gson.fromJson(jsonReader, this.typeOfCard);
+            // Continua a lavorare con la lista di carte
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Gestisci l'errore
+        }
+
+        this.empty = cards.isEmpty();
     }
 
     /**
      * Loads the cards from JSON with the given Gson.
      * @param gson The Gson to use.
      */
-    public void loadCardsFromJSON(Gson gson) {
+    /*public void loadCardsFromJSON(Gson gson) {
         List<Card> cards = new ArrayList<>();
         try {
             cards = gson.fromJson(new FileReader(this.configFile), this.typeOfCard);
@@ -85,6 +100,20 @@ public class Deck implements Serializable {
         }
 
         this.cards = cards;
+        this.empty = cards.isEmpty();
+    }*/
+    public void loadCardsFromJSON(Gson gson) {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(configFile);
+             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+             JsonReader jsonReader = new JsonReader(inputStreamReader)) {
+
+            cards = gson.fromJson(jsonReader, this.typeOfCard);
+            // Continua a lavorare con la lista di carte
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Gestisci l'errore
+        }
+
         this.empty = cards.isEmpty();
     }
 

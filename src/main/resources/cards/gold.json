@@ -2,8 +2,8 @@
   {
     "id": 40,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/0.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
+    "frontCover": "/images/front/gold/blue/0.png",
+    "backCover": "/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -65,8 +65,8 @@
   {
     "id": 41,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/1.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
+    "frontCover": "/images/front/gold/blue/1.png",
+    "backCover": "/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -128,8 +128,8 @@
   {
     "id": 42,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/2.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
+    "frontCover": "/images/front/gold/blue/2.png",
+    "backCover": "/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -190,8 +190,8 @@
   },{
   "id": 43,
   "frontSide": true,
-  "frontCover": "/it/polimi/ingsw/images/front/gold/blue/3.png",
-  "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
+  "frontCover": "/images/front/gold/blue/3.png",
+  "backCover": "/images/back/gold/blue.png",
   "frontCorners": {
     "1": {
       "empty": true,
@@ -253,8 +253,8 @@
   {
     "id": 44,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/4.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
+    "frontCover": "/images/front/gold/blue/4.png",
+    "backCover": "/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -316,8 +316,8 @@
   {
     "id": 45,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/5.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
+    "frontCover": "/images/front/gold/blue/5.png",
+    "backCover": "/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -379,8 +379,8 @@
   {
     "id": 46,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/6.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
+    "frontCover": "/images/front/gold/blue/6.png",
+    "backCover": "/images/back/gold/blue.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -433,8 +433,8 @@
   {
     "id": 47,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/7.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
+    "frontCover": "/images/front/gold/blue/7.png",
+    "backCover": "/images/back/gold/blue.png",
     "frontCorners": {
       "1": {
         "empty": true,
@@ -487,8 +487,8 @@
   {
     "id": 48,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/8.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
+    "frontCover": "/images/front/gold/blue/8.png",
+    "backCover": "/images/back/gold/blue.png",
     "frontCorners": {
       "2": {
         "empty": true,
@@ -541,8 +541,8 @@
   {
     "id": 49,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/blue/9.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/blue.png",
+    "frontCover": "/images/front/gold/blue/9.png",
+    "backCover": "/images/back/gold/blue.png",
     "frontCorners": {
       "2": {
         "empty": true,
@@ -595,8 +595,8 @@
   {
     "id": 50,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/green/0.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCover": "/images/front/gold/green/0.png",
+    "backCover": "/images/back/gold/green.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -658,8 +658,8 @@
   {
     "id": 51,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/green/1.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCover": "/images/front/gold/green/1.png",
+    "backCover": "/images/back/gold/green.png",
     "frontCorners": {
       "1": {
         "empty": true,
@@ -721,8 +721,8 @@
   {
     "id": 52,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/green/2.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCover": "/images/front/gold/green/2.png",
+    "backCover": "/images/back/gold/green.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -784,8 +784,8 @@
   {
     "id": 53,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/green/3.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCover": "/images/front/gold/green/3.png",
+    "backCover": "/images/back/gold/green.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -847,8 +847,8 @@
   {
     "id": 54,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/green/4.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCover": "/images/front/gold/green/4.png",
+    "backCover": "/images/back/gold/green.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -910,8 +910,8 @@
   {
     "id": 55,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/green/5.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCover": "/images/front/gold/green/5.png",
+    "backCover": "/images/back/gold/green.png",
     "frontCorners": {
       "0": {
         "empty": true,
@@ -973,8 +973,8 @@
   {
     "id": 56,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/green/6.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCover": "/images/front/gold/green/6.png",
+    "backCover": "/images/back/gold/green.png",
     "frontCorners": {
       "0": {
         "empty": false,
@@ -1027,8 +1027,8 @@
   {
     "id": 57,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/green/7.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCover": "/images/front/gold/green/7.png",
+    "backCover": "/images/back/gold/green.png",
     "frontCorners": {
       "1": {
         "empty": false,
@@ -1081,8 +1081,8 @@
   {
     "id": 58,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/green/8.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCover": "/images/front/gold/green/8.png",
+    "backCover": "/images/back/gold/green.png",
     "frontCorners": {
       "2": {
         "empty": false,
@@ -1135,8 +1135,8 @@
   {
     "id": 59,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/gold/green/9.png",
-    "backCover": "/it/polimi/ingsw/images/back/gold/green.png",
+    "frontCover": "/images/front/gold/green/9.png",
+    "backCover": "/images/back/gold/green.png",
     "frontCorners": {
       "1": {
         "empty": true,
@@ -1189,8 +1189,8 @@
     {
       "id": 60,
         "frontSide": true,
-        "frontCover": "/it/polimi/ingsw/images/front/gold/purple/0.png",
-        "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+        "frontCover": "/images/front/gold/purple/0.png",
+        "backCover": "/images/back/gold/purple.png",
         "frontCorners": {
         "1": {
             "empty": true,
@@ -1251,8 +1251,8 @@
     },
     {       "id": 61,
             "frontSide": true,
-            "frontCover": "/it/polimi/ingsw/images/front/gold/purple/1.png",
-            "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+            "frontCover": "/images/front/gold/purple/1.png",
+            "backCover": "/images/back/gold/purple.png",
             "frontCorners": {
             "0": {
                 "empty": true,
@@ -1315,8 +1315,8 @@
     {
         "id": 62,
         "frontSide": true,
-        "frontCover": "/it/polimi/ingsw/images/front/gold/purple/2.png",
-        "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+        "frontCover": "/images/front/gold/purple/2.png",
+        "backCover": "/images/back/gold/purple.png",
         "frontCorners": {
             "0": {
             "empty": true,
@@ -1379,8 +1379,8 @@
     {
         "id": 63,
         "frontSide": true,
-        "frontCover": "/it/polimi/ingsw/images/front/gold/purple/3.png",
-        "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+        "frontCover": "/images/front/gold/purple/3.png",
+        "backCover": "/images/back/gold/purple.png",
         "frontCorners": {
             "1": {
             "empty": true,
@@ -1443,8 +1443,8 @@
     {
         "id": 64,
         "frontSide": true,
-        "frontCover": "/it/polimi/ingsw/images/front/gold/purple/4.png",
-        "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+        "frontCover": "/images/front/gold/purple/4.png",
+        "backCover": "/images/back/gold/purple.png",
         "frontCorners": {
             "0": {
             "empty": true,
@@ -1507,8 +1507,8 @@
     {
       "id": 65,
             "frontSide": true,
-            "frontCover": "/it/polimi/ingsw/images/front/gold/purple/5.png",
-            "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+            "frontCover": "/images/front/gold/purple/5.png",
+            "backCover": "/images/back/gold/purple.png",
             "frontCorners": {
                 "0": {
                 "empty": true,
@@ -1571,8 +1571,8 @@
     {
         "id": 66,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/purple/6.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+                "frontCover": "/images/front/gold/purple/6.png",
+                "backCover": "/images/back/gold/purple.png",
                 "frontCorners": {
                     "0": {
                     "empty": false,
@@ -1626,8 +1626,8 @@
     {
         "id": 67,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/purple/7.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+                "frontCover": "/images/front/gold/purple/7.png",
+                "backCover": "/images/back/gold/purple.png",
                 "frontCorners": {
                     "1": {
                     "empty": true,
@@ -1681,8 +1681,8 @@
     {
         "id": 68,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/purple/8.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+                "frontCover": "/images/front/gold/purple/8.png",
+                "backCover": "/images/back/gold/purple.png",
                 "frontCorners": {
                     "0": {
                     "empty": false,
@@ -1736,8 +1736,8 @@
     {
         "id": 69,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/purple/9.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/purple.png",
+                "frontCover": "/images/front/gold/purple/9.png",
+                "backCover": "/images/back/gold/purple.png",
                 "frontCorners": {
                     "1": {
                     "empty": true,
@@ -1791,8 +1791,8 @@
     {
         "id": 70,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/red/0.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCover": "/images/front/gold/red/0.png",
+                "backCover": "/images/back/gold/red.png",
                 "frontCorners": {
                     "0": {
                     "empty": true,
@@ -1855,8 +1855,8 @@
     {
         "id": 71,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/red/1.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCover": "/images/front/gold/red/1.png",
+                "backCover": "/images/back/gold/red.png",
                 "frontCorners": {
                     "1": {
                     "empty": true,
@@ -1919,8 +1919,8 @@
     {
         "id": 72,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/red/2.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCover": "/images/front/gold/red/2.png",
+                "backCover": "/images/back/gold/red.png",
                 "frontCorners": {
                     "0": {
                     "empty": true,
@@ -1983,8 +1983,8 @@
     {
         "id": 73,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/red/3.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCover": "/images/front/gold/red/3.png",
+                "backCover": "/images/back/gold/red.png",
                 "frontCorners": {
                     "1": {
                     "empty": true,
@@ -2047,8 +2047,8 @@
     {
         "id": 74,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/red/4.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCover": "/images/front/gold/red/4.png",
+                "backCover": "/images/back/gold/red.png",
                 "frontCorners": {
                     "0": {
                     "empty": true,
@@ -2111,8 +2111,8 @@
     {
         "id": 75,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/red/5.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCover": "/images/front/gold/red/5.png",
+                "backCover": "/images/back/gold/red.png",
                 "frontCorners": {
                     "0": {
                     "empty": true,
@@ -2175,8 +2175,8 @@
     {
         "id": 76,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/red/6.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCover": "/images/front/gold/red/6.png",
+                "backCover": "/images/back/gold/red.png",
                 "frontCorners": {
                     "0": {
                     "empty": false,
@@ -2230,8 +2230,8 @@
     {
         "id": 77,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/red/7.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCover": "/images/front/gold/red/7.png",
+                "backCover": "/images/back/gold/red.png",
                 "frontCorners": {
                     "1": {
                     "empty": false,
@@ -2285,8 +2285,8 @@
     {
         "id": 78,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/red/8.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCover": "/images/front/gold/red/8.png",
+                "backCover": "/images/back/gold/red.png",
                 "frontCorners": {
                     "2": {
                     "empty": false,
@@ -2340,8 +2340,8 @@
     {
         "id": 79,
                 "frontSide": true,
-                "frontCover": "/it/polimi/ingsw/images/front/gold/red/9.png",
-                "backCover": "/it/polimi/ingsw/images/back/gold/red.png",
+                "frontCover": "/images/front/gold/red/9.png",
+                "backCover": "/images/back/gold/red.png",
                 "frontCorners": {
                     "0": {
                     "empty": true,

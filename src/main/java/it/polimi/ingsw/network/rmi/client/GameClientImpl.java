@@ -25,6 +25,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     private ExecutorService notificationExecutor;
     private Boolean firstGui = true;
     private GUI playerGui;
+    private static String serverAddress;
 
     @Override
     public void sendMessage(MessageClient2Server message) {
@@ -68,6 +69,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             this.uiStrategy.setViewModel(modelView);
         }
 
+        serverAddress = host;
         connectToServer(host, port);
     }
 
@@ -242,7 +244,7 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     public static void main(String[] args) {
         ModelView modelView = new ModelView();
         try {
-            GameClientImpl client = new GameClientImpl(modelView, "localhost", 1099, "cli");
+            GameClientImpl client = new GameClientImpl(modelView, args[0], 1099, "cli");
             client.login("false", "null");
         } catch (RemoteException e) {
             System.out.println("Error creating the client: " + e.getMessage());
@@ -250,9 +252,10 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     }
 
     public static void restart(String bool, String usernameask) {
+        System.out.println("Restarting the client... on" + serverAddress);
         ModelView modelView = new ModelView();
         try {
-            GameClientImpl client = new GameClientImpl(modelView, "localhost", 1099, "cli");
+            GameClientImpl client = new GameClientImpl(modelView, serverAddress, 1099, "cli");
             client.login(bool, usernameask);
         } catch (RemoteException e) {
             System.out.println("Error creating the client: " + e.getMessage());

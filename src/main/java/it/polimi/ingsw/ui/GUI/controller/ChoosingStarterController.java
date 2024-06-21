@@ -75,7 +75,7 @@ public class ChoosingStarterController extends GUI {
     public void nextscene(ActionEvent actionEvent) throws IOException {
         if(settedSide) {
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            this.changeScene("/it/polimi/ingsw/scenes/BoardScene.fxml", stage);
+            this.changeScene("scenes/BoardScene.fxml", stage);
         }
         else {
             this.showErrorPopUp("You have to choose the side of the card", (Stage) buttonBackSide.getScene().getWindow());

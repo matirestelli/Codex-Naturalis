@@ -258,7 +258,7 @@ public class BoardViewController extends GUI {
             playersRow1[i].setPrefWidth(200);
             String text = "Player: " + client.getModelView().getPlayers().get(i);
             String color = client.getModelView().getPlayerPawns().get(client.getModelView().getPlayers().get(i)).toString();
-            ImageView imageView = new ImageView("/it/polimi/ingsw/images/pawn/" + color + ".png");
+            ImageView imageView = new ImageView("/images/pawn/" + color + ".png");
             imageView.setFitHeight(25);
             imageView.setFitWidth(25);
             Button pawnButton = new Button();
@@ -279,28 +279,28 @@ public class BoardViewController extends GUI {
             playersRow2[i].setPrefWidth(200);
 
             hBoxesAnimals[i] = ( new HBox());
-            imageView = new ImageView("/it/polimi/ingsw/images/resources/animal.png");
+            imageView = new ImageView("images/resources/animal.png");
             imageView.setFitHeight(30);
             imageView.setFitWidth(25);
             hBoxesAnimals[i].getChildren().add(imageView);
             hBoxesAnimals[i].getChildren().add(numAnimals[i]);
 
             hBoxesInsect[i] = (new HBox() );
-            imageView = new ImageView("/it/polimi/ingsw/images/resources/insect.png");
+            imageView = new ImageView("images/resources/insect.png");
             imageView.setFitHeight(30);
             imageView.setFitWidth(25);
             hBoxesInsect[i].getChildren().add(imageView);
             hBoxesInsect[i].getChildren().add(numInsect[i]);
 
             hBoxesFungi[i] = (new HBox() );
-            imageView = new ImageView("/it/polimi/ingsw/images/resources/fungi.png");
+            imageView = new ImageView("images/resources/fungi.png");
             imageView.setFitHeight(30);
             imageView.setFitWidth(25);
             hBoxesFungi[i].getChildren().add(imageView);
             hBoxesFungi[i].getChildren().add(numFungi[i]);
 
             hBoxesPlant[i] = ( new HBox());
-            imageView = new ImageView("/it/polimi/ingsw/images/resources/plant.png");
+            imageView = new ImageView("images/resources/plant.png");
             imageView.setFitHeight(30);
             imageView.setFitWidth(25);
             hBoxesPlant[i].getChildren().add(imageView);
@@ -317,21 +317,21 @@ public class BoardViewController extends GUI {
             playersRow3[i].setPrefWidth(200);
 
             hBoxesQuill[i] = ( new HBox());
-            imageView = new ImageView("/it/polimi/ingsw/images/resources/quill.png");
+            imageView = new ImageView("images/resources/quill.png");
             imageView.setFitHeight(30);
             imageView.setFitWidth(25);
             hBoxesQuill[i].getChildren().add(imageView);
             hBoxesQuill[i].getChildren().add(numQuill[i]);
 
             hBoxesManuscript[i] = (new HBox());
-            imageView = new ImageView("/it/polimi/ingsw/images/resources/manuscript.png");
+            imageView = new ImageView("images/resources/manuscript.png");
             imageView.setFitHeight(30);
             imageView.setFitWidth(25);
             hBoxesManuscript[i].getChildren().add(imageView);
             hBoxesManuscript[i].getChildren().add(numManuscript[i]);
 
             hBoxesInkwell[i] = (new HBox());
-            imageView = new ImageView("/it/polimi/ingsw/images/resources/inkwell.png");
+            imageView = new ImageView("images/resources/inkwell.png");
             imageView.setFitHeight(30);
             imageView.setFitWidth(25);
             hBoxesInkwell[i].getChildren().add(imageView);
@@ -501,10 +501,10 @@ public class BoardViewController extends GUI {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         if (stage.isFullScreen()) {
             stage.setFullScreen(false);
-            iconaScreen.setImage(new Image("/it/polimi/ingsw/gc38/icons/iconaFullScreen.png"));
+            iconaScreen.setImage(new Image("icons/iconaFullScreen.png"));
         } else {
             stage.setFullScreen(true);
-            iconaScreen.setImage(new Image("/it/polimi/ingsw/gc38/icons/iconaMinimizeScreen.png"));
+            iconaScreen.setImage(new Image("icons/iconaMinimizeScreen.png"));
         }
     }
 
@@ -1088,7 +1088,7 @@ public class BoardViewController extends GUI {
         double x = chatStage.getX();
         double y = chatStage.getY();
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/Chat.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/Chat.fxml"));
             Parent root = loader.load();
             chatController = loader.getController();
             ScaleTransition st = new ScaleTransition(javafx.util.Duration.millis(50), root);
@@ -1121,7 +1121,7 @@ public class BoardViewController extends GUI {
             chatController.updateChat(message);
         }
         else{
-            iconChat.setImage((new Image("/it/polimi/ingsw/icons/iconNotificationChat.png")));
+            iconChat.setImage((new Image("icons/iconNotificationChat.png")));
         }
     }
 
@@ -1131,7 +1131,7 @@ public class BoardViewController extends GUI {
         double x = popUpStage.getX();
         double y = popUpStage.getY();
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/OpponentsCodex.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/OpponentsCodex.fxml"));
             Parent root = loader.load();
             opponentsCodexController = loader.getController();
             ScaleTransition st = new ScaleTransition(javafx.util.Duration.millis(50), root);
@@ -1160,7 +1160,7 @@ public class BoardViewController extends GUI {
 
 
     private void loadingIcon() {
-        icon_loading.setImage(new Image("/it/polimi/ingsw/icons/icons8-loading-80.png"));
+        icon_loading.setImage(new Image("icons/icons8-loading-80.png"));
         icon_loading.setFitHeight(30);
         icon_loading.setFitWidth(30);
         RotateTransition translate = new RotateTransition();

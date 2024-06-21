@@ -20,6 +20,7 @@ public class Client extends ClientAbstract {
     private Thread pingThread;
     private Boolean firstGui = true;
     private GUI playerGui;
+    private String serverAddres;
 
     public Client(ModelView modelView, String host, int port) throws IOException {
         super(modelView);
@@ -27,6 +28,7 @@ public class Client extends ClientAbstract {
         this.socket = new Socket(host, port);
         this.outputStream = new ObjectOutputStream(socket.getOutputStream());
         this.inputStream = new ObjectInputStream(socket.getInputStream());
+        this.serverAddres = host;
 
        /* if (opt.equals("cli")) {
             this.uiStrategy = new TextUserInterface(this);
@@ -44,15 +46,10 @@ public class Client extends ClientAbstract {
 
         */
         this.uiStrategy = new TextUserInterface(this);
-        }
+    }
 
-    public void start(String args, String usernameask) throws IOException, ClassNotFoundException {
-        //username = args[0];
-        //System.out.print("Enter your username: ");
-        //System.out.println(args[0]);
-        //outputStream.writeObject(args[0]);
-
-        if(args == "true") {
+    public void start(String arg, String usernameask) throws IOException, ClassNotFoundException {
+        if(arg == "true") {
             if(usernameask.endsWith("reconnected")) {
                 usernameask = usernameask.substring(0, username.length()-11);
             }
@@ -75,8 +72,6 @@ public class Client extends ClientAbstract {
                 System.out.print(message);
             }
 
-       // System.out.println(args[1]);
-        //outputStream.writeObject(args[1]);
         String joinCreate = uiStrategy.askJoinCreate();
         outputStream.writeObject(joinCreate);
 
@@ -102,28 +97,23 @@ public class Client extends ClientAbstract {
             // get list of available game sessions
             System.out.println(filteredResult.toString());
             System.out.print("Enter game id to join: ");
-            //System.out.println(args[2]);
-            //outputStream.writeObject(args[2]);
-
             String gameId = uiStrategy.askGameId(in, message);
             outputStream.writeObject(gameId);
         } else if (in.equals("create")) {
             // create new game session
             System.out.print("Enter the game id: ");
-            //System.out.println(args[2]);
-            //outputStream.writeObject(args[2]);
+
             String gameId = uiStrategy.askGameId(in, message);
             outputStream.writeObject(gameId);
 
             System.out.print("Insert number of players (2-4): ");
-            //System.out.println(args[3]);
-            //outputStream.writeObject(args[3]);
             int numberOfPlayers = uiStrategy.askNumberOfPlayers();
             outputStream.writeObject(numberOfPlayers);
         }
 
         //todo ask cli or gui
         String opt = uiStrategy.askUI();
+        System.out.println(opt);
         if (opt.equals("cli")) {
             this.uiStrategy = new TextUserInterface(this);
         }
@@ -167,36 +157,6 @@ public class Client extends ClientAbstract {
         }
     }
 
-    /*
-    public void handleEvent(GameEvent event) {
-        switch (event.getType()) {
-            case "loadedPawn"-> {
-                observerUI.updateUI(event);
-                Color colors = (Color) event.getData();
-            }
-            case "lastTurn" -> {
-                System.out.println("Last turn! \n");
-            }
-            case "reachedPoints" -> {
-                uiStrategy.displayMessage("You have reached 20 points, wait for the other players to finish their turn!\n");
-            }
-            case "endGame" -> {
-                uiStrategy.displayMessage("Game over!\nResults:\n");
-                for(int i = 1; i<((List<Pair<String, Integer>>) event.getData()).size()+1; i++){
-                    uiStrategy.displayMessage(i+") Player: "+((List<Pair<String, Integer>>) event.getData()).get(i-1).getKey() + " Points: " + ((List<Pair<String, Integer>>) event.getData()).get(i-1).getValue() + "\n");
-                }
-                closeConnection();
-            }
-            case "mexIncoming" -> {
-                if (!inCurrentTurn)
-                    uiStrategy.displayMessage("New message received! You have not read it yet\n");
-                unreadedMessages++;
-                chat.addMsg((Message) event.getData());
-            }
-        }
-    }
-    */
-
     private void closeConnection() {
         try {
             if (inputStream != null) inputStream.close();
@@ -220,19 +180,18 @@ public class Client extends ClientAbstract {
     public static void main(String[] args) {
         ModelView modelView = new ModelView();
         try {
-            Client client = new Client(modelView, "localhost", 12345);
-            String bool= "false";
-            client.start(bool, "null");
-            //client.startPinging();
+            Client client = new Client(modelView, args[0], 12345);
+            client.start("false","null");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public static void restart(String bool, String usernameask){
+    public static void restart(String bool, String usernameask, String ip){
+        System.out.println("Reconnecting to the server..." + ip + " 12345");
         ModelView modelView = new ModelView();
         try {
-            Client client = new Client(modelView, "localhost", 12345);
+            Client client = new Client(modelView, ip, 12345);
             client.start(bool, usernameask);
             //client.startPinging();
         } catch (IOException | ClassNotFoundException e) {
@@ -246,43 +205,6 @@ public class Client extends ClientAbstract {
         //pingThread.interrupt();
         System.out.println("Disconnected from the server.");
         String bool = "true";
-        restart(bool,usernameask);
+        restart(bool,usernameask, serverAddres);
     }
-
-    /*
-    public void handleMoveUI(GameEvent gameEvent) {
-        switch (gameEvent.getType()) {
-            case "displayChat" -> {
-                uiStrategy.displayChat(chat, username);
-                if (!inCurrentTurn)
-                    uiStrategy.selectFromMenu();
-            }
-            case "writeNewMex" -> {
-                // send list of players connected to the same game session
-                List<String> playersConnected = new ArrayList<>();
-
-                if (username.equals("us1"))
-                    playersConnected.add("us2");
-                else
-                    playersConnected.add("us1");
-
-                gameEvent.setData(playersConnected);
-                observerUI.updateUI(gameEvent);
-
-                if (!inCurrentTurn)
-                    uiStrategy.selectFromMenu();
-            }
-            case "sendNewMex" -> {
-                // send message to server
-                Message message = (Message) gameEvent.getData();
-                message.setSender(username);
-                chat.addMsg(message);
-                try {
-                    outputStream.writeObject(new GameEvent("newMessage", message));
-                } catch (IOException e) {
-                    System.out.println("Error sending card ID: " + e.getMessage());
-                }
-            }
-        }
-    }*/
 }

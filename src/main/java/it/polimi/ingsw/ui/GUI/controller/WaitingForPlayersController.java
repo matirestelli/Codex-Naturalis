@@ -30,14 +30,14 @@ public class WaitingForPlayersController extends GUI  {
     public void initializeMessage() {
        welcomeLabel.setText("Welcome " + client.getModelView().getMyUsername());
         String color = client.getModelView().getPlayerPawns().get(client.getModelView().getMyUsername()).toString();
-        icon_pawn.setImage(new Image("/it/polimi/ingsw/images/pawn/" + color + ".png"));
+        icon_pawn.setImage(new Image("images/pawn/" + color + ".png"));
     }
 
 
     public void startGame(ActionEvent actionEvent) {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        //this.changeScene("/it/polimi/ingsw/scenes/BoardScene.fxml", stage);
-        this.changeScene("/it/polimi/ingsw/scenes/ChoosingObjective.fxml", stage);
+        //this.changeScene("/scenes/BoardScene.fxml", stage);
+        this.changeScene("scenes/ChoosingObjective.fxml", stage);
     }
 
 

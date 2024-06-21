@@ -79,7 +79,7 @@ public class ChoosingObjectiveController extends GUI {
     public void nextscene(ActionEvent actionEvent) throws IOException {
         if(settedObjective) {
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            this.changeScene("/it/polimi/ingsw/scenes/ChoosingStarter.fxml", stage);
+            this.changeScene("scenes/ChoosingStarter.fxml", stage);
         }
         else {
             this.showErrorPopUp("You have to choose one objective", (Stage) buttonObjective2.getScene().getWindow());

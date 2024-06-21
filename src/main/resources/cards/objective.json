@@ -2,8 +2,8 @@
   {
     "id": 96,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/0.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/0.png",
+    "backCover": "/images/back/obj.png",
     "color": "RED",
     "colors": [
       "RED",
@@ -16,8 +16,8 @@
   {
     "id": 97,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/1.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/1.png",
+    "backCover": "/images/back/obj.png",
     "color": "GREEN",
     "colors": [
       "GREEN",
@@ -30,8 +30,8 @@
   {
     "id": 98,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/2.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/2.png",
+    "backCover": "/images/back/obj.png",
     "color": "BLUE",
     "colors": [
       "BLUE",
@@ -44,8 +44,8 @@
   {
     "id": 99,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/3.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/3.png",
+    "backCover": "/images/back/obj.png",
     "color": "PURPLE",
     "colors": [
       "PURPLE",
@@ -58,8 +58,8 @@
   {
     "id": 100,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/4.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/4.png",
+    "backCover": "/images/back/obj.png",
     "color": "RED",
     "color1": "RED",
     "color2": "GREEN",
@@ -74,8 +74,8 @@
   {
     "id": 101,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/5.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/5.png",
+    "backCover": "/images/back/obj.png",
     "color": "GREEN",
     "color1": "GREEN",
     "color2": "PURPLE",
@@ -90,8 +90,8 @@
   {
     "id": 102,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/6.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/6.png",
+    "backCover": "/images/back/obj.png",
     "color": "BLUE",
     "color1": "BLUE",
     "color2": "RED",
@@ -106,8 +106,8 @@
   {
     "id": 103,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/7.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/7.png",
+    "backCover": "/images/back/obj.png",
     "color": "PURPLE",
     "color1": "PURPLE",
     "color2": "BLUE",
@@ -122,8 +122,8 @@
   {
     "id": 104,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/8.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/8.png",
+    "backCover": "/images/back/obj.png",
     "color": "RED",
     "points": 2,
     "resources": [
@@ -142,8 +142,8 @@
   {
     "id": 105,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/9.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/9.png",
+    "backCover": "/images/back/obj.png",
     "color": "GREEN",
     "points": 2,
     "resources": [
@@ -162,8 +162,8 @@
   {
     "id": 106,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/10.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/10.png",
+    "backCover": "/images/back/obj.png",
     "color": "BLUE",
     "points": 2,
     "resources": [
@@ -182,8 +182,8 @@
   {
     "id": 107,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/11.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/11.png",
+    "backCover": "/images/back/obj.png",
     "color": "PURPLE",
     "points": 2,
     "resources": [
@@ -202,8 +202,8 @@
   {
     "id": 108,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/12.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/12.png",
+    "backCover": "/images/back/obj.png",
     "color": "GOLD",
     "points": 3,
     "resources": [
@@ -230,8 +230,8 @@
   {
     "id": 109,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/13.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/13.png",
+    "backCover": "/images/back/obj.png",
     "color": "GOLD",
     "points": 2,
     "resources": [
@@ -249,8 +249,8 @@
   {
     "id": 110,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/14.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/14.png",
+    "backCover": "/images/back/obj.png",
     "color": "GOLD",
     "points": 2,
     "resources": [
@@ -268,8 +268,8 @@
   {
     "id": 111,
     "frontSide": true,
-    "frontCover": "/it/polimi/ingsw/images/front/objective/15.png",
-    "backCover": "/it/polimi/ingsw/images/back/obj.png",
+    "frontCover": "/images/front/objective/15.png",
+    "backCover": "/images/back/obj.png",
     "color": "GOLD",
     "points": 2,
     "resources": [

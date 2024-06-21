@@ -34,7 +34,7 @@ public class LobbyGamesController extends GUI{
         */
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         /*try {
-            Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/gc38/scenes/WaitingForPlayers.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/gc38/scenes/WaitingForPlayers.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -43,6 +43,6 @@ public class LobbyGamesController extends GUI{
         }
 
          */
-        this.changeScene("/it/polimi/ingsw/scenes/WaitingForPlayers.fxml", stage);
+        this.changeScene("scenes/WaitingForPlayers.fxml", stage);
     }
 }

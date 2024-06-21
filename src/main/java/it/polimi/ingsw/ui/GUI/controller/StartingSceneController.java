@@ -34,17 +34,17 @@ public class StartingSceneController extends GUI {
 
     public void startGame(ActionEvent actionEvent) throws IOException {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-         this.changeScene("/it/polimi/ingsw/scenes/WaitingForPlayers.fxml", stage);
+         this.changeScene("scenes/WaitingForPlayers.fxml", stage);
     }
 
     public void setFullScreen(ActionEvent actionEvent) {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         if(stage.isFullScreen()){
             stage.setFullScreen(false);
-            iconaScreen.setImage(new javafx.scene.image.Image("/it/polimi/ingsw/gc38/icons/iconaFullScreen.png"));
+            iconaScreen.setImage(new javafx.scene.image.Image("icons/iconaFullScreen.png"));
         } else {
             stage.setFullScreen(true);
-            iconaScreen.setImage(new javafx.scene.image.Image("/it/polimi/ingsw/gc38/icons/iconaMinimizeScreen.png"));
+            iconaScreen.setImage(new javafx.scene.image.Image("icons/iconaMinimizeScreen.png"));
         }
 
     }
@@ -55,7 +55,7 @@ public class StartingSceneController extends GUI {
             hboxPlay.getChildren().remove(buttonPlay);
             Label label = new Label("Waiting for other players to join the game...");
             ImageView icon_loading = new ImageView();
-            icon_loading.setImage(new Image("/it/polimi/ingsw/icons/icons8-loading-80.png"));
+            icon_loading.setImage(new Image("icons/icons8-loading-80.png"));
             icon_loading.setFitHeight(30);
             icon_loading.setFitWidth(30);
             RotateTransition translate = new RotateTransition();

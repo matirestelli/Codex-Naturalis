@@ -124,12 +124,12 @@ public class TextUserInterface implements UserInterfaceStrategy {
     public String displayResourcesStarter(ResourceCard card, int index1, int index2) {
         String upResources = AnsiColor.YELLOW_BACKGROUND.toString();
 
-        if (card.getBackCorners().containsKey(index1))
+        if (card.getBackCorners().containsKey(index1)) {
             if (!card.getBackCorners().get(index1).isEmpty())
                 upResources += card.getBackCorners().get(index1).getResource().toString().charAt(0) + " ";
             else
                 upResources += AnsiColor.WHITE_BACKGROUND + " " + AnsiColor.YELLOW_BACKGROUND + " ";
-        else
+        } else
             upResources += "  ";
 
         if (index1 == 1) {

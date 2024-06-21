@@ -76,7 +76,7 @@ public class SettingViewController extends GUI{
                 javafx.application.Platform.exit();
             } else if (interfaceUser == "GUI") {
                 stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                this.changeScene("/it/polimi/ingsw/scenes/SettingUsername.fxml", stage);
+                this.changeScene("scenes/SettingUsername.fxml", stage);
             }
             else{
                 //error message that you have to choose a network
@@ -93,10 +93,10 @@ public class SettingViewController extends GUI{
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             if (stage.isFullScreen()) {
                 stage.setFullScreen(false);
-                iconaScreen.setImage(new javafx.scene.image.Image("/it/polimi/ingsw/gc38/icons/iconaFullScreen.png"));
+                iconaScreen.setImage(new javafx.scene.image.Image("icons/iconaFullScreen.png"));
             } else {
                 stage.setFullScreen(true);
-                iconaScreen.setImage(new javafx.scene.image.Image("/it/polimi/ingsw/gc38/icons/iconaMinimizeScreen.png"));
+                iconaScreen.setImage(new javafx.scene.image.Image("icons/iconaMinimizeScreen.png"));
             }
         }
 

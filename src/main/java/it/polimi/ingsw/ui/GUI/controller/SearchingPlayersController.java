@@ -32,7 +32,7 @@ public class SearchingPlayersController {
         //oppure non scena ma viene settato tutto qui
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/gc38/scenes/BoardScene.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/gc38/scenes/BoardScene.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -44,7 +44,7 @@ public class SearchingPlayersController {
 
     public void startPreGame(ActionEvent actionEvent) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/BoardScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("scenes/BoardScene.fxml"));
             root = loader.load();
             boardViewController = loader.getController();
             //boardViewController.initialize();

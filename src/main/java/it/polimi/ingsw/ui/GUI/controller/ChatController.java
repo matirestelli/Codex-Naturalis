@@ -154,7 +154,7 @@ public class ChatController extends GUI{
 
     public void closePopUp(ActionEvent actionEvent) {
         chatOpen = false;
-        imageChat.setImage(new Image("/it/polimi/ingsw/icons/iconChat.png"));
+        imageChat.setImage(new Image("icons/iconChat.png"));
         messageJustSent = false;
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();

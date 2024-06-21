@@ -106,7 +106,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     @Override
     public void start (Stage primaryStage) throws Exception {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/StartingScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/StartingScene.fxml"));
             root = loader.load();
             startingSceneController = loader.getController();
             startingSceneController.ifGameNotStarted();
@@ -115,9 +115,9 @@ public class GUI extends Application implements UserInterfaceStrategy {
             e.printStackTrace();
         }
         currStage = primaryStage;
-        // Parent root = FXMLLoader.load(getClass().getResource("it/polimi/ingsw/scenes/StartingScene.fxml"));
+        // Parent root = FXMLLoader.load(getClass().getResource("scenes/StartingScene.fxml"));
         currStage.setTitle("StartingGame");
-        Image icon = new Image("/it/polimi/ingsw/icons/iconaCodex.png");
+        Image icon = new Image("icons/iconaCodex.png");
         currStage.getIcons().add(icon);
         currStage.setScene(new Scene(root));
         xStage = currStage.getX();
@@ -128,7 +128,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
             //System.out.println("Window is closing");
             this.closeError();
         });
-        //primaryStage.getScene().getStylesheets().add("it/polimi/ingsw/gc38/cssFiles/style.css");
+        //primaryStage.getScene().getStylesheets().add("cssFiles/style.css");
         currStage.show();
     }
     /*
@@ -157,7 +157,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void initializeScenes() {
         //inizializzo tutte le scene e i relativi controller così da poter usare tutti i metodi sui controller anche se l'utente non ha ancora cambiato scena
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/StartingScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/StartingScene.fxml"));
             this.setStartingScene(loader.load());
             this.setStartingSceneController( loader.getController());
 
@@ -167,7 +167,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/BoardScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/BoardScene.fxml"));
             this.setBoardScene(loader.load());
             this.setBoardViewController(loader.getController());
 
@@ -176,7 +176,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/WaitingForPlayers.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/WaitingForPlayers.fxml"));
             this.setWaitingForPlayersScene(loader.load());
             this.setWaitingForPlayersController(loader.getController());
 
@@ -185,7 +185,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/ChoosingStarter.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/ChoosingStarter.fxml"));
             this.setChoosingStarterScene(loader.load());
             this.setChoosingStarterController(loader.getController());
 
@@ -195,7 +195,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/ChoosingObjective.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/ChoosingObjective.fxml"));
             this.setChoosingObjectiveScene(loader.load());
             this.setChoosingObjectiveController(loader.getController());
           //  System.out.println("ChoosingObjective.fxml loaded");
@@ -213,7 +213,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
        // initializeScenes();
         //per ora chiamo qui initializeScenes ma poi sarà nel metodo inizialize della cui generale interfaccia
         switch (sceneName){
-            case "/it/polimi/ingsw/scenes/StartingScene.fxml":
+            case "scenes/StartingScene.fxml":
                 try {
                     //FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
                     // root = loader.load();
@@ -226,9 +226,9 @@ public class GUI extends Application implements UserInterfaceStrategy {
                 }
                 break;
 
-            case "/it/polimi/ingsw/scenes/WaitingForPlayers.fxml":
+            case "scenes/WaitingForPlayers.fxml":
                 try {
-                   FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
+                   FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(sceneName));
                    root = loader.load();
                    waitingForPlayersController = loader.getController();
                     //root = this.getWaitingForPlayersScene();
@@ -242,7 +242,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
                 break;
 
 
-            case "/it/polimi/ingsw/scenes/BoardScene.fxml":
+            case "scenes/BoardScene.fxml":
 
                  try {
                      //FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
@@ -258,7 +258,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
                     }
                 break;
 
-            case "/it/polimi/ingsw/scenes/ChoosingStarter.fxml":
+            case "scenes/ChoosingStarter.fxml":
                 try {
                     //FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
                     //root = loader.load();
@@ -274,7 +274,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
                 }
                 break;
 
-            case "/it/polimi/ingsw/scenes/ChoosingObjective.fxml":
+            case "scenes/ChoosingObjective.fxml":
                 try {
                     //FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName));
                     //root = loader.load();
@@ -306,7 +306,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
         double x = errorStage.getX();
         double y = errorStage.getY();
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/ErrorPopUp.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/ErrorPopUp.fxml"));
             Parent root = loader.load();
             errorPopUpController = loader.getController();
             errorPopUpController.showMessage(message);
@@ -336,7 +336,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
         double x = errorStage.getX();
         double y = errorStage.getY();
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/Scoreboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/Scoreboard.fxml"));
             Parent root = loader.load();
             scoreboardController = loader.getController();
             scoreboardController.setPawns();
@@ -368,7 +368,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     public void showErrorPopUpNoStage(String message) {
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/scenes/ErrorPopUp.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/ErrorPopUp.fxml"));
             Parent root = loader.load();
             errorPopUpController = loader.getController();
             errorPopUpController.showMessage(message);
@@ -401,7 +401,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     public void gameStarted() {
         if(wasWaitingForPlayers) {
             Platform.runLater(() -> {
-                changeScene("/it/polimi/ingsw/scenes/WaitingForPlayers.fxml", currStage);
+                changeScene("scenes/WaitingForPlayers.fxml", currStage);
             });
         }
     }
@@ -457,7 +457,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
             client.getModelView().setMyTurn(true);
             if(notYetBoardScene){
                 //todo controllare se funziona
-                changeScene("/it/polimi/ingsw/scenes/BoardScene.fxml", currStage);
+                changeScene("scenes/BoardScene.fxml", currStage);
             }
             this.getBoardViewController().selectCardToPlay(data);
         });
@@ -506,7 +506,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
         Platform.runLater(() -> {
             if(notYetBoardScene){
                 //todo controllare se funziona
-                changeScene("/it/polimi/ingsw/scenes/BoardScene.fxml", currStage);
+                changeScene("scenes/BoardScene.fxml", currStage);
             }
             if(!messageJustSent) {
                 this.getBoardViewController().message("It's not your turn");

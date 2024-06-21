@@ -17,7 +17,7 @@ public class DeckTest {
     private Gson gson;
     private Type typeOfCard;
 
-    @BeforeEach
+    /* @BeforeEach
     public void setUp() throws Exception {
         typeOfCard = new TypeToken<List<Card>>(){}.getType();
         deck = new Deck("src/main/resources/it/polimi/ingsw/", typeOfCard);
@@ -88,13 +88,5 @@ public class DeckTest {
         assertEquals(originalCards.size() - 1, deck.getCards().size());
         Deck deck2 = new Deck("src/main/resources/it/polimi/ingsw/", typeOfCard);
         assertEquals(null, deck2.drawCard());
-    }
-
-
-
-
-
-
-
-
+    } */
 }

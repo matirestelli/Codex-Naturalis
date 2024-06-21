@@ -39,10 +39,10 @@ public class SettingUsernameController extends GUI {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         if(stage.isFullScreen()){
             stage.setFullScreen(false);
-            iconaScreen.setImage(new javafx.scene.image.Image("/it/polimi/ingsw/gc38/icons/iconaFullScreen.png"));
+            iconaScreen.setImage(new javafx.scene.image.Image("icons/iconaFullScreen.png"));
         } else {
             stage.setFullScreen(true);
-            iconaScreen.setImage(new javafx.scene.image.Image("/it/polimi/ingsw/gc38/icons/iconaMinimizeScreen.png"));
+            iconaScreen.setImage(new javafx.scene.image.Image("icons/iconaMinimizeScreen.png"));
         }
 
     }
@@ -53,7 +53,7 @@ public class SettingUsernameController extends GUI {
        // String user = nametextfield.getText();
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
        /* try {
-            Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/gc38/scenes/CreatingNewGame.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/gc38/scenes/CreatingNewGame.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -62,14 +62,14 @@ public class SettingUsernameController extends GUI {
         }
 
         */
-        this.changeScene("/it/polimi/ingsw/scenes/CreatingNewGame.fxml", stage);
+        this.changeScene("scenes/CreatingNewGame.fxml", stage);
     }
 
 
     public void JoinGame(ActionEvent actionEvent) {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         /* try {
-            Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/gc38/scenes/JoinAGame.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/gc38/scenes/JoinAGame.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -78,6 +78,6 @@ public class SettingUsernameController extends GUI {
         }
 
          */
-        this.changeScene("/it/polimi/ingsw/scenes/JoinAGame.fxml", stage);
+        this.changeScene("scenes/JoinAGame.fxml", stage);
     }
 }
