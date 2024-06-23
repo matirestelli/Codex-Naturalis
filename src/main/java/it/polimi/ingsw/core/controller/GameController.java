@@ -661,5 +661,21 @@ public class GameController extends UnicastRemoteObject implements GameControlle
             System.out.println("RemoteException caught: " + e.getMessage());
             exitGame("error");
         }
-        }
+    }
+
+    public BlockingQueue<PlayerMove> getMoveQueue(){
+        return moveQueue;
+    }
+
+    public void addObserverToMap(String username, GameObserver observer) {
+        orderedObserversMap.put(username, observer);
+    }
+
+    public void setCardToPlace(Card cardToPlace) {
+        this.cardToPlace = cardToPlace;
+    }
+
+    public void setTest(Map<Integer, Map<Integer, List<Coordinate>>> test) {
+        this.test = test;
+    }
 }
