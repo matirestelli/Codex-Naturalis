@@ -26,14 +26,7 @@ class GameControllerTest {
         static private GameSessionManager sessionManager;
         private ObserverTest observer;
         private ObserverTest observ2;
-        private Socket clientSocket;
         private GameState gameState;
-        private String gameId;
-        private String username;
-        private int desiredPlayers;
-        private int playerIndex;
-        private Client client;
-        private ModelView modelView;
 
         @BeforeEach
         void setUp() throws RemoteException {
@@ -43,11 +36,6 @@ class GameControllerTest {
                 gameController = new GameController(gameState);
                 sessionManager = GameSessionManager.getInstance();
                 server = new GameServer(sessionManager);
-                gameId = "gameId";
-                username = "username";
-                desiredPlayers = 2;
-                playerIndex = 0;
-                modelView = new ModelView();
                 Player player = new Player("us1");
                 gameState.addPlayer(player);
                 gameController.addObserver("us1", observer);
