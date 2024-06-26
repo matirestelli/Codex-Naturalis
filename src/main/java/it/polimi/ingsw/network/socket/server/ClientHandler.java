@@ -13,6 +13,11 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class handles the communication between the server and a client.
+ * It is responsible for receiving and sending messages to/from the client.
+ * It also manages the client's game session.
+ */
 public class ClientHandler implements Runnable, GameObserver {
     private GameServer server;
     private Socket clientSocket;
@@ -22,6 +27,12 @@ public class ClientHandler implements Runnable, GameObserver {
     private String gameId;
     private GameControllerRemote gc;
 
+    /**
+     * Constructs a new ClientHandler with the specified client socket and server.
+     *
+     * @param clientSocket the socket for communication with the client
+     * @param server the server that this client handler is associated with
+     */
     public ClientHandler(Socket clientSocket, GameServer server) {
         this.clientSocket = clientSocket;
         this.server = server;
@@ -35,6 +46,10 @@ public class ClientHandler implements Runnable, GameObserver {
         }
     }
 
+    /**
+     * Starts the client handler.
+     * It receives messages from the client and sends responses.
+     */
     @Override
     public void run() {
         try {
@@ -153,6 +168,11 @@ public class ClientHandler implements Runnable, GameObserver {
         }
     }
 
+    /**
+     * Updates the client with the specified event.
+     *
+     * @param event the event to send to the client
+     */
     @Override
     public void update(MessageServer2Client event) {
         try {
@@ -169,6 +189,9 @@ public class ClientHandler implements Runnable, GameObserver {
         }
     }
 
+    /**
+     * Closes the connection with the client.
+     */
     private void closeConnection() {
         try {
             if (inputStream != null) inputStream.close();

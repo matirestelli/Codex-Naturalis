@@ -12,6 +12,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * This class represents a client in the network communication via socket.
+ * It is responsible for sending and receiving messages to/from the server.
+ * It also manages the user interface strategy (CLI or GUI).
+ */
 public class Client extends ClientAbstract {
     private Socket socket;
     private ObjectOutputStream outputStream;
@@ -22,6 +27,13 @@ public class Client extends ClientAbstract {
     private GUI playerGui;
     private String serverAddres;
 
+    /**
+     * Constructor for the client.
+     * @param modelView the model view
+     * @param host the host address
+     * @param port the port number
+     * @throws IOException if an I/O error occurs when creating the socket
+     */
     public Client(ModelView modelView, String host, int port) throws IOException {
         super(modelView);
 
@@ -48,6 +60,15 @@ public class Client extends ClientAbstract {
         this.uiStrategy = new TextUserInterface(this);
     }
 
+    /**
+     * Starts the client and establishes a connection with the server.
+     * It also handles the user's choice to join or create a game session.
+     *
+     * @param arg The argument to determine if the client is reconnecting.
+     * @param usernameask The username of the client.
+     * @throws IOException If there is an error in the input or output stream.
+     * @throws ClassNotFoundException If the class of a serialized object cannot be found.
+     */
     public void start(String arg, String usernameask) throws IOException, ClassNotFoundException {
         if(arg == "true") {
             if(usernameask.endsWith("reconnected")) {
@@ -142,6 +163,9 @@ public class Client extends ClientAbstract {
         listenForUpdates();
     }
 
+    /**
+     * Listens for updates from the server.
+     */
     public void listenForUpdates() {
         try {
             while (!socket.isClosed()) {
@@ -157,6 +181,9 @@ public class Client extends ClientAbstract {
         }
     }
 
+    /**
+     * Closes the connection with the server.
+     */
     private void closeConnection() {
         try {
             if (inputStream != null) inputStream.close();
@@ -167,6 +194,10 @@ public class Client extends ClientAbstract {
         }
     }
 
+    /**
+     * Sends a message to the server.
+     * @param message The message to send.
+     */
     @Override
     public void sendMessage(MessageClient2Server message) {
         message.appendToType(" from " + username);
@@ -177,6 +208,10 @@ public class Client extends ClientAbstract {
         }
     }
 
+    /**
+     * Main method to start the client.
+     * @param args The command line arguments.
+     */
     public static void main(String[] args) {
         ModelView modelView = new ModelView();
         try {
@@ -187,6 +222,12 @@ public class Client extends ClientAbstract {
         }
     }
 
+    /**
+     * Restarts the client.
+     * @param bool The boolean value to determine if the client is reconnecting.
+     * @param usernameask The username of the client.
+     * @param ip The IP address of the server.
+     */
     public static void restart(String bool, String usernameask, String ip){
         System.out.println("Reconnecting to the server..." + ip + " 12345");
         ModelView modelView = new ModelView();
@@ -199,6 +240,9 @@ public class Client extends ClientAbstract {
         }
     }
 
+    /**
+     * Disconnects the client from the server.
+     */
     public void disconnect() {
         String usernameask = this.username;
         closeConnection();

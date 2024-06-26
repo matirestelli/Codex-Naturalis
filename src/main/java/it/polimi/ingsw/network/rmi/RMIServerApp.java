@@ -6,13 +6,27 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/**
+ * This class is responsible for starting the RMI server.
+ * It creates or retrieves the RMI registry on port 1099 and binds the GameServer implementation to it.
+ */
 public class RMIServerApp {
     private GameSessionManager sessionManager;
 
+    /**
+     * Constructs a new RMIServerApp with the specified GameSessionManager.
+     *
+     * @param sessionManager the manager for game sessions
+     */
     public RMIServerApp(GameSessionManager sessionManager) {
         this.sessionManager = sessionManager;
     }
 
+    /**
+     * Starts the RMI server.
+     *
+     * @throws RemoteException if the server fails to start
+     */
     public void startServer() throws RemoteException {
         Registry registry;
         try {

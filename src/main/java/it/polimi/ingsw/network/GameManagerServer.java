@@ -6,10 +6,19 @@ import it.polimi.ingsw.network.socket.server.GameServer;
 
 import java.rmi.RemoteException;
 
-
+/**
+ * This class is responsible for managing the game server.
+ * It creates and starts the socket server and RMI server.
+ */
 public class GameManagerServer {
     private static GameSessionManager sessionManager;
 
+    /**
+     * The main method that starts the game server.
+     * It creates and starts the socket server and RMI server.
+     *
+     * @param args the command-line arguments
+     */
     public static void main(String[] args) {
         sessionManager = GameSessionManager.getInstance();
 

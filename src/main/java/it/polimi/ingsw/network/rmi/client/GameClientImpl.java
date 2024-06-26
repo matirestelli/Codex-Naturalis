@@ -15,7 +15,13 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+/**
+ * This class represents the implementation of a game client in the RMI network.
+ * It extends the abstract class ClientAbstract and implements the GameClient interface.
+ * It manages the connection to the server, sending and receiving messages, and user interactions.
+ *
+ * @author alessiovilla
+ */
 public class GameClientImpl extends ClientAbstract implements GameClient {
     private GameServer server; // reference to the RMI server
     private String username; // username of the client
@@ -27,6 +33,11 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
     private GUI playerGui;
     private static String serverAddress;
 
+    /**
+     * Sends a message from the client to the server.
+     *
+     * @param message The message to be sent to the server.
+     */
     @Override
     public void sendMessage(MessageClient2Server message) {
         try{
@@ -51,6 +62,15 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         }
     }
 
+    /**
+     * Constructor for the GameClientImpl class.
+     *
+     * @param modelView The model view of the game.
+     * @param host The IP address of the server.
+     * @param port The port number of the server.
+     * @param opt The user interface option.
+     * @throws RemoteException If there is an error in the remote connection.
+     */
     public GameClientImpl(ModelView modelView, String host, int port, String opt) throws RemoteException {
         super(modelView);
         this.notificationExecutor = Executors.newSingleThreadExecutor();
@@ -73,6 +93,9 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         connectToServer(host, port);
     }
 
+    /**
+     * Disconnects the client from the server.
+     */
     public void disconnect(){
             String usernameask = this.username;
             // Shutdown the notification executor
@@ -87,6 +110,13 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
             restart(bool,usernameask);
     }
 
+    /**
+     * Connects the client to the server.
+     *
+     * @param host The IP address of the server.
+     * @param port The port number of the server.
+     * @throws RemoteException If there is an error in the remote connection.
+     */
     private void connectToServer(String host, int port) throws RemoteException {
         try {
             Registry registry = LocateRegistry.getRegistry(host, port);
@@ -100,6 +130,13 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         }
     }
 
+    /**
+     * Logs in the client to the server.
+     *
+     * @param args The arguments for the login.
+     * @param usernameask The username of the client.
+     * @throws RemoteException If there is an error in the remote connection.
+     */
     public void login(String args, String usernameask) throws RemoteException {
         //System.out.print("Enter your username: ");
         // String nickname = scanner.nextLine();
@@ -215,6 +252,11 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         }
     }
 
+    /**
+     * Updates the client with a message from the server.
+     *
+     * @param message The message from the server.
+     */
     @Override
     public void update(MessageServer2Client message) {
         try{
@@ -241,6 +283,11 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         }
     }
 
+    /**
+     * Main method for the GameClientImpl class.
+     *
+     * @param args The arguments for the main method.
+     */
     public static void main(String[] args) {
         ModelView modelView = new ModelView();
         try {
@@ -251,6 +298,12 @@ public class GameClientImpl extends ClientAbstract implements GameClient {
         }
     }
 
+    /**
+     * Restarts the client.
+     *
+     * @param bool The boolean value for the restart.
+     * @param usernameask The username of the client.
+     */
     public static void restart(String bool, String usernameask) {
         System.out.println("Restarting the client... on" + serverAddress);
         ModelView modelView = new ModelView();
