@@ -108,7 +108,7 @@ public class GameServerImpl extends UnicastRemoteObject implements it.polimi.ing
      * @return a string representation of all available game sessions
      * @throws RemoteException if the remote invocation fails
      */
-    public String listGameSessions() {
+    public String listGameSessions() throws RemoteException{
         Map<String, GameSession> sessions = gameSessionManager.getAllSessions();
         StringBuilder sb = new StringBuilder("Available game sessions:\n");
         for (GameSession session : sessions.values()) {
@@ -127,7 +127,7 @@ public class GameServerImpl extends UnicastRemoteObject implements it.polimi.ing
      * @return a string representation of all available game sessions
      * @throws RemoteException if the remote invocation fails
      */
-    public synchronized String listGameSessionsComplete() {
+    public synchronized String listGameSessionsComplete() throws RemoteException{
         Map<String, GameSession> sessions = gameSessionManager.getAllSessions();
         StringBuilder sb = new StringBuilder("Available game sessions:\n");
         for (GameSession session : sessions.values()) {
@@ -145,7 +145,7 @@ public class GameServerImpl extends UnicastRemoteObject implements it.polimi.ing
      * @return true if all players are connected, false otherwise
      * @throws RemoteException if the remote invocation fails
      */
-    public boolean allPlayersConnected(String gameId) {
+    public boolean allPlayersConnected(String gameId) throws RemoteException{
         GameSession session = gameSessionManager.getSession(gameId);
         return session.allPlayersConnected();
     }
