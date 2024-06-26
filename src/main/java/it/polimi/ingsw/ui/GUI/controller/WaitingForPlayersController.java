@@ -27,6 +27,11 @@ public class WaitingForPlayersController extends GUI  {
 
 
 
+    /**
+     * Initializes the welcome message and sets the player's pawn icon based on their color.
+     * This method updates the welcome label with the player's username and sets the player's
+     * pawn icon image accordingly.
+     */
     public void initializeMessage() {
        welcomeLabel.setText("Welcome " + client.getModelView().getMyUsername());
         String color = client.getModelView().getPlayerPawns().get(client.getModelView().getMyUsername()).toString();

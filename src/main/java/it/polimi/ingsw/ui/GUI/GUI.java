@@ -35,7 +35,6 @@ public class GUI extends Application implements UserInterfaceStrategy {
     private Parent root;
     private double xStage;
     private double yStage;
- //TODO volgio che sia visibile ai figli, non so se protected è il miglior modo
    protected static ClientAbstract client ; //il client che possiede la view
 
     //il viewmodel del gioco che verrà modificato dopo gli update del server
@@ -70,7 +69,6 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     protected static Timer timer;
 
-    //todo se funziona l'idea di cambiare scena io di deafault eliminarli
     private static PlayableCardIds firstTurn;
     private static Boolean firstTurnBool = false;
 
@@ -79,6 +77,13 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     private static volatile boolean javaFxLaunched = false;
 
+    /**
+     * Launches a JavaFX application in a separate thread if it's the first time the method is called.
+     * For subsequent calls, it initializes and starts a new instance of the provided application class on the JavaFX Application Thread.
+     *
+     * It's a way to avoid the fact that an Application subclass can be launched only once, with this method you can play how mani games you want choosing every time between cli or gui
+     * @param applicationClass the class of the JavaFX Application to be launched
+     */
     public static void myLaunch(Class<? extends Application> applicationClass) {
         if (!javaFxLaunched) { // First time
             Platform.setImplicitExit(false);
@@ -103,6 +108,15 @@ public class GUI extends Application implements UserInterfaceStrategy {
         }
     }
 
+    /**
+     * Initializes and starts the primary stage for the JavaFX application.
+     *
+     * <p>This method sets up the initial scene by loading the "StartingScene.fxml" file, setting the stage title,
+     * icon, and scene, and then displaying the stage. It also sets up a close request handler for the stage.</p>
+     *
+     * @param primaryStage the primary stage for this JavaFX application
+     * @throws Exception if there is any issue loading the FXML file or setting up the stage
+     */
     @Override
     public void start (Stage primaryStage) throws Exception {
         try {
@@ -138,22 +152,41 @@ public class GUI extends Application implements UserInterfaceStrategy {
         Application.launch(args);
     }
 
-    //TODO
+
     public void displayScoreboard() {
+        //gui does nothing
     }
 
-    //TODO
+
     public void displayPersonalResources(Map<Resource, Integer> data) {
+        //gui does nothing
     }
 
     public void noFreeAngles() {
-        //gui does nothing for now
+        //gui does nothing
     }
 
     public void getBoardString(String board) {
-        //only for cli
+        //gui does nothing
     }
 
+    /**
+     * Initializes all the scenes and their respective controllers.
+     *
+     * <p>This method loads several FXML files for different scenes and sets their controllers.
+     * This allows the application to access and use methods from these controllers even if the user has not yet navigated to these scenes.</p>
+     *
+     * <p>The scenes initialized are:</p>
+     * <ul>
+     *   <li>Starting Scene</li>
+     *   <li>Board Scene</li>
+     *   <li>Waiting for Players Scene</li>
+     *   <li>Choosing Starter Scene</li>
+     *   <li>Choosing Objective Scene</li>
+     * </ul>
+     *
+     * <p>If any FXML file fails to load, the exception is caught and the stack trace is printed.</p>
+     */
     public void initializeScenes() {
         //inizializzo tutte le scene e i relativi controller così da poter usare tutti i metodi sui controller anche se l'utente non ha ancora cambiato scena
         try {
@@ -207,6 +240,22 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     }
 
+    /**
+     * Changes the current scene displayed in the provided stage to the specified scene.
+     *
+     * <p>This method switches the current scene to the one specified by the `sceneName` parameter.
+     * It initializes the new scene and its controller as needed. The method supports several predefined scenes:
+     * <ul>
+     *   <li>Starting Scene</li>
+     *   <li>Waiting for Players Scene</li>
+     *   <li>Board Scene</li>
+     *   <li>Choosing Starter Scene</li>
+     *   <li>Choosing Objective Scene</li>
+     * </ul></p>
+     *
+     * @param sceneName the name of the FXML file for the scene to be displayed
+     * @param stage the stage in which the scene will be displayed
+     */
     public void changeScene(String sceneName, Stage stage){
         //gui ha quindi in curr stage lo stage dell'ultima scena che ha attivato
         currStage = stage;
@@ -291,7 +340,6 @@ public class GUI extends Application implements UserInterfaceStrategy {
                 break;
 
             default:
-                //eccezione
                 break;
         }
 
@@ -302,6 +350,16 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
 
 
+    /**
+     * Displays an error pop-up window with the specified message.
+     *
+     * <p>This method creates a new pop-up window to show an error message. The pop-up is centered near the
+     * specified error stage's current position. The pop-up is loaded from the "ErrorPopUp.fxml" file and
+     * uses a scale transition for its appearance animation.</p>
+     *
+     * @param message the error message to be displayed in the pop-up
+     * @param errorStage the stage near which the error pop-up will be displayed
+     */
     public void showErrorPopUp(String message, Stage errorStage) {
         double x = errorStage.getX();
         double y = errorStage.getY();
@@ -332,6 +390,19 @@ public class GUI extends Application implements UserInterfaceStrategy {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * Displays a scoreboard pop-up window near the specified stage.
+     *
+     * <p>This method creates a new pop-up window to display the scoreboard. The pop-up is centered near the
+     * specified stage's current position. The pop-up is loaded from the "Scoreboard.fxml" file and
+     * uses a scale transition for its appearance animation.</p>
+     *
+     * <p>The scoreboard pop-up is shown as a modal, non-resizable, and transparent window.</p>
+     *
+     * @param errorStage the stage near which the scoreboard pop-up will be displayed
+     */
     public void showScoreboardPopUp(Stage errorStage){
         double x = errorStage.getX();
         double y = errorStage.getY();
@@ -363,9 +434,18 @@ public class GUI extends Application implements UserInterfaceStrategy {
         }
     }
 
-    //per ora con il main ma vediamo
 
-
+    /**
+     * Displays an error pop-up window with the specified message.
+     *
+     * <p>This method creates a new pop-up window to show an error message. The pop-up is loaded from the
+     * "ErrorPopUp.fxml" file and uses a scale transition for its appearance animation. The position of the
+     * pop-up is determined by the coordinates stored in `xStage` and `yStage`.</p>
+     *
+     * <p>The error pop-up is shown as a modal, non-resizable, and transparent window that is always on top.</p>
+     *
+     * @param message the error message to be displayed in the pop-up
+     */
     public void showErrorPopUpNoStage(String message) {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("scenes/ErrorPopUp.fxml"));
@@ -398,6 +478,12 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     //metodi chiamati dai message.execute, comuni con tui grazie a uiStrategy
 
+    /**
+     * Handles the transition to the "Waiting for Players" scene if the game was waiting for players.
+     *
+     * <p>This method checks if the game was in a state of waiting for players (indicated by the `wasWaitingForPlayers` flag).
+     * If so, it changes the current scene to the "Waiting for Players" scene on the JavaFX Application Thread.</p>
+     */
     public void gameStarted() {
         if(wasWaitingForPlayers) {
             Platform.runLater(() -> {
@@ -405,45 +491,60 @@ public class GUI extends Application implements UserInterfaceStrategy {
             });
         }
     }
+
+    /**
+     * Initiates the selection of objectives on the JavaFX Application Thread.
+     *
+     * <p>This method receives a list of objectives and prepares to handle the selection process on the JavaFX Application Thread.
+     * It sets the received objectives as the secret objectives and prepares to invoke the {@code chooseObjective()} method on the
+     * appropriate controller once it's loaded.</p>
+     *
+     * @param obj the list of objectives to be selected
+     */
     @Override
     public void chooseObjective(List<Objective> obj) {
-       // System.out.println("ask for objective arrived to view");
         Platform.runLater(() -> {
-            //in questo momento non ho ancora fatto load dei controller e quidni gestisco la cosa così:
-            //this.getChoosingObjectiveController().setObjective((List<Objective>)event.getData());
-            // this.getChoosingObjectiveController().chooseObjective();
             secretObjs = obj;
-          //  System.out.println("ask for objective arrived");
-            //this.getChoosingObjectiveController().chooseObjective();
         });
     }
 
 
     @Override
     public void setStarterSide() {
-        //gui does nothing for now
-        //perchè il messaggio arriva ancora prima di aver caricato il main dell'applicazione
-        //this.getChoosingStarterController().setStarterCard((CardGame)event.getData());
+        //gui does nothing
     }
 
+    /**
+     * Visualizes the starter card loaded asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method sets the starter card using the provided {@code card} parameter. It ensures that this
+     * operation is performed on the JavaFX Application Thread using {@code Platform.runLater()}.</p>
+     *
+     * @param card the starter card to be visualized
+     */
     @Override
     public void visualiseStarterCardLoaded(Card card) {
         Platform.runLater(() -> {
             this.setStarterCard( card);
-            //System.out.printf("Starter card loaded: %d", this.getStarterCard().getId());
-            //System.out.printf("Starter card loaded: %s", this.getStarterCard().getFrontCover());
-
-            //TODO: sarà così solo che ora il messaggio arriva troppo presto e non ho ancora l'istanza del controller
-            //perchè il messaggio arriva ancora prima di aver caricato il main dell'applicazione
-            //this.getChoosingStarterController().setStarterCard((CardGame)event.getData());
         });
 
     }
 
+    /**
+     * Updates the decks of cards asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method updates the decks of cards with the provided {@code updatedDecks} parameter. It checks if
+     * the board scene has been loaded before attempting to update the decks, ensuring that the update operation
+     * is performed only when the board scene is ready.</p>
+     *
+     * <p>If the board scene is ready (indicated by {@code notYetBoardScene}), it calls {@code updateDecks()} on
+     * the board view controller to apply the updates.</p>
+     *
+     * @param updatedDecks the updated list of decks to be applied
+     */
     @Override
     public void updateDecks(List<Card> updatedDecks) {
         Platform.runLater(() -> {
-            //TODO ora da errore perchè non ho ancora caricato il controller, in teoria quando fa queste cose poi prima aspetta username
             if(!notYetBoardScene) {
                 this.getBoardViewController().updateDecks(updatedDecks);
             }
@@ -451,18 +552,33 @@ public class GUI extends Application implements UserInterfaceStrategy {
     }
 
 
+    /**
+     * Updates the UI to indicate the current player's turn asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method sets the current player's turn status to true in the client's model view. If the board scene
+     * has not been loaded yet (indicated by {@code notYetBoardScene}), it initiates a scene change to the "BoardScene.fxml".
+     * After ensuring the board scene is ready, it delegates the task of selecting a card to play to the board view controller.</p>
+     *
+     * @param data the playable card IDs for the current turn
+     */
     @Override
     public void currentTurn(PlayableCardIds data) {
         Platform.runLater(() -> {
             client.getModelView().setMyTurn(true);
             if(notYetBoardScene){
-                //todo controllare se funziona
                 changeScene("scenes/BoardScene.fxml", currStage);
             }
             this.getBoardViewController().selectCardToPlay(data);
         });
     }
 
+    /**
+     * Updates the state of the current player asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method updates the state of the current player by invoking {@code updateMyPlayerstate()} on the
+     * board view controller. This operation is performed asynchronously on the JavaFX Application Thread to ensure
+     * UI-related tasks are handled properly.</p>
+     */
     @Override
     public void updateMyPlayerState() {
         Platform.runLater(() -> {
@@ -470,6 +586,15 @@ public class GUI extends Application implements UserInterfaceStrategy {
         });
     }
 
+    /**
+     * Updates the state of a specific player asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method updates the state of the player identified by {@code player} by invoking {@code updatePlayerstate(player)}
+     * on the board view controller. This operation is performed asynchronously on the JavaFX Application Thread to ensure
+     * UI-related tasks are handled properly.</p>
+     *
+     * @param player the name or identifier of the player whose state is to be updated
+     */
     @Override
     public void updatePlayerState(String player) {
         Platform.runLater(() -> {
@@ -477,6 +602,15 @@ public class GUI extends Application implements UserInterfaceStrategy {
         });
     }
 
+    /**
+     * Displays available angles for a player's action asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method displays the available angles for a player's action by invoking {@code askForAngle(data)}
+     * on the board view controller. This operation is performed asynchronously on the JavaFX Application Thread
+     * to ensure UI-related tasks are handled properly.</p>
+     *
+     * @param data a list of coordinates representing the available angles
+     */
     @Override
     public void showAvailableAngles(List<Coordinate> data) {
         Platform.runLater(() -> {
@@ -484,6 +618,15 @@ public class GUI extends Application implements UserInterfaceStrategy {
         });
     }
 
+    /**
+     * Asks the player where to draw cards from asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method prompts the player to choose where to draw cards from by invoking {@code drawFromDecks()}
+     * on the board view controller. This operation is performed asynchronously on the JavaFX Application Thread
+     * to ensure UI-related tasks are handled properly.</p>
+     *
+     * @param cards a list of cards indicating the available decks or sources from which cards can be drawn
+     */
     @Override
     public void askWhereToDraw(List<Card> cards) {
         Platform.runLater(() -> {
@@ -491,6 +634,15 @@ public class GUI extends Application implements UserInterfaceStrategy {
         });
     }
 
+    /**
+     * Displays the player's hand of cards asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method displays the player's hand of cards by invoking {@code updateHand(hand)} on the board view controller,
+     * provided that the board scene has already been loaded (indicated by {@code notYetBoardScene} being false). This operation
+     * is performed asynchronously on the JavaFX Application Thread to ensure UI-related tasks are handled properly.</p>
+     *
+     * @param hand a list of cards representing the player's current hand
+     */
     @Override
     public void displayHand(List<Card> hand) {
         Platform.runLater(() -> {
@@ -501,11 +653,19 @@ public class GUI extends Application implements UserInterfaceStrategy {
         });
     }
 
+    /**
+     * Displays a message indicating that it's not the player's turn asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method checks if the board scene has not been loaded yet (indicated by {@code notYetBoardScene}),
+     * and if so, it initiates a scene change to "BoardScene.fxml". If {@code messageJustSent} is false, it displays
+     * a message indicating that it's not the player's turn using {@code message("It's not your turn")} on the board
+     * view controller. It also updates the client's model view to reflect that it's not the player's turn and manages
+     * a timer task to periodically check the connection status by sending a message.</p>
+     */
     @Override
     public void showNotYourTurn() {
         Platform.runLater(() -> {
             if(notYetBoardScene){
-                //todo controllare se funziona
                 changeScene("scenes/BoardScene.fxml", currStage);
             }
             if(!messageJustSent) {
@@ -530,6 +690,15 @@ public class GUI extends Application implements UserInterfaceStrategy {
         });
     }
 
+    /**
+     * Processes a new chat message asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method updates the chat interface with a new message by invoking {@code updateChat(message)}
+     * on the board view controller. This operation is performed asynchronously on the JavaFX Application Thread
+     * to ensure UI-related tasks are handled properly.</p>
+     *
+     * @param message the new chat message to be displayed
+     */
     @Override
     public void newChatMessage(Message message){
         Platform.runLater(() -> {
@@ -537,18 +706,33 @@ public class GUI extends Application implements UserInterfaceStrategy {
         });
     }
 
+    /**
+     * Notifies the player that it is their last turn asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method displays a message indicating that it is the player's last turn by invoking {@code message("This is your Last Turn \n Play carefully!")}
+     * on the board view controller. This operation is performed asynchronously on the JavaFX Application Thread to ensure
+     * UI-related tasks are handled properly.</p>
+     */
     @Override
     public void lastTurn() {
-        //todo capire cosa inviano come event.data
         Platform.runLater(() -> {
             this.getBoardViewController().message("This is your Last Turn \n Play carefully!");
             //in teoria nessun dato, solo messaggio diverso
         });
     }
 
+    /**
+     * Processes the end of the game asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method handles the end of the game by invoking {@code gameEnded()} if the board scene has not been loaded yet
+     * (indicated by {@code notYetBoardScene}). Otherwise, it updates the game interface with the final ranking by invoking
+     * {@code endGameRanking(rank)} on the board view controller. This operation is performed asynchronously on the JavaFX
+     * Application Thread to ensure UI-related tasks are handled properly.</p>
+     *
+     * @param rank a list of pairs containing player names and their corresponding scores in the final ranking
+     */
     @Override
     public void endGame(List<Pair<String, Integer>> rank) {
-    //todo capire cosa inviano come event.data
         Platform.runLater(() -> {
             if(notYetBoardScene){
                 this.gameEnded();
@@ -560,7 +744,12 @@ public class GUI extends Application implements UserInterfaceStrategy {
     }
 
 
-
+    /**
+     * Closes any active error handling and disconnects the client from the game.
+     *
+     * <p>This method cancels any active timers and sends a message to the client to exit the game. It is typically called
+     * to handle the closure of error pop-ups or to manage disconnections from the game.</p>
+     */
     public void closeError() {
         if(timer!=null){
             timer.cancel();
@@ -576,6 +765,12 @@ public class GUI extends Application implements UserInterfaceStrategy {
         System.out.println("You have been disconnected from the game");
     }
 
+    /**
+     * Handles the end of the game asynchronously on the JavaFX Application Thread.
+     *
+     * <p>This method cancels any active timers and closes the current stage (window) associated with the game.
+     * It is typically called when the game has ended to perform cleanup tasks and close the game window.</p>
+     */
     public void gameEnded(){
         Platform.runLater(() -> {
             if(timer!=null){
@@ -605,7 +800,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     @Override
     public void displayCard(Card card) {
-
+        //gui does nothing
     }
 
     @Override
@@ -615,7 +810,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     @Override
     public void displayStarterCardBack(ResourceCard card) {
-
+//gui does nothing
     }
 
     @Override
@@ -625,46 +820,53 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     @Override
     public void placeCard(Card card, Coordinate position) {
-
+        //gui does nothing
     }
 
     @Override
     public void displayBoard() {
+        //gui does nothing
     }
 
     @Override
     public CardSelection askCardSelection(PlayableCardIds ids, List<Card> cards) {
+        //gui does nothing
         return null;
     }
 
     @Override
     public String displayAngle(List<Coordinate> angles) {
+       //gui does nothing
         return null;
     }
 
     @Override
     public Coordinate placeBottomRight(Card targetCard, Card cardToPlace) {
+        //gui does nothing
         return null;
     }
 
     @Override
     public Coordinate placeTopLeft(Card targetCard, Card cardToPlace) {
+       //gui does nothing
         return null;
     }
 
     @Override
     public Coordinate placeTopRight(Card targetCard, Card cardToPlace) {
+        //gui does nothing
         return null;
     }
 
     @Override
     public Coordinate placeBottomLeft(Card targetCard, Card cardToPlace) {
+       //gui does nothing
         return null;
     }
 
     @Override
     public void visualizeStarterCard(Card card) {
-
+        //gui does nothing
     }
 
     @Override
@@ -676,42 +878,46 @@ public class GUI extends Application implements UserInterfaceStrategy {
 
     @Override
     public void place(Card cardToPlace, Card targetCard, int position) {
-
+        //gui does nothing
     }
 
     @Override
     public void displayChat(Chat chat, String username) {
-
+        //gui does nothing
     }
 
     @Override
     public void selectFromMenu() {
-
+        //gui does nothing
     }
 
     @Override
     public String askUsername() {
+        //gui does nothing
         return null;
     }
 
     @Override
     public String askJoinCreate() {
+        //gui does nothing
         return null;
     }
 
     @Override
     public String askGameId(String joinCreate, String gameIds) {
+        //gui does nothing
         return null;
     }
 
     @Override
     public int askNumberOfPlayers() {
+        //gui does nothing
         return 0;
     }
 
     @Override
     public void displayPawn(it.polimi.ingsw.core.model.enums.Color pawn) {
-
+        //gui does nothing
     }
 
 
@@ -833,6 +1039,7 @@ public class GUI extends Application implements UserInterfaceStrategy {
     }
 
     public String askUI(){
+        //gui does nothing
         return null;
     }
 

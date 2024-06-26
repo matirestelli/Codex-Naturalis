@@ -40,6 +40,13 @@ public class ScoreboardController extends GUI{
     private AnchorPane anchorPane;
 
 
+    /**
+     * Closes the chat pop-up window and performs necessary clean-up actions.
+     * closes the
+     * JavaFX stage associated with the pop-up window.
+     *
+     * @param actionEvent The action event that triggers the closure of the pop-up window.
+     */
     public void closePopUp(ActionEvent actionEvent) {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
@@ -55,7 +62,11 @@ public class ScoreboardController extends GUI{
         stage.setY(event.getScreenY() - y);
     }
 
-
+    /**
+     * Sets up player pawns and their positions on the game board.
+     * Uses images corresponding to each player's color and adjusts their size and positioning.
+     * Pawns are placed according to the player's current score on the board.
+     */
     public void setPawns(){
         playersStates = client.getModelView().getPlayerStates();
         playerPawns = client.getModelView().getPlayerPawns();

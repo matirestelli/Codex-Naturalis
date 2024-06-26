@@ -31,7 +31,12 @@ public class StartingSceneController extends GUI {
     @FXML
     private HBox hboxPlay;
 
-
+    /**
+     * Handles the start game action by changing the scene to "WaitingForPlayers.fxml".
+     *
+     * @param actionEvent The ActionEvent triggering the method, typically a button click.
+     * @throws IOException If an error occurs while loading "WaitingForPlayers.fxml".
+     */
     public void startGame(ActionEvent actionEvent) throws IOException {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
          this.changeScene("scenes/WaitingForPlayers.fxml", stage);
@@ -49,6 +54,12 @@ public class StartingSceneController extends GUI {
 
     }
 
+    /**
+     * Checks if the game has not yet started. If so, disables the play button,
+     * removes it from the UI, and displays a loading icon with a message indicating
+     * that the game is waiting for other players to join.
+     *
+     */
     public void ifGameNotStarted() {
         if(!client.getModelView().getGameStarted()){
             buttonPlay.setDisable(true);

@@ -31,6 +31,12 @@ public class ChoosingObjectiveController extends GUI {
         settedObjective = false;
     }
 
+    /**
+     * Sets the objectives in the user interface based on the provided list of objectives.
+     * Updates the images and stores the first and last objectives from the list.
+     *
+     * @param objectives The list of objectives to be displayed in the user interface.
+     */
     public void setObjective(List<Objective> objectives){
         String imageObj1 = objectives.getFirst().getFrontCover();
         obj1 = objectives.getFirst();
@@ -42,6 +48,12 @@ public class ChoosingObjectiveController extends GUI {
         objective2.setImage(frontObj2);
     }
 
+    /**
+     * Sets actions for choosing objectives when corresponding buttons are clicked.
+     * Updates the view model with the selected objective and sends a message to the client
+     * about the chosen objective.
+     * Displays an error message if an objective has already been chosen.
+     */
     public void chooseObjective(){
         //quando clicco il bottone mando update al client della scelta adottata
         buttonObjective1.setOnAction(e -> {

@@ -50,6 +50,21 @@ public class ChatController extends GUI{
     private AnchorPane privateAnchorPane;
     private ImageView imageChat;
 
+    /**
+     * Initializes the chat interface with player names and previous messages.
+     * Retrieves the list of players, current username, chat history, and sets
+     * unread message count to zero. Creates tabs for each player (except the current user)
+     * with a text area to display messages. Displays previous chat messages if they exist.
+     * <p>
+     * This method populates the chat interface with tabs for each player, where each tab contains
+     * a text area to display messages. If there are previous private messages, they are displayed
+     * in the corresponding tabs. Broadcast messages are displayed in the broadcast message area.
+     * </p>
+     * <p>
+     * Note: This method assumes that the necessary data (players, username, chat history)
+     * has been set in the client's model view.
+     * </p>
+     */
     public void initialize() {
         //inizializza la chat inserendo i nomi dei giocatori della partita e recupera i vecchi messaggi se ci sono quando hai chiudo
         //la chat l'ultima volta
@@ -119,6 +134,13 @@ public class ChatController extends GUI{
 
     }
 
+    /**
+     * Retrieves a Tab object from a TabPane based on its ID.
+     *
+     * @param tabPane The TabPane containing the tabs to search.
+     * @param id The ID of the tab to retrieve.
+     * @return The Tab object with the specified ID, or {@code null} if no such tab is found.
+     */
     private Tab getTabById(TabPane tabPane, String id) {
        // System.out.println("id: " + id);
         for (Tab tab : tabPane.getTabs()) {
@@ -130,7 +152,12 @@ public class ChatController extends GUI{
         return null; // Return null if no tab with the specified ID is found
     }
 
-
+    /**
+     * Sends a message when the Enter key is pressed in the input box.
+     * Determines the type of message (broadcast or private) based on the selected tab.
+     *
+     * @param keyEvent The KeyEvent triggered by pressing a key (Enter key in this case).
+     */
     public void sendMessage(KeyEvent keyEvent) {
         Tab tab = broadcastTabPane.getSelectionModel().getSelectedItem();
         if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -152,6 +179,13 @@ public class ChatController extends GUI{
         }
     }
 
+    /**
+     * Closes the chat pop-up window and performs necessary clean-up actions.
+     * Sets the chatOpen flag to false, resets the chat icon, and closes the
+     * JavaFX stage associated with the pop-up window.
+     *
+     * @param actionEvent The action event that triggers the closure of the pop-up window.
+     */
     public void closePopUp(ActionEvent actionEvent) {
         chatOpen = false;
         imageChat.setImage(new Image("icons/iconChat.png"));
@@ -171,6 +205,14 @@ public class ChatController extends GUI{
         stage.setY(event.getScreenY() - y);
     }
 
+    /**
+     * Updates the chat interface with a new message.
+     * Sets the unread message count to zero in the client's model view.
+     * Depending on whether the message is private or broadcast, updates the
+     * corresponding text areas with the new message content.
+     *
+     * @param message The message to be displayed in the chat interface.
+     */
     public void updateChat(Message message) {
         client.getModelView().setMyUnreadedMessages(0);
         if (message instanceof MessagePrivate) {

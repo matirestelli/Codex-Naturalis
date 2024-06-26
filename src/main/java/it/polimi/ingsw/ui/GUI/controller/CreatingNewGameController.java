@@ -32,11 +32,8 @@ public class CreatingNewGameController extends GUI{
 
     public void setPlayers(ActionEvent actionEvent) {
         if(button2.isSelected()) {
-            //TODO
         } else if(button3.isSelected()) {
-            //TODO
         } else if(button4.isSelected()) {
-            //TODO
         }
     }
 

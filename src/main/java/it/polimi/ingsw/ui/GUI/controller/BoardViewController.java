@@ -166,6 +166,14 @@ public class BoardViewController extends GUI {
     private static OpponentsCodexController opponentsCodexController;
 
 
+    /**
+     * Initializes various boolean flags and variables for the controller.
+     *
+     * <p>This method initializes several boolean flags and variables used to track different states and selections
+     * within the controller. It sets {@code test}, {@code cardSelected}, {@code cardDrawn}, {@code cardPlaced},
+     * {@code side}, {@code buttonCardSelectedId}, {@code angleChosen}, and {@code numTurns} to their initial states
+     * or values. This method is typically called during the initialization phase of the controller.</p>
+     */
     public void initialize() {
         test = false;
         cardSelected = false;
@@ -179,6 +187,26 @@ public class BoardViewController extends GUI {
 
 
 
+    /**
+     * Sets up the game board interface with initial components and data.
+     *
+     * <p>This method initializes and configures various UI elements on the game board, including player recap containers,
+     * hand display, starter card placement, objective loading, and initial deck setup. It prepares the board for gameplay
+     * by populating it with necessary components and displaying initial game state information.</p>
+     *
+     * <p>Specifically, it does the following:</p>
+     * <ul>
+     *     <li>Sets up a container for player recap information.</li>
+     *     <li>Loads the player's initial hand.</li>
+     *     <li>Places the player's chosen starter card on the board.</li>
+     *     <li>Loads and displays the player's secret and common objectives.</li>
+     *     <li>Initializes and displays initial decks of resource and gold cards.</li>
+     *     <li>Displays a message indicating waiting status for other players.</li>
+     *     <li>Shows a loading icon or indicator.</li>
+     * </ul>
+     *
+     * <p>This method is typically called when initializing the game board UI to set up its initial state.</p>
+     */
     public void setUpBoard() {
         VBox container = new VBox();
         container.setMaxHeight(600);
@@ -227,6 +255,28 @@ public class BoardViewController extends GUI {
     }
 
 
+    /**
+     * Sets up the player recap display within the specified VBox.
+     *
+     * <p>This method initializes and configures UI elements for displaying player-specific information, including resource counts,
+     * points, and player icons. It sets up individual rows for each player, populating them with labels and icons that reflect the
+     * current state of the game for each player.</p>
+     *
+     * <p>The recap display includes:</p>
+     * <ul>
+     *     <li>Player identification and associated pawn icon.</li>
+     *     <li>Resource counts for animals, insects, fungi, plants, quills, manuscripts, and inkwells.</li>
+     *     <li>Total points accumulated by each player.</li>
+     * </ul>
+     *
+     * <p>The method ensures that the player's own recap is displayed in a special layout, while other players' recaps are
+     * displayed differently, including buttons to view their codex.</p>
+     *
+     * <p>This method is typically called during the initialization of the game board UI to set up and display player-specific
+     * information in a recap format.</p>
+     *
+     * @param playersRecapVbox The VBox container where the player recap information will be displayed.
+     */
     public void setPlayersRecapVbox(VBox playersRecapVbox){
         //NB: the order in the array of labels is the same of the order of the players in the game
         for (int i=0; i<viewModel.getPlayers().size(); i++){
@@ -363,6 +413,23 @@ public class BoardViewController extends GUI {
         }
     }
 
+    /**
+     * Displays a specified card on the game board grid at the given position.
+     *
+     * <p>This method adds an ImageView of the specified card to the GridPane of the game board, positioning it
+     * according to the provided coordinates. The method checks whether the card is front-facing or back-facing
+     * and retrieves the appropriate image to display.</p>
+     *
+     * <p>If the card is front-facing, its front cover image is displayed; otherwise, its back cover image is used.</p>
+     *
+     * <p>The displayed card image is sized to fit within the specified dimensions (83x120 pixels).</p>
+     *
+     * <p>Additionally, this method adjusts the scroll pane's horizontal and vertical values to center the view
+     * on the newly placed card within the grid.</p>
+     *
+     * @param cardToPlace The card object to be displayed on the game board.
+     * @param position An array containing the x and y coordinates where the card should be placed in the grid.
+     */
     //dato l'id della carta,front e back e la posizione, la stampo nella board
     public void placeCard(CardGame cardToPlace, Integer[] position){
         if(cardToPlace.isFrontSide()){
@@ -384,6 +451,19 @@ public class BoardViewController extends GUI {
     }
 
 
+    /**
+     * Updates the display of decks on the game board with the provided list of cards.
+     *
+     * <p>This method updates the UI representation of various decks with the images of the cards provided in the
+     * {@code updatedDecks} list. It sets the images for both front and back covers of the resource and gold decks,
+     * as well as the action handlers and styles for buttons associated with each deck.</p>
+     *
+     * <p>The method retrieves specific card images from the updated decks list and assigns them to corresponding
+     * ImageViews for display on the game board UI. It also configures event handlers for each button associated
+     * with the decks to show error pop-ups and apply visual effects when hovered over.</p>
+     *
+     * @param updatedDecks A list of Card objects containing updated information for the game's resource and gold decks.
+     */
     //quando chiamo questo metodo modifico la carta del mazzo (resource r oppure gold g)
     //in posizione: 0 -> girata (il back), 1 -> esposta 1, 2 -> esposta 2)
     public void updateDecks (List<Card> updatedDecks){
@@ -497,6 +577,15 @@ public class BoardViewController extends GUI {
 
     }
 
+    /**
+     * Toggles the full-screen mode of the application window associated with the given ActionEvent.
+     *
+     * <p>If the window is currently in full-screen mode, it switches to normal window mode and updates
+     * the screen icon image to indicate full-screen availability. If the window is not in full-screen mode,
+     * it sets the window to full-screen mode and updates the screen icon image to indicate minimizing screen.</p>
+     *
+     * @param actionEvent The ActionEvent triggering the method call, used to obtain the source node's window.
+     */
     public void setFullScreen(ActionEvent actionEvent) {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         if (stage.isFullScreen()) {
@@ -509,14 +598,16 @@ public class BoardViewController extends GUI {
     }
 
 
+    /**
+     * Toggles the display between the front and back sides of three cards in the user interface.
+     * If the button's current text is "view back side", it switches the cards to display their back sides
+     * and updates the button text to "view front side". If the button's current text is "view front side",
+     * it switches the cards to display their front sides and updates the button text to "view back side".
+     *
+     * @param actionEvent The ActionEvent triggering the method call, typically fired by a button click.
+     */
     public void setSide(ActionEvent actionEvent) {
         if(buttonSide.getText().equals("view back side")){
-            /*
-            for(int i=0; i<3; i++){
-                String imageCard = viewModel.getMyHand().get(i).getBackCover();
-                viewModel.getMyHand().get(i).setSide(false);
-                handImages[i].setImage(new Image(imageCard));
-            }*/
 
             String imageCard1 = viewModel.getMyHand().get(0).getBackCover();
             String imageCard2 = viewModel.getMyHand().get(1).getBackCover();
@@ -549,12 +640,22 @@ public class BoardViewController extends GUI {
         }
     }
 
+    /**
+     * Opens a scoreboard popup window when triggered by an action event, typically from a button click.
+     *
+     * @param actionEvent The ActionEvent triggering the method call, usually from a button click.
+     */
     public void viewScoreboard(ActionEvent actionEvent) {
         Stage popUpStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         this.showScoreboardPopUp(popUpStage);
     }
 
-
+    /**
+     * Opens a chat popup window when triggered by an action event, typically from a button click.
+     *
+     * @param actionEvent The ActionEvent triggering the method call, usually from a button click.
+     * @throws IOException If an error occurs while loading the chat popup.
+     */
     public void visualizeChat(ActionEvent actionEvent) throws IOException {
         try{
             chatOpen = true;
@@ -566,6 +667,11 @@ public class BoardViewController extends GUI {
         }
     }
 
+    /**
+     * Updates the GUI to display the current player's hand of cards.
+     *
+     * @param hand The list of cards representing the player's hand.
+     */
     public void updateHand(List<Card> hand) {
         this.side = true;
         buttonSide.setText("view back side");
@@ -631,7 +737,12 @@ public class BoardViewController extends GUI {
 
     }
 
-
+    /**
+     * Allows the player to select a card to play from their hand.
+     * Updates the GUI to indicate which card is selected.
+     *
+     * @param cardsOnlyBack Object containing information about cards that can only be played with their back side.
+     */
     public void selectCardToPlay(PlayableCardIds cardsOnlyBack){
         this.cardSelected = false;
         this.message("IT'S YOUR TURN!\nSelect the card you want to play");
@@ -742,12 +853,13 @@ public class BoardViewController extends GUI {
 
     }
 
+    /**
+     * Prompts the player to select a position to place a card on the game grid,
+     * based on available angles.
+     *
+     * @param angles List of Coordinates representing available positions and angles.
+     */
     public void askForAngle(List<Coordinate> angles){
-        /*for(Coordinate c: angles){
-           // System.out.printf("Card: %d, Angle: %d\n", c.getX(), c.getY());
-        }
-
-         */
         this.cardPlaced = false;
         this.message("Select where you want \n to play the card");
 
@@ -895,6 +1007,12 @@ public class BoardViewController extends GUI {
        }
     }
 
+    /**
+     * Updates the game grid after placing a card, removes temporary buttons, and updates the card images.
+     *
+     * @param tempButtons           List of temporary buttons to remove from the grid.
+     * @param positionToPlaceCard   Position on the grid where the card is placed.
+     */
     public void matrixUpdated(List<Integer[]> tempButtons, Integer[] positionToPlaceCard){
         for(Integer[] i : tempButtons){
             //System.out.println("\nbutton removed from position: "+i[0]+", "+i[1]);
@@ -916,6 +1034,10 @@ public class BoardViewController extends GUI {
         }
     }
 
+    /**
+     * Allows the player to select a card to draw from available decks.
+     * Updates the GUI and sends the chosen card information to the client.
+     */
     public void drawFromDecks() {
         this.cardDrawn = false;
         this.message("Select the card to draw");
@@ -1045,7 +1167,11 @@ public class BoardViewController extends GUI {
         });
     }
 
-
+    /**
+     * Updates the message displayed in the turn label and manages visual elements based on the number of turns.
+     *
+     * @param message The message to display in the turn label.
+     */
     public void message(String message){
         numTurns++;
         if(numTurns==2){
@@ -1055,6 +1181,11 @@ public class BoardViewController extends GUI {
     }
 
 
+    /**
+     * Updates the player state in the UI based on the specified user target.
+     *
+     * @param userTarget The username of the player whose state is to be updated.
+     */
     public void updatePlayerstate(String userTarget) {
         Integer numberOrder = viewModel.getPlayerOrder().get(userTarget);
         Map<Resource,Integer> resources = viewModel.getPlayerStates().get(userTarget).getPersonalResources();
@@ -1069,6 +1200,10 @@ public class BoardViewController extends GUI {
         playersPoints[numberOrder].setText(" pt:"+score);
     }
 
+    /**
+     * Updates the UI elements displaying the player's own state (resources and score).
+     * Retrieves information from the ViewModel associated with the current user's username.
+     */
     public void updateMyPlayerstate(){
         Integer numberOrder = viewModel.getPlayerOrder().get(viewModel.getMyUsername()) ;
         Map<Resource,Integer> resources = viewModel.getMyResources();
@@ -1083,7 +1218,12 @@ public class BoardViewController extends GUI {
         playersPoints[numberOrder].setText("pt:"+myScore);
     }
 
-
+    /**
+     * Opens a new chat window as a modal dialog on top of the specified Stage.
+     *
+     * @param chatStage The Stage on which the chat window is based.
+     * @throws IOException If an error occurs while loading the Chat.fxml file.
+     */
     public void viewChat( Stage chatStage) throws IOException {
         double x = chatStage.getX();
         double y = chatStage.getY();
@@ -1116,6 +1256,13 @@ public class BoardViewController extends GUI {
 
     }
 
+    /**
+     * Updates the chat interface with the given message.
+     * If the chat window is open, the message is passed to the chatController to update the chat display.
+     * If the chat window is closed, it updates the iconChat with a notification icon.
+     *
+     * @param message The Message object to be displayed in the chat interface.
+     */
     public void updateChat(Message message) {
         if(chatOpen){
             chatController.updateChat(message);
@@ -1125,6 +1272,11 @@ public class BoardViewController extends GUI {
         }
     }
 
+    /**
+     * Opens a popup window to display the codex of opponents based on the action event triggered by a button.
+     *
+     * @param actionEvent The ActionEvent triggered by clicking a button to view opponents' codex.
+     */
     public void viewOpponentsCodex(ActionEvent actionEvent) {
         Stage popUpStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Button buttonCodex = (Button) actionEvent.getSource();
@@ -1159,6 +1311,10 @@ public class BoardViewController extends GUI {
     }
 
 
+    /**
+     * Sets up and starts an animated loading icon.
+     * Loads an image for the loading icon, configures its size, and applies a rotation animation to create a spinning effect.
+     */
     private void loadingIcon() {
         icon_loading.setImage(new Image("icons/icons8-loading-80.png"));
         icon_loading.setFitHeight(30);
@@ -1172,6 +1328,13 @@ public class BoardViewController extends GUI {
         translate.play();
     }
 
+    /**
+     * Displays the end game ranking and handles UI cleanup and closure after a specified delay.
+     * Clears the centerBoardContainer, constructs a VBox to display game results or waiting message,
+     * and sets up a timer to close the GUI after 5 seconds.
+     *
+     * @param ranking The list of pairs containing player names and their scores, or null if a player left the game.
+     */
     public void endGameRanking(List<Pair<String, Integer>> ranking){
       centerBoardContainer.getChildren().clear();
       VBox endGame = new VBox();
@@ -1219,6 +1382,11 @@ public class BoardViewController extends GUI {
 
     }
 
+    /**
+     * Closes the current GUI window associated with the application.
+     * Retrieves the Stage of the current window using a control element (buttonDeckGBack in this case),
+     * and closes the Stage to terminate the application.
+     */
     public void closeGui(){
         //javafx.application.Platform.exit();
         Stage stage = (Stage) buttonDeckGBack.getScene().getWindow();
@@ -1226,6 +1394,13 @@ public class BoardViewController extends GUI {
     }
 
 
+    /**
+     * Initiates the process to exit the current game session.
+     * Sends an exit game message to the server, cancels any active timers,
+     * and closes the GUI window associated with the game.
+     *
+     * @param actionEvent The action event that triggers the exit from the game.
+     */
     public void exitFromGame(ActionEvent actionEvent) {
         client.sendMessage(new ExitGame("exitGame", null));
         System.out.println("You have been disconnected from the game");

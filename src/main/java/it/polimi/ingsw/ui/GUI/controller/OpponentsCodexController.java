@@ -43,6 +43,13 @@ public class OpponentsCodexController extends GUI{
     private Label usernameLabel;
     private String cardFront;
 
+    /**
+     * Initializes the UI components and displays the player's codex cards on a grid pane.
+     * This method sets up the username label, retrieves player state and codex from the model view,
+     * and dynamically adds card images to the grid pane based on their coordinates in the codex.
+     *
+     * @param usernamePlayer The username of the player whose codex is being displayed.
+     */
     public void initialize(String usernamePlayer){
         player = usernamePlayer;
         playerState = client.getModelView().getPlayerStates().get(player);
@@ -79,6 +86,13 @@ public class OpponentsCodexController extends GUI{
         stage.setY(event.getScreenY() - y);
     }
 
+    /**
+     * Closes the chat pop-up window and performs necessary clean-up actions.
+     * closes the
+     * JavaFX stage associated with the pop-up window.
+     *
+     * @param actionEvent The action event that triggers the closure of the pop-up window.
+     */
     public void closePopUp(ActionEvent actionEvent) {
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();

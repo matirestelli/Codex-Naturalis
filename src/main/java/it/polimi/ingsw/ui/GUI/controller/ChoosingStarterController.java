@@ -27,6 +27,11 @@ public class ChoosingStarterController extends GUI {
         settedSide = false;
     }
 
+    /**
+     * Sets the starter card images in the user interface based on the provided starter card.
+     *
+     * @param starterCard The starter card containing front and back cover image paths.
+     */
     public void setStarterCard(CardGame starterCard){
         String imageFront = starterCard.getFrontCover();
         String imageBack = starterCard.getBackCover();
@@ -36,6 +41,10 @@ public class ChoosingStarterController extends GUI {
         backSide.setImage(back);
     }
 
+    /**
+     * Sets up event handlers for choosing the front or back side of the starter card.
+     * When a button is clicked, updates the client with the chosen side and displays visual feedback.
+     */
     public void chooseStarterSide(){
         //quando clicco il bottone mando update al client della scelta adottata
         buttonFrontSide.setOnAction(e -> {
