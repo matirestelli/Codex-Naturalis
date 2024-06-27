@@ -29,7 +29,7 @@ Politecnico di Miliano - Prof. Cugola Section - **Group GC38**
 | CLI             | :green_circle: |
 | GUI             | :green_circle: |
 ## Installation
-In order to run My Shelfie, you can either clone this repository
+In order to run Codex Naturalis, you can either clone this repository
 ```
 git clone https://github.com/NiccoloSalvi/ing-sw-2024-restelli-salvi-scianna-villa.git
 ```
@@ -65,4 +65,4 @@ from the command line in the jar's folder, where 192.168.1.18 is the server IP a
 Both server and client app can run on Unix systems (macOS, only CLI) or Windows system (on Powershell, cmd and WSL).
 
 ## License
-All rights to My **Codex Naturalis** are owned by [Cranio Creations](https://www.craniocreations.it/),  which provided the graphical resources to be used for educational purposes only.
+All rights to **Codex Naturalis** are owned by [Cranio Creations](https://www.craniocreations.it/),  which provided the graphical resources to be used for educational purposes only.
