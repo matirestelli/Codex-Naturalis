@@ -74,16 +74,16 @@ public class ScoreboardController extends GUI{
         for(String username : playerPawns.keySet()){
             switch(playerPawns.get(username)){
                 case BLUE:
-                    pawn = new ImageView("images/pawn/blue.png");
+                    pawn = new ImageView("images/pawn/BLUE.png");
                     break;
                 case GREEN:
-                    pawn = new ImageView("images/pawn/green.png");
+                    pawn = new ImageView("images/pawn/GREEN.png");
                     break;
                 case YELLOW:
-                    pawn = new ImageView("images/pawn/yellow.png");
+                    pawn = new ImageView("images/pawn/YELLOW.png");
                     break;
                 case RED:
-                    pawn = new ImageView("images/pawn/red.png");
+                    pawn = new ImageView("images/pawn/RED.png");
                     break;
                 default:
                     break;

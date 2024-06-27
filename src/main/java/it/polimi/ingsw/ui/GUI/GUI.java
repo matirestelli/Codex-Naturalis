@@ -244,14 +244,14 @@ public class GUI extends Application implements UserInterfaceStrategy {
      * Changes the current scene displayed in the provided stage to the specified scene.
      *
      * <p>This method switches the current scene to the one specified by the `sceneName` parameter.
-     * It initializes the new scene and its controller as needed. The method supports several predefined scenes:
+     * It initializes the new scene and its controller as needed. The method supports several predefined scenes:</p>
      * <ul>
      *   <li>Starting Scene</li>
      *   <li>Waiting for Players Scene</li>
      *   <li>Board Scene</li>
      *   <li>Choosing Starter Scene</li>
      *   <li>Choosing Objective Scene</li>
-     * </ul></p>
+     * </ul>
      *
      * @param sceneName the name of the FXML file for the scene to be displayed
      * @param stage the stage in which the scene will be displayed

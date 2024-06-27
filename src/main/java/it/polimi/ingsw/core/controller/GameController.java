@@ -914,7 +914,7 @@ public class GameController extends UnicastRemoteObject implements GameControlle
      * with an EndGameMessage. If a RemoteException occurs during the update of any observer,
      * the exception is caught and an error message is printed to the console.</p>
      *
-     * @param username The username of the player who initiated the game exit.
+     * @param username The username of the player who initiated the game exit.f
      */
     public void exitGame(String username) {
         for(String us : orderedObserversMap.keySet()) {

@@ -35,6 +35,15 @@ public class TextUserInterface implements UserInterfaceStrategy {
         // gameClient.sendMessage(new StarterSideSelectedMessage("starterSideSelected", side));
     }
 
+    /**
+     * Displays the back of a given card in the console with specific formatting.
+     *
+     * <p>This method determines the type of the card (ResourceCard or GoldCard) and retrieves
+     * its corresponding ANSI color for display. It then prints the card's back resource and ID
+     * with specific ANSI color formatting in the console.</p>
+     *
+     * @param card1 The card whose back is to be displayed.
+     */
     @Override
     public void displayCardBack(Card card1) {
         Card card = card1 instanceof ResourceCard ? (ResourceCard) card1 : (GoldCard) card1;
@@ -50,6 +59,20 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println();
     }
 
+    /**
+     * Generates a formatted string representation of the resources on the card's front corners.
+     *
+     * <p>This method constructs a string that represents the resources on the specified corners
+     * of the card. It includes specific formatting based on the card type (ResourceCard or GoldCard)
+     * and the provided ANSI color. The string is used to display the card's resources with appropriate
+     * formatting in the console.</p>
+     *
+     * @param card The card whose resources are to be displayed.
+     * @param index1 The index of the first corner to be checked for resources.
+     * @param index2 The index of the second corner to be checked for resources.
+     * @param ANSIColor The ANSI color to be used for formatting the display.
+     * @return A string representing the formatted resources on the card's front corners.
+     */
     public String displayResources(Card card, int index1, int index2, AnsiColor ANSIColor) {
         String upResources = "";
         upResources += ANSIColor;
@@ -97,6 +120,17 @@ public class TextUserInterface implements UserInterfaceStrategy {
         return upResources;
     }
 
+    /**
+     * Retrieves the appropriate ANSI color for a given card based on its color and type.
+     *
+     * <p>This method determines the ANSI color to be used for displaying the card
+     * based on the card's color and whether it is a ResourceCard or a GoldCard. Each
+     * color has a specific ANSI background, and GoldCards have distinct backgrounds
+     * compared to ResourceCards.</p>
+     *
+     * @param card1 The card for which the ANSI color is to be determined.
+     * @return The ANSI color corresponding to the card's color and type.
+     */
     public AnsiColor getANSIColorForCard(Card card1) {
         AnsiColor ANSIColor;
 
@@ -121,6 +155,18 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println();
     }
 
+    /**
+     * Generates a formatted string representation of the starter resources on a ResourceCard.
+     *
+     * <p>This method constructs a string that represents the starter resources on the specified
+     * corners of the ResourceCard. It includes specific formatting using ANSI color codes for display
+     * purposes. The string is used to display the card's resources with appropriate formatting in the console.</p>
+     *
+     * @param card The ResourceCard whose resources are to be displayed.
+     * @param index1 The index of the first corner to be checked for resources.
+     * @param index2 The index of the second corner to be checked for resources.
+     * @return A string representing the formatted resources on the card's starter resources.
+     */
     public String displayResourcesStarter(ResourceCard card, int index1, int index2) {
         String upResources = AnsiColor.YELLOW_BACKGROUND.toString();
 
@@ -155,6 +201,18 @@ public class TextUserInterface implements UserInterfaceStrategy {
         return upResources;
     }
 
+
+    /**
+     * Places a card on the game board at the specified coordinate.
+     *
+     * <p>This method increases the count of placed cards, determines the position and orientation
+     * of the card, and updates the game board accordingly. If no coordinate is provided, the card
+     * is placed at the center of the board. The card's display is updated with ANSI color formatting
+     * and the card's resources and ID are set on the game board.</p>
+     *
+     * @param card The card to be placed on the game board.
+     * @param leftUpCorner The top-left corner coordinate where the card will be placed.
+     */
     public void placeCard(Card card, Coordinate leftUpCorner) {
         numberOfCardPlaced++;
         if (leftUpCorner == null)
@@ -231,6 +289,18 @@ public class TextUserInterface implements UserInterfaceStrategy {
             gameClient.getModelView().getPlayerBoards().get(gameClient.getModelView().getMyUsername()) [y + 1][x + 3].setCharacter((char) (c.getId() + '0'));
     }
 
+    /**
+     * Generates a string representation of the resources on the card's front corners without ANSI color formatting.
+     *
+     * <p>This method constructs a string that represents the resources on the specified corners
+     * of the card without any ANSI color formatting. The string is used to display the card's resources
+     * in a plain text format.</p>
+     *
+     * @param card1 The card whose resources are to be displayed.
+     * @param index1 The index of the first corner to be checked for resources.
+     * @param index2 The index of the second corner to be checked for resources.
+     * @return A string representing the resources on the card's front corners in plain text.
+     */
     public String displayResourcesNoColor(Card card1, int index1, int index2) {
         Card card = (Card) card1;
         String upResources = "";
@@ -276,6 +346,14 @@ public class TextUserInterface implements UserInterfaceStrategy {
         return upResources;
     }
 
+    /**
+     * Displays the game board in the console with current card placements and colors.
+     *
+     * <p>This method constructs a visual representation of the game board based on the current
+     * state of the player's board. It iterates over the board's matrix, appending the characters
+     * and ANSI color codes for each card to a StringBuilder, which is then printed to the console.
+     * The visual board includes a border and handles empty spaces appropriately.</p>
+     */
     public void displayBoard() {
         String ANSI_BACKGROUND_BROWN_DARK = "\u001B[48;5;94m";  // Marrone scuro
         String ANSI_BACKGROUND_BROWN_LIGHT = "\u001B[48;5;101m"; // Marrone chiaro
@@ -308,8 +386,6 @@ public class TextUserInterface implements UserInterfaceStrategy {
         gameClient.sendMessage(new updateBoards("updateBoard", toprint.toString()));
     }
 
-
-
     public void getBoardString(String requested) {
         Card card;
         StringBuilder toprint = new StringBuilder();
@@ -338,6 +414,18 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println(toprint.toString());
     }
 
+    /**
+     * Prompts the player to select a card from their hand to play.
+     *
+     * <p>This method displays each card in the player's hand, then prompts the player to enter the ID
+     * of the card they wish to play. It validates the input to ensure it matches the allowed card IDs
+     * in either the front or back side format. Once a valid input is received, it returns the card
+     * selection.</p>
+     *
+     * @param ids The PlayableCardIds object containing the IDs of cards that can be played.
+     * @param hand The list of Card objects representing the player's hand.
+     * @return A CardSelection object representing the player's choice of card and whether the front or back side is selected.
+     */
     public CardSelection askCardSelection(PlayableCardIds ids, List<Card> hand) {
         for (Card card : hand) {
             if (ids.getPlayingHandIds().contains(card.getId()))
@@ -399,6 +487,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
 
         return new CardSelection(parseInt(splitInput[0]), splitInput[1].equals("f"));
     }
+
 
     public void selectFromMenu() {
         gameClient.sendMessage(new checkConnection("checkConnection", null));
@@ -511,6 +600,7 @@ public class TextUserInterface implements UserInterfaceStrategy {
         }
     }
 
+
     public void displayScoreboard() {
         System.out.println("Scoreboard:\n");
         for (String player : gameClient.getModelView().getPlayers()) {
@@ -528,7 +618,13 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println();
     }
 
-
+    /**
+     * Displays the scoreboard in the console.
+     *
+     * <p>This method prints the current scores of all players in the game. It retrieves the
+     * scores from the game client model view and prints each player's name along with their
+     * score. For each point, a filled square (■) is printed to visually represent the score.</p>
+     */
     public void displayChat(Chat chat, String username) {
         System.out.println();
         for (Message m : chat.getMsgs()) {
@@ -548,6 +644,15 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println();
     }
 
+    /**
+     * Handles the current player's turn.
+     *
+     * <p>This method prompts the player to select a card to play from their hand, sets the
+     * selected card as the current playing card, and sends a message to the game client
+     * with the selected card information.</p>
+     *
+     * @param ids The PlayableCardIds object containing the IDs of cards that can be played during the current turn.
+     */
     public void currentTurn(PlayableCardIds ids) {
         System.out.println("It's your turn!\n");
         CardSelection cs = askCardSelection(ids, gameClient.getModelView().getMyHand());
@@ -999,6 +1104,18 @@ public class TextUserInterface implements UserInterfaceStrategy {
         return input;
     }
 
+    /**
+     * Prompts the user to enter a game ID for joining or creating a game.
+     *
+     * <p>This method asks the user to input a game ID based on the action specified (join or create).
+     * If the action is "join", it checks if the entered game ID exists in the provided list of game IDs.
+     * If the action is "create", it ensures the entered game ID is not already in use. The method
+     * continues to prompt the user until a valid game ID is entered.</p>
+     *
+     * @param joinCreate A string indicating the action, either "join" or "create".
+     * @param gameIds A string containing the list of existing game IDs.
+     * @return The validated game ID entered by the user.
+     */
     public String askGameId(String joinCreate, String gameIds) {
         String gameId = "";
         if( joinCreate.equals("join")) {
@@ -1017,6 +1134,15 @@ public class TextUserInterface implements UserInterfaceStrategy {
         return gameId;
     }
 
+    /**
+     * Prompts the user to enter the number of players for the game.
+     *
+     * <p>This method asks the user to input the number of players for the game. It validates the input
+     * to ensure the number of players is between 2 and 4. If the input is invalid, it continues to prompt
+     * the user until a valid number is entered.</p>
+     *
+     * @return The validated number of players entered by the user.
+     */
     public int askNumberOfPlayers() {
         int numPlayers = scanner.nextInt();
         while (numPlayers < 2 || numPlayers > 4) {
@@ -1031,7 +1157,16 @@ public class TextUserInterface implements UserInterfaceStrategy {
         System.out.println("No free angles available, you can't play");
     }
 
-
+    /**
+     * Displays the available angles for placing a card and handles the placement process.
+     *
+     * <p>This method shows the player the available angles for attaching their playing card,
+     * removes the playing card from the player's hand, and then places the card at the selected
+     * angle on the target card in the player's codex. It updates the game state and notifies
+     * the game client of the selected angle.</p>
+     *
+     * @param angles A list of Coordinate objects representing the available angles for card placement.
+     */
     public void showAvailableAngles(List<Coordinate> angles) {
         String input = displayAngle(angles);
         gameClient.getModelView().getMyHand().remove(gameClient.getModelView().getMyPlayingCard());
@@ -1051,6 +1186,16 @@ public class TextUserInterface implements UserInterfaceStrategy {
         gameClient.sendMessage(new AngleSelectedMessage("angleSelection", new CardToAttachSelected(input, gameClient.getModelView().getMyCodex())));
     }
 
+    /**
+     * Displays the player's personal resources in the console.
+     *
+     * <p>This method prints out the player's resources, showing each resource type and
+     * the corresponding quantity. It iterates through the provided map of resources and
+     * prints each entry.</p>
+     *
+     * @param resources A map where the key is a Resource object representing the type of resource,
+     *                  and the value is an integer representing the quantity of that resource.
+     */
     public void displayPersonalResources(Map<Resource, Integer> resources) {
         System.out.println("Your resources:\n");
         for (Map.Entry<Resource, Integer> entry : resources.entrySet()) {
