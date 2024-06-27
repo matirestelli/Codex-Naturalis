@@ -16,7 +16,7 @@ Politecnico di Miliano - Prof. Cugola Section - **Group GC38**
 -  **Matilde Restelli**   ([@matirestelli](https://github.com/matirestelli)) _matilde.restelli@mail.polimi.it_
 -  **Marco Scianna** ([@Marcoscianna](https://github.com/Marcoscianna)) _marco.scianna@mail.polimi.it_
 -  **Niccolò Salvi** ([@NiccoloSalvi](https://github.com/NiccoloSalvi)) _niccolo1.salvi@mail.polimi.it_
-- **Alessio Villa** ([@alessiovilla](https://github.com/alessiovilla)) _alessio.villa@mail.polimi.it_
+- **Alessio Villa** ([@alessiovilla](https://github.com/alessiovilla)) _alessio3.villa@mail.polimi.it_
 
 ## Development State
 
