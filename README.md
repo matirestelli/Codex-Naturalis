@@ -1,4 +1,5 @@
-# Final project of Software Engineering Group GC38 
+# Codex Naturalis
+
 ## Table of Contents
 1. [Overview](#Overview)
 2. [Authors](#Authors)
