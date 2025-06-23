@@ -1,4 +1,17 @@
-# Codex Naturalis
+# Codex Naturalis (Bachelor Thesis Project)
+
+This repository contains the digital Java implementation of the board game *Codex Naturalis*, originally published by Cranio Creations.
+
+The project was developed as part of our Bachelor thesis in Computer Science at Politecnico di Milano (Prof. Cugola section), with the goal of designing and implementing a fully playable online version of the game.
+
+## Key Features
+
+- Multiplayer support via both **Socket** and **RMI** protocols
+- **Graphical User Interface (GUI)** and **Command Line Interface (CLI)**
+- **Server-client architecture**
+- In-game **chat functionality**
+- Full game logic implementation based on official *Codex Naturalis* rules
+
 
 ## Table of Contents
 1. [Overview](#Overview)
